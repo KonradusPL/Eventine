@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FindMe</string>
+    <string-array name="tab_names">
+        <item>Create</item>
+        <item>Join</item>
+        <item>Profile</item>
+    </string-array>
+</resources>
