@@ -61,4 +61,7 @@ dependencies {
     implementation 'org.jetbrains.anko:anko-common:0.9'
     implementation 'androidx.core:core-ktx:0.2'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
+
+    //Views
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }

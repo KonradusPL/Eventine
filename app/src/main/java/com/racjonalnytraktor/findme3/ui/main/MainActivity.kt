@@ -20,6 +20,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
         viewPagerMain.adapter = pageAdapter
 
         tabLayoutMain.setupWithViewPager(viewPagerMain)
+        viewPagerMain.currentItem = 1
 
         for (i in 0..tabLayoutMain.tabCount-1) {
             val tab = tabLayoutMain.getTabAt(i)
@@ -28,7 +29,6 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
         tabLayoutMain.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 pageAdapter.setTabColor(false,tab!!.customView!!,applicationContext)
