@@ -6,4 +6,11 @@
         <item>Profile</item>
     </string-array>
     <string name="text_invitations">Invitations</string>
+    <string name="text_join">Join</string>
+    <string name="text_create">Create</string>
+    <string name="text_import_from_facebook">Import from Facebook</string>
+    <string name="text_import_from_messenger">Import from Messenger</string>
+    <string name="text_friends">Friends</string>
+
+    <string name="hint_enter_group_code">Enter group code</string>
 </resources>

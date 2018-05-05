@@ -15,4 +15,6 @@
     <color name="lighterGrey">#fafafa</color>
     <color name="grey">#939393</color>
     <color name="dividerColor">#BDBDBD</color>
+    <color name="facebookColor">#3B5998</color>
+    <color name="messengerColor">#0083fe</color>
 </resources>

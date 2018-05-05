@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_invitations">Zaproszenia</string>
+    <string name="text_join">Dołącz</string>
+    <string name="text_create">Stwórz</string>
+
+    <string name="hint_enter_group_code">Enter group code</string>
+
+</resources>
