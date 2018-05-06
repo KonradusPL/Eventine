@@ -11,6 +11,12 @@
     <string name="text_import_from_facebook">Import from Facebook</string>
     <string name="text_import_from_messenger">Import from Messenger</string>
     <string name="text_friends">Friends</string>
+    <string name="text_login">Login</string>
+    <string name="text_continue_with_fb">Continue with Facebook</string>
+    <string name="text_continue_with_google">Continue with Google</string>
+    <string name="text_login_divider">OR</string>
 
     <string name="hint_enter_group_code">Enter group code</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Passoword</string>
 </resources>
