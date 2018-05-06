@@ -22,4 +22,5 @@
 
     <string name="toolbar_create_group">Create group</string>
     <string name="toolbar_join_group">Join group</string>
+    <string name="toolbar_changeGroup">Change group</string>
 </resources>

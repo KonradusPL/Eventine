@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/fieldEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/fieldPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -50,10 +50,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldEmail" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/buttonLogin"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
@@ -61,9 +61,9 @@
         android:text="@string/text_login"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintEnd_toEndOf="@+id/fieldPassword"
+        app:layout_constraintStart_toStartOf="@+id/fieldPassword"
+        app:layout_constraintTop_toBottomOf="@+id/fieldPassword" />
 
     <LinearLayout
         android:id="@+id/divider"
@@ -73,9 +73,9 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:weightSum="2.6"
-        app:layout_constraintEnd_toEndOf="@+id/loginButton"
-        app:layout_constraintStart_toStartOf="@+id/loginButton"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton">
+        app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
+        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin">
 
         <View
             android:layout_width="0dp"
@@ -102,7 +102,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonFbLogin"
         android:layout_width="0dp"
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
@@ -117,7 +117,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonGoogleLogin"
         android:layout_width="0dp"
         android:layout_height="46dp"
         android:layout_marginTop="8dp"
@@ -127,9 +127,9 @@
         android:paddingStart="5dp"
         android:text="@string/text_continue_with_google"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonFbLogin"
+        app:layout_constraintStart_toStartOf="@+id/buttonFbLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFbLogin" />
 
     <TextView
         android:id="@+id/fieldForgot"
@@ -138,8 +138,8 @@
         android:layout_marginTop="8dp"
         android:text="Forgot password ?"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintStart_toStartOf="@+id/buttonGoogleLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoogleLogin" />
 
     <TextView
         android:id="@+id/fieldNewAccount"
@@ -148,7 +148,7 @@
         android:layout_marginTop="8dp"
         android:text="Create new account"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonGoogleLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoogleLogin" />
 
 </android.support.constraint.ConstraintLayout>

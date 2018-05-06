@@ -4,7 +4,7 @@ import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 
 class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V> {
 
-    override fun onEmailLoginClick() {
+    override fun onEmailLoginClick(email: String, password: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -9,7 +9,7 @@ interface LoginMvp {
         fun openRegisterActivity()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-        fun onEmailLoginClick()
+        fun onEmailLoginClick(email: String, password: String)
         fun onFacebookLoginClick()
         fun onGoogleLoginClick()
     }
