@@ -27,6 +27,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="80dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_email_black_24dp"
         android:ems="12"
         android:hint="@string/hint_email"
         android:inputType="textPersonName"
@@ -41,6 +43,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
         android:ems="12"
         android:hint="@string/hint_password"
         android:inputType="textPersonName"
@@ -49,7 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
@@ -69,16 +73,16 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:weightSum="2.6"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button">
+        app:layout_constraintEnd_toEndOf="@+id/loginButton"
+        app:layout_constraintStart_toStartOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton">
 
         <View
             android:layout_width="0dp"
-            android:layout_height="2dp"
+            android:layout_height="3dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:background="@color/lightGrey" />
+            android:background="@color/grey" />
 
         <TextView
             android:layout_width="0dp"
@@ -86,15 +90,15 @@
             android:layout_weight="0.6"
             android:gravity="center"
             android:text="@string/text_login_divider"
-            android:textColor="@color/lightGrey"
+            android:textColor="@color/grey"
             android:textStyle="bold" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_gravity="center_vertical"
-            android:layout_weight="2"
-            android:background="@color/lightGrey" />
+            android:layout_weight="1"
+            android:background="@color/grey" />
     </LinearLayout>
 
     <Button
@@ -117,14 +121,34 @@
         android:layout_width="0dp"
         android:layout_height="46dp"
         android:layout_marginTop="8dp"
-        android:text="@string/text_continue_with_google"
-        android:textColor="@color/white"
+        android:background="@drawable/button_google"
+        android:drawableStart="@drawable/logo_google_36px"
         android:paddingEnd="5dp"
         android:paddingStart="5dp"
+        android:text="@string/text_continue_with_google"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/button2"
         app:layout_constraintStart_toStartOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        android:background="@drawable/button_google"
-        android:drawableStart="@drawable/logo_google_36px" />
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <TextView
+        android:id="@+id/fieldForgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Forgot password ?"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <TextView
+        android:id="@+id/fieldNewAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Create new account"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
 
 </android.support.constraint.ConstraintLayout>

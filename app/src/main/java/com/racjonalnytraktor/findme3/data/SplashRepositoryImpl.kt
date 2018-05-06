@@ -6,7 +6,7 @@ import com.racjonalnytraktor.findme3.data.repository.SplashRepository
 class SplashRepositoryImpl(val context: Context): SplashRepository{
 
     override fun isUserLoggedIn(): Boolean {
-        return false
+        return true
     }
 
 }
