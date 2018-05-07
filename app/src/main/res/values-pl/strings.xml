@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="tab_names">
+        <item>Główna</item>
+        <item>Stwórz</item>
+        <item>Dołącz</item>
+        <item>Profil</item>
+    </string-array>
+
     <string name="text_invitations">Zaproszenia</string>
     <string name="text_join">Dołącz</string>
     <string name="text_create">Stwórz</string>

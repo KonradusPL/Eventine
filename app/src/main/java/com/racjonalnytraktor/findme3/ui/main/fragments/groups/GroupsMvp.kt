@@ -1,9 +1,9 @@
-package com.racjonalnytraktor.findme3.ui.main.fragments.change
+package com.racjonalnytraktor.findme3.ui.main.fragments.groups
 
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 
-interface ChangeGroupMvp {
+interface GroupsMvp {
     interface View: MvpView{
 
     }

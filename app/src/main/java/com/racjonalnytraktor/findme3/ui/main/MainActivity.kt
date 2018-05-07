@@ -20,7 +20,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
         viewPagerMain.adapter = pageAdapter
 
         tabLayoutMain.setupWithViewPager(viewPagerMain)
-        viewPagerMain.currentItem = 1
+        viewPagerMain.currentItem = 0
 
         for (i in 0..tabLayoutMain.tabCount-1) {
             val tab = tabLayoutMain.getTabAt(i)

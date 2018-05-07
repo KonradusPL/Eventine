@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white"
-        app:title="@string/toolbar_join_group"
-        android:elevation="4dp"/>
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_join"
         android:layout_width="0dp"
@@ -28,7 +14,7 @@
         android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/buttonCreate"
@@ -64,10 +50,8 @@
         android:id="@+id/layout_invitations"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
         android:background="@color/white"
-        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,15 +87,13 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_height="200dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:alpha="0.7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/list_placeholder"
-            android:alpha="0.7"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:srcCompat="@drawable/list_placeholder" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

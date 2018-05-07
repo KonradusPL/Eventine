@@ -9,7 +9,7 @@ class SplashRepositoryImpl(val context: Context): SplashRepository {
     val prefs = SharedPrefs(context)
 
     override fun isUserLoggedIn(): Boolean {
-        return prefs.isUserLoggedIn()
+        return true
     }
 
 }

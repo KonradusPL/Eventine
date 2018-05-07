@@ -3,6 +3,7 @@
     <string-array name="tab_names">
         <item>Create</item>
         <item>Join</item>
+        <item>Feed</item>
         <item>Profile</item>
     </string-array>
     <string name="text_invitations">Invitations</string>
@@ -15,6 +16,8 @@
     <string name="text_continue_with_fb">Continue with Facebook</string>
     <string name="text_continue_with_google">Continue with Google</string>
     <string name="text_login_divider">OR</string>
+    <string name="text_groups">Groups</string>
+    <string name="text_recent_ordered_tasks">Recent ordered tasks</string>
 
     <string name="hint_enter_group_code">Enter group code</string>
     <string name="hint_email">Email</string>

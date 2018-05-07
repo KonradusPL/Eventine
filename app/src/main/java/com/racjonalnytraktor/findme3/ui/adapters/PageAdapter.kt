@@ -17,12 +17,14 @@ import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import com.racjonalnytraktor.findme3.ui.main.fragments.JoinGroupFragment
 import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.main.fragments.create.CreateGroupFragment
+import com.racjonalnytraktor.findme3.ui.main.fragments.groups.GroupsFragment
 import kotlinx.android.synthetic.main.custom_tab.view.*
 
 
 class PageAdapter(fm: FragmentManager,val context: Context): FragmentPagerAdapter(fm) {
 
     private val tabIcons = intArrayOf(
+            R.drawable.ic_home_black_24dp,
             R.drawable.ic_add_black_24dp,
             R.drawable.ic_group_add_black_24dp,
             R.drawable.ic_person_black_24dp)
@@ -32,15 +34,16 @@ class PageAdapter(fm: FragmentManager,val context: Context): FragmentPagerAdapte
 
     override fun getItem(position: Int): Fragment {
         when(position){
-            0 -> return CreateGroupFragment<MainMvp.View>()
-            1 -> return JoinGroupFragment()
+            0 -> return GroupsFragment<MainMvp.View>()
+            1 -> return CreateGroupFragment<MainMvp.View>()
+            3 -> return JoinGroupFragment()
             2 -> return ProfileFragment()
         }
         return Fragment()
     }
 
     override fun getCount(): Int {
-        return 3
+        return 4
     }
 
     fun getTabView(position: Int) : View{
