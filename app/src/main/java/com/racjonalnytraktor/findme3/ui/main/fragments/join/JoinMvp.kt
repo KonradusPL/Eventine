@@ -1,12 +1,12 @@
-package com.racjonalnytraktor.findme3.ui.main.fragments.create
+package com.racjonalnytraktor.findme3.ui.main.fragments.join
 
-import com.racjonalnytraktor.findme3.data.model.Friend
+import com.racjonalnytraktor.findme3.data.model.Invitation
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 
-interface CreateGroupMvp {
+interface JoinMvp {
     interface View: MvpView{
-        fun updateList(friend: Friend)
+        fun updateList(invitation: Invitation)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
 

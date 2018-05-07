@@ -1,20 +1,17 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.content.Context
-import android.provider.ContactsContract
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 
 import com.racjonalnytraktor.findme3.R
-import android.widget.TextView
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
-import com.racjonalnytraktor.findme3.ui.main.fragments.JoinGroupFragment
+import com.racjonalnytraktor.findme3.ui.main.fragments.join.JoinFragment
 import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.main.fragments.create.CreateGroupFragment
 import com.racjonalnytraktor.findme3.ui.main.fragments.groups.GroupsFragment
@@ -36,8 +33,8 @@ class PageAdapter(fm: FragmentManager,val context: Context): FragmentPagerAdapte
         when(position){
             0 -> return GroupsFragment<MainMvp.View>()
             1 -> return CreateGroupFragment<MainMvp.View>()
-            3 -> return JoinGroupFragment()
-            2 -> return ProfileFragment()
+            2 -> return JoinFragment<MainMvp.View>()
+            3 -> return ProfileFragment()
         }
         return Fragment()
     }
@@ -52,7 +49,7 @@ class PageAdapter(fm: FragmentManager,val context: Context): FragmentPagerAdapte
         view.tabIcon.setImageResource(tabIcons[position])
 
         when(position){
-            1 -> setTabColor(true,view,context)
+            0 -> setTabColor(true,view,context)
             else -> setTabColor(false,view,context)
         }
 

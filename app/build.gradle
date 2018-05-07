@@ -65,7 +65,6 @@ dependencies {
     //Views
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
-    //Glide(image loader)
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //Picasso(image loader)
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Invitation
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.invitation_item.view.*
 
 
@@ -26,12 +26,21 @@ class InvitationsAdapter(val list: ArrayList<Invitation>, val context: Context) 
         fun bind(invitation: Invitation){
             itemView.fieldGroupName.text = invitation.groupName
             itemView.fieldInvitationTitle.text = invitation.invitingPerson
-            Glide.with(context)
+
+            Picasso.get()
                     .load(invitation.imageUri)
-                    .into(itemView.imageGroup)
+                    .placeholder(R.drawable.image_placeholder)
+                    .resize(50,50)
+                    .centerCrop()
+                    .into(itemView.imageFriend)
 
         }
 
+    }
+
+    fun addItem(invitation: Invitation){
+        list.add(invitation)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

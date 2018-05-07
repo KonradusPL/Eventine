@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">FindMe</string>
     <string-array name="tab_names">
+        <item>Feed</item>
         <item>Create</item>
         <item>Join</item>
-        <item>Feed</item>
         <item>Profile</item>
     </string-array>
     <string name="text_invitations">Invitations</string>

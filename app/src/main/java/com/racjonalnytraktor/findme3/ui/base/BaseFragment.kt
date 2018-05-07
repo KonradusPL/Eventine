@@ -5,25 +5,27 @@ import android.support.v4.app.Fragment
 
 open class BaseFragment<V: MvpView>: Fragment(),MvpView {
 
-    lateinit var parentActivity: V
+    lateinit var parentMvp: V
+    lateinit var parentContext: Context
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        parentActivity = context as V
+        parentMvp = context as V
+        parentContext = context
 
     }
 
     override fun isConnectedToNetwork(): Boolean {
-        return parentActivity.isConnectedToNetwork()
+        return parentMvp.isConnectedToNetwork()
     }
 
     override fun showLoading() {
-        parentActivity.showLoading()
+        parentMvp.showLoading()
     }
 
     override fun hideLoading() {
-        parentActivity.hideLoading()
+        parentMvp.hideLoading()
     }
 
     override fun hideKeyboard() {
@@ -31,10 +33,10 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
     }
 
     override fun showMessage(message: String) {
-        parentActivity.showMessage(message)
+        parentMvp.showMessage(message)
     }
     override fun showMessage(message: Int) {
-        parentActivity.showMessage(message)
+        parentMvp.showMessage(message)
     }
 
 
