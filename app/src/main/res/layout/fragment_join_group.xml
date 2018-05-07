@@ -24,7 +24,7 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/button_colored"
             android:fontFamily="@font/roboto_medium"
-            android:text="Dołącz"
+            android:text="@string/text_join"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/fieldGroupCode"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="Wpisz kod grupy"
+            android:hint="@string/hint_enter_group_code"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,16 +84,5 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="8dp"
-            android:alpha="0.7"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:srcCompat="@drawable/list_placeholder" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

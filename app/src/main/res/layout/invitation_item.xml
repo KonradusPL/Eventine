@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleImageView"
+        android:id="@+id/imageGroup"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -24,8 +24,8 @@
         android:layout_marginTop="4dp"
         android:textColor="@color/black"
         android:text="Group name"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView"
-        app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+        app:layout_constraintStart_toEndOf="@+id/imageGroup"
+        app:layout_constraintTop_toTopOf="@+id/imageGroup" />
 
     <TextView
         android:id="@+id/fieldInvitationTitle"
@@ -39,11 +39,12 @@
         android:id="@+id/buttonConfirmInvitation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
         android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/imageGroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/circleImageView"
+        app:layout_constraintTop_toTopOf="@+id/imageGroup"
         app:srcCompat="@drawable/ic_check_white_24dp" />
 
 </android.support.constraint.ConstraintLayout>
