@@ -18,6 +18,7 @@
     <string name="text_login_divider">OR</string>
     <string name="text_groups">Groups</string>
     <string name="text_recent_ordered_tasks">Recent ordered tasks</string>
+    <string name="text_commissioned_from">Commissioned from</string>
 
     <string name="hint_enter_group_code">Enter group code</string>
     <string name="hint_email">Email</string>

@@ -1,16 +1,62 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.groups
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.model.Group
+import com.racjonalnytraktor.findme3.data.model.Task
+import com.racjonalnytraktor.findme3.ui.adapters.GroupsListAdapter
+import com.racjonalnytraktor.findme3.ui.adapters.TasksListAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
+import kotlinx.android.synthetic.main.fragment_groups.*
 
 class GroupsFragment<V: MainMvp.View>: BaseFragment<V>(), GroupsMvp.View {
 
+    lateinit var mGroupsListAdapter: GroupsListAdapter
+    lateinit var mTasksListAdapter: TasksListAdapter
+    lateinit var mPresenter: GroupsPresenter<GroupsMvp.View>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_groups,container,false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mPresenter = GroupsPresenter()
+        mPresenter.onAttach(this)
+
+        initGroupsList()
+        initTasksList()
+    }
+
+    private fun initGroupsList(){
+        listGroups.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+        listGroups.layoutManager = layoutManager
+
+        mGroupsListAdapter = GroupsListAdapter(ArrayList(),this.activity!!.applicationContext)
+        listGroups.adapter = mGroupsListAdapter
+    }
+
+    private fun initTasksList(){
+        listTasks.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(activity)
+        listTasks.layoutManager = layoutManager
+
+        mTasksListAdapter = TasksListAdapter(ArrayList(),this.activity!!.applicationContext)
+        listTasks.adapter = mTasksListAdapter
+    }
+
+    override fun updateGroupsList(group: Group) {
+        mGroupsListAdapter.addItem(group)
+    }
+
+    override fun updateTasksList(task: Task) {
+        mTasksListAdapter.addItem(task)
     }
 }

@@ -32,7 +32,7 @@ class InvitationsAdapter(val list: ArrayList<Invitation>, val context: Context) 
                     .placeholder(R.drawable.image_placeholder)
                     .resize(50,50)
                     .centerCrop()
-                    .into(itemView.imageFriend)
+                    .into(itemView.imageGroup)
 
         }
 
