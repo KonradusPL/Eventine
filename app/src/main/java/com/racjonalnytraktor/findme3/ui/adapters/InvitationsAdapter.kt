@@ -13,19 +13,22 @@ import kotlinx.android.synthetic.main.invitation_item.view.*
 
 class InvitationsAdapter(val list: ArrayList<Invitation>, val context: Context) : RecyclerView.Adapter<InvitationsAdapter.MyHolder>() {
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
         val view =  LayoutInflater.from(parent.context).inflate(R.layout.invitation_item, parent, false)
-        return MyHolder(view,context)
+        return MyHolder(view,context,this)
     }
 
-    class MyHolder(itemView: View,val context: Context): RecyclerView.ViewHolder(itemView) {
+    class MyHolder(itemView: View,val context: Context,val adapter: InvitationsAdapter): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(invitation: Invitation){
+        fun bind(invitation: Invitation, position: Int){
             itemView.fieldGroupName.text = invitation.groupName
             itemView.fieldInvitationTitle.text = invitation.invitingPerson
+            itemView.buttonConfirmInvitation.setOnClickListener {
+                adapter.removeItem(position)
+            }
 
             Picasso.get()
                     .load(invitation.imageUri)
@@ -41,6 +44,11 @@ class InvitationsAdapter(val list: ArrayList<Invitation>, val context: Context) 
     fun addItem(invitation: Invitation){
         list.add(invitation)
         notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int){
+        list.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     override fun getItemCount(): Int {
