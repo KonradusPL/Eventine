@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "741902588537",
+    "firebase_url": "https://findme-2b0ae.firebaseio.com",
+    "project_id": "findme-2b0ae",
+    "storage_bucket": "findme-2b0ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741902588537:android:5eb487b04699af23",
+        "android_client_info": {
+          "package_name": "com.racjonalnytraktor.findme3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741902588537-9qhmpt1gmdq9bag6nocb1t9riiag44fq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3vZsoP0taOlTUMj1pRgN2AYZrkaBFpuQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

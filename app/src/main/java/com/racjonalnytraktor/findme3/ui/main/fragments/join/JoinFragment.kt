@@ -40,7 +40,7 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
         val layoutManager = LinearLayoutManager(activity)
         listInvitations.layoutManager = layoutManager
 
-        mListAdapter = InvitationsAdapter(ArrayList(),this.activity!!.applicationContext)
+        mListAdapter = InvitationsAdapter(ArrayList(),this)
         listInvitations.adapter = mListAdapter
     }
 }
