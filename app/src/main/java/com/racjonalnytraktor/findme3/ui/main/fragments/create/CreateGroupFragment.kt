@@ -1,12 +1,11 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.create
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.Friend
+import com.racjonalnytraktor.findme3.data.model.Person
 import com.racjonalnytraktor.findme3.ui.adapters.FriendsAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
@@ -32,8 +31,8 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
         presenter.onAttach(this)
     }
 
-    override fun updateList(friend: Friend) {
-        listAdapter.addItem(friend)
+    override fun updateList(person: Person) {
+        listAdapter.addItem(person)
     }
 
     private fun initList(){

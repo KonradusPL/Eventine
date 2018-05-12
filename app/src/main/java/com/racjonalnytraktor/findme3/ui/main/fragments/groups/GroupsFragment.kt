@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.groups
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.racjonalnytraktor.findme3.ui.adapters.GroupsListAdapter
 import com.racjonalnytraktor.findme3.ui.adapters.TasksListAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import kotlinx.android.synthetic.main.fragment_groups.*
 
 class GroupsFragment<V: MainMvp.View>: BaseFragment<V>(), GroupsMvp.View {
@@ -39,7 +41,7 @@ class GroupsFragment<V: MainMvp.View>: BaseFragment<V>(), GroupsMvp.View {
         val layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
         listGroups.layoutManager = layoutManager
 
-        mGroupsListAdapter = GroupsListAdapter(ArrayList(),this.activity!!.applicationContext)
+        mGroupsListAdapter = GroupsListAdapter(ArrayList(),this)
         listGroups.adapter = mGroupsListAdapter
     }
 
@@ -58,5 +60,13 @@ class GroupsFragment<V: MainMvp.View>: BaseFragment<V>(), GroupsMvp.View {
 
     override fun updateTasksList(task: Task) {
         mTasksListAdapter.addItem(task)
+    }
+
+    override fun openMapActivity(groupName: String) {
+        startActivity(Intent(parentContext,MapActivity::class.java))
+    }
+
+    override fun onGroupsItemClick(groupName: String) {
+        openMapActivity(groupName)
     }
 }

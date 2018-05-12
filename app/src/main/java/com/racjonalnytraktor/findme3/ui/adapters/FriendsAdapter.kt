@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.Friend
+import com.racjonalnytraktor.findme3.data.model.Person
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.friend_item.view.*
 import java.util.ArrayList
 
 
-class FriendsAdapter(val list: ArrayList<Friend>,
+class FriendsAdapter(val list: ArrayList<Person>,
                      val context: Context) : RecyclerView.Adapter<FriendsAdapter.MyHolder>() {
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
@@ -26,18 +26,18 @@ class FriendsAdapter(val list: ArrayList<Friend>,
 
     class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(friend: Friend){
-            itemView.fieldFriend.text = friend.fullName
+        fun bind(person: Person){
+            itemView.fieldFriend.text = person.fullName
             Picasso.get()
-                    .load(friend.profileImageUri)
+                    .load(person.profileImageUri)
                     .resize(50,50)
                     .into(itemView.imageGroup)
         }
 
     }
 
-    fun addItem(friend: Friend){
-        list.add(friend)
+    fun addItem(person: Person){
+        list.add(person)
         notifyDataSetChanged()
     }
 

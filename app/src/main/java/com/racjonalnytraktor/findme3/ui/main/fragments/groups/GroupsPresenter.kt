@@ -27,4 +27,9 @@ class GroupsPresenter<V: GroupsMvp.View>: BasePresenter<V>(), GroupsMvp.Presente
                     view.updateTasksList(item)
                 })
     }
+
+    override fun onGroupItemClick(groupName: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

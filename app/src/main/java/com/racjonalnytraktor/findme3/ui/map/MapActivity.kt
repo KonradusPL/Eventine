@@ -21,14 +21,15 @@ class MapActivity : BaseActivity(), MapHelper.MapClickListener {
         mapHelper = MapHelper(this,null)
 
         (viewMap as SupportMapFragment).getMapAsync(mapHelper)
+
+        setSupportActionBar(toolbarMap)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onMapClick(location: Location) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onMarkerClick(marker: Marker) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

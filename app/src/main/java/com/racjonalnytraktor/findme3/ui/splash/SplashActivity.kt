@@ -5,7 +5,6 @@ import android.os.Bundle
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
-import com.racjonalnytraktor.findme3.ui.map.MapActivity
 
 class SplashActivity : BaseActivity(),SplashMvp.View {
 
@@ -14,8 +13,7 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = SplashPresenter()
-        //presenter.onAttach(this)
-        startActivity(Intent(this,MapActivity::class.java))
+        presenter.onAttach(this)
     }
 
     override fun openMainActivity() {
