@@ -1,6 +1,11 @@
 package com.racjonalnytraktor.findme3.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -61,12 +66,25 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
     fun addPersonToMap(person: PersonOnMap){
         val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
         doAsync {
-            val iconBitmap = Picasso.get()
+            val bitmapProfile = Picasso.get()
                     .load("https://i2.wp.com/startupkids.pl/wp-content/uploads/2018/01/kuba-mularski-250x343-supervisor.jpg?fit=250%2C343")
+                    .resize(100,100)
                     .transform(CircleTransform())
                     .get()
 
-            val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(iconBitmap)
+            val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources,R.drawable.marker_icon)
+
+            val bitmapOld = ImageHelper.getResizedBitmap(bitmapMarkerFromRes,120,120)
+
+            val bitmapNew = Bitmap.createBitmap(bitmapOld.width,bitmapOld.height,Bitmap.Config.ARGB_8888)
+
+            val canvas = Canvas(bitmapNew)
+            val paint = Paint()
+
+            canvas.drawBitmap(bitmapOld,0f,0f,paint)
+            canvas.drawBitmap(bitmapProfile,0f,0f,paint)
+
+            val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapNew)
             uiThread {
                 marker.setIcon(bitmapDescriptor)
                 person.marker = marker
