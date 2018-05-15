@@ -2,6 +2,9 @@ package com.racjonalnytraktor.findme3.ui.base
 
 import android.content.Context
 import android.support.v4.app.Fragment
+import com.racjonalnytraktor.findme3.utils.PermissionsHelper
+import io.reactivex.Completable
+import io.reactivex.Observable
 
 open class BaseFragment<V: MvpView>: Fragment(),MvpView {
 
@@ -40,8 +43,8 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
     }
 
 
-    override fun hasPermission(permission: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun checkPermission(permission: String): Observable<PermissionsHelper.PermissionState> {
+        return parentMvp.checkPermission(permission)
     }
 
     override fun requestPermissionsSafely(permissions: Array<String>, requestCode: Int) {
@@ -55,7 +58,9 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
         view!!.alpha = 1f
     }
 
-
+    override fun checkLocationSettings(): Completable {
+        return parentMvp.checkLocationSettings()
+    }
 
 
 }

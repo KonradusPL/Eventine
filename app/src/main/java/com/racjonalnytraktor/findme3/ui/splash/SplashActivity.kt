@@ -1,7 +1,9 @@
 package com.racjonalnytraktor.findme3.ui.splash
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
@@ -12,8 +14,13 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = SplashPresenter()
-        presenter.onAttach(this)
+        //presenter = SplashPresenter()
+        //presenter.onAttach(this)
+        checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .subscribe {
+                    Log.d("asd","asd")
+                }
+
     }
 
     override fun openMainActivity() {

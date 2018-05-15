@@ -8,7 +8,9 @@ import android.location.Location
 import android.util.Log
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import io.reactivex.Observable
 import org.jetbrains.anko.toast
+import java.util.*
 
 
 class LocationProvider(private val millis: Long, private val context: Context){
@@ -44,25 +46,25 @@ class LocationProvider(private val millis: Long, private val context: Context){
         val taskCheckSettings = settingsClient.checkLocationSettings(builder.build())
 
 
-        taskCheckSettings.addOnSuccessListener(context as Activity,{
+
+        taskCheckSettings.addOnSuccessListener{
             Log.d("Michno", "OnSuccessListener")
             startUpdatingLocation()
 
-        })
+        }
 
         taskCheckSettings.addOnFailureListener { exception ->
             if (exception is ResolvableApiException){
                 Log.d("Michno","OnFailureListener")
                 //startLocationUpdate()
                 try {
-                    exception.startResolutionForResult(context, REQUEST_CHECK_SETTINGS)
+                    exception.startResolutionForResult(context as Activity, REQUEST_CHECK_SETTINGS)
                     startUpdatingLocation()
                 } catch (sendEx: IntentSender.SendIntentException) {
                 }
             }
         }
     }
-
 
     @SuppressLint("MissingPermission")
     private fun startUpdatingLocation() {
