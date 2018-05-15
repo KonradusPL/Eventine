@@ -18,6 +18,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
 
 open class BaseActivity : AppCompatActivity(),MvpView{
@@ -112,7 +113,9 @@ open class BaseActivity : AppCompatActivity(),MvpView{
                             while (!mPermissionStatus){
                                 Thread.sleep(100)
                             }
-                            emitter.onComplete()
+                            uiThread {
+                                emitter.onComplete()
+                            }
                         }
                     } catch (sendEx: IntentSender.SendIntentException) {
                     }

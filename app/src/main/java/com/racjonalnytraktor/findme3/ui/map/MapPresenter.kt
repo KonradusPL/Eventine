@@ -1,8 +1,10 @@
 package com.racjonalnytraktor.findme3.ui.map
 
+import android.Manifest
 import android.content.Context
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepositoryImpl
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
+import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
@@ -12,6 +14,18 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
         super.onAttach(mvpView)
 
         mRepo = MapRepositoryImpl(mvpView as Context)
-        mRepo.locationProvider.init()
+        view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .subscribe { state: PermissionsHelper.PermissionState? ->
+                    if (state == PermissionsHelper.PermissionState.GRANTED)
+                        view.checkLocationSettings()
+                                .subscribe {
+                                    mRepo.locationProvider.start()
+                                }
+                }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mRepo.locationProvider.end()
     }
 }

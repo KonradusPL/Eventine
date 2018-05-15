@@ -8,9 +8,13 @@ import android.location.Location
 import android.util.Log
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import io.reactivex.Observable
 import org.jetbrains.anko.toast
 import java.util.*
+import org.greenrobot.eventbus.EventBus
+
+
 
 
 class LocationProvider(private val millis: Long, private val context: Context){
@@ -23,23 +27,31 @@ class LocationProvider(private val millis: Long, private val context: Context){
 
     var currentLocation = Location("GPS")
 
-    fun init() {
+    init {
         locationRequest = LocationRequest().apply {
             interval = millis
             fastestInterval = millis
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
+    }
 
+    fun start() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
                     currentLocation.set(location)
-                    context.toast("blabla")
+                    Log.d("asdasd","ssssssss")
+                    EventBus.getDefault().post(LocationEvent(location.latitude,
+                            location.longitude,
+                            location.accuracy.toDouble()))
+
                 }
             }
         }
 
-        val builder = LocationSettingsRequest.Builder()
+        startUpdatingLocation()
+
+       /* val builder = LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest!!)
 
         val settingsClient = LocationServices.getSettingsClient(context)
@@ -63,12 +75,15 @@ class LocationProvider(private val millis: Long, private val context: Context){
                 } catch (sendEx: IntentSender.SendIntentException) {
                 }
             }
-        }
+        }*/
+    }
+
+    fun end(){
+        locationClient.removeLocationUpdates(locationCallback)
     }
 
     @SuppressLint("MissingPermission")
     private fun startUpdatingLocation() {
-        Log.d("asdasd","lkjlkj")
         locationClient.requestLocationUpdates(locationRequest,
                 locationCallback,null)
     }

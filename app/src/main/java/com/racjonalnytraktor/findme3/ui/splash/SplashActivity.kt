@@ -14,13 +14,8 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //presenter = SplashPresenter()
-        //presenter.onAttach(this)
-        checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                .subscribe {
-                    Log.d("asd","asd")
-                }
-
+        presenter = SplashPresenter()
+        presenter.onAttach(this)
     }
 
     override fun openMainActivity() {
