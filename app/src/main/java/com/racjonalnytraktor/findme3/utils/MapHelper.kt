@@ -1,10 +1,7 @@
 package com.racjonalnytraktor.findme3.utils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.support.v4.app.Fragment
@@ -18,6 +15,12 @@ import com.racjonalnytraktor.findme3.data.model.PersonOnMap
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
+import android.graphics.PorterDuffColorFilter
+import android.graphics.ColorFilter
+
+
 
 
 class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback {
@@ -74,15 +77,17 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
             val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources,R.drawable.marker_icon)
 
-            val bitmapOld = ImageHelper.getResizedBitmap(bitmapMarkerFromRes,120,120)
+            val bitmapOld = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,120)
 
             val bitmapNew = Bitmap.createBitmap(bitmapOld.width,bitmapOld.height,Bitmap.Config.ARGB_8888)
 
             val canvas = Canvas(bitmapNew)
             val paint = Paint()
+            //val filter = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+            //paint.colorFilter = filter
 
             canvas.drawBitmap(bitmapOld,0f,0f,paint)
-            canvas.drawBitmap(bitmapProfile,0f,0f,paint)
+            canvas.drawBitmap(bitmapProfile,10f,10f,paint)
 
             val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapNew)
             uiThread {

@@ -21,4 +21,20 @@ object ImageHelper {
         bm.recycle()
         return resizedBitmap
     }
+
+    fun getScaledBitmap(bm: Bitmap, newSize: Int): Bitmap {
+        val width = bm.width
+        val height = bm.height
+        val scale = newSize.toFloat() / width
+
+        val matrix = Matrix()
+
+        matrix.postScale(scale, scale)
+
+        val resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false)
+        bm.recycle()
+        return resizedBitmap
+    }
+
 }
