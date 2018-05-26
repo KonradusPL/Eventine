@@ -1,8 +1,6 @@
 package com.racjonalnytraktor.findme3.utils
 
 import android.content.Context
-import android.graphics.*
-import android.graphics.drawable.Drawable
 import android.location.Location
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -12,25 +10,19 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.PersonOnMap
-import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import android.graphics.PorterDuff
-import android.support.v4.content.ContextCompat
-import android.graphics.PorterDuffColorFilter
-import android.graphics.ColorFilter
-
-
 
 
 class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback {
 
+    var isUserInitialized = false
 
     private var clickListener: MapClickListener
 
     private lateinit var mMap: GoogleMap
 
-    private val markersList = ArrayList<Marker>()
+    private lateinit var userOnMap: PersonOnMap
     private val peopleOnMap = ArrayList<PersonOnMap>()
 
     interface MapClickListener {
@@ -53,7 +45,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
             val location = Location("GPS")
             location.longitude = latLng.longitude
             location.latitude = latLng.latitude
-            addPersonToMap(PersonOnMap("Marcin Michno","",latLng.latitude,latLng.longitude,null))
+            addFriendToMap(PersonOnMap("Marcin Michno","",latLng.latitude,latLng.longitude,null))
             clickListener.onMapClick(location)
         }
         mMap.setOnMarkerClickListener { marker ->
@@ -62,34 +54,32 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         }
     }
 
-    fun setMapPosition(lat: Double, lng: Double) {
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lng)))
+    fun moveCamera(position: LatLng) {
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(position))
     }
 
-    fun addPersonToMap(person: PersonOnMap){
+    fun addUserToMap(person: PersonOnMap){
+        isUserInitialized = true
+
         val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
         doAsync {
-            val bitmapProfile = Picasso.get()
-                    .load("https://i2.wp.com/startupkids.pl/wp-content/uploads/2018/01/kuba-mularski-250x343-supervisor.jpg?fit=250%2C343")
-                    .resize(100,100)
-                    .transform(CircleTransform())
-                    .get()
+            val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimaryDark)
 
-            val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources,R.drawable.marker_icon)
+            val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
+            uiThread {
+                marker.setIcon(bitmapDescriptor)
+                person.marker = marker
+                userOnMap = person
+            }
+        }
+    }
 
-            val bitmapOld = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,120)
+    fun addFriendToMap(person: PersonOnMap){
+        val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
+        doAsync {
+            val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
 
-            val bitmapNew = Bitmap.createBitmap(bitmapOld.width,bitmapOld.height,Bitmap.Config.ARGB_8888)
-
-            val canvas = Canvas(bitmapNew)
-            val paint = Paint()
-            //val filter = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
-            //paint.colorFilter = filter
-
-            canvas.drawBitmap(bitmapOld,0f,0f,paint)
-            canvas.drawBitmap(bitmapProfile,10f,10f,paint)
-
-            val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapNew)
+            val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
             uiThread {
                 marker.setIcon(bitmapDescriptor)
                 person.marker = marker
@@ -99,7 +89,11 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         }
 
     }
-    // mMarker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap))
+
+    fun setUserLocation(location: LatLng){
+        userOnMap.marker?.position = location
+        moveCamera(location)
+    }
 
     fun setPersonLocation(location: LatLng,fullName: String){
         for (person in peopleOnMap){
@@ -113,10 +107,5 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         this.mMap.animateCamera(CameraUpdateFactory.zoomBy(15f))
     }
 
-    fun removeAllMarkers() {
-        for (marker in markersList) {
-            marker.remove()
-        }
-        markersList.clear()
-    }
+
 }

@@ -10,7 +10,20 @@
     <string name="text_invitations">Zaproszenia</string>
     <string name="text_join">Dołącz</string>
     <string name="text_create">Stwórz</string>
+    <string name="text_import_from_facebook">Importuj z Facebooka</string>
+    <string name="text_import_from_messenger">Importuj z Messengera</string>
+    <string name="text_friends">Znajomi</string>
+    <string name="text_login">Zaloguj się</string>
+    <string name="text_continue_with_fb">Kontynuuj z Facebookiem</string>
+    <string name="text_continue_with_google">Kontynuuj z Googlem</string>
+    <string name="text_login_divider">LUB</string>
+    <string name="text_groups">Grupy</string>
+    <string name="text_recent_ordered_tasks">Zlecone zadania</string>
+    <string name="text_commissioned_from">Zlecone przez</string>
 
-    <string name="hint_enter_group_code">Enter group code</string>
+    <string name="hint_enter_group_code">Wpisz kod grupy</string>
+
+    <string name="toolbar_create_account">Stwórz konto</string>
+
 
 </resources>

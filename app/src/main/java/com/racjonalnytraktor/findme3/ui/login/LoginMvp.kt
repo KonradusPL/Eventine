@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.login
 
+import com.facebook.login.LoginResult
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 
@@ -12,5 +13,6 @@ interface LoginMvp {
         fun onEmailLoginClick(email: String, password: String)
         fun onFacebookLoginClick()
         fun onGoogleLoginClick()
+        fun onFacebookLoginSuccess(loginResult: LoginResult?)
     }
 }

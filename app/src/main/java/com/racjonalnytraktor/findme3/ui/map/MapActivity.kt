@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.ui.map
 import android.location.Location
 import android.os.Bundle
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
@@ -36,7 +37,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLocationUpdate(location: LocationEvent) {
-        toast(location.lat.toString())
+
     }
 
     override fun onStart() {
