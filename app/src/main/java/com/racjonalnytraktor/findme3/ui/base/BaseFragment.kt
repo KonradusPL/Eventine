@@ -62,5 +62,8 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
         return parentMvp.checkLocationSettings()
     }
 
+    override fun getCtx(): Context {
+        return parentMvp.getCtx()
+    }
 
 }

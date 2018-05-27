@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.base
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
@@ -130,5 +131,9 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CHECK_SETTINGS){
             mPermissionStatus = true
         }
+    }
+
+    override fun getCtx(): Context {
+        return this
     }
 }

@@ -1,15 +1,21 @@
 package com.racjonalnytraktor.findme3.utils
 
 import android.util.Log
+import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.model.UserFacebook
 import org.json.JSONObject
 
 object WhereIsJson {
-    fun getUserBasic(jsonObject: JSONObject): UserFacebook {
+    fun getUserBasic(jsonObject: JSONObject): User {
         Log.d("jsonik",jsonObject.toString())
         val name = jsonObject.get("name") as String
         val id = jsonObject.get("id") as String
-        return UserFacebook(name,id)
+        val picture = jsonObject.getJSONObject("picture")
+                .getJSONObject("data")
+                .getString("url")
+
+        val user = User(id,picture,name)
+        return user
     }
 
     fun getFriendsArray(jsonObject: JSONObject): ArrayList<UserFacebook>{

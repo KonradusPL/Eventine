@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.base
 
+import android.content.Context
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -23,4 +24,6 @@ interface MvpView {
     fun decreaseAlpha()
 
     fun isConnectedToNetwork(): Boolean
+
+    fun getCtx(): Context
 }

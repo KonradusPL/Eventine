@@ -10,9 +10,10 @@ class SplashPresenter<V: SplashMvp.View>: BasePresenter<V>(),SplashMvp.Presenter
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo = SplashRepository(mvpView as Context)
+        repo = SplashRepository()
+        repo.onAttatch(mvpView as Context)
         if(repo.isUserLoggedIn())
-            view.openMainActivity()
+            view.openLoginActivity()
         else
             view.openLoginActivity()
     }

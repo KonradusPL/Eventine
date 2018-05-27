@@ -61,7 +61,6 @@ class MainActivity : BaseActivity(),MainMvp.View {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main_toolbar,menu)
 
-        // Here I update user icon located in toolbar
         doAsync {
             val bitmap = Picasso.get()
                     .load("https://i2.wp.com/startupkids.pl/wp-content/uploads/2018/01/kuba-mularski-250x343-supervisor.jpg?fit=250%2C343")

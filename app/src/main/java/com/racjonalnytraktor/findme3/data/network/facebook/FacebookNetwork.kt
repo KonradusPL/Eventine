@@ -7,20 +7,29 @@ import com.facebook.GraphResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.concurrent.Callable
+import android.os.Bundle
+
+
 
 class FacebookNetwork {
 
     fun getUserBasicInfo(): Single<GraphResponse>{
         val accessToken = AccessToken.getCurrentAccessToken()
         val single = Single.create<GraphResponse> { emitter ->
-            val response = GraphRequest.newGraphPathRequest(accessToken,
+
+            val parameters = Bundle()
+            parameters.putString("fields", "id,name,picture")
+
+            val request = GraphRequest.newGraphPathRequest(accessToken,
                     accessToken.userId, { response: GraphResponse? ->
-                Log.d("asdasd",response.toString())
+                Log.d("graphresponse",response.toString())
                 if(response == null)
                     emitter.onError(Throwable("null"))
                 else
                     emitter.onSuccess(response)
-            }).executeAndWait()
+            })
+            request.parameters = parameters
+            request.executeAndWait()
         }
 
         return single

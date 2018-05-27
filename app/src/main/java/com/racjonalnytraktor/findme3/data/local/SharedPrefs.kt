@@ -1,7 +1,9 @@
 package com.racjonalnytraktor.findme3.data.local
 
 import android.content.Context
+import android.util.Log
 import androidx.content.edit
+import com.racjonalnytraktor.findme3.data.model.User
 
 
 class SharedPrefs(context: Context): Prefs {
@@ -12,8 +14,13 @@ class SharedPrefs(context: Context): Prefs {
     private val CURRENT_USER_FULLNAME = "CURRENT_USER_FULLNAME"
     private val CURRENT_USER_SIGNIN_MODE = "CURRENT_USER_SIGNIN_MODE"
     private val IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN"
+    private val CURRENT_USER_PROFILE_IMAGE = "PROFILE_IMAGE"
+    private val CURRENT_USER_FB_ID = "CURRENT_USER_FB_ID"
+
 
     private val mSharedPrefs = context.getSharedPreferences("shared_preferences",Context.MODE_PRIVATE)
+
+
 
     override fun getUserToken(): String {
         return mSharedPrefs.getString(CURRENT_USER_TOKEN,"null")
@@ -54,5 +61,40 @@ class SharedPrefs(context: Context): Prefs {
             putBoolean(IS_USER_LOGGED_IN,value)
         }
     }
+
+    override fun getUserProfileImage(): String {
+        return mSharedPrefs.getString(CURRENT_USER_PROFILE_IMAGE,"null")
+    }
+
+    override fun setUserProfileImage(value: String) {
+        mSharedPrefs.edit {
+            putString(CURRENT_USER_PROFILE_IMAGE,value)
+        }
+    }
+
+    override fun getCurrentUser(): User {
+        return User(
+                "",
+                getUserProfileImage(),
+                getUserFullName())
+    }
+
+    override fun setCurrentUser(value: User) {
+        Log.d("user",value.facebookId +" "+  value.profileUri+ " "+ value.fullName)
+        setUserFullName(value.fullName)
+        setUserProfileImage(value.profileUri)
+        setFacebookId(value.facebookId)
+    }
+
+    override fun setFacebookId(value: String) {
+        mSharedPrefs.edit{
+            putString(CURRENT_USER_FB_ID,value)
+        }
+    }
+
+    override fun getFacebookId(): String {
+        return mSharedPrefs.getString(CURRENT_USER_FB_ID,"null")
+    }
+
 
 }

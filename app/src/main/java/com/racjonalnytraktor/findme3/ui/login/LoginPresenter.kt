@@ -3,12 +3,15 @@ package com.racjonalnytraktor.findme3.ui.login
 import android.content.Context
 import android.util.Log
 import com.facebook.login.LoginResult
-import com.racjonalnytraktor.findme3.data.model.UserFacebook
+import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.LoginRequest
 import com.racjonalnytraktor.findme3.data.network.model.LoginResponse
+import com.racjonalnytraktor.findme3.data.network.model.RegisterFbRequest
+import com.racjonalnytraktor.findme3.data.network.model.RegisterFbResponse
 import com.racjonalnytraktor.findme3.data.repository.LoginRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.utils.StringHelper
+import io.reactivex.Single
 
 class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V> {
 
@@ -33,13 +36,24 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
     }
 
     override fun onFacebookLoginSuccess(loginResult: LoginResult?) {
-        repo.getUserBasicInfo()
-                .subscribe({ userFacebook: UserFacebook? ->
-                    Log.d("userFacebook",userFacebook.toString())
+        repo.getUserInfo()
+                .subscribe({ user: User? ->
+                    repo.registerByFacebook(user!!)
+                            .subscribe ({ response: RegisterFbResponse? ->
+                                Log.d("registerresponse",response!!.token)
+                                user.token = response.token
+                                repo.setCurrentUser(user)
+                                view.openMainActivity()},
+                                    {error: Throwable? -> Log.d("error",error.toString())
+
+                            }
+
+                    )
                 },{throwable: Throwable? ->
                     Log.d("error",throwable.toString())
                 })
     }
+
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
