@@ -10,11 +10,11 @@ class RetrofitRest: Rest {
 
     private val BASE_URL = "https://findme-186320.appspot.com"
 
-        var gson = GsonBuilder()
+        private var gson = GsonBuilder()
                 .setLenient()
                 .create()
 
-        val retrofit = Retrofit.Builder()
+        private val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

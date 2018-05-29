@@ -20,6 +20,11 @@
     <string name="text_groups">Grupy</string>
     <string name="text_recent_ordered_tasks">Zlecone zadania</string>
     <string name="text_commissioned_from">Zlecone przez</string>
+    <string name="text_fill_all_fields">Musisz wypełnić wszystkie pola</string>
+    <string name="text_turn_on_internet_connection">Włącz internet!</string>
+    <string name="text_success">Udało się!</string>
+
+
 
     <string name="hint_enter_group_code">Wpisz kod grupy</string>
 

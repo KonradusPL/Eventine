@@ -35,10 +35,10 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showMessage(message: String) {
+    override fun showMessage(message: String, type: MvpView.MessageType) {
         parentMvp.showMessage(message)
     }
-    override fun showMessage(message: Int) {
+    override fun showMessage(message: Int, type: MvpView.MessageType) {
         parentMvp.showMessage(message)
     }
 

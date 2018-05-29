@@ -1,9 +1,6 @@
 package com.racjonalnytraktor.findme3.data.network
 
-import com.racjonalnytraktor.findme3.data.network.model.LoginRequest
-import com.racjonalnytraktor.findme3.data.network.model.LoginResponse
-import com.racjonalnytraktor.findme3.data.network.model.RegisterFbRequest
-import com.racjonalnytraktor.findme3.data.network.model.RegisterFbResponse
+import com.racjonalnytraktor.findme3.data.network.model.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.Body
@@ -16,4 +13,7 @@ interface Routes {
 
     @POST("auth/social")
     fun registerByFacebook(@Body registerRequest: RegisterFbRequest): Single<RegisterFbResponse>
+
+    @POST("auth/register")
+    fun register(@Body request: RegisterRequest): Single<RegisterResponse>
 }

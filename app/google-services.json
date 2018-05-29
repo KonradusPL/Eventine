@@ -1,27 +1,31 @@
 {
   "project_info": {
-    "project_number": "741902588537",
-    "firebase_url": "https://findme-2b0ae.firebaseio.com",
-    "project_id": "findme-2b0ae",
-    "storage_bucket": "findme-2b0ae.appspot.com"
+    "project_number": "186028101832",
+    "firebase_url": "https://kalejdoskopapp.firebaseio.com",
+    "project_id": "kalejdoskopapp",
+    "storage_bucket": "kalejdoskopapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:741902588537:android:5eb487b04699af23",
+        "mobilesdk_app_id": "1:186028101832:android:5eb487b04699af23",
         "android_client_info": {
           "package_name": "com.racjonalnytraktor.findme3"
         }
       },
       "oauth_client": [
         {
-          "client_id": "741902588537-9qhmpt1gmdq9bag6nocb1t9riiag44fq.apps.googleusercontent.com",
+          "client_id": "186028101832-kf9auh82oqqo0jt75vbi2i2jfg4p7prk.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "186028101832-kf9auh82oqqo0jt75vbi2i2jfg4p7prk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD3vZsoP0taOlTUMj1pRgN2AYZrkaBFpuQ"
+          "current_key": "AIzaSyChti0ILewzirsgDUeYVPiC9jmWS3NarT4"
         }
       ],
       "services": {

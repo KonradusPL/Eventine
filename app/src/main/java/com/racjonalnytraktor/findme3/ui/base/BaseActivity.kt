@@ -15,10 +15,10 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.racjonalnytraktor.findme3.utils.DeviceInfo
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
+import es.dmoral.toasty.Toasty
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 
@@ -26,7 +26,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
 
     private val REQUEST_CHECK_SETTINGS = 1905
 
-    protected lateinit var mProgress: ProgressBar
+    protected lateinit var progressBar: ProgressBar
     private lateinit var mDeviceInfo: DeviceInfo
     private lateinit var mPermissionsHelper: PermissionsHelper
 
@@ -39,17 +39,17 @@ open class BaseActivity : AppCompatActivity(),MvpView{
     }
 
     override fun showLoading() {
-        if(::mProgress.isInitialized){
+        if(::progressBar.isInitialized){
             hideLoading()
-            mProgress.isIndeterminate = true
-            mProgress.visibility = View.VISIBLE
+            progressBar.isIndeterminate = true
+            progressBar.visibility = View.VISIBLE
         }
     }
 
     override fun hideLoading() {
-        if(::mProgress.isInitialized){
-            mProgress.isIndeterminate = false
-            mProgress.visibility = View.INVISIBLE
+        if(::progressBar.isInitialized){
+            progressBar.isIndeterminate = false
+            progressBar.visibility = View.INVISIBLE
         }
     }
 
@@ -57,12 +57,22 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showMessage(message: Int) {
-        toast(message)
+    override fun showMessage(message: Int, type: MvpView.MessageType) {
+        when(type){
+            MvpView.MessageType.NORMAL -> Toasty.normal(this, resources.getString(message)).show()
+            MvpView.MessageType.ERROR -> Toasty.error(this, resources.getString(message)).show()
+            MvpView.MessageType.INFO -> Toasty.info(this, resources.getString(message)).show()
+            MvpView.MessageType.SUCCESS -> Toasty.success(this, resources.getString(message)).show()
+        }
     }
 
-    override fun showMessage(message: String) {
-        toast(message)
+    override fun showMessage(message: String, type: MvpView.MessageType) {
+        when(type){
+            MvpView.MessageType.NORMAL -> Toasty.normal(this, message).show()
+            MvpView.MessageType.ERROR -> Toasty.error(this, message).show()
+            MvpView.MessageType.INFO -> Toasty.info(this,message).show()
+            MvpView.MessageType.SUCCESS -> Toasty.success(this, message).show()
+        }
     }
 
     override fun isConnectedToNetwork(): Boolean {

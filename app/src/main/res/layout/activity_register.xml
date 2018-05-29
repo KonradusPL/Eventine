@@ -18,7 +18,84 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/toolbar_create_account"
+        app:title="Rejestracja"
         android:elevation="4dp"
         app:titleTextColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/fieldName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:drawableTint="@color/colorAccent"
+        android:hint="Imie i nazwisko"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:drawableEnd="@drawable/ic_person_black_24dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRegister" />
+
+    <EditText
+        android:id="@+id/fieldEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:drawableTint="@color/colorAccent"
+        android:hint="Email"
+        android:drawableEnd="@drawable/ic_email_black_24dp"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fieldName" />
+
+    <EditText
+        android:id="@+id/fieldPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/ic_lock_black_24dp"
+        android:ems="10"
+        android:hint="Hasło"
+        android:drawableTint="@color/colorAccent"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fieldEmail" />
+
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_colored"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:text="Stwórz konto"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/fieldPassword"
+        app:layout_constraintStart_toStartOf="@+id/fieldPassword"
+        app:layout_constraintTop_toBottomOf="@+id/fieldPassword"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressRegister"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
+
 </android.support.constraint.ConstraintLayout>

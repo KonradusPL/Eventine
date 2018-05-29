@@ -7,6 +7,8 @@ object StringHelper {
             if (char.isDigit()){
                 val index = message.indexOf(char,0,false)
                 errorCode = message.substring(index,message.lastIndex)
+                if(errorCode.length > 3)
+                    errorCode = message
                 break
             }
         }

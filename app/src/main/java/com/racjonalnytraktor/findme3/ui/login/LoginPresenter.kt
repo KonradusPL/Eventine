@@ -10,6 +10,7 @@ import com.racjonalnytraktor.findme3.data.network.model.RegisterFbRequest
 import com.racjonalnytraktor.findme3.data.network.model.RegisterFbResponse
 import com.racjonalnytraktor.findme3.data.repository.LoginRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
+import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.StringHelper
 import io.reactivex.Single
 
@@ -23,7 +24,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
                 },{throwable: Throwable? ->
                     val errorCode = StringHelper.getErrorCode(throwable!!.localizedMessage)
-                    view.showMessage(errorCode)
+                    view.showMessage(errorCode,MvpView.MessageType.ERROR)
                 }))
     }
 

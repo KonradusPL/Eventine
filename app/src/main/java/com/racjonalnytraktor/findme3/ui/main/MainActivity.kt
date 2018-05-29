@@ -21,6 +21,9 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity(),MainMvp.View {
 
+    lateinit var mPresenter: MainPresenter<MainMvp.View>
+    lateinit var mMenu: Menu
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,6 +31,9 @@ class MainActivity : BaseActivity(),MainMvp.View {
         setUpActionBar()
 
         setUpViewPager()
+
+        mPresenter = MainPresenter()
+        mPresenter.onAttach(this)
     }
 
     private fun setUpActionBar(){
@@ -58,24 +64,26 @@ class MainActivity : BaseActivity(),MainMvp.View {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main_toolbar,menu)
-
+    override fun changeProfileIcon(url: String) {
         doAsync {
             val bitmap = Picasso.get()
-                    .load("https://i2.wp.com/startupkids.pl/wp-content/uploads/2018/01/kuba-mularski-250x343-supervisor.jpg?fit=250%2C343")
+                    .load(url)
                     .transform(CircleTransform())
                     .get()
 
             val drawable = BitmapDrawable(resources,bitmap)
             uiThread {
-                menu!!.getItem(0).icon = drawable
+                mMenu.getItem(0).icon = drawable
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main_toolbar,menu)
+
+        mMenu = menu!!
+
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return super.onOptionsItemSelected(item)
-    }
 }

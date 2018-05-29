@@ -24,6 +24,9 @@
     <string name="text_groups">Groups</string>
     <string name="text_recent_ordered_tasks">Recent ordered tasks</string>
     <string name="text_commissioned_from">Commissioned from</string>
+    <string name="text_fill_all_fields">You must fill all fields</string>
+    <string name="text_turn_on_internet_connection">Turn on Internet connection</string>
+    <string name="text_success">Success!</string>
 
     <string name="hint_enter_group_code">Enter group code</string>
     <string name="hint_email">Email</string>

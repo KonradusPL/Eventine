@@ -47,7 +47,7 @@
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/button_colored"
+        android:background="@drawable/button_white"
         android:elevation="2dp"
         android:fontFamily="sans-serif"
         android:minWidth="120dp"
