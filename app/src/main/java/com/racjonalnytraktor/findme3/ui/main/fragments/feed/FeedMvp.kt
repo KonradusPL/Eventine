@@ -1,4 +1,4 @@
-package com.racjonalnytraktor.findme3.ui.main.fragments.groups
+package com.racjonalnytraktor.findme3.ui.main.fragments.feed
 
 import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.Task
@@ -6,7 +6,7 @@ import com.racjonalnytraktor.findme3.ui.adapters.GroupsListAdapter
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 
-interface GroupsMvp {
+interface FeedMvp {
     interface View: MvpView,GroupsListAdapter.GroupsListListener{
         fun updateGroupsList(group: Group)
         fun updateTasksList(task: Task)

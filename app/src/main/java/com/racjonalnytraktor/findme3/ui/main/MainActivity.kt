@@ -1,19 +1,14 @@
 package com.racjonalnytraktor.findme3.ui.main
 
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import android.support.design.widget.TabLayout
 import android.view.Menu
-import android.view.MenuItem
-import androidx.view.get
-import com.racjonalnytraktor.findme3.ui.adapters.PageAdapter
+import com.racjonalnytraktor.findme3.ui.adapters.PageAdapterMain
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import android.graphics.Bitmap
-import android.util.Log
 import com.racjonalnytraktor.findme3.utils.CircleTransform
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -38,10 +33,11 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
     private fun setUpActionBar(){
         setSupportActionBar(toolbarMain)
+
     }
 
     private fun setUpViewPager(){
-        val pageAdapter = PageAdapter(supportFragmentManager, this@MainActivity)
+        val pageAdapter = PageAdapterMain(supportFragmentManager, this@MainActivity)
         viewPagerMain.adapter = pageAdapter
 
         tabLayoutMain.setupWithViewPager(viewPagerMain)

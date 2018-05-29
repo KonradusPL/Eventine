@@ -1,4 +1,4 @@
-package com.racjonalnytraktor.findme3.ui.main.fragments.groups
+package com.racjonalnytraktor.findme3.ui.main.fragments.feed
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,11 +16,11 @@ import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import kotlinx.android.synthetic.main.fragment_groups.*
 
-class GroupsFragment<V: MainMvp.View>: BaseFragment<V>(), GroupsMvp.View {
+class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
     lateinit var mGroupsListAdapter: GroupsListAdapter
     lateinit var mTasksListAdapter: TasksListAdapter
-    lateinit var mPresenter: GroupsPresenter<GroupsMvp.View>
+    lateinit var mPresenter: FeedPresenter<FeedMvp.View>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_groups,container,false)
@@ -29,7 +29,7 @@ class GroupsFragment<V: MainMvp.View>: BaseFragment<V>(), GroupsMvp.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mPresenter = GroupsPresenter()
+        mPresenter = FeedPresenter()
         mPresenter.onAttach(this)
 
         initGroupsList()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tab_names">
+    <string-array name="tab_names_main">
         <item>Główna</item>
         <item>Stwórz</item>
         <item>Dołącz</item>

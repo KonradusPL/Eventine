@@ -51,7 +51,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
     }
 
     private fun initTabs(){
-        tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
+        /*tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
             }
@@ -78,7 +78,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
             }
 
         })
-        tabLayoutMap.getTabAt(1)!!.icon!!.setTint(getColor(R.color.colorPrimary))
+        tabLayoutMap.getTabAt(1)!!.icon!!.setTint(getColor(R.color.colorPrimary))*/
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,11 +1,11 @@
-package com.racjonalnytraktor.findme3.ui.main.fragments.groups
+package com.racjonalnytraktor.findme3.ui.main.fragments.feed
 
 import com.racjonalnytraktor.findme3.data.repository.groups.GroupsRepositoryImpl
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 
 
-class GroupsPresenter<V: GroupsMvp.View>: BasePresenter<V>(), GroupsMvp.Presenter<V> {
+class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
 
     val repo = GroupsRepositoryImpl()
 

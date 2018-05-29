@@ -1,19 +1,18 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Group
-import com.racjonalnytraktor.findme3.ui.main.fragments.groups.GroupsMvp
+import com.racjonalnytraktor.findme3.ui.main.fragments.feed.FeedMvp
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.group_item.view.*
 import java.util.ArrayList
 
 class GroupsListAdapter(val list: ArrayList<Group>,
-                        val mvpView: GroupsMvp.View) : RecyclerView.Adapter<GroupsListAdapter.MyHolder>() {
+                        val mvpView: FeedMvp.View) : RecyclerView.Adapter<GroupsListAdapter.MyHolder>() {
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         holder.bind(list[position])
@@ -24,7 +23,7 @@ class GroupsListAdapter(val list: ArrayList<Group>,
         return MyHolder(view,mvpView)
     }
 
-    class MyHolder(itemView: View, val view: GroupsMvp.View): RecyclerView.ViewHolder(itemView) {
+    class MyHolder(itemView: View, val view: FeedMvp.View): RecyclerView.ViewHolder(itemView) {
 
         private val listener = view as GroupsListListener
 

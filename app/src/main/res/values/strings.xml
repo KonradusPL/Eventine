@@ -5,11 +5,18 @@
     <string name="fb_login_protocol_scheme">fb194669471175342</string>
 
 
-    <string-array name="tab_names">
+    <string-array name="tab_names_main">
         <item>Feed</item>
         <item>Create</item>
         <item>Join</item>
         <item>Profile</item>
+    </string-array>
+    <string-array name="tab_names_map">
+        <item>Settings</item>
+        <item>History</item>
+        <item>Ping</item>
+        <item>Info</item>
+        <item>Group</item>
     </string-array>
     <string name="text_invitations">Invitations</string>
     <string name="text_join">Join</string>

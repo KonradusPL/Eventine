@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Settings"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_history"
+        android:enabled="true"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="History"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_ping"
+        android:enabled="true"
+        android:icon="@drawable/ic_pin_drop_black_24dp"
+        android:title="Ping"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/action_info"
+        android:enabled="true"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="Info"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/action_group"
+        android:enabled="true"
+        android:icon="@drawable/ic_group_black_24dp"
+        android:title="Groups"
+        app:showAsAction="withText" />
+</menu>

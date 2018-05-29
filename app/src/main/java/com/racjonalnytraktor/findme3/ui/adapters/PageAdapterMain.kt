@@ -12,35 +12,33 @@ import android.view.View
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import com.racjonalnytraktor.findme3.ui.main.fragments.join.JoinFragment
-import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.main.fragments.create.CreateGroupFragment
-import com.racjonalnytraktor.findme3.ui.main.fragments.groups.GroupsFragment
+import com.racjonalnytraktor.findme3.ui.main.fragments.feed.FeedFragment
 import kotlinx.android.synthetic.main.custom_tab.view.*
 
 
-class PageAdapter(fm: FragmentManager,val context: Context): FragmentPagerAdapter(fm) {
+class PageAdapterMain(fm: FragmentManager, val context: Context): FragmentPagerAdapter(fm) {
 
     private val tabIcons = intArrayOf(
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_add_black_24dp,
-            R.drawable.ic_group_add_black_24dp,
-            R.drawable.ic_person_black_24dp)
+            R.drawable.ic_group_add_black_24dp)
 
-    val tabNames = context.resources.getStringArray(R.array.tab_names)
+    val tabNames = context.resources.getStringArray(R.array.tab_names_main)
 
 
     override fun getItem(position: Int): Fragment {
         when(position){
-            0 -> return GroupsFragment<MainMvp.View>()
+            0 -> return FeedFragment<MainMvp.View>()
             1 -> return CreateGroupFragment<MainMvp.View>()
             2 -> return JoinFragment<MainMvp.View>()
-            3 -> return ProfileFragment()
+            //3 -> return ProfileFragment()
         }
         return Fragment()
     }
 
     override fun getCount(): Int {
-        return 4
+        return 3
     }
 
     fun getTabView(position: Int) : View{
