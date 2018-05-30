@@ -4,6 +4,7 @@ import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -51,25 +52,23 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
     }
 
     private fun initTabs(){
-        /*tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
+        tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab!!.icon!!.setTint(getColor(R.color.black))
+                tab!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
 
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if(tab!!.position != 1){
-                    tabLayoutMap.getTabAt(1)!!.icon!!.setTint(getColor(R.color.black))
-                }
-                Log.d("zxczxc",tab!!.position.toString())
-                tab.icon!!.setTint(getColor(R.color.colorPrimary))
+                //if(tab!!.position != 1){
+                 //   tabLayoutMap.getTabAt(1)!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.colorPrimary)) }
+                tab?.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.colorPrimary))
                 val fragment: Fragment
                 when(tab.position){
-                    1 -> fragment = fragmentMap
+                    2 -> fragment = fragmentMap
                     else -> fragment = fragmentManagement
                 }
                 supportFragmentManager.beginTransaction()
@@ -78,12 +77,11 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
             }
 
         })
-        tabLayoutMap.getTabAt(1)!!.icon!!.setTint(getColor(R.color.colorPrimary))*/
+        tabLayoutMap.getTabAt(2)!!.select()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLocationUpdate(location: LocationEvent) {
-
     }
 
     override fun onStart() {
@@ -97,6 +95,9 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         super.onStop()
         EventBus.getDefault().unregister(this)
         mPresenter.onDetach()
+        tabLayoutMap.let {
+            it.getTabAt(it.selectedTabPosition)?.icon?.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
+        }
     }
 
     override fun onMapClick(location: Location) {

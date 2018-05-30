@@ -18,16 +18,26 @@ object WhereIsJson {
         return user
     }
 
-    fun getFriendsArray(jsonObject: JSONObject): ArrayList<UserFacebook>{
+    fun getFriendsArray(jsonObject: JSONObject): ArrayList<User>{
+        Log.d("method","getFriendsArray")
         val array = jsonObject.getJSONArray("data")
-        val newArray = ArrayList<UserFacebook>()
+        val newArray = ArrayList<User>()
         for(i in 0..array.length()-1){
             val jsonObject = array.getJSONObject(i)
             Log.d("asdasd",jsonObject.toString())
             val name = jsonObject.getString("name")
             val id = jsonObject.getString("id")
-            newArray.add(UserFacebook(name,id))
+            newArray.add(User(id,"",name,""))
         }
         return  newArray
+    }
+
+    fun getFriendUserWitPicture(jsonObject: JSONObject, user: User = User()): User{
+        Log.d("method","getFriendUserWitPicture")
+
+        val data = jsonObject.getJSONObject("data")
+        val url = data.getString("url")
+        user.profileUri = url
+        return user
     }
 }
