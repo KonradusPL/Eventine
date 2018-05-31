@@ -34,8 +34,6 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
-        initTabs()
-
         mMapHelper = MapHelper(this,null)
 
         fragmentMap = SupportMapFragment.newInstance()
@@ -44,6 +42,8 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer,fragmentMap)
                 .commit()
+
+        initTabs()
 
         fragmentMap.getMapAsync(mMapHelper)
 

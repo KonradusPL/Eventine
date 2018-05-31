@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -9,6 +10,8 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.model.User
+import com.racjonalnytraktor.findme3.data.repository.create.CreateRepository
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.register.RegisterActivity
@@ -20,6 +23,7 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
 
     val callbackManager = CallbackManager.Factory.create()
     private lateinit var mLoginFb: LoginButton
+    val repo = CreateRepository
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +31,14 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
         setContentView(R.layout.activity_login)
         presenter = LoginPresenter()
         presenter.onAttach(this)
+        repo.onAttatch(this)
+
+        repo.getFriends()
+                .subscribe({t: User? ->
+
+                }
+                ,{t: Throwable? ->
+                })
 
         registerFbLoginCallback()
 
@@ -51,15 +63,15 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
 
     private fun registerFbLoginCallback(){
         mLoginFb = LoginButton(this)
+        mLoginFb.setReadPermissions(arrayListOf("user_friends"))
         mLoginFb.registerCallback(callbackManager,object: FacebookCallback<LoginResult>{
             override fun onSuccess(result: LoginResult?) {
                 presenter.onFacebookLoginSuccess(result)
             }
             override fun onCancel() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
             override fun onError(error: FacebookException?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Log.d("error",error!!.message)
             } })
     }
 

@@ -9,6 +9,6 @@ interface CreateGroupMvp {
         fun updateList(person: Person)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-
+        fun createEvent(groupName: String, friendsList: List<String>)
     }
 }

@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.main.fragments.create
 
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.User
+import com.racjonalnytraktor.findme3.data.network.model.CreateGroupRequest
 import com.racjonalnytraktor.findme3.data.repository.create.CreateRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
@@ -31,6 +32,16 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
 
                 }))
 
+    }
+
+    override fun createEvent(groupName: String, friendsList: List<String>) {
+        val request = CreateGroupRequest(groupName,friendsList)
+        compositeDisposable.add(repo.createGroup(request)
+                .subscribe({response: String? ->
+                    Log.d("response",response.orEmpty())
+                }, {error: Throwable? ->
+
+                        }))
     }
 
     override fun onDetach() {

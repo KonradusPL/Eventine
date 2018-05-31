@@ -37,6 +37,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
     override fun onFacebookLoginSuccess(loginResult: LoginResult?) {
         repo.getUserInfo()
                 .subscribe({ user: User? ->
+                    Log.d("qweqwe",user!!.fullName)
                     repo.registerByFacebook(user!!)
                             .subscribe ({ response: RegisterFbResponse? ->
                                 Log.d("registerresponse",response!!.token)

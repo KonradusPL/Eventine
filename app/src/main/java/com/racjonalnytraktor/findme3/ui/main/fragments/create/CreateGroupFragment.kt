@@ -11,7 +11,7 @@ import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import android.support.v7.widget.LinearLayoutManager
-
+import com.jakewharton.rxbinding2.view.RxView
 
 
 class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.View {
@@ -29,6 +29,11 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
         initList()
         presenter = CreateGroupPresenter()
         presenter.onAttach(this)
+
+        RxView.clicks(buttonCreate)
+                .subscribe {
+
+                }
     }
 
     override fun updateList(person: Person) {

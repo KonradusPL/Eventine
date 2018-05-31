@@ -15,11 +15,13 @@ object WhereIsJson {
                 .getString("url")
 
         val user = User(id,picture,name)
+
         return user
     }
 
     fun getFriendsArray(jsonObject: JSONObject): ArrayList<User>{
         Log.d("method","getFriendsArray")
+        Log.d("friends",jsonObject.toString())
         val array = jsonObject.getJSONArray("data")
         val newArray = ArrayList<User>()
         for(i in 0..array.length()-1){

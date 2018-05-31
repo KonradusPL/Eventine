@@ -63,11 +63,11 @@ class FacebookNetwork {
 
         val single = Observable.create<GraphResponse> { emitter ->
 
-            val parameters = Bundle()
-            parameters.putString("fields", "friends")
+           // val parameters = Bundle()
+            //parameters.putString("fields", "friends")
 
             val request = GraphRequest.newGraphPathRequest(accessToken,
-                    accessToken.userId, { response: GraphResponse? ->
+                    accessToken.userId+"/friends", { response: GraphResponse? ->
                 Log.d("graphresponse",response.toString())
                 if(response == null)
                     emitter.onError(Throwable("null"))
@@ -77,7 +77,7 @@ class FacebookNetwork {
                         onComplete()
                     }
             })
-            request.parameters = parameters
+            //request.parameters = parameters
             request.executeAndWait()
         }
 

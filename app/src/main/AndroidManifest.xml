@@ -35,7 +35,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD3vZsoP0taOlTUMj1pRgN2AYZrkaBFpuQ" />
+            android:value="AIzaSyChti0ILewzirsgDUeYVPiC9jmWS3NarT4" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -57,5 +57,4 @@
         <activity android:name=".ui.register.RegisterActivity"
             android:parentActivityName=".ui.login.LoginActivity"></activity>
     </application>
-
 </manifest>
