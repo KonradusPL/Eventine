@@ -23,22 +23,12 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
 
     val callbackManager = CallbackManager.Factory.create()
     private lateinit var mLoginFb: LoginButton
-    val repo = CreateRepository
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         presenter = LoginPresenter()
         presenter.onAttach(this)
-        repo.onAttatch(this)
-
-        repo.getFriends()
-                .subscribe({t: User? ->
-
-                }
-                ,{t: Throwable? ->
-                })
 
         registerFbLoginCallback()
 

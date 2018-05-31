@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.Person
 import com.racjonalnytraktor.findme3.ui.adapters.FriendsAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
+import com.racjonalnytraktor.findme3.data.model.User
 
 
 class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.View {
@@ -32,12 +33,14 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
 
         RxView.clicks(buttonCreate)
                 .subscribe {
-
+                    val checkedFriends = listAdapter.getCheckedFriends()
+                    Log.d("checkedFriends",checkedFriends.size.toString())
+                    presenter.createEvent(fieldGroupCode.text.toString(),checkedFriends)
                 }
     }
 
-    override fun updateList(person: Person) {
-        listAdapter.addItem(person)
+    override fun updateList(user: User) {
+        listAdapter.addItem(user)
     }
 
     private fun initList(){

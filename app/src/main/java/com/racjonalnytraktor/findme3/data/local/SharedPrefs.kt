@@ -84,6 +84,7 @@ class SharedPrefs(context: Context): Prefs {
         setUserFullName(value.fullName)
         setUserProfileImage(value.profileUri)
         setFacebookId(value.facebookId)
+        setUserToken(value.token)
     }
 
     override fun setFacebookId(value: String) {

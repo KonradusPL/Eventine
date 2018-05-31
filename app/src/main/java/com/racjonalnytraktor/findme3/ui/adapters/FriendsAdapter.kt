@@ -7,16 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Person
+import com.racjonalnytraktor.findme3.data.model.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.friend_item.view.*
 import java.util.ArrayList
 
 
-class FriendsAdapter(val list: ArrayList<Person>,
+class FriendsAdapter(val list: ArrayList<User>,
                      val context: Context) : RecyclerView.Adapter<FriendsAdapter.MyHolder>() {
 
+    val checkedList = ArrayList<Int>()
+
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
@@ -24,20 +27,34 @@ class FriendsAdapter(val list: ArrayList<Person>,
         return MyHolder(view,context)
     }
 
-    class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
+    inner class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(person: Person){
-            itemView.fieldFriend.text = person.fullName
+        fun bind(position: Int){
+            itemView.fieldFriend.text = list[position].fullName
+            itemView.checkFriend.setOnClickListener {
+                if (itemView.checkFriend.isChecked){
+                    checkedList.add(position)
+                }else
+                    checkedList.removeAt(checkedList.indexOf(position))
+            }
             Picasso.get()
-                    .load(person.profileImageUri)
+                    .load(list[position].profileUri)
                     .resize(50,50)
                     .into(itemView.imageGroup)
         }
 
     }
 
-    fun addItem(person: Person){
-        list.add(person)
+    fun getCheckedFriends(): List<String>{
+        val array = ArrayList<String>()
+        for(i in checkedList){
+            array.add(list[i].facebookId)
+        }
+        return array
+    }
+
+    fun addItem(user: User){
+        list.add(user)
         notifyDataSetChanged()
     }
 

@@ -41,8 +41,13 @@ class FacebookNetwork {
         val accessToken = AccessToken.getCurrentAccessToken()
         val single = Single.create<User> { emitter ->
 
+            val params = Bundle()
+            params.putBoolean("redirect", false)
+
+            Log.d("asdasd","/${friendId}/picture")
+
             val request = GraphRequest.newGraphPathRequest(accessToken,
-                    "${friendId}/picture", { response: GraphResponse? ->
+                    friendId + "/picture", { response: GraphResponse? ->
                 Log.d("graphresponse",response.toString())
                 if(response == null)
                     emitter.onError(Throwable("null"))
@@ -52,6 +57,7 @@ class FacebookNetwork {
                     emitter.onSuccess(user)
                 }
             })
+            request.parameters = params
             request.executeAndWait()
         }
 
@@ -67,7 +73,7 @@ class FacebookNetwork {
             //parameters.putString("fields", "friends")
 
             val request = GraphRequest.newGraphPathRequest(accessToken,
-                    accessToken.userId+"/friends", { response: GraphResponse? ->
+                    accessToken.userId+"/friends?fields=picture,name", { response: GraphResponse? ->
                 Log.d("graphresponse",response.toString())
                 if(response == null)
                     emitter.onError(Throwable("null"))

@@ -29,9 +29,13 @@ object WhereIsJson {
             Log.d("asdasd",jsonObject.toString())
             val name = jsonObject.getString("name")
             val id = jsonObject.getString("id")
-            newArray.add(User(id,"",name,""))
+            val pictureId = jsonObject
+                    .getJSONObject("picture")
+                    .getJSONObject("data")
+                    .getString("url")
+            newArray.add(User(id,pictureId,name,""))
         }
-        return  newArray
+        return newArray
     }
 
     fun getFriendUserWitPicture(jsonObject: JSONObject, user: User = User()): User{
