@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.main
 
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import android.support.design.widget.TabLayout
@@ -23,17 +24,19 @@ class MainActivity : BaseActivity(),MainMvp.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setUpActionBar()
-
         setUpViewPager()
+
+        setUpLeftNavigation()
 
         mPresenter = MainPresenter()
         mPresenter.onAttach(this)
     }
 
-    private fun setUpActionBar(){
-        setSupportActionBar(toolbarMain)
-
+    private fun setUpLeftNavigation() {
+        navigationMain.setNavigationItemSelectedListener { menuItem ->
+            menuItem.isChecked = true
+            true
+        }
     }
 
     private fun setUpViewPager(){
@@ -61,25 +64,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
     }
 
     override fun changeProfileIcon(url: String) {
-        doAsync {
-            val bitmap = Picasso.get()
-                    .load(url)
-                    .transform(CircleTransform())
-                    .get()
 
-            val drawable = BitmapDrawable(resources,bitmap)
-            uiThread {
-                mMenu?.getItem(0)?.icon = drawable
-            }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main_toolbar,menu)
-
-        mMenu = menu!!
-
-        return true
     }
 
 }
