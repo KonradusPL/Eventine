@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.facebook.login.LoginResult
 import com.racjonalnytraktor.findme3.data.model.User
-import com.racjonalnytraktor.findme3.data.network.model.LoginRequest
-import com.racjonalnytraktor.findme3.data.network.model.LoginResponse
-import com.racjonalnytraktor.findme3.data.network.model.RegisterFbResponse
+import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
+import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
+import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbResponse
 import com.racjonalnytraktor.findme3.data.repository.LoginRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
@@ -17,7 +17,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
     val repo = LoginRepository()
 
     override fun onEmailLoginClick(email: String, password: String) {
-        compositeDisposable.add(repo.loginWithEmail(LoginRequest(email,password))
+        compositeDisposable.add(repo.loginWithEmail(LoginRequest(email, password))
                 .subscribe({response: LoginResponse? ->
 
                 },{throwable: Throwable? ->

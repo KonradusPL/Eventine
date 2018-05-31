@@ -11,6 +11,8 @@ interface FeedMvp {
         fun updateGroupsList(group: Group)
         fun updateTasksList(task: Task)
         fun openMapActivity(groupName: String)
+        fun showGroupsLoading()
+        fun hideGroupsLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onGroupItemClick(groupName: String)

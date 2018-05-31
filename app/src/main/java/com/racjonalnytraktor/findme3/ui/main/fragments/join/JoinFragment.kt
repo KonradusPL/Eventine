@@ -32,12 +32,16 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
 
         RxView.clicks(buttonJoin)
                 .subscribe {
-                    mPresenter.onjoinGroupClick(fieldGroupCode.text.toString())
+                    //mPresenter.onJoinGroupClick(fieldGroupCode.text.toString())
                 }
     }
 
     override fun updateList(invitation: Invitation) {
         mListAdapter.addItem(invitation)
+    }
+
+    override fun onInvitationClick(groupId: String) {
+        mPresenter.onAcceptInvitationClick(groupId)
     }
 
     private fun initList(){

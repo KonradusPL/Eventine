@@ -2,10 +2,10 @@ package com.racjonalnytraktor.findme3.data.repository
 
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.User
-import com.racjonalnytraktor.findme3.data.network.model.LoginRequest
-import com.racjonalnytraktor.findme3.data.network.model.LoginResponse
-import com.racjonalnytraktor.findme3.data.network.model.RegisterFbRequest
-import com.racjonalnytraktor.findme3.data.network.model.RegisterFbResponse
+import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
+import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
+import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbRequest
+import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbResponse
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import com.racjonalnytraktor.findme3.utils.WhereIsJson
 import io.reactivex.Observable
@@ -37,7 +37,7 @@ class LoginRepository: BaseRepository() {
     }
 
     fun registerByFacebook(user: User): Single<RegisterFbResponse>{
-        val request = RegisterFbRequest(user.facebookId,user.fullName)
+        val request = RegisterFbRequest(user.facebookId, user.fullName)
         Log.d("requestid",request.facebookId)
         Log.d("requestname",request.fullName)
 

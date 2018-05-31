@@ -3,8 +3,8 @@ package com.racjonalnytraktor.findme3.ui.register
 import android.util.Log
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.User
-import com.racjonalnytraktor.findme3.data.network.model.RegisterRequest
-import com.racjonalnytraktor.findme3.data.network.model.RegisterResponse
+import com.racjonalnytraktor.findme3.data.network.model.register.RegisterRequest
+import com.racjonalnytraktor.findme3.data.network.model.register.RegisterResponse
 import com.racjonalnytraktor.findme3.data.repository.RegisterRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView

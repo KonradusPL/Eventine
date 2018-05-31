@@ -12,7 +12,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.invitation_item.view.*
 
 
-class InvitationsAdapter(val list: ArrayList<Invitation>, val joinMvp: JoinMvp.View) : RecyclerView.Adapter<InvitationsAdapter.MyHolder>() {
+class InvitationsAdapter(val list: ArrayList<Invitation>, val joinMvp: JoinMvp.View)
+    : RecyclerView.Adapter<InvitationsAdapter.MyHolder>() {
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         holder.bind(list[position], position)
     }
@@ -28,7 +29,8 @@ class InvitationsAdapter(val list: ArrayList<Invitation>, val joinMvp: JoinMvp.V
             itemView.fieldGroupName.text = invitation.groupName
             itemView.fieldInvitationTitle.text = invitation.invitingPerson
             itemView.buttonConfirmInvitation.setOnClickListener {
-                adapter.removeItem(position)
+                adapter.removeItem(layoutPosition)
+                joinMvp.onInvitationClick(invitation.id)
             }
 
             Picasso.get()

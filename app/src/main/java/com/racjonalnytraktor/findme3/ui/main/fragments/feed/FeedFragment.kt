@@ -15,6 +15,7 @@ import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import kotlinx.android.synthetic.main.fragment_groups.*
+import kotlinx.android.synthetic.main.fragment_groups.view.*
 
 class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
@@ -60,6 +61,18 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
     override fun updateTasksList(task: Task) {
         mTasksListAdapter.addItem(task)
+    }
+
+    override fun showGroupsLoading() {
+        hideGroupsLoading()
+        textLoadinGroups.bringToFront()
+        progressGroups.isIndeterminate = true
+        progressGroups.visibility = View.VISIBLE
+    }
+
+    override fun hideGroupsLoading() {
+        progressGroups.isIndeterminate = false
+        progressGroups.visibility = View.VISIBLE
     }
 
     override fun openMapActivity(groupName: String) {

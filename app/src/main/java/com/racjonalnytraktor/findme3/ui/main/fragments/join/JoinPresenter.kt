@@ -4,6 +4,7 @@ import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Invitation
 import com.racjonalnytraktor.findme3.data.repository.join.JoinRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
+import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 
 class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
@@ -33,10 +34,22 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
         compositeDisposable.dispose()
     }
 
-    override fun onjoinGroupClick(groupName: String) {
+   /* override fun onJoinGroupClick(groupName: String) {
         compositeDisposable.add(repo.joinGroup(groupName)
                 .subscribe({response: String? ->
 
-                },{error: Throwable? ->  }))
+                },{error: Throwable? ->
+
+                }))
+    }*/
+
+    override fun onAcceptInvitationClick(groupId: String) {
+        compositeDisposable.add(repo.acceptInvitation(groupId)
+                .subscribe({t: String? ->
+                    view.showMessage("Success",MvpView.MessageType.SUCCESS)
+                },{t: Throwable? ->
+                    view.showMessage("Error",MvpView.MessageType.ERROR)
+                    Log.d("errpr",t!!.message)
+                }))
     }
 }

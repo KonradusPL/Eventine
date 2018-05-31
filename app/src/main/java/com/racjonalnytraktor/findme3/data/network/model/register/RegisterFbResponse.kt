@@ -1,4 +1,4 @@
-package com.racjonalnytraktor.findme3.data.network.model
+package com.racjonalnytraktor.findme3.data.network.model.register
 
 /**
  * Created by Admin on 2018-05-27.

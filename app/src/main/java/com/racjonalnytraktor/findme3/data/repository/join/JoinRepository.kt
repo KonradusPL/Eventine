@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.data.repository.join
 
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Invitation
+import com.racjonalnytraktor.findme3.data.network.model.AcceptInvitationRequest
 import com.racjonalnytraktor.findme3.data.network.model.InvitationResponse
 import com.racjonalnytraktor.findme3.data.network.model.JoinRequest
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
@@ -25,6 +26,14 @@ object JoinRepository: BaseRepository(){
         Log.d("tokenik",groupName)
 
         return rest.networkService.joinGroup(token, JoinRequest(groupName))
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+    }
+
+    fun acceptInvitation(groupId: String): Single<String>{
+        val request = AcceptInvitationRequest(groupId)
+        val token = prefs.getUserToken()
+        return rest.networkService.acceptInvitation(token,request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

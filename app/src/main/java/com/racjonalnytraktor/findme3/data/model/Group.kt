@@ -1,3 +1,5 @@
 package com.racjonalnytraktor.findme3.data.model
 
-data class Group(val groupName: String, val groupPictureUri: String)
+import com.google.gson.annotations.SerializedName
+
+data class Group(@SerializedName("name") val groupName: String, val groupPictureUri: String, val id: String = "")
