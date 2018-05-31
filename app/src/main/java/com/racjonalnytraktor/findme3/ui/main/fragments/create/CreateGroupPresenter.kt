@@ -47,9 +47,11 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
         Log.d("plplpl",request.facebookIds.toString())
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->
+                    view.showMessage("Group added",MvpView.MessageType.SUCCESS)
                     Log.d("response",response.orEmpty())
                 }, {error: Throwable? ->
-                            Log.d("error",error!!.message)
+                    view.showMessage("Group creating error",MvpView.MessageType.ERROR)
+                    Log.d("error",error!!.message)
                         }))
     }
 

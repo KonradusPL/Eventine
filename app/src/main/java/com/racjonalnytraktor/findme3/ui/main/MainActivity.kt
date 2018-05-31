@@ -17,7 +17,7 @@ import org.jetbrains.anko.uiThread
 class MainActivity : BaseActivity(),MainMvp.View {
 
     lateinit var mPresenter: MainPresenter<MainMvp.View>
-    lateinit var mMenu: Menu
+    var mMenu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
             val drawable = BitmapDrawable(resources,bitmap)
             uiThread {
-                mMenu.getItem(0).icon = drawable
+                mMenu?.getItem(0)?.icon = drawable
             }
         }
     }

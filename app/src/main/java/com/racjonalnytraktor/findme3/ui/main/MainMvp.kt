@@ -8,6 +8,6 @@ interface MainMvp {
         fun changeProfileIcon(url: String)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-
+        fun sendNotifToken(token: String)
     }
 }
