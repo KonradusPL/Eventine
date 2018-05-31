@@ -6,13 +6,11 @@ import com.facebook.login.LoginResult
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.LoginRequest
 import com.racjonalnytraktor.findme3.data.network.model.LoginResponse
-import com.racjonalnytraktor.findme3.data.network.model.RegisterFbRequest
 import com.racjonalnytraktor.findme3.data.network.model.RegisterFbResponse
 import com.racjonalnytraktor.findme3.data.repository.LoginRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.StringHelper
-import io.reactivex.Single
 
 class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V> {
 

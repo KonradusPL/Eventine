@@ -39,6 +39,8 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         mMap = googleMap
         mMap.setPadding(0,60,0,0)
 
+        moveCamera(LatLng(51.101809,22.854009))
+
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.theme_map))
 
         mMap.setOnMapClickListener { latLng ->

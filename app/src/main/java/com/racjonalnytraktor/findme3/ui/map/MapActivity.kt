@@ -34,6 +34,8 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
+        initTabs()
+
         mMapHelper = MapHelper(this,null)
 
         fragmentMap = SupportMapFragment.newInstance()
@@ -44,8 +46,6 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
                 .commit()
 
         fragmentMap.getMapAsync(mMapHelper)
-
-        initTabs()
 
         setSupportActionBar(toolbarMap)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -79,7 +79,8 @@ class LocationProvider(private val millis: Long, private val context: Context){
     }
 
     fun end(){
-        locationClient.removeLocationUpdates(locationCallback)
+        if(locationCallback != null)
+            locationClient.removeLocationUpdates(locationCallback)
     }
 
     @SuppressLint("MissingPermission")
