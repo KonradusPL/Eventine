@@ -1,11 +1,11 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.join
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Invitation
 import com.racjonalnytraktor.findme3.ui.adapters.InvitationsAdapter
@@ -29,6 +29,11 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
 
         mPresenter = JoinPresenter()
         mPresenter.onAttach(this)
+
+        RxView.clicks(buttonJoin)
+                .subscribe {
+                    mPresenter.onjoinGroupClick(fieldGroupCode.text.toString())
+                }
     }
 
     override fun updateList(invitation: Invitation) {

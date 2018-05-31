@@ -4,20 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor">
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/layout_join"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    android:background="@color/white">
 
         <Button
-            android:id="@+id/buttonCreate"
+            android:id="@+id/buttonJoin"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginEnd="16dp"
@@ -31,43 +21,30 @@
             app:layout_constraintStart_toEndOf="@+id/fieldGroupCode"
             app:layout_constraintTop_toTopOf="@+id/fieldGroupCode" />
 
-        <EditText
-            android:id="@+id/fieldGroupCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="@string/hint_enter_group_code"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/layout_invitations"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <EditText
+        android:id="@+id/fieldGroupCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:ems="10"
+        android:hint="@string/hint_enter_group_code"
+        android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_join">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/text_invitations"
-            android:textColor="@color/black2"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_invitations"
+        android:textColor="@color/black2"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldGroupCode" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listInvitations"
@@ -81,5 +58,4 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.0" />
 
-    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

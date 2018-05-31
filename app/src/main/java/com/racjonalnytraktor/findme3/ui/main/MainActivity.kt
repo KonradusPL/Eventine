@@ -34,7 +34,6 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
     private fun setUpLeftNavigation() {
         navigationMain.setNavigationItemSelectedListener { menuItem ->
-            menuItem.isChecked = true
             true
         }
     }

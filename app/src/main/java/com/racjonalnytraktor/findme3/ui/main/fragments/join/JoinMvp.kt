@@ -9,6 +9,6 @@ interface JoinMvp {
         fun updateList(invitation: Invitation)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-
+        fun onjoinGroupClick(groupName: String)
     }
 }
