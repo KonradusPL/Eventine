@@ -121,6 +121,10 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         }
     }
 
+    override fun updateSubGroups(item: String) {
+        fragmentCreatePingDetails.updateList(item)
+    }
+
     override fun onMapClick(location: Location) {
     }
 

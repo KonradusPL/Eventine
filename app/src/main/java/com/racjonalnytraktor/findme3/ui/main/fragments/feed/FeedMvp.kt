@@ -15,6 +15,6 @@ interface FeedMvp {
         fun hideGroupsLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-        fun onGroupItemClick(groupName: String)
+        fun onGroupItemClick(groupName: String, groupId: String)
     }
 }

@@ -2,18 +2,20 @@ package com.racjonalnytraktor.findme3.ui.map
 
 import android.Manifest
 import android.content.Context
-import com.racjonalnytraktor.findme3.data.repository.map.MapRepositoryImpl
+import android.util.Log
+import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
-    lateinit var mRepo: MapRepositoryImpl
+    lateinit var mRepo: MapRepository
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        mRepo = MapRepositoryImpl(mvpView as Context)
+        mRepo = MapRepository(mvpView as Context)
+        mRepo.onAttatch(mvpView.getCtx())
         view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 .subscribe { state: PermissionsHelper.PermissionState? ->
                     if (state == PermissionsHelper.PermissionState.GRANTED)
@@ -28,10 +30,19 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
         view.changeCreateGroupFragment()
         mRepo.task = task
         mRepo.descr = descr
+        mRepo.getAllSubGroups()
+                .flatMapIterable { t -> t }
+                .subscribe({t: String? ->
+                    Log.d("asdasd",t!!.toString())
+                    view.updateSubGroups(t)
+                },{t: Throwable? ->
+                    Log.d("asdasd",t?.message.orEmpty())
+                })
     }
 
     override fun onDetach() {
         super.onDetach()
         mRepo.locationProvider.end()
     }
+
 }

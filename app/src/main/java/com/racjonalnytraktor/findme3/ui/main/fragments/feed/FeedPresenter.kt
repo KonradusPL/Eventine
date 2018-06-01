@@ -36,8 +36,8 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                 })*/
     }
 
-    override fun onGroupItemClick(groupName: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onGroupItemClick(groupName: String, groupId: String) {
+        repo.prefs.setCurrentGroup(groupId)
     }
 
 }

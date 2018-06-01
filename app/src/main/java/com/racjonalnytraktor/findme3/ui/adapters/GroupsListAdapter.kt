@@ -36,7 +36,7 @@ class GroupsListAdapter(val list: ArrayList<Group>,
                     .into(itemView.imageGroup)
 
             itemView.setOnClickListener {
-                listener.onGroupsItemClick(group.groupName)
+                listener.onGroupsItemClick(group.groupName,group.id)
             }
         }
 
@@ -52,6 +52,6 @@ class GroupsListAdapter(val list: ArrayList<Group>,
     }
 
     interface GroupsListListener{
-        fun onGroupsItemClick(groupName: String)
+        fun onGroupsItemClick(groupName: String,groupId: String)
     }
 }

@@ -36,6 +36,10 @@ interface Routes {
     @GET("group/subgroups/{groupId}")
     fun getSubGroups(@Header("X-Token") token: String)
 
+    @GET("group/allSubGroups/{groupId}")
+    fun getAllSubGroups(@Header("X-Token") token: String,@Path("groupId") groupId: String):
+            Observable<List<String>>
+
     @POST("notif/updateToken")
     fun updateNotifToken(@Header("X-Token")token: String, @Body notifToken: UpdateTokenRequest): Single<String>
 

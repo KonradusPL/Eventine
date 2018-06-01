@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:stickTo="bottom"
         android:id="@+id/slidingPing"
-        app:changeStateOnTap="true"
+        app:changeStateOnTap="false"
         android:elevation="10dp">
         <FrameLayout
             android:id="@+id/containerCreatePing"

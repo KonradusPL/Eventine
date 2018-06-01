@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.ui.main.fragments.feed
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +81,9 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
         startActivity(Intent(parentContext,MapActivity::class.java))
     }
 
-    override fun onGroupsItemClick(groupName: String) {
+    override fun onGroupsItemClick(groupName: String,groupId: String) {
+        Log.d("xxxxxx",groupId)
+        mPresenter.onGroupItemClick(groupName,groupId)
         openMapActivity(groupName)
     }
 }
