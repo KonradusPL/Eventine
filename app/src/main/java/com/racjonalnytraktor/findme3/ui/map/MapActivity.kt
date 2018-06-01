@@ -133,6 +133,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
 
     override fun onLongClickListener(location: LatLng) {
         slidingPing.openLayer(true)
+        mPresenter.location = location
     }
 
 }

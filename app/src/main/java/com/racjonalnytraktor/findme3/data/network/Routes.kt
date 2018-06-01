@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.data.network
 
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.network.model.*
+import com.racjonalnytraktor.findme3.data.network.model.createping.CreatePingRequest
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbRequest
@@ -49,4 +50,6 @@ interface Routes {
     @GET("user/groupList")
     fun getGroups(@Header("X-Token")token: String): Observable<GroupsResponse>
 
+    @POST("ping/create")
+    fun createPing(@Header("X-Token")token: String, @Body request: CreatePingRequest): Single<String>
 }

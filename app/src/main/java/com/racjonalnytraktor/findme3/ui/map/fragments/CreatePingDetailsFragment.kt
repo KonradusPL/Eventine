@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.adapters.InvitationsAdapter
 import com.racjonalnytraktor.findme3.ui.adapters.SubGroupsAdapter
@@ -13,13 +14,13 @@ import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import com.racjonalnytraktor.findme3.ui.map.MapPresenter
+import kotlinx.android.synthetic.main.fragment_create_group_basic.*
 import kotlinx.android.synthetic.main.fragment_create_group_extended.*
 
 class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     lateinit var mPresenter: MapPresenter<MapMvp.View>
     lateinit var mListAdapter: SubGroupsAdapter
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_group_extended,container,false)
@@ -30,7 +31,8 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
         initList()
         buttonAdd.setOnClickListener {
-
+            mPresenter.checkedGroups = mListAdapter.getCheckedGroups()
+            mPresenter.onAddButtonClick()
         }
 
     }

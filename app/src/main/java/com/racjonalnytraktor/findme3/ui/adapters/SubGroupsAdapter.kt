@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,10 +16,21 @@ import java.util.ArrayList
 class SubGroupsAdapter(val list: ArrayList<String> = ArrayList(),
                        val mvpView: MapMvp.View) : RecyclerView.Adapter<SubGroupsAdapter.MyHolder>() {
 
+    val checkedList: ArrayList<String> = ArrayList()
 
-    class MyHolder(itemView: View, val view: MapMvp.View): RecyclerView.ViewHolder(itemView) {
+    inner class MyHolder(itemView: View, val view: MapMvp.View): RecyclerView.ViewHolder(itemView) {
         fun bind(group: String){
             itemView.fieldGroupName.text = group
+            itemView.setOnClickListener {
+                if(checkedList.contains(group)){
+                    checkedList.remove(group)
+                    itemView.background = mvpView.getCtx().getDrawable(R.color.white)
+                }else{
+                    checkedList.add(group)
+                    itemView.background = mvpView.getCtx().getDrawable(R.color.grey)
+
+                }
+            }
         }
     }
 
@@ -36,6 +48,10 @@ class SubGroupsAdapter(val list: ArrayList<String> = ArrayList(),
     fun updatelist(item: String){
         list.add(item)
         notifyItemInserted(list.size)
+    }
+
+    fun getCheckedGroups(): ArrayList<String>{
+        return checkedList
     }
 
     override fun getItemCount(): Int {
