@@ -40,6 +40,7 @@ class RegisterActivity : RegisterMvp.View, BaseActivity() {
 
     override fun openMainActivity() {
         startActivity(Intent(this,MainActivity::class.java))
+        finish()
     }
 
     override fun onDestroy() {

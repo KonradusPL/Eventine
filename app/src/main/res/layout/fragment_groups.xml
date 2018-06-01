@@ -9,7 +9,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listGroups"
         android:layout_width="0dp"
-        android:layout_height="58dp"
+        android:layout_height="wrap_content"
+        android:minHeight="58dp"
         android:background="@color/white"
         android:elevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"

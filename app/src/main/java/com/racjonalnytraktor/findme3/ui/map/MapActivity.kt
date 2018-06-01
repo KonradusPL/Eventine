@@ -15,10 +15,11 @@ import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.ManagementFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.create_ping_layout.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
-import org.jetbrains.anko.toast
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.toast
 
 
 class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
@@ -34,6 +35,8 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
+        toast(buttonMichno.text.toString())
+
         mMapHelper = MapHelper(this,null)
 
         fragmentMap = SupportMapFragment.newInstance()
@@ -44,7 +47,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
                 .commit()
 
         initTabs()
-
+        
         fragmentMap.getMapAsync(mMapHelper)
 
         setSupportActionBar(toolbarMap)
@@ -104,6 +107,10 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
     }
 
     override fun onMarkerClick(marker: Marker) {
+    }
+
+    override fun onLongClickListener(location: LatLng) {
+        slidingPing.openLayer(true)
     }
 
 }

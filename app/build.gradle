@@ -90,6 +90,10 @@ dependencies {
 
     //Toast
     implementation 'com.github.GrenderG:Toasty:1.3.0'
+
+    //hehe
+    compile 'com.wunderlist:sliding-layer:1.2.5'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

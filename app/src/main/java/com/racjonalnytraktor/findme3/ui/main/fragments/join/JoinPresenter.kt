@@ -49,7 +49,7 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
                     view.showMessage("Success",MvpView.MessageType.SUCCESS)
                 },{t: Throwable? ->
                     view.showMessage("Error",MvpView.MessageType.ERROR)
-                    Log.d("errpr",t!!.message)
+                    Log.d("eropr",t!!.message)
                 }))
     }
 }

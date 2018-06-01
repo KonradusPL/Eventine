@@ -10,6 +10,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.PersonOnMap
+import com.racjonalnytraktor.findme3.data.model.PingOnMap
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -24,10 +25,12 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
     private lateinit var userOnMap: PersonOnMap
     private val peopleOnMap = ArrayList<PersonOnMap>()
+    val pingsOnMap = ArrayList<PingOnMap>()
 
     interface MapClickListener {
         fun onMapClick(location: Location)
         fun onMarkerClick(marker: Marker)
+        fun onLongClickListener(location: LatLng)
     }
 
     init {
@@ -41,7 +44,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
         moveCamera(LatLng(51.101809,22.854009))
 
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.theme_map))
+        //mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.theme_map))
 
         mMap.setOnMapClickListener { latLng ->
             val location = Location("GPS")
@@ -53,6 +56,9 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         mMap.setOnMarkerClickListener { marker ->
             clickListener.onMarkerClick(marker)
             true
+        }
+        mMap.setOnMapLongClickListener { latLng ->
+            clickListener.onLongClickListener(latLng)
         }
     }
 
@@ -90,6 +96,10 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
         }
 
+    }
+
+    fun addPingToMap(ping: PingOnMap){
+        //ping.marker =
     }
 
     fun setUserLocation(location: LatLng){

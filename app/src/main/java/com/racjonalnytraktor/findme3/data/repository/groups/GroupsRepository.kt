@@ -7,14 +7,11 @@ import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import io.reactivex.Observable
 
 object GroupsRepository: BaseRepository() {
-    fun getTasks(): Observable<List<Task>>{
-        return Observable.just(arrayListOf(Task("Follow the damn train","Big smoke","https://vignette.wikia.nocookie.net/gtawiki/images/b/bd/BigSmoke-GTASA.jpg/revision/latest?cb=20100105192204"),
-                Task("Follow the damn train","Big smoke","https://vignette.wikia.nocookie.net/gtawiki/images/b/bd/BigSmoke-GTASA.jpg/revision/latest?cb=20100105192204"),
-                Task("Follow the damn train","Big smoke","https://vignette.wikia.nocookie.net/gtawiki/images/b/bd/BigSmoke-GTASA.jpg/revision/latest?cb=20100105192204"),
-                Task("Follow the damn train","Big smoke","https://vignette.wikia.nocookie.net/gtawiki/images/b/bd/BigSmoke-GTASA.jpg/revision/latest?cb=20100105192204"),
-                Task("Follow the damn train","Big smoke","https://vignette.wikia.nocookie.net/gtawiki/images/b/bd/BigSmoke-GTASA.jpg/revision/latest?cb=20100105192204"),
-                Task("Follow the damn train","Big smoke","https://vignette.wikia.nocookie.net/gtawiki/images/b/bd/BigSmoke-GTASA.jpg/revision/latest?cb=20100105192204")))
+
+    fun getTasks(): Observable<List<Task>> {
+     TODO()
     }
+
     fun getGroups(): Observable<List<Group>>{
         val token = prefs.getUserToken()
         return rest.networkService.getGroups(token)

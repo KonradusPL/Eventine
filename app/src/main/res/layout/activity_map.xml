@@ -20,29 +20,29 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarMap"
+        style="@style/Base.Theme.AppCompat.Light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        style="@style/Base.Theme.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:elevation="4dp"
-        app:title="Kalejdoskop"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Kalejdoskop" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayoutMap"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tabIndicatorHeight="0dp"
-        android:background="@color/white"
-        android:elevation="4dp">
+        app:tabIndicatorHeight="0dp">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_map_black_24dp" />
+            android:icon="@drawable/ic_event_black_24dp" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
@@ -63,10 +63,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_info_black_24dp" />
+
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_group_black_24dp" />
     </android.support.design.widget.TabLayout>
+
+    <com.wunderlist.slidinglayer.SlidingLayer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayoutMap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:stickTo="bottom"
+        android:id="@+id/slidingPing"
+        app:changeStateOnTap="true"
+        android:elevation="10dp">
+
+        <include layout="@layout/create_ping_layout" />
+
+    </com.wunderlist.slidinglayer.SlidingLayer>
 
 </android.support.constraint.ConstraintLayout>

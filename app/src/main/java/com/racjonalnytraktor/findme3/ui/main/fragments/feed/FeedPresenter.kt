@@ -27,13 +27,13 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                     view.hideGroupsLoading()
                     view.showMessage(t!!.localizedMessage,MvpView.MessageType.ERROR)
                 }))
-        compositeDisposable.add(repo.getTasks()
+        /*compositeDisposable.add(repo.getTasks()
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
                 .subscribe {item ->
                     view.updateTasksList(item)
-                })
+                })*/
     }
 
     override fun onGroupItemClick(groupName: String) {
