@@ -15,11 +15,6 @@ class MapRepository(context: Context): BaseRepository() {
 
     val newPing = Ping()
     val locationProvider = LocationProvider(1000,context)
-    init {
-        doAsync {
-            Log.d("lulala",newPing.title+ " ")
-        }
-    }
 
     val pings = ArrayList<Ping>()
 

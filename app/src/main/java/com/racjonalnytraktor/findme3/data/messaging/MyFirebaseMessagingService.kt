@@ -25,8 +25,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val groupName = message?.data?.get("groupName")
         val action = message?.data?.get("action")
 
-        Log.d("message",groupName)
-        Log.d("action",action)
+       // Log.d("message",groupName)
+        //Log.d("action",action)
 
         createNotification(groupName.orEmpty(), action.orEmpty())
     }

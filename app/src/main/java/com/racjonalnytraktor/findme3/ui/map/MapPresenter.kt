@@ -14,6 +14,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
     lateinit var mRepo: MapRepository
 
+    var typeOfNewThing = "ping"
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
@@ -28,14 +29,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                                     mRepo.locationProvider.start()
                                 }
                 }
-
-        compositeDisposable.add(mRepo.getPings()
-                .subscribe({ping: Ping? ->
-                    if (ping != null)
-                        view.updatePings(ping)
-                },{t: Throwable? ->
-                    Log.d("error",t!!.message)
-                }))
     }
 
     override fun onNextButtonClick(task: String, descr: String) {
@@ -70,6 +63,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
     }
 
     override fun onMapLongClick(location: LatLng) {
+        typeOfNewThing = "ping"
         mRepo.newPing.geo.add(location.latitude)
         mRepo.newPing.geo.add(location.longitude)
         view.showCreatePingView()
@@ -78,6 +72,22 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
     override fun onDetach() {
         super.onDetach()
         mRepo.locationProvider.end()
+    }
+
+    override fun onMapPrepared() {
+        compositeDisposable.add(mRepo.getPings()
+                .subscribe({ping: Ping? ->
+                    Log.d("pings","asdasd")
+                    if (ping != null)
+                        view.updatePings(ping)
+                },{t: Throwable? ->
+                    Log.d("error",t!!.message)
+                }))
+    }
+
+    override fun onInfoTabClick() {
+        typeOfNewThing = "info"
+        view.showCreatePingView("info")
     }
 
 }

@@ -7,7 +7,8 @@
     android:layout_height="400dp"
     android:background="@drawable/background_ping"
     android:backgroundTint="@color/white"
-    android:elevation="3dp">
+    android:elevation="3dp"
+    android:id="@+id/layout">
 
     <EditText
         android:id="@+id/fieldTask"

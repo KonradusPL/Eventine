@@ -2,6 +2,8 @@ package com.racjonalnytraktor.findme3.ui.map.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,10 +19,25 @@ import org.jetbrains.anko.doAsync
 
 class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
 
+    var type = "ping"
+
     lateinit var mPresenter: MapPresenter<MapMvp.View>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_group_basic,container,false)
+    }
+
+    fun onInfo(){
+        fieldTask.visibility = View.INVISIBLE
+
+        val set = ConstraintSet()
+
+        set.clone(layout);
+        // The following breaks the connection.
+        set.clear(R.id.fieldDescr, ConstraintSet.TOP);
+        // Comment out line above and uncomment line below to make the connection.
+        set.connect(R.id.fieldDescr, ConstraintSet.TOP, R.id.titleBasic, ConstraintSet.BOTTOM, 8)
+        set.applyTo(layout);
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,11 +59,22 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
     fun clearData(){
         fieldTask.text.clear()
         fieldDescr.text.clear()
+        if(fieldTask.visibility == View.INVISIBLE){
+            type = "ping"
+            fieldTask.visibility = View.VISIBLE
+
+            val set = ConstraintSet()
+
+            set.clone(layout);
+            // The following breaks the connection.
+            set.clear(R.id.fieldDescr, ConstraintSet.TOP);
+            // Comment out line above and uncomment line below to make the connection.
+            set.connect(R.id.fieldDescr, ConstraintSet.TOP, R.id.fieldTask, ConstraintSet.BOTTOM, 8)
+            set.applyTo(layout);
+        }
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-
-        mPresenter = (context as MapActivity).mPresenter
     }
 }

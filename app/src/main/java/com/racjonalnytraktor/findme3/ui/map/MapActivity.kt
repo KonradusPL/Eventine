@@ -29,7 +29,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 
-class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
+class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     private lateinit var mMapHelper: MapHelper
     lateinit var mPresenter: MapPresenter<MapMvp.View>
@@ -54,6 +54,9 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         fragmentCreatePingBasic = CreatePingBasicFragment()
         fragmentCreatePingDetails = CreatePingDetailsFragment()
 
+        fragmentCreatePingBasic.mPresenter = mPresenter
+        fragmentCreatePingDetails.mPresenter = mPresenter
+
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer,fragmentMap)
                 .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
@@ -69,17 +72,16 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun listenSlidingState(){
+    private fun listenSlidingState() {
         var isSliderClosed: Boolean = slidingPing.isClosed
-        Log.d("isClosed",isSliderClosed.toString())
+        Log.d("isClosed", isSliderClosed.toString())
         doAsync {
-            while (true){
+            while (true) {
                 Thread.sleep(300)
-                if(!isSliderClosed && isSliderClosed != slidingPing.isClosed){
-                    uiThread {
-                        fragmentCreatePingBasic.clearData()
-                        if (fragmentCreatePingDetails.isAdded)
-                            fragmentCreatePingDetails.clearData()
+                if(!isSliderClosed == isSliderClosed != slidingPing.isClosed){
+                    fragmentCreatePingBasic.clearData()
+                    if(fragmentCreatePingDetails.isAdded){
+                        fragmentCreatePingDetails.clearData()
                     }
                 }
                 isSliderClosed = slidingPing.isClosed
@@ -101,19 +103,20 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 //if(tab!!.position != 1){
                  //   tabLayoutMap.getTabAt(1)!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.colorPrimary)) }
-                tab?.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.colorPrimary))
+                //tab?.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.colorPrimary))
                 val fragment: Fragment
-                when(tab.position){
+                when(tab!!.position){
+                    3 -> mPresenter.onInfoTabClick()
                     2 -> fragment = fragmentMap
                     else -> fragment = fragmentManagement
                 }
-                supportFragmentManager.beginTransaction()
+                /*supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer,fragment)
-                        .commit()
+                        .commit()*/
             }
 
         })
-        tabLayoutMap.getTabAt(2)!!.select()
+        //tabLayoutMap.getTabAt(2)!!.select()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -154,8 +157,11 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         mPresenter.onMapLongClick(location)
     }
 
-    override fun showCreatePingView() {
+    override fun showCreatePingView(type: String) {
        slidingPing.openLayer(true)
+        fragmentCreatePingDetails.type = type
+        if(type == "info")
+            fragmentCreatePingBasic.onInfo()
     }
 
     override fun hideCreatePingView() {
@@ -171,6 +177,13 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
         mMapHelper.addPing(ping)
     }
 
+    override fun getPresenter(): MapPresenter<MapMvp.View> {
+        return mPresenter
+    }
+
+    override fun onMapPrepared() {
+        mPresenter.onMapPrepared()
+    }
 
 
 }

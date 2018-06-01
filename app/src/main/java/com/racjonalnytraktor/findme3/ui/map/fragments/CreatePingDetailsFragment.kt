@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.fragment_create_group_extended.*
 
 class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
+    var type = "ping"
+
     lateinit var mPresenter: MapPresenter<MapMvp.View>
     lateinit var mListAdapter: SubGroupsAdapter
 
@@ -35,6 +37,7 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
         }
 
     }
+
 
     private fun initList(){
         listSubGroups.setHasFixedSize(true)
@@ -55,8 +58,5 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-
-
-        mPresenter = (context as MapActivity).mPresenter
     }
 }

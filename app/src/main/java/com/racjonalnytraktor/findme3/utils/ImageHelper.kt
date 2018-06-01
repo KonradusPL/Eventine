@@ -65,4 +65,23 @@ object ImageHelper {
         return bitmapNew
     }
 
+    fun getPingMarkerBitmap(context: Context, color: Int? = null): Bitmap{
+        val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources, R.drawable.diamond)
+
+        val bitmapOld = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,120)
+
+        //val bitmapNew = Bitmap.createBitmap(bitmapOld.width,bitmapOld.height,Bitmap.Config.ARGB_8888)
+
+        //val canvas = Canvas(bitmapNew)
+        //val paint = Paint()
+        //val filter = PorterDuffColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN)
+        //paint.colorFilter = filter
+
+        //canvas.drawBitmap(bitmapOld,0f,0f,paint)
+        //paint.colorFilter = null
+        //canvas.drawBitmap(bitmapProfile,10f,10f,paint)
+
+        return bitmapMarkerFromRes
+    }
+
 }

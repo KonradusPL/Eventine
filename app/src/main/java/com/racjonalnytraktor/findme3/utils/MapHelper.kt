@@ -20,7 +20,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
     var isUserInitialized = false
 
-    private var clickListener: MapClickListener
+    private var listener: MapListener
 
     private lateinit var mMap: GoogleMap
 
@@ -28,20 +28,27 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
     private val peopleOnMap = ArrayList<PersonOnMap>()
     val pingsOnMap = ArrayList<PingOnMap>()
 
-    interface MapClickListener {
+    interface MapListener {
         fun onMapClick(location: Location)
         fun onMarkerClick(marker: Marker)
         fun onLongClickListener(location: LatLng)
+        fun onMapPrepared()
     }
 
     init {
-        clickListener = context as MapClickListener
+        listener = context as MapListener
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d("map","ready")
         mMap = googleMap
+
+        listener.onMapPrepared()
+
         mMap.setPadding(0,60,0,0)
+
+        zoomCamera()
+        //moveCamera(LatLng(51.101809,22.854009))
 
        // moveCamera(LatLng(51.101809,22.854009))
 
@@ -55,16 +62,20 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
             clickListener.onMapClick(location)*/
         }
         mMap.setOnMarkerClickListener { marker ->
-            clickListener.onMarkerClick(marker)
+            listener.onMarkerClick(marker)
             true
         }
         mMap.setOnMapLongClickListener { latLng ->
-            clickListener.onLongClickListener(latLng)
+            listener.onLongClickListener(latLng)
         }
     }
 
     fun moveCamera(position: LatLng) {
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(position))
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(position),2000,null)
+    }
+
+    fun zoomCamera(){
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f),2000,null)
     }
 
     fun addUserToMap(person: PersonOnMap){
@@ -100,8 +111,21 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
     }
 
     fun addPing(ping: Ping){
-        val marker = mMap.addMarker(MarkerOptions().
-                position(LatLng(ping.geo[0],ping.geo[2])))
+        Log.d("ping",ping.title)
+        Log.d("ping",ping.creator)
+        Log.d("ping",ping.desc)
+        Log.d("ping",ping.geo.toString())
+       // val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
+
+       // val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
+
+        moveCamera(LatLng(ping.geo[0],ping.geo[1]))
+
+        val marker = mMap.addMarker(MarkerOptions()
+                .position(LatLng(ping.geo[0],ping.geo[1])))
+        if (marker == null){
+            Log.d("qweqweqwe","asasdasd")
+        }
 
         marker.tag = ping.title
         marker.title = ping.title
@@ -109,6 +133,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         val pingOnMap = PingOnMap()
         pingOnMap.marker = marker
         pingOnMap.ping = ping
+        pingsOnMap.add(pingOnMap)
 
     }
 
@@ -129,9 +154,6 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         }
     }
 
-    fun zoom() {
-        this.mMap.animateCamera(CameraUpdateFactory.zoomBy(15f))
-    }
 
 
 }
