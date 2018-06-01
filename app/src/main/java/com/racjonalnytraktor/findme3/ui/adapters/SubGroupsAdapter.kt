@@ -45,6 +45,11 @@ class SubGroupsAdapter(val list: ArrayList<String> = ArrayList(),
         notifyDataSetChanged()
     }
 
+    fun clear(){
+        list.clear()
+        notifyDataSetChanged()
+    }
+
     fun updatelist(item: String){
         list.add(item)
         notifyItemInserted(list.size)

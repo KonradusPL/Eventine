@@ -31,8 +31,7 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
         initList()
         buttonAdd.setOnClickListener {
-            mPresenter.checkedGroups = mListAdapter.getCheckedGroups()
-            mPresenter.onAddButtonClick()
+            mPresenter.onAddButtonClick(mListAdapter.getCheckedGroups())
         }
 
     }
@@ -48,6 +47,10 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     fun updateList(item: String){
         mListAdapter.updatelist(item)
+    }
+
+    fun clearData(){
+        mListAdapter.clear()
     }
 
     override fun onAttach(context: Context?) {

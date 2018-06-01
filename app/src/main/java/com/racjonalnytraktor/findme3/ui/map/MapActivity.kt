@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
+import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingBasicFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingDetailsFragment
@@ -24,7 +25,8 @@ import kotlinx.android.synthetic.main.activity_map.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
-
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
@@ -60,10 +62,29 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
 
         initTabs()
 
+        listenSlidingState()
         fragmentMap.getMapAsync(mMapHelper)
 
         setSupportActionBar(toolbarMap)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun listenSlidingState(){
+        var isSliderClosed: Boolean = slidingPing.isClosed
+        Log.d("isClosed",isSliderClosed.toString())
+        doAsync {
+            while (true){
+                Thread.sleep(300)
+                if(!isSliderClosed && isSliderClosed != slidingPing.isClosed){
+                    uiThread {
+                        fragmentCreatePingBasic.clearData()
+                        if (fragmentCreatePingDetails.isAdded)
+                            fragmentCreatePingDetails.clearData()
+                    }
+                }
+                isSliderClosed = slidingPing.isClosed
+            }
+        }
     }
 
     private fun initTabs(){
@@ -101,15 +122,13 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
 
     override fun changeCreateGroupFragment() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerCreatePing,fragmentCreatePingDetails)
+                .add(R.id.containerCreatePing,fragmentCreatePingDetails)
                 .commit()
     }
 
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
-        mPresenter = MapPresenter()
-        mPresenter.onAttach(this)
     }
 
     override fun onStop() {
@@ -132,8 +151,26 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
     }
 
     override fun onLongClickListener(location: LatLng) {
-        slidingPing.openLayer(true)
-        mPresenter.location = location
+        mPresenter.onMapLongClick(location)
     }
+
+    override fun showCreatePingView() {
+       slidingPing.openLayer(true)
+    }
+
+    override fun hideCreatePingView() {
+        slidingPing.closeLayer(true)
+
+        if(fragmentCreatePingDetails.isAdded)
+            supportFragmentManager.beginTransaction()
+                .remove(fragmentCreatePingDetails)
+                .commit()
+    }
+
+    override fun updatePings(ping: Ping) {
+        mMapHelper.addPing(ping)
+    }
+
+
 
 }

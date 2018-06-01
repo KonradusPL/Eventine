@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.*
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.PersonOnMap
 import com.racjonalnytraktor.findme3.data.model.PingOnMap
+import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -42,16 +43,16 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         mMap = googleMap
         mMap.setPadding(0,60,0,0)
 
-        moveCamera(LatLng(51.101809,22.854009))
+       // moveCamera(LatLng(51.101809,22.854009))
 
         //mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.theme_map))
 
         mMap.setOnMapClickListener { latLng ->
             val location = Location("GPS")
-            location.longitude = latLng.longitude
+            /*location.longitude = latLng.longitude
             location.latitude = latLng.latitude
             addFriendToMap(PersonOnMap("Marcin Michno","",latLng.latitude,latLng.longitude,null))
-            clickListener.onMapClick(location)
+            clickListener.onMapClick(location)*/
         }
         mMap.setOnMarkerClickListener { marker ->
             clickListener.onMarkerClick(marker)
@@ -95,6 +96,19 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
             }
 
         }
+
+    }
+
+    fun addPing(ping: Ping){
+        val marker = mMap.addMarker(MarkerOptions().
+                position(LatLng(ping.geo[0],ping.geo[2])))
+
+        marker.tag = ping.title
+        marker.title = ping.title
+
+        val pingOnMap = PingOnMap()
+        pingOnMap.marker = marker
+        pingOnMap.ping = ping
 
     }
 

@@ -4,7 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.util.Log
 import com.google.android.gms.maps.model.LatLng
-import com.racjonalnytraktor.findme3.data.network.model.createping.CreatePingRequest
+import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
@@ -13,10 +13,7 @@ import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
     lateinit var mRepo: MapRepository
-    lateinit var location: LatLng
-    lateinit var taskName: String
-    lateinit var descr: String
-    lateinit var checkedGroups: List<String>
+
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
@@ -31,12 +28,22 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                                     mRepo.locationProvider.start()
                                 }
                 }
+
+        compositeDisposable.add(mRepo.getPings()
+                .subscribe({ping: Ping? ->
+                    if (ping != null)
+                        view.updatePings(ping)
+                },{t: Throwable? ->
+                    Log.d("error",t!!.message)
+                }))
     }
 
     override fun onNextButtonClick(task: String, descr: String) {
         view.changeCreateGroupFragment()
-        taskName = task
-        this.descr = descr
+        mRepo.newPing.title = task
+        mRepo.newPing.desc = descr
+        Log.d("popo",mRepo.newPing.title)
+        Log.d("popo",mRepo.newPing.desc)
         mRepo.getAllSubGroups()
                 .flatMapIterable { t -> t }
                 .subscribe({t: String? ->
@@ -47,13 +54,25 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                 })
     }
 
-    override fun onAddButtonClick() {
-        compositeDisposable.add(mRepo.createPing(taskName,descr,location,checkedGroups)
+    override fun onAddButtonClick(checkedGroups: ArrayList<String>) {
+
+        mRepo.newPing.targetGroups = checkedGroups
+
+        compositeDisposable.add(mRepo.createPing()
                 .subscribe({t: String? ->
                     view.showMessage("SUCCESS",MvpView.MessageType.SUCCESS)
+                    view.hideCreatePingView()
                 },{t: Throwable? ->
+                    Log.d("error",t!!.message.orEmpty())
                     view.showMessage("ERROR :(",MvpView.MessageType.ERROR)
+                    view.hideCreatePingView()
                 }))
+    }
+
+    override fun onMapLongClick(location: LatLng) {
+        mRepo.newPing.geo.add(location.latitude)
+        mRepo.newPing.geo.add(location.longitude)
+        view.showCreatePingView()
     }
 
     override fun onDetach() {
