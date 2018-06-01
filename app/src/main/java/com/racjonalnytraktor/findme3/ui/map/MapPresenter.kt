@@ -24,6 +24,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                 }
     }
 
+    override fun onNextButtonClick(task: String, descr: String) {
+        view.changeCreateGroupFragment()
+        mRepo.task = task
+        mRepo.descr = descr
+    }
+
     override fun onDetach() {
         super.onDetach()
         mRepo.locationProvider.end()

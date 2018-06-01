@@ -33,6 +33,9 @@ interface Routes {
     fun acceptInvitation(@Header("X-Token") token: String, @Body request: AcceptInvitationRequest)
     : Single<String>
 
+    @GET("group/subgroups/{groupId}")
+    fun getSubGroups(@Header("X-Token") token: String)
+
     @POST("notif/updateToken")
     fun updateNotifToken(@Header("X-Token")token: String, @Body notifToken: UpdateTokenRequest): Single<String>
 

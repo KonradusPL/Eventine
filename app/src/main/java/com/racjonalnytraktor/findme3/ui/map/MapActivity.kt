@@ -1,53 +1,65 @@
 package com.racjonalnytraktor.findme3.ui.map
 
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.support.constraint.ConstraintSet
 import android.support.design.widget.TabLayout
+import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.widget.ImageView
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
+import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingBasicFragment
+import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingDetailsFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.ManagementFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.create_ping_layout.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
-import org.jetbrains.anko.toast
+
 
 
 class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
 
     private lateinit var mMapHelper: MapHelper
-    private lateinit var mPresenter: MapPresenter<MapMvp.View>
+    lateinit var mPresenter: MapPresenter<MapMvp.View>
 
     lateinit var fragmentMap: SupportMapFragment
     lateinit var fragmentManagement: ManagementFragment
+    lateinit var fragmentCreatePingBasic: CreatePingBasicFragment<MapMvp.View>
+    lateinit var fragmentCreatePingDetails: CreatePingDetailsFragment<MapMvp.View>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
-        toast(buttonMichno.text.toString())
+        mPresenter = MapPresenter()
+        mPresenter.onAttach(this)
 
         mMapHelper = MapHelper(this,null)
 
         fragmentMap = SupportMapFragment.newInstance()
         fragmentManagement = ManagementFragment()
+        fragmentCreatePingBasic = CreatePingBasicFragment()
+        fragmentCreatePingDetails = CreatePingDetailsFragment()
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer,fragmentMap)
+                .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
                 .commit()
 
+
         initTabs()
-        
+
         fragmentMap.getMapAsync(mMapHelper)
 
         setSupportActionBar(toolbarMap)
@@ -85,6 +97,12 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLocationUpdate(location: LocationEvent) {
+    }
+
+    override fun changeCreateGroupFragment() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerCreatePing,fragmentCreatePingDetails)
+                .commit()
     }
 
     override fun onStart() {
