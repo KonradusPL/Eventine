@@ -29,10 +29,11 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
         return inflater.inflate(R.layout.fragment_create_group_basic,container,false)
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(type=="info"){
+            onInfo()
+        }
         fieldTask.setText(mTask)
         fieldDescr.setText(mDescr)
         buttonNext.setOnClickListener {
@@ -42,7 +43,7 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
             doAsync {
                 while (true){
                     Thread.sleep(500)
-                    Log.d("taskiii",task.orEmpty())
+                    Log.d("taskiii",task)
                 }
             }
             mPresenter.onNextButtonClick(task,descr)
@@ -57,7 +58,7 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
     }
 
     fun onInfo(){
-        titleBasic.text = "Tworzenie informacji"
+        titleBasic?.text = "Tworzenie informacji"
 
         fieldTask.visibility = View.INVISIBLE
 

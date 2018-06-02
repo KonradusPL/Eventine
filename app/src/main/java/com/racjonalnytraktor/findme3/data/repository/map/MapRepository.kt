@@ -17,6 +17,7 @@ object MapRepository: BaseRepository() {
     val newPing = Ping()
     val newInfo = Info()
     var type: String = "ping"
+    var state: String = "basic"
     //val locationProvider = LocationProvider(1000,context)
 
     val pings = ArrayList<Ping>()
@@ -67,10 +68,11 @@ object MapRepository: BaseRepository() {
 
     }
 
-    fun saveState(checked: List<String>,task: String, descr: String, type: String){
+    fun saveState(checked: List<String>,task: String, descr: String, type: String, state: String){
         Log.d("savestate",task)
         Log.d("savestate",descr)
         Log.d("savestate",type)
+        this.state = state
         if(type == "ping"){
             newPing.title = task
             newPing.desc = descr

@@ -62,7 +62,6 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         fragmentCreatePingBasic.mPresenter = mPresenter
         fragmentCreatePingDetails.mPresenter = mPresenter
 
-
         initTabs()
 
         listenSlidingState()
@@ -197,31 +196,39 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
         val checked = ArrayList<String>()
 
-        if (fragmentCreatePingDetails.isAdded)
+        var state = "basic"
+
+        if (fragmentCreatePingDetails.isAdded){
+            outState!!.putString("isAdded","true")
             checked.addAll(fragmentCreatePingDetails.mListAdapter.getCheckedGroups())
+            state = "extended"
+        }
 
         val bundle = fragmentCreatePingBasic.getData()
 
-        mPresenter.onSavingState(checked,bundle.getString("fieldTask"),bundle.getString("fieldDescr"))
+
+        mPresenter.onSavingState(checked,bundle.getString("fieldTask"),
+                bundle.getString("fieldDescr"),state)
 
     }
 
-    override fun updateWithSavedData(task: String, descr: String, checked: List<String>) {
-
+    override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String) {
         Log.d("uiuiui",slidingPing.isClosed.toString())
         Log.d("uiuiui",slidingPing.isOpened.toString())
 
         if(!checked.isEmpty()){
+            Log.d("cvbcvb","cvbcvb")
             changeCreateGroupFragment()
         }
 
+        if(type == "info")
+            fragmentCreatePingBasic.type = type
+
         fragmentCreatePingBasic.updateData(task,descr)
         mPresenter.getAllSubGroups()
-
     }
 
     override fun updateCheckedGroups(checked: List<String>) {
         fragmentCreatePingDetails.mListAdapter.updateCheckedGroups(checked)
     }
-
 }

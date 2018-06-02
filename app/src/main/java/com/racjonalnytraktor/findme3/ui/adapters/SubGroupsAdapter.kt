@@ -50,6 +50,7 @@ class SubGroupsAdapter(val list: ArrayList<String> = ArrayList(),
 
     fun clear(){
         list.clear()
+        checkedList.clear()
         notifyDataSetChanged()
     }
 

@@ -40,7 +40,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
         Log.d("onAttach",descr)
         Log.d("onAttach",checked.toString())
 
-        view.updateWithSavedData(task, descr, checked)
+        view.updateWithSavedData(task, descr, checked,mRepo.type)
 
         /*view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 .subscribe { state: PermissionsHelper.PermissionState? ->
@@ -83,7 +83,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>) {
-
 
         if(typeOfNewThing == "ping"){
             mRepo.newPing.targetGroups = checkedGroups
@@ -135,8 +134,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                 }))
     }
 
-    override fun onSavingState(checked: List<String>, task: String, descr: String) {
-        mRepo.saveState(checked,task,descr,typeOfNewThing)
+    override fun onSavingState(checked: List<String>, task: String, descr: String, state: String) {
+        mRepo.saveState(checked,task,descr,typeOfNewThing,state)
     }
 
     override fun onInfoTabClick() {
