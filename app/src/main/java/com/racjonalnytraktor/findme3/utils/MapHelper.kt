@@ -14,6 +14,10 @@ import com.racjonalnytraktor.findme3.data.model.PingOnMap
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.CameraPosition
+
+
 
 
 class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback {
@@ -74,8 +78,8 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         mMap.animateCamera(CameraUpdateFactory.newLatLng(position),2000,null)
     }
 
-    fun zoomCamera(){
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f),2000,null)
+    fun zoomCamera(value: Float = 15f){
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(value),2000,null)
     }
 
     fun addUserToMap(person: PersonOnMap){
@@ -115,18 +119,26 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         Log.d("ping",ping.creator)
         Log.d("ping",ping.desc)
         Log.d("ping",ping.geo.toString())
-       val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
+      // val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
+        //val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
 
-        val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
-
-        moveCamera(LatLng(ping.geo[0],ping.geo[1]))
+        if (pingsOnMap.isEmpty()){
+            Log.d("geo1",ping.geo[0].toString())
+            Log.d("geo2",ping.geo[1].toString())
+            //moveCamera(LatLng(ping.geo[0],ping.geo[1]))
+            val cameraPosition = CameraPosition.Builder()
+                    .target(LatLng(ping.geo[0], ping.geo[1]))
+                    .zoom(13f)
+                    .build()
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        }
 
         val marker = mMap.addMarker(MarkerOptions()
                 .position(LatLng(ping.geo[0],ping.geo[1]))
-                .icon(bitmapDescriptor))
+                .title(ping.title))
 
-        marker.tag = ping.title
-        marker.title = ping.title
+       // marker.tag = ping.title
+        //marker.title = ping.title
 
         val pingOnMap = PingOnMap()
         pingOnMap.marker = marker

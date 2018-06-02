@@ -217,8 +217,11 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
         fragmentCreatePingBasic.updateData(task,descr)
         mPresenter.getAllSubGroups()
-       //fragmentCreatePingDetails.mListAdapter.updateCheckedGroups(checked)
 
+    }
+
+    override fun updateCheckedGroups(checked: List<String>) {
+        fragmentCreatePingDetails.mListAdapter.updateCheckedGroups(checked)
     }
 
 }

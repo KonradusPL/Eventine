@@ -68,6 +68,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
     fun getAllSubGroups(){
         mRepo.getAllSubGroups()
                 .flatMapIterable { t -> t }
+                .doOnComplete {
+                    if (mRepo.type == "ping")
+                        view.updateCheckedGroups(mRepo.newPing.targetGroups)
+                    else
+                        view.updateCheckedGroups(mRepo.newInfo.targetGroups)
+                }
                 .subscribe({t: String? ->
                     Log.d("asdasd",t!!.toString())
                     view.updateSubGroups(t)
