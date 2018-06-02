@@ -27,18 +27,7 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
         return inflater.inflate(R.layout.fragment_create_group_basic,container,false)
     }
 
-    fun onInfo(){
-        fieldTask.visibility = View.INVISIBLE
 
-        val set = ConstraintSet()
-
-        set.clone(layout);
-        // The following breaks the connection.
-        set.clear(R.id.fieldDescr, ConstraintSet.TOP);
-        // Comment out line above and uncomment line below to make the connection.
-        set.connect(R.id.fieldDescr, ConstraintSet.TOP, R.id.titleBasic, ConstraintSet.BOTTOM, 8)
-        set.applyTo(layout);
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +45,23 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
         }
     }
 
+    fun onInfo(){
+        titleBasic.text = "Tworzenie informacji"
+
+        fieldTask.visibility = View.INVISIBLE
+
+        val set = ConstraintSet()
+
+        set.clone(layout);
+        // The following breaks the connection.
+        set.clear(R.id.fieldDescr, ConstraintSet.TOP);
+        // Comment out line above and uncomment line below to make the connection.
+        set.connect(R.id.fieldDescr, ConstraintSet.TOP, R.id.titleBasic, ConstraintSet.BOTTOM, 8)
+        set.applyTo(layout);
+    }
+
     fun clearData(){
+        titleBasic.text = "Tworzenie pingu"
         fieldTask.text.clear()
         fieldDescr.text.clear()
         if(fieldTask.visibility == View.INVISIBLE){
@@ -65,12 +70,12 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
 
             val set = ConstraintSet()
 
-            set.clone(layout);
+            set.clone(layout)
             // The following breaks the connection.
             set.clear(R.id.fieldDescr, ConstraintSet.TOP);
             // Comment out line above and uncomment line below to make the connection.
             set.connect(R.id.fieldDescr, ConstraintSet.TOP, R.id.fieldTask, ConstraintSet.BOTTOM, 8)
-            set.applyTo(layout);
+            set.applyTo(layout)
         }
     }
 

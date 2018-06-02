@@ -33,10 +33,14 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
     override fun onNextButtonClick(task: String, descr: String) {
         view.changeCreateGroupFragment()
-        mRepo.newPing.title = task
-        mRepo.newPing.desc = descr
-        Log.d("popo",mRepo.newPing.title)
-        Log.d("popo",mRepo.newPing.desc)
+        if(typeOfNewThing == "ping"){
+            mRepo.newPing.title = task
+            mRepo.newPing.desc = descr
+
+        }
+        else
+            mRepo.newInfo.content = descr
+
         mRepo.getAllSubGroups()
                 .flatMapIterable { t -> t }
                 .subscribe({t: String? ->
@@ -45,21 +49,36 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                 },{t: Throwable? ->
                     Log.d("asdasd",t?.message.orEmpty())
                 })
+
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>) {
 
-        mRepo.newPing.targetGroups = checkedGroups
 
-        compositeDisposable.add(mRepo.createPing()
-                .subscribe({t: String? ->
-                    view.showMessage("SUCCESS",MvpView.MessageType.SUCCESS)
-                    view.hideCreatePingView()
-                },{t: Throwable? ->
-                    Log.d("error",t!!.message.orEmpty())
-                    view.showMessage("ERROR :(",MvpView.MessageType.ERROR)
-                    view.hideCreatePingView()
-                }))
+        if(typeOfNewThing == "ping"){
+            mRepo.newPing.targetGroups = checkedGroups
+            compositeDisposable.add(mRepo.createPing()
+                    .subscribe({t: String? ->
+                        view.showMessage("SUCCESS PING",MvpView.MessageType.SUCCESS)
+                        view.hideCreatePingView()
+                    },{t: Throwable? ->
+                        Log.d("error",t!!.message.orEmpty())
+                        view.showMessage("ERROR :(",MvpView.MessageType.ERROR)
+                        view.hideCreatePingView()
+                    }))
+        }
+        else{
+            mRepo.newInfo.targetGroups = checkedGroups
+            compositeDisposable.add(mRepo.createInfo()
+                    .subscribe({t: String? ->
+                        view.showMessage("SUCCESS INFO",MvpView.MessageType.SUCCESS)
+                        view.hideCreatePingView()
+                    },{t: Throwable? ->
+                        Log.d("error",t!!.message.orEmpty())
+                        view.showMessage("ERROR :(",MvpView.MessageType.ERROR)
+                        view.hideCreatePingView()
+                    }))
+        }
     }
 
     override fun onMapLongClick(location: LatLng) {

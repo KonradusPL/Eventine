@@ -76,13 +76,20 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         var isSliderClosed: Boolean = slidingPing.isClosed
         Log.d("isClosed", isSliderClosed.toString())
         doAsync {
-            while (true) {
+            while (!isDestroyed) {
                 Thread.sleep(300)
                 if(!isSliderClosed == isSliderClosed != slidingPing.isClosed){
-                    fragmentCreatePingBasic.clearData()
-                    if(fragmentCreatePingDetails.isAdded){
-                        fragmentCreatePingDetails.clearData()
+                    uiThread {
+                        fragmentCreatePingBasic.clearData()
+                        if(fragmentCreatePingDetails.isAdded){
+                            Log.d("vvv","vvv")
+                            fragmentCreatePingDetails.clearData()
+                            supportFragmentManager.beginTransaction()
+                                    .remove(fragmentCreatePingDetails)
+                                    .commit()
+                        }
                     }
+
                 }
                 isSliderClosed = slidingPing.isClosed
             }
@@ -166,11 +173,6 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     override fun hideCreatePingView() {
         slidingPing.closeLayer(true)
-
-        if(fragmentCreatePingDetails.isAdded)
-            supportFragmentManager.beginTransaction()
-                .remove(fragmentCreatePingDetails)
-                .commit()
     }
 
     override fun updatePings(ping: Ping) {

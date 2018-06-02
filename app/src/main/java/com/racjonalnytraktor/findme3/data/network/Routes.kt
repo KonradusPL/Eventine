@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.data.network
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.network.model.*
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
+import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
 import com.racjonalnytraktor.findme3.data.network.model.pings.PingsResponse
@@ -56,4 +57,7 @@ interface Routes {
 
     @GET("ping/list/{groupId}")
     fun getPings(@Header("X-Token")token: String, @Path("groupId") id: String): Observable<PingsResponse>
+
+    @POST("/info/create")
+    fun createInfo(@Header("X-Token")token: String, @Body request: Info): Single<String>
 }

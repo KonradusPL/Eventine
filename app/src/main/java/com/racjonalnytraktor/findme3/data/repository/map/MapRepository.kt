@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.data.repository.map
 import android.content.Context
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
+import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import com.racjonalnytraktor.findme3.utils.LocationProvider
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
@@ -14,6 +15,7 @@ import org.jetbrains.anko.doAsync
 class MapRepository(context: Context): BaseRepository() {
 
     val newPing = Ping()
+    val newInfo = Info()
     val locationProvider = LocationProvider(1000,context)
 
     val pings = ArrayList<Ping>()
@@ -49,6 +51,19 @@ class MapRepository(context: Context): BaseRepository() {
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
+    }
+
+    fun createInfo(): Single<String>{
+        newInfo.groupId = prefs.getCurrentGroup()
+
+        Log.d("content",newInfo.content)
+        Log.d("groupId",newInfo.groupId)
+        Log.d("targetGroups",newInfo.targetGroups.toString())
+
+        return rest.networkService.createInfo(prefs.getUserToken(),newInfo)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+
     }
 
 }

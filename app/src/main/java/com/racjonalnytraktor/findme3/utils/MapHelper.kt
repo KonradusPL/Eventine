@@ -47,7 +47,6 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
         mMap.setPadding(0,60,0,0)
 
-        zoomCamera()
         //moveCamera(LatLng(51.101809,22.854009))
 
        // moveCamera(LatLng(51.101809,22.854009))
@@ -63,6 +62,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         }
         mMap.setOnMarkerClickListener { marker ->
             listener.onMarkerClick(marker)
+            marker.showInfoWindow()
             true
         }
         mMap.setOnMapLongClickListener { latLng ->
@@ -115,17 +115,15 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         Log.d("ping",ping.creator)
         Log.d("ping",ping.desc)
         Log.d("ping",ping.geo.toString())
-       // val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
+       val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
 
-       // val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
+        val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
 
         moveCamera(LatLng(ping.geo[0],ping.geo[1]))
 
         val marker = mMap.addMarker(MarkerOptions()
-                .position(LatLng(ping.geo[0],ping.geo[1])))
-        if (marker == null){
-            Log.d("qweqweqwe","asasdasd")
-        }
+                .position(LatLng(ping.geo[0],ping.geo[1]))
+                .icon(bitmapDescriptor))
 
         marker.tag = ping.title
         marker.title = ping.title
