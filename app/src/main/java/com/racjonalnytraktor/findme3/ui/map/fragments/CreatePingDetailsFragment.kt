@@ -39,6 +39,7 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
     }
 
 
+
     private fun initList(){
         listSubGroups.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(activity)
@@ -50,6 +51,10 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     fun updateList(item: String){
         mListAdapter.updatelist(item)
+    }
+
+    fun setCheckedList(list: List<String>){
+        mListAdapter.updateCheckedGroups(list)
     }
 
     fun clearData(){

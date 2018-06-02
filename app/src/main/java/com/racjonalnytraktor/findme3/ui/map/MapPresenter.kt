@@ -12,23 +12,44 @@ import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
-    lateinit var mRepo: MapRepository
+     var mRepo =  MapRepository
 
     var typeOfNewThing = "ping"
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        mRepo = MapRepository(mvpView as Context)
         mRepo.onAttatch(mvpView.getCtx())
-        view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        val checked: List<String>
+        val task: String
+        val descr: String
+
+        if(mRepo.type == "ping"){
+            checked = mRepo.newPing.targetGroups
+            task = mRepo.newPing.title
+            descr = mRepo.newPing.desc
+        }
+        else{
+            checked = mRepo.newInfo.targetGroups
+            task = ""
+            descr = mRepo.newPing.desc
+        }
+
+        Log.d("onAttach",task)
+        Log.d("onAttach",descr)
+        Log.d("onAttach",checked.toString())
+
+        view.updateWithSavedData(task, descr, checked)
+
+        /*view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 .subscribe { state: PermissionsHelper.PermissionState? ->
                     if (state == PermissionsHelper.PermissionState.GRANTED)
                         view.checkLocationSettings()
                                 .subscribe {
-                                    mRepo.locationProvider.start()
+                                   // mRepo.locationProvider.start()
                                 }
-                }
+                }*/
     }
 
     override fun onNextButtonClick(task: String, descr: String) {
@@ -41,6 +62,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
         else
             mRepo.newInfo.content = descr
 
+        getAllSubGroups()
+    }
+
+    fun getAllSubGroups(){
         mRepo.getAllSubGroups()
                 .flatMapIterable { t -> t }
                 .subscribe({t: String? ->
@@ -49,7 +74,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                 },{t: Throwable? ->
                     Log.d("asdasd",t?.message.orEmpty())
                 })
-
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>) {
@@ -83,6 +107,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
     override fun onMapLongClick(location: LatLng) {
         typeOfNewThing = "ping"
+        mRepo.type = typeOfNewThing
         mRepo.newPing.geo.add(location.latitude)
         mRepo.newPing.geo.add(location.longitude)
         view.showCreatePingView()
@@ -90,7 +115,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
     override fun onDetach() {
         super.onDetach()
-        mRepo.locationProvider.end()
+       // mRepo.locationProvider.end()
     }
 
     override fun onMapPrepared() {
@@ -104,8 +129,13 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                 }))
     }
 
+    override fun onSavingState(checked: List<String>, task: String, descr: String) {
+        mRepo.saveState(checked,task,descr,typeOfNewThing)
+    }
+
     override fun onInfoTabClick() {
         typeOfNewThing = "info"
+        mRepo.type = typeOfNewThing
         view.showCreatePingView("info")
     }
 

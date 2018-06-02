@@ -20,6 +20,8 @@ import org.jetbrains.anko.doAsync
 class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     var type = "ping"
+    private var mTask = ""
+    private var mDescr = ""
 
     lateinit var mPresenter: MapPresenter<MapMvp.View>
 
@@ -31,6 +33,8 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fieldTask.setText(mTask)
+        fieldDescr.setText(mDescr)
         buttonNext.setOnClickListener {
             val task = fieldTask.text.toString()
             val descr = fieldDescr.text.toString()
@@ -43,6 +47,13 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
             }
             mPresenter.onNextButtonClick(task,descr)
         }
+    }
+
+    fun updateData(task: String, descr: String){
+        Log.d("resovia",task)
+
+        mTask = task
+        mDescr = descr
     }
 
     fun onInfo(){
@@ -77,6 +88,13 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
             set.connect(R.id.fieldDescr, ConstraintSet.TOP, R.id.fieldTask, ConstraintSet.BOTTOM, 8)
             set.applyTo(layout)
         }
+    }
+
+    fun getData(): Bundle{
+        val bundle = Bundle()
+        bundle.putString("fieldTask",fieldTask.text.toString())
+        bundle.putString("fieldDescr",fieldDescr.text.toString())
+        return bundle
     }
 
     override fun onAttach(context: Context?) {

@@ -13,6 +13,7 @@ interface MapMvp {
         fun hideCreatePingView()
         fun updatePings(ping: Ping)
         fun getPresenter(): MapPresenter<View>
+        fun updateWithSavedData(task: String, descr: String, checked: List<String>)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)
@@ -20,5 +21,6 @@ interface MapMvp {
         fun onMapLongClick(location: LatLng)
         fun onInfoTabClick()
         fun onMapPrepared()
+        fun onSavingState(checked: List<String>, task: String, descr: String)
     }
 }

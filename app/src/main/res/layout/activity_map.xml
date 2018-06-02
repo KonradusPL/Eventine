@@ -84,7 +84,7 @@
         <FrameLayout
             android:id="@+id/containerCreatePing"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="@dimen/slider_height"
             android:layout_gravity="bottom"/>
 
     </com.wunderlist.slidinglayer.SlidingLayer>

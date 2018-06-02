@@ -31,6 +31,9 @@ class SubGroupsAdapter(val list: ArrayList<String> = ArrayList(),
 
                 }
             }
+            if(checkedList.contains(group)){
+                itemView.background = mvpView.getCtx().getDrawable(R.color.grey)
+            }
         }
     }
 
@@ -53,6 +56,11 @@ class SubGroupsAdapter(val list: ArrayList<String> = ArrayList(),
     fun updatelist(item: String){
         list.add(item)
         notifyItemInserted(list.size)
+    }
+
+    fun updateCheckedGroups(list: List<String>){
+        checkedList.addAll(list)
+        notifyDataSetChanged()
     }
 
     fun getCheckedGroups(): ArrayList<String>{

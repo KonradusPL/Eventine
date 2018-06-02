@@ -44,23 +44,23 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
-        mPresenter = MapPresenter()
-        mPresenter.onAttach(this)
-
-        mMapHelper = MapHelper(this,null)
-
         fragmentMap = SupportMapFragment.newInstance()
         fragmentManagement = ManagementFragment()
         fragmentCreatePingBasic = CreatePingBasicFragment()
         fragmentCreatePingDetails = CreatePingDetailsFragment()
 
-        fragmentCreatePingBasic.mPresenter = mPresenter
-        fragmentCreatePingDetails.mPresenter = mPresenter
-
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer,fragmentMap)
                 .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
                 .commit()
+
+        mPresenter = MapPresenter()
+        mPresenter.onAttach(this)
+
+        mMapHelper = MapHelper(this,null)
+
+        fragmentCreatePingBasic.mPresenter = mPresenter
+        fragmentCreatePingDetails.mPresenter = mPresenter
 
 
         initTabs()
@@ -78,7 +78,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         doAsync {
             while (!isDestroyed) {
                 Thread.sleep(300)
-                if(!isSliderClosed == isSliderClosed != slidingPing.isClosed){
+                if(!isSliderClosed && isSliderClosed != slidingPing.isClosed){
                     uiThread {
                         fragmentCreatePingBasic.clearData()
                         if(fragmentCreatePingDetails.isAdded){
@@ -99,7 +99,13 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
     private fun initTabs(){
         tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                Log.d("method","onTabSelected")
+                val fragment: Fragment
+                when(tab!!.position){
+                    3 -> mPresenter.onInfoTabClick()
+                    2 -> fragment = fragmentMap
+                    else -> fragment = fragmentManagement
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -108,18 +114,14 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                //if(tab!!.position != 1){
-                 //   tabLayoutMap.getTabAt(1)!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.colorPrimary)) }
-                //tab?.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.colorPrimary))
+                Log.d("method","onTabSelected")
                 val fragment: Fragment
                 when(tab!!.position){
                     3 -> mPresenter.onInfoTabClick()
                     2 -> fragment = fragmentMap
                     else -> fragment = fragmentManagement
                 }
-                /*supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer,fragment)
-                        .commit()*/
+
             }
 
         })
@@ -187,5 +189,36 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         mPresenter.onMapPrepared()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        if(slidingPing.isClosed)
+            return
+
+        val checked = ArrayList<String>()
+
+        if (fragmentCreatePingDetails.isAdded)
+            checked.addAll(fragmentCreatePingDetails.mListAdapter.getCheckedGroups())
+
+        val bundle = fragmentCreatePingBasic.getData()
+
+        mPresenter.onSavingState(checked,bundle.getString("fieldTask"),bundle.getString("fieldDescr"))
+
+    }
+
+    override fun updateWithSavedData(task: String, descr: String, checked: List<String>) {
+
+        Log.d("uiuiui",slidingPing.isClosed.toString())
+        Log.d("uiuiui",slidingPing.isOpened.toString())
+
+        if(!checked.isEmpty()){
+            changeCreateGroupFragment()
+        }
+
+        fragmentCreatePingBasic.updateData(task,descr)
+        mPresenter.getAllSubGroups()
+       //fragmentCreatePingDetails.mListAdapter.updateCheckedGroups(checked)
+
+    }
 
 }

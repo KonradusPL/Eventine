@@ -12,11 +12,12 @@ import io.reactivex.Single
 import org.jetbrains.anko.doAsync
 
 
-class MapRepository(context: Context): BaseRepository() {
+object MapRepository: BaseRepository() {
 
     val newPing = Ping()
     val newInfo = Info()
-    val locationProvider = LocationProvider(1000,context)
+    var type: String = "ping"
+    //val locationProvider = LocationProvider(1000,context)
 
     val pings = ArrayList<Ping>()
 
@@ -64,6 +65,22 @@ class MapRepository(context: Context): BaseRepository() {
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
 
+    }
+
+    fun saveState(checked: List<String>,task: String, descr: String, type: String){
+        Log.d("savestate",task)
+        Log.d("savestate",descr)
+        Log.d("savestate",type)
+        if(type == "ping"){
+            newPing.title = task
+            newPing.desc = descr
+            newPing.targetGroups.clear()
+            newPing.targetGroups.addAll(checked)
+        }else{
+            newInfo.content = descr
+            newInfo.targetGroups.clear()
+            newInfo.targetGroups.addAll(checked)
+        }
     }
 
 }
