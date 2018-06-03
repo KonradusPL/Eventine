@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -16,6 +17,9 @@ import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import com.racjonalnytraktor.findme3.ui.map.MapPresenter
 import kotlinx.android.synthetic.main.fragment_create_group_basic.*
 import kotlinx.android.synthetic.main.fragment_create_group_extended.*
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
+
+
 
 class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
 
@@ -34,6 +38,9 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
         initList()
         buttonAdd.setOnClickListener {
             mPresenter.onAddButtonClick(mListAdapter.getCheckedGroups())
+        }
+        buttonPlan.setOnClickListener {
+
         }
 
     }

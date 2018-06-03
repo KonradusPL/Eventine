@@ -25,7 +25,6 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                     view.updateGroupsList(group!!)
                 },{t: Throwable? ->
                     view.hideGroupsLoading()
-                    view.showMessage(t!!.localizedMessage,MvpView.MessageType.ERROR)
                 }))
         /*compositeDisposable.add(repo.getTasks()
                 .flatMapIterable { t -> t }

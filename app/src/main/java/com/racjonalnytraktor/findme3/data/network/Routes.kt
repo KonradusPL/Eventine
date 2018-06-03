@@ -69,5 +69,8 @@ interface Routes {
 
     @GET("info/list/{groupId}")
    fun getInfos(@Header("X-Token")token: String, @Path("groupId") groupId: String)
-    : Observable<HistoryPingsResponse>
+    : Observable<HistoryInfosResponse>
+
+    @POST("group/changeSubGroup")
+    fun changeSubGroups(@Header("X-Token")token: String, @Body request: ChangeSubGroupRequest): Single<String>
 }

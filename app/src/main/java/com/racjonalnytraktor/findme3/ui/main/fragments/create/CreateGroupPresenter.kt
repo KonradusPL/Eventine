@@ -18,7 +18,6 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
 
         compositeDisposable.add(repo.getFriends()
                 .subscribe({user: User? ->
-                    view.showMessage("friends loaded",MvpView.MessageType.SUCCESS)
                     view.updateList(user!!)
                     Log.d("user",user!!.facebookId)
                     Log.d("user",user.fullName)
@@ -36,7 +35,6 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
                             })*/
 
                 },{error: Throwable? ->
-                    view.showMessage(error!!.message!!,MvpView.MessageType.ERROR)
 
                 }))
     }
@@ -47,10 +45,8 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
         Log.d("plplpl",request.facebookIds.toString())
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->
-                    view.showMessage("Group added",MvpView.MessageType.SUCCESS)
                     Log.d("response",response.orEmpty())
                 }, {error: Throwable? ->
-                    view.showMessage("Group creating error",MvpView.MessageType.ERROR)
                     Log.d("error",error!!.message)
                         }))
     }

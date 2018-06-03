@@ -38,7 +38,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle("Zaproszenie do grupy ${groupName}")
-                .setContentText("Dawid pisz htmla")
+                .setContentText("Kliknij aby dołączyć")
                 .setSmallIcon(R.drawable.logo_tinder_splash)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

@@ -45,4 +45,10 @@ class ManageSubGroupsActivity : BaseActivity(),ManangeMvp.View,ManageAdapter.Lis
     override fun updateList(item: Typed) {
         mListAdapter.update(item)
     }
+
+    override fun onGroupChanged(changedGroup: String,changingId: String) {
+        mPresenter.onGroupChanged(changedGroup,changingId)
+    }
+
+
 }

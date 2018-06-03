@@ -1,7 +1,5 @@
 package com.racjonalnytraktor.findme3.data.network.model
 
-/**
- * Created by Admin on 2018-06-03.
- */
-class HistoryInfosResponse {
-}
+import com.racjonalnytraktor.findme3.data.network.model.info.Info
+
+class HistoryInfosResponse(val info: ArrayList<Info>)

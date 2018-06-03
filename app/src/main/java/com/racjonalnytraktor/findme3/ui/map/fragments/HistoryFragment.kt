@@ -29,6 +29,12 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         mPresenter = HistoryPresenter()
         mPresenter.onAttach(this)
         initList()
+        buttonInfo.setOnClickListener {
+            mPresenter.onInfoButtonClick()
+        }
+        buttonPing.setOnClickListener {
+            mPresenter.onPingButtonClick()
+        }
     }
 
     override fun updatePings(ping: Ping) {

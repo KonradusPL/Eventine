@@ -24,7 +24,6 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
                 .subscribe({t: Invitation? ->
                     view.updateList(t!!)
                 },{t: Throwable? ->
-                    view.showMessage("error when getting invitations")
                     Log.d("error",t!!.message)
                 }))
     }
@@ -46,9 +45,7 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
     override fun onAcceptInvitationClick(groupId: String) {
         compositeDisposable.add(repo.acceptInvitation(groupId)
                 .subscribe({t: String? ->
-                    view.showMessage("Success",MvpView.MessageType.SUCCESS)
                 },{t: Throwable? ->
-                    view.showMessage("Error",MvpView.MessageType.ERROR)
                     Log.d("eropr",t!!.message)
                 }))
     }

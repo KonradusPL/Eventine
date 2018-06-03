@@ -19,6 +19,11 @@ class ManageAdapter(val list: ArrayList<Typed>, val listener: Listener)
 
 
     override fun onViewMoved(oldPosition: Int, newPosition: Int) {
+
+        if(list[newPosition].type == "header")
+            listener.onGroupChanged((list[newPosition] as Header).group,
+                    (list[oldPosition] as UserInSubGroup).id)
+
         Log.d("newPosition",oldPosition.toString())
         val typed = list.get(oldPosition)
         list.removeAt(oldPosition)
@@ -81,6 +86,6 @@ class ManageAdapter(val list: ArrayList<Typed>, val listener: Listener)
     }
 
     interface Listener{
-
+        fun onGroupChanged(changedGroup: String, changingId: String)
     }
 }

@@ -1,11 +1,13 @@
 package com.racjonalnytraktor.findme3.ui.map
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -24,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_map.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.AlertDialogBuilder
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -157,6 +160,14 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
     }
 
     override fun onMarkerClick(marker: Marker) {
+        val dialog = AlertDialog.Builder(this)
+                .setMessage("Ustawić ping jako wykonany ?")
+                .setPositiveButton("TAK",{_, i ->
+                    marker.remove()
+                }).setNegativeButton("NIE",{dialogInterface, i ->
+
+                }).create()
+        dialog.show()
     }
 
     override fun onLongClickListener(location: LatLng) {

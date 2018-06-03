@@ -87,6 +87,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
             mRepo.newPing.targetGroups = checkedGroups
             compositeDisposable.add(mRepo.createPing()
                     .subscribe({t: String? ->
+                        view.updatePings(mRepo.newPing)
                         view.showMessage("SUCCESS PING",MvpView.MessageType.SUCCESS)
                         view.hideCreatePingView()
                     },{t: Throwable? ->

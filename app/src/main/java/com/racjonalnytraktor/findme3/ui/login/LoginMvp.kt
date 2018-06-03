@@ -8,6 +8,8 @@ interface LoginMvp {
     interface View: MvpView{
         fun openMainActivity()
         fun openRegisterActivity()
+        fun showLoginLoading()
+        fun hideLoginLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onEmailLoginClick(email: String, password: String)

@@ -5,7 +5,7 @@
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_directions_run_black_24dp"
             android:iconTint="@color/white"
-            android:title="Log out"
+            android:title="Wyloguj się"
             />
     </group>
 </menu>

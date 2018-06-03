@@ -1,11 +1,13 @@
 package com.racjonalnytraktor.findme3.data.repository
 
 import android.util.Log
+import com.racjonalnytraktor.findme3.data.network.model.ChangeSubGroupRequest
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Header
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.UserInSubGroup
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * Created by Admin on 2018-06-03.
@@ -48,5 +50,11 @@ object ManageRepository: BaseRepository() {
             }
         }
         return newArray
+    }
+
+    fun changeSubGroups(request: ChangeSubGroupRequest): Single<String> {
+        return rest.networkService.changeSubGroups(prefs.getUserToken(),request)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
     }
 }

@@ -1,8 +1,11 @@
 package com.racjonalnytraktor.findme3.ui.main
 
 import android.util.Log
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 import com.google.firebase.iid.FirebaseInstanceId
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
+import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.repository.main.MainRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
@@ -45,6 +48,14 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
                 },{t: Throwable? ->
                     Log.d("tokenik",t!!.message)
                 })
+    }
+
+    override fun onLogoutButtonClick() {
+        if(AccessToken.isCurrentAccessTokenActive())
+            LoginManager.getInstance().logOut()
+        repo.prefs.setCurrentUser(User())
+        repo.prefs.setIsUserLoggedIn(false)
+        view.openLoginActivity()
     }
 
 }

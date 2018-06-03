@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.map.fragments
 
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
+import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.HistoryRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 
@@ -12,6 +13,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
         repo.onAttatch(mvpView.getCtx())
+
         compositeDisposable.add(repo.getPings()
                 .subscribe({ping: Ping? ->
                     if (ping != null)
@@ -22,10 +24,18 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
     }
 
     override fun onInfoButtonClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view.clearList("info")
+        compositeDisposable.add(repo.getInfos()
+                .subscribe({info: Info? ->
+                    if (info != null)
+                        view.updateInfos(info)
+                },{t: Throwable? ->
+                    Log.d("error",t.toString())
+                }))
     }
 
     override fun onPingButtonClick() {
+        view.clearList("pings")
         compositeDisposable.add(repo.getPings()
                 .subscribe({ping: Ping? ->
                     if (ping != null)

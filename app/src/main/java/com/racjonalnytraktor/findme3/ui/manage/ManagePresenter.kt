@@ -1,9 +1,12 @@
 package com.racjonalnytraktor.findme3.ui.manage
 
 import android.util.Log
+import com.racjonalnytraktor.findme3.data.network.model.ChangeSubGroupRequest
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.repository.ManageRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
+import com.racjonalnytraktor.findme3.ui.base.MvpView
+import com.racjonalnytraktor.findme3.utils.StringHelper
 
 
 class ManagePresenter<V: ManangeMvp.View>: BasePresenter<V>(),ManangeMvp.Presenter<V> {
@@ -19,6 +22,17 @@ class ManagePresenter<V: ManangeMvp.View>: BasePresenter<V>(),ManangeMvp.Present
                     Log.d("typed",t!!.type)
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
+                }))
+    }
+
+    fun onGroupChanged(subGroup: String, changingId: String){
+        val request = ChangeSubGroupRequest(changingId, repo.prefs.getCurrentGroup(),subGroup)
+        compositeDisposable.add(repo.changeSubGroups(request)
+                .subscribe({t: String? ->
+                    view.showMessage("success",MvpView.MessageType.SUCCESS)
+                },{t: Throwable? ->
+                    if(StringHelper.getErrorCode(t!!.localizedMessage) == "403")
+                        view.showMessage("Nie jesteś adminem grupy",MvpView.MessageType.INFO)
                 }))
     }
 }

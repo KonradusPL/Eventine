@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.main
 
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -7,7 +8,10 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import android.support.design.widget.TabLayout
 import android.view.Menu
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 import com.racjonalnytraktor.findme3.ui.adapters.PageAdapterMain
+import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import com.racjonalnytraktor.findme3.utils.CircleTransform
@@ -34,6 +38,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
     private fun setUpLeftNavigation() {
         navigationMain.setNavigationItemSelectedListener { menuItem ->
+            mPresenter.onLogoutButtonClick()
             true
         }
     }
@@ -64,6 +69,11 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
     override fun changeProfileIcon(url: String) {
 
+    }
+
+    override fun openLoginActivity() {
+        startActivity(Intent(this,LoginActivity::class.java))
+        finish()
     }
 
 }

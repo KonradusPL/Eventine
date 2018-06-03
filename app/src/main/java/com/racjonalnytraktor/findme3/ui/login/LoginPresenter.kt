@@ -19,6 +19,10 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
     override fun onEmailLoginClick(email: String, password: String) {
         compositeDisposable.add(repo.loginWithEmail(LoginRequest(email, password))
                 .subscribe({response: LoginResponse? ->
+                    repo.prefs.setIsUserLoggedIn(true)
+                    repo.prefs.setUserToken(response!!.token)
+                    view.openMainActivity()
+                    view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
 
                 },{throwable: Throwable? ->
                     val errorCode = StringHelper.getErrorCode(throwable!!.localizedMessage)
@@ -42,6 +46,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                             .subscribe ({ response: RegisterFbResponse? ->
                                 Log.d("registerresponse",response!!.token)
                                 user.token = response.token
+                                repo.prefs.setIsUserLoggedIn(true)
                                 repo.setCurrentUser(user)
                                 view.openMainActivity()},
                                     {error: Throwable? -> Log.d("error",error.toString())
@@ -57,6 +62,6 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttatch(mvpView as Context)
+        repo.onAttatch(mvpView.getCtx())
     }
 }

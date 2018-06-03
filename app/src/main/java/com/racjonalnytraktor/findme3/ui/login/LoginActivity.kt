@@ -3,9 +3,11 @@ package com.racjonalnytraktor.findme3.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.jakewharton.rxbinding2.view.RxView
@@ -78,5 +80,16 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager.onActivityResult(requestCode,resultCode,data)
+    }
+
+    override fun showLoginLoading() {
+        hideLoginLoading()
+        progressLogin.isIndeterminate = true
+        progressLogin.visibility = View.VISIBLE
+    }
+
+    override fun hideLoginLoading() {
+        progressLogin.isIndeterminate = false
+        progressLogin.visibility = View.INVISIBLE
     }
 }

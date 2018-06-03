@@ -25,18 +25,21 @@ class HistoryAdapter(val pings: ArrayList<Ping>, val infos: ArrayList<Info>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.MyHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
-        return MyHolder(view, this)
+        return MyHolder(view)
     }
 
-    class MyHolder(itemView: View, val adapter: HistoryAdapter) : RecyclerView.ViewHolder(itemView) {
+    class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind1(ping: Ping) {
             itemView.fieldTitle.text = ping.title
             itemView.fieldDescr.text = ping.desc
-            itemView.fieldCreator.text = ping.desc
+            val creator = if(ping.creatorName.isNotEmpty()) ping.creatorName else "nieznany"
+            itemView.fieldCreator.text = "Autor: " + creator
         }
         fun bind2(info: Info){
-            itemView.fieldCreator.text = info.creatorName
+            itemView.fieldTitle.text = "Info"
+            val creator = if(info.creatorName.isNotEmpty()) info.creatorName else "nieznany"
+            itemView.fieldCreator.text = "Autor: " + creator
             itemView.fieldDescr.text = info.content
         }
     }
@@ -50,12 +53,12 @@ class HistoryAdapter(val pings: ArrayList<Ping>, val infos: ArrayList<Info>)
 
     fun updatePings(item: Ping){
         pings.add(item)
-        notifyDataSetChanged()
+        notifyItemInserted(pings.size-1)
     }
 
     fun updateInfo(item: Info){
         infos.add(item)
-        notifyDataSetChanged()
+        notifyItemInserted(infos.size-1)
     }
 
     override fun getItemCount(): Int {

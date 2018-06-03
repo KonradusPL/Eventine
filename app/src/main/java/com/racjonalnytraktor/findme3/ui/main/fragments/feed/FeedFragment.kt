@@ -82,7 +82,6 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     }
 
     override fun onGroupsItemClick(groupName: String,groupId: String) {
-        Log.d("xxxxxx",groupId)
         mPresenter.onGroupItemClick(groupName,groupId)
         openMapActivity(groupName)
     }

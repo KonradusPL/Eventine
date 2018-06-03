@@ -74,6 +74,16 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         }
     }
 
+    fun removeMarker(position: LatLng){
+        for(item in pingsOnMap){
+            if(item.ping!!.geo[0] == position.latitude){
+                item.marker?.remove()
+                pingsOnMap.remove(item)
+                break
+            }
+        }
+    }
+
     fun moveCamera(position: LatLng) {
         mMap.animateCamera(CameraUpdateFactory.newLatLng(position),2000,null)
     }

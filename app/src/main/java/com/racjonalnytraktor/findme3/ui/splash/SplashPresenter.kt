@@ -15,6 +15,6 @@ class SplashPresenter<V: SplashMvp.View>: BasePresenter<V>(),SplashMvp.Presenter
         if(repo.isUserLoggedIn())
             view.openMainActivity()
         else
-            view.openMainActivity()
+            view.openLoginActivity()
     }
 }
