@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +19,18 @@ class ManageAdapter(val list: ArrayList<Typed>, val listener: Listener)
 
 
     override fun onViewMoved(oldPosition: Int, newPosition: Int) {
+        Log.d("newPosition",oldPosition.toString())
+        val typed = list.get(oldPosition)
+        list.removeAt(oldPosition)
+        list.add(newPosition,typed)
+        notifyItemMoved(oldPosition,newPosition)
+
         //notifyItemRemoved(oldPosition)
         //notifyItemInserted(newPosition)
     }
 
     override fun onViewSwiped(position: Int) {
+        Log.d("onViewSwiped",position.toString())
     }
 
 
