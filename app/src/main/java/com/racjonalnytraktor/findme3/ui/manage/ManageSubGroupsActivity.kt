@@ -2,10 +2,12 @@ package com.racjonalnytraktor.findme3.ui.manage
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.ui.adapters.ManageAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
+import com.racjonalnytraktor.findme3.ui.map.fragments.manage.SwipeHelper
 import kotlinx.android.synthetic.main.activity_manage_sub_groups.*
 
 class ManageSubGroupsActivity : BaseActivity(),ManangeMvp.View,ManageAdapter.Listener {
@@ -31,7 +33,12 @@ class ManageSubGroupsActivity : BaseActivity(),ManangeMvp.View,ManageAdapter.Lis
         val layoutManager = LinearLayoutManager(this)
         listManage.layoutManager = layoutManager
 
+        val swipeHelper = SwipeHelper()
+        val touchHelper = ItemTouchHelper(swipeHelper)
+        touchHelper.attachToRecyclerView(listManage)
+
         mListAdapter = ManageAdapter(ArrayList(),this)
+        swipeHelper.contract = mListAdapter
         listManage.adapter = mListAdapter
     }
 

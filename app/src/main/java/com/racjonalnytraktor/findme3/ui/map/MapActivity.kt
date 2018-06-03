@@ -101,11 +101,9 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
                 val fragment: Fragment
                 when(tab!!.position){
-                    4 -> openManageActivity()
-                    3 -> mPresenter.onInfoTabClick()
-                    2 -> fragment = fragmentMap
-                    1 -> mPresenter.onHistoryButtonClick()
-                    else -> fragment = fragmentManagement
+                    2 -> openManageActivity()
+                    1 -> mPresenter.onInfoTabClick()
+                    0 -> mPresenter.onHistoryButtonClick()
                 }
             }
 
@@ -118,11 +116,9 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
                 Log.d("method","onTabSelected")
                 val fragment: Fragment
                 when(tab!!.position){
-                    4 -> openManageActivity()
-                    3 -> mPresenter.onInfoTabClick()
-                    2 -> fragment = fragmentMap
-                    1 -> mPresenter.onHistoryButtonClick()
-                    else -> fragment = fragmentManagement
+                    2 -> openManageActivity()
+                    1 -> mPresenter.onInfoTabClick()
+                    0 -> mPresenter.onHistoryButtonClick()
                 }
             }
         })

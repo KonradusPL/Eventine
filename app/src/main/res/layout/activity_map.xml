@@ -46,20 +46,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:tabIndicatorHeight="0dp">
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_settings_black_24dp" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_event_black_24dp" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_pin_drop_black_24dp" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"

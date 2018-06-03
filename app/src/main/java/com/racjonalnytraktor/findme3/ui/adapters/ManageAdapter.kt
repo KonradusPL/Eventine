@@ -8,11 +8,23 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Header
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.UserInSubGroup
+import com.racjonalnytraktor.findme3.ui.map.fragments.manage.SwipeHelper
 import kotlinx.android.synthetic.main.item_header.view.*
 import kotlinx.android.synthetic.main.item_user_subgroup.view.*
 
 class ManageAdapter(val list: ArrayList<Typed>, val listener: Listener)
-    :RecyclerView.Adapter<ManageAdapter.MyViewHolder>(){
+    :RecyclerView.Adapter<ManageAdapter.MyViewHolder>()
+, SwipeHelper.ActionCompletionContract{
+
+
+    override fun onViewMoved(oldPosition: Int, newPosition: Int) {
+        //notifyItemRemoved(oldPosition)
+        //notifyItemInserted(newPosition)
+    }
+
+    override fun onViewSwiped(position: Int) {
+    }
+
 
     companion object {
         const val TYPE_USER = 0
@@ -46,11 +58,13 @@ class ManageAdapter(val list: ArrayList<Typed>, val listener: Listener)
     }
 
     inner class MyViewHolder(itemView: View, listener: Listener): RecyclerView.ViewHolder(itemView){
+        var type = "person"
         fun bind(typed: Typed){
             if(typed.type == "person"){
                 val user = typed as UserInSubGroup
                 itemView.fieldName.setText(user.name)
             }else if(typed.type == "header"){
+                type = "header"
                 val header = typed as Header
                 itemView.textTitle.setText(header.group)
 
