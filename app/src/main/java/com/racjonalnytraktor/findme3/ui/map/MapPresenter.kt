@@ -40,7 +40,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
         Log.d("onAttach",descr)
         Log.d("onAttach",checked.toString())
 
-        view.updateWithSavedData(task, descr, checked,mRepo.type)
+        view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
 
         /*view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 .subscribe { state: PermissionsHelper.PermissionState? ->

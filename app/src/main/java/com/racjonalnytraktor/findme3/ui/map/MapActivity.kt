@@ -1,18 +1,16 @@
 package com.racjonalnytraktor.findme3.ui.map
 
+import android.content.Intent
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
-import android.support.constraint.ConstraintSet
 import android.support.design.widget.TabLayout
-import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.widget.ImageView
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
@@ -76,11 +74,11 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         Log.d("isClosed", isSliderClosed.toString())
         doAsync {
             while (!isDestroyed) {
-                Thread.sleep(300)
+                Thread.sleep(100)
                 if(!isSliderClosed && isSliderClosed != slidingPing.isClosed){
                     uiThread {
                         fragmentCreatePingBasic.clearData()
-                        if(fragmentCreatePingDetails.isAdded){
+                        if(fragmentCreatePingDetails.isInLayout){
                             Log.d("vvv","vvv")
                             fragmentCreatePingDetails.clearData()
                             supportFragmentManager.beginTransaction()
@@ -98,9 +96,10 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
     private fun initTabs(){
         tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                Log.d("method","onTabSelected")
+
                 val fragment: Fragment
                 when(tab!!.position){
+                    4 -> openManageActivity()
                     3 -> mPresenter.onInfoTabClick()
                     2 -> fragment = fragmentMap
                     else -> fragment = fragmentManagement
@@ -116,6 +115,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
                 Log.d("method","onTabSelected")
                 val fragment: Fragment
                 when(tab!!.position){
+                    4 -> openManageActivity()
                     3 -> mPresenter.onInfoTabClick()
                     2 -> fragment = fragmentMap
                     else -> fragment = fragmentManagement
@@ -212,17 +212,16 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     }
 
-    override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String) {
+    override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String, state: String) {
         Log.d("uiuiui",slidingPing.isClosed.toString())
         Log.d("uiuiui",slidingPing.isOpened.toString())
 
-        if(!checked.isEmpty()){
-            Log.d("cvbcvb","cvbcvb")
-            changeCreateGroupFragment()
-        }
-
         if(type == "info")
             fragmentCreatePingBasic.type = type
+
+        if(state == "extended"){
+            changeCreateGroupFragment()
+        }
 
         fragmentCreatePingBasic.updateData(task,descr)
         mPresenter.getAllSubGroups()
@@ -230,5 +229,9 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     override fun updateCheckedGroups(checked: List<String>) {
         fragmentCreatePingDetails.mListAdapter.updateCheckedGroups(checked)
+    }
+
+    override fun openManageActivity() {
+        startActivity(Intent(this, ManageSubGroupsActivity::class.java))
     }
 }

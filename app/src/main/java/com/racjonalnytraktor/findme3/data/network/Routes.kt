@@ -2,6 +2,8 @@ package com.racjonalnytraktor.findme3.data.network
 
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.network.model.*
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.SubGroupPeople
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.UserInSubGroup
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
@@ -58,6 +60,10 @@ interface Routes {
     @GET("ping/list/{groupId}")
     fun getPings(@Header("X-Token")token: String, @Path("groupId") id: String): Observable<PingsResponse>
 
-    @POST("/info/create")
+    @POST("info/create")
     fun createInfo(@Header("X-Token")token: String, @Body request: Info): Single<String>
+
+    @GET("group/subgroups/{groupId}")
+    fun getPeopleInSubGroups(@Header("X-Token")token: String, @Path("groupId") groupId: String)
+        :Observable<SubGroupPeople>
 }

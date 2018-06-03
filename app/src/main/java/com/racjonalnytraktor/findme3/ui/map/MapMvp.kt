@@ -13,8 +13,9 @@ interface MapMvp {
         fun hideCreatePingView()
         fun updatePings(ping: Ping)
         fun getPresenter(): MapPresenter<View>
-        fun updateWithSavedData(task: String, descr: String, checked: List<String>,type: String)
+        fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
         fun updateCheckedGroups(checked: List<String>)
+        fun openManageActivity()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)

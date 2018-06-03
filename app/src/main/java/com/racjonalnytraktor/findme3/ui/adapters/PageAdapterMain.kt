@@ -57,12 +57,12 @@ class PageAdapterMain(fm: FragmentManager, val context: Context): FragmentPagerA
     fun setTabColor(selected: Boolean, view: View, ctx: Context){
         when(selected){
             true -> {
-                view.tabIcon.setColorFilter(ContextCompat.getColor(ctx, R.color.colorPrimaryDark))
-                view.tabTitle.setTextColor(ctx.resources.getColor(R.color.colorPrimaryDark))
+                view.tabIcon.setColorFilter(ContextCompat.getColor(ctx, R.color.black))
+                view.tabTitle.setTextColor(ctx.resources.getColor(R.color.black))
             }
             false ->{
-                view.tabIcon.setColorFilter(ContextCompat.getColor(ctx,R.color.black))
-                view.tabTitle.setTextColor(ctx.resources.getColor(R.color.black))
+                view.tabIcon.setColorFilter(ContextCompat.getColor(ctx,R.color.dimGrey))
+                view.tabTitle.setTextColor(ctx.resources.getColor(R.color.dimGrey))
             }
 
         }

@@ -67,10 +67,12 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
 
     override fun openMainActivity() {
         startActivity(Intent(this,MainActivity::class.java))
+        finish()
     }
 
     override fun openRegisterActivity() {
         startActivity(Intent(this,RegisterActivity::class.java))
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
