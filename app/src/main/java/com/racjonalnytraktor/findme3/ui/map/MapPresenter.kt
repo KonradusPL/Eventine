@@ -83,7 +83,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>) {
-
         if(typeOfNewThing == "ping"){
             mRepo.newPing.targetGroups = checkedGroups
             compositeDisposable.add(mRepo.createPing()
@@ -142,6 +141,14 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
         typeOfNewThing = "info"
         mRepo.type = typeOfNewThing
         view.showCreatePingView("info")
+    }
+
+    override fun onHistoryButtonClick() {
+        view.openHistoryFragment()
+    }
+
+    override fun clearData() {
+        mRepo.clearData()
     }
 
 }

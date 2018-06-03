@@ -22,6 +22,14 @@ object MapRepository: BaseRepository() {
 
     val pings = ArrayList<Ping>()
 
+    fun clearData(){
+        newPing.targetGroups.clear()
+        newPing.desc = ""
+        newPing.title = ""
+        newInfo.targetGroups.clear()
+        newInfo.content = ""
+    }
+
     fun getAllSubGroups(): Observable<List<String>>{
         Log.d("zzzzzz",prefs.getUserToken())
         Log.d("zzzzzz",prefs.getCurrentGroup())
@@ -65,7 +73,6 @@ object MapRepository: BaseRepository() {
         return rest.networkService.createInfo(prefs.getUserToken(),newInfo)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
-
     }
 
     fun saveState(checked: List<String>,task: String, descr: String, type: String, state: String){

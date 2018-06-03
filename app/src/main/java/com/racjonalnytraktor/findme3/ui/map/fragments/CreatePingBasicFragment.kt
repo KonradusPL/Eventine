@@ -31,8 +31,11 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("poipoi","poipoi")
         if(type=="info"){
             onInfo()
+        }else{
+            clearData()
         }
         fieldTask.setText(mTask)
         fieldDescr.setText(mDescr)
@@ -91,6 +94,11 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
+
     fun getData(): Bundle{
         val bundle = Bundle()
         bundle.putString("fieldTask",fieldTask.text.toString())
@@ -100,5 +108,6 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        mPresenter.onAttach(context as MapMvp.View)
     }
 }

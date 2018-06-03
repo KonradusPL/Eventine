@@ -1,10 +1,9 @@
 package com.racjonalnytraktor.findme3.data.network.model.info
 
-/**
- * Created by Admin on 2018-06-02.
- */
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
+
 data class Info(
         var groupId: String = "",
         var content: String = "",
-        var targetGroups: ArrayList<String> = ArrayList()
-)
+        var targetGroups: ArrayList<String> = ArrayList(),
+        var creatorName: String = ""): Typed()

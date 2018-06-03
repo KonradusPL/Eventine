@@ -17,6 +17,7 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingBasicFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingDetailsFragment
+import com.racjonalnytraktor.findme3.ui.map.fragments.HistoryFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.ManagementFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import kotlinx.android.synthetic.main.activity_map.*
@@ -36,6 +37,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
     lateinit var fragmentManagement: ManagementFragment
     lateinit var fragmentCreatePingBasic: CreatePingBasicFragment<MapMvp.View>
     lateinit var fragmentCreatePingDetails: CreatePingDetailsFragment<MapMvp.View>
+    lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +48,10 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         fragmentManagement = ManagementFragment()
         fragmentCreatePingBasic = CreatePingBasicFragment()
         fragmentCreatePingDetails = CreatePingDetailsFragment()
+        fragmentHistory = HistoryFragment()
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer,fragmentMap)
-                .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
                 .commit()
 
         mPresenter = MapPresenter()
@@ -77,14 +79,14 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
                 Thread.sleep(100)
                 if(!isSliderClosed && isSliderClosed != slidingPing.isClosed){
                     uiThread {
-                        fragmentCreatePingBasic.clearData()
+                        Log.d("yuyu","yuyu")
+                        mPresenter.clearData()
                         if(fragmentCreatePingDetails.isInLayout){
                             Log.d("vvv","vvv")
                             fragmentCreatePingDetails.clearData()
-                            supportFragmentManager.beginTransaction()
-                                    .remove(fragmentCreatePingDetails)
-                                    .commit()
+
                         }
+
                     }
 
                 }
@@ -102,6 +104,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
                     4 -> openManageActivity()
                     3 -> mPresenter.onInfoTabClick()
                     2 -> fragment = fragmentMap
+                    1 -> mPresenter.onHistoryButtonClick()
                     else -> fragment = fragmentManagement
                 }
             }
@@ -118,11 +121,10 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
                     4 -> openManageActivity()
                     3 -> mPresenter.onInfoTabClick()
                     2 -> fragment = fragmentMap
+                    1 -> mPresenter.onHistoryButtonClick()
                     else -> fragment = fragmentManagement
                 }
-
             }
-
         })
         //tabLayoutMap.getTabAt(2)!!.select()
     }
@@ -133,7 +135,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     override fun changeCreateGroupFragment() {
         supportFragmentManager.beginTransaction()
-                .add(R.id.containerCreatePing,fragmentCreatePingDetails)
+                .replace(R.id.containerCreatePing,fragmentCreatePingDetails)
                 .commit()
     }
 
@@ -168,8 +170,17 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
     override fun showCreatePingView(type: String) {
        slidingPing.openLayer(true)
         fragmentCreatePingDetails.type = type
-        if(type == "info")
-            fragmentCreatePingBasic.onInfo()
+        fragmentCreatePingBasic.type = type
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
+                .commit()
+        if(fragmentCreatePingBasic.isAdded){
+            Log.d("kikiki","kikiki")
+            if(type == "ping")
+                fragmentCreatePingBasic.clearData()
+            else
+                fragmentCreatePingBasic.onInfo()
+        }
     }
 
     override fun hideCreatePingView() {
@@ -203,12 +214,15 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
             checked.addAll(fragmentCreatePingDetails.mListAdapter.getCheckedGroups())
             state = "extended"
         }
+        val bundle: Bundle
 
-        val bundle = fragmentCreatePingBasic.getData()
+        if(fragmentCreatePingBasic.isInLayout)
+            bundle = fragmentCreatePingBasic.getData()
+        else bundle = Bundle()
 
 
-        mPresenter.onSavingState(checked,bundle.getString("fieldTask"),
-                bundle.getString("fieldDescr"),state)
+        mPresenter.onSavingState(checked,bundle.getString("fieldTask").orEmpty(),
+                bundle.getString("fieldDescr").orEmpty(),state)
 
     }
 
@@ -233,5 +247,12 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     override fun openManageActivity() {
         startActivity(Intent(this, ManageSubGroupsActivity::class.java))
+    }
+
+    override fun openHistoryFragment() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerCreatePing,fragmentHistory)
+                .commit()
+        slidingPing.openLayer(true)
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.racjonalnytraktor.findme3">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -37,7 +38,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <data  android:scheme="fb194669471175342" />
             </intent-filter>
         </activity>
 
@@ -51,9 +52,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
-
-
 
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.login.LoginActivity" />
@@ -73,7 +71,8 @@
             android:name=".ui.register.RegisterActivity"
             android:parentActivityName=".ui.login.LoginActivity" />
 
-        <activity android:name=".ui.manage.ManageSubGroupsActivity"></activity>
+        <activity android:name=".ui.manage.ManageSubGroupsActivity"
+            android:parentActivityName=".ui.map.MapActivity"></activity>
     </application>
 
 </manifest>

@@ -8,8 +8,7 @@
     android:background="@drawable/background_ping"
     android:backgroundTint="@color/white"
     android:elevation="3dp"
-    android:id="@+id/layout"
-    >
+    android:id="@+id/layout">
 
     <TextView
         android:id="@+id/titleBasic"

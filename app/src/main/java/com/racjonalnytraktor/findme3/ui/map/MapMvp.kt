@@ -16,6 +16,7 @@ interface MapMvp {
         fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
         fun updateCheckedGroups(checked: List<String>)
         fun openManageActivity()
+        fun openHistoryFragment()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)
@@ -24,5 +25,7 @@ interface MapMvp {
         fun onInfoTabClick()
         fun onMapPrepared()
         fun onSavingState(checked: List<String>, task: String, descr: String,state: String)
+        fun onHistoryButtonClick()
+        fun clearData()
     }
 }

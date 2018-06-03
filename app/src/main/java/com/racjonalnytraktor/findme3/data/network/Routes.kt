@@ -66,4 +66,8 @@ interface Routes {
     @GET("group/subgroups/{groupId}")
     fun getPeopleInSubGroups(@Header("X-Token")token: String, @Path("groupId") groupId: String)
         :Observable<SubGroupPeople>
+
+    @GET("info/list/{groupId}")
+   fun getInfos(@Header("X-Token")token: String, @Path("groupId") groupId: String)
+    : Observable<HistoryPingsResponse>
 }

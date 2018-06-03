@@ -7,6 +7,18 @@
         <item>Profil</item>
     </string-array>
 
+    <string-array name="tab_names_map">
+        <item>Ustawienia</item>
+        <item>Historia</item>
+        <item>Ping</item>
+        <item>Info</item>
+        <item>Grupy</item>
+    </string-array>
+
+    <string name="app_name">Up</string>
+
+    <string name="facebook_app_id">194669471175342</string>
+
     <string name="text_invitations">Zaproszenia</string>
     <string name="text_join">Dołącz</string>
     <string name="text_create">Stwórz</string>
@@ -23,6 +35,16 @@
     <string name="text_fill_all_fields">Musisz wypełnić wszystkie pola</string>
     <string name="text_turn_on_internet_connection">Włącz internet!</string>
     <string name="text_success">Udało się!</string>
+
+    <string name="toolbar_join_group">Dołącz</string>
+    <string name="toolbar_changeGroup">Zmień grupę</string>
+
+    <string name="text_forgot_password">Zapomiałeś hasła ?</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Hasło</string>
+
+    <string name="toolbar_create_group">Stwórz grupę</string>
 
 
 
