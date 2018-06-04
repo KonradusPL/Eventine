@@ -10,9 +10,9 @@
         android:id="@+id/listGroups"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="58dp"
         android:background="@color/white"
         android:elevation="3dp"
+        android:minHeight="58dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,23 +48,24 @@
         android:layout_height="20dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:progressDrawable="@drawable/logo_splash"
         android:layout_marginTop="8dp"
-        android:elevation="4dp"
+        android:elevation="3dp"
+        android:progressDrawable="@drawable/logo_splash"
         app:layout_constraintBottom_toBottomOf="@+id/listGroups"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textLoadinGroups"
+        android:id="@+id/textEmptyGroups"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Loading"
+        android:text="Brak dostępnych wydarzeń"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/listGroups"
-        app:layout_constraintStart_toEndOf="@+id/progressGroups"
-        app:layout_constraintTop_toTopOf="@+id/listGroups" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorPrimary"
+        android:elevation="3dp"/>
 
 </android.support.constraint.ConstraintLayout>

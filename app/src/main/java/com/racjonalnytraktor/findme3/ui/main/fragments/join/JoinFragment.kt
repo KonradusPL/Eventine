@@ -32,7 +32,7 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
 
         RxView.clicks(buttonJoin)
                 .subscribe {
-                    //mPresenter.onJoinGroupClick(fieldGroupCode.text.toString())
+                    mPresenter.onJoinGroupClick(fieldGroupCode.text.toString())
                 }
     }
 
@@ -42,6 +42,20 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
 
     override fun onInvitationClick(groupId: String) {
         mPresenter.onAcceptInvitationClick(groupId)
+    }
+
+    override fun showJoinLoading() {
+        progressJoinGroup.visibility = View.VISIBLE
+        progressJoinGroup.isIndeterminate = true
+        fieldGroupCode.isEnabled = false
+        buttonJoin.isEnabled = false
+    }
+
+    override fun hideJoinLoading() {
+        progressJoinGroup.isIndeterminate = false
+        progressJoinGroup.visibility = View.INVISIBLE
+        fieldGroupCode.isEnabled = true
+        buttonJoin.isEnabled = true
     }
 
     private fun initList(){

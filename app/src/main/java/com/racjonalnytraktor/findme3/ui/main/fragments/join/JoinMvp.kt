@@ -8,9 +8,11 @@ interface JoinMvp {
     interface View: MvpView{
         fun updateList(invitation: Invitation)
         fun onInvitationClick(groupId: String)
+        fun showJoinLoading()
+        fun hideJoinLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-        //fun onJoinGroupClick(groupName: String)
+        fun onJoinGroupClick(groupName: String)
         fun onAcceptInvitationClick(groupId: String)
     }
 }

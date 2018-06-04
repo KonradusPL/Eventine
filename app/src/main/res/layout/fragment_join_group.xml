@@ -6,20 +6,20 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-        <Button
-            android:id="@+id/buttonJoin"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/button_colored"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/text_join"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="@+id/fieldGroupCode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fieldGroupCode"
-            app:layout_constraintTop_toTopOf="@+id/fieldGroupCode" />
+    <Button
+        android:id="@+id/buttonJoin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:enabled="true"
+        android:text="@string/text_join"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/fieldGroupCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fieldGroupCode"
+        app:layout_constraintTop_toTopOf="@+id/fieldGroupCode" />
 
     <EditText
         android:id="@+id/fieldGroupCode"
@@ -57,5 +57,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/progressJoinGroup"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible" />
 
 </android.support.constraint.ConstraintLayout>

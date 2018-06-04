@@ -39,6 +39,18 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
                 }
     }
 
+    override fun showCreateGroupLoading() {
+        progressCreateGroup.visibility = View.VISIBLE
+        progressCreateGroup.isIndeterminate = true
+        fieldGroupCode.isEnabled = false
+        buttonCreate.isEnabled = false    }
+
+    override fun hideCreateGroupLoading() {
+        progressCreateGroup.isIndeterminate = false
+        progressCreateGroup.visibility = View.INVISIBLE
+        fieldGroupCode.isEnabled = true
+        buttonCreate.isEnabled = true    }
+
     override fun updateList(user: User) {
         listAdapter.addItem(user)
     }

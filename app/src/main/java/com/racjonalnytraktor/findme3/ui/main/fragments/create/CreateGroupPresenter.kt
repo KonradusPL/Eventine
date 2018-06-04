@@ -43,10 +43,15 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
         val request = CreateGroupRequest(groupName,friendsList)
         Log.d("plplpl",request.groupName)
         Log.d("plplpl",request.facebookIds.toString())
+        view.showCreateGroupLoading()
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->
+                    view.hideCreateGroupLoading()
+                    view.showMessage("Udało się stworzyć event")
                     Log.d("response",response.orEmpty())
                 }, {error: Throwable? ->
+                    view.hideCreateGroupLoading()
+                    view.showMessage("Nie udało się stworzyć eventu")
                     Log.d("error",error!!.message)
                         }))
     }

@@ -19,7 +19,7 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
     }
 
     override fun openMainActivity() {
-        startActivity(Intent(this,LoginActivity::class.java))
+        startActivity(Intent(this,MainActivity::class.java))
         finish()
     }
 

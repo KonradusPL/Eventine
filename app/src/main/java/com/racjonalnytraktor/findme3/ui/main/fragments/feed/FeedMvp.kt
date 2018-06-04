@@ -13,6 +13,8 @@ interface FeedMvp {
         fun openMapActivity(groupName: String)
         fun showGroupsLoading()
         fun hideGroupsLoading()
+        fun showTasksLoading()
+        fun hideTasksLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onGroupItemClick(groupName: String, groupId: String)

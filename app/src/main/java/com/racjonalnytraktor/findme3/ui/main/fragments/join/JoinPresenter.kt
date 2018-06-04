@@ -6,6 +6,7 @@ import com.racjonalnytraktor.findme3.data.repository.join.JoinRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
+import com.racjonalnytraktor.findme3.utils.StringHelper
 
 class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
 
@@ -33,14 +34,22 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
         compositeDisposable.dispose()
     }
 
-   /* override fun onJoinGroupClick(groupName: String) {
+   override fun onJoinGroupClick(groupName: String) {
+       view.showJoinLoading()
         compositeDisposable.add(repo.joinGroup(groupName)
                 .subscribe({response: String? ->
-
-                },{error: Throwable? ->
-
+                    repo.prefs.setCurrentGroup(response.orEmpty())
+                    view.hideJoinLoading()
+                    view.showMessage("Udało się !",MvpView.MessageType.SUCCESS)
+                },{throwable: Throwable? ->
+                    view.hideJoinLoading()
+                    val errorCode = StringHelper.getErrorCode(throwable?.localizedMessage.orEmpty())
+                    Log.d("error1",throwable.toString())
+                    Log.d("error2",errorCode)
+                    if(errorCode == "401")
+                        view.showMessage("Taki event istnieje",MvpView.MessageType.ERROR)
                 }))
-    }*/
+    }
 
     override fun onAcceptInvitationClick(groupId: String) {
         compositeDisposable.add(repo.acceptInvitation(groupId)

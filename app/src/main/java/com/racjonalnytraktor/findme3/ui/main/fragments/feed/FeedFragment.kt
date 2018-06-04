@@ -66,15 +66,16 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     }
 
     override fun showGroupsLoading() {
-        hideGroupsLoading()
-        textLoadinGroups.bringToFront()
         progressGroups.isIndeterminate = true
         progressGroups.visibility = View.VISIBLE
+        textEmptyGroups.visibility = View.INVISIBLE
     }
 
     override fun hideGroupsLoading() {
         progressGroups.isIndeterminate = false
         progressGroups.visibility = View.INVISIBLE
+        if(mGroupsListAdapter.itemCount == 0)
+            textEmptyGroups.visibility = View.VISIBLE
     }
 
     override fun openMapActivity(groupName: String) {
@@ -84,5 +85,13 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     override fun onGroupsItemClick(groupName: String,groupId: String) {
         mPresenter.onGroupItemClick(groupName,groupId)
         openMapActivity(groupName)
+    }
+
+    override fun hideTasksLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showTasksLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

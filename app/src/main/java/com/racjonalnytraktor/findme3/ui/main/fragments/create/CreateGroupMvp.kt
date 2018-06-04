@@ -8,6 +8,8 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 interface CreateGroupMvp {
     interface View: MvpView{
         fun updateList(user: User)
+        fun hideCreateGroupLoading()
+        fun showCreateGroupLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun createEvent(groupName: String, friendsList: List<String>)

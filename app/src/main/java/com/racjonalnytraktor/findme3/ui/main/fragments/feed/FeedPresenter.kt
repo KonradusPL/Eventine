@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.feed
 
+import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.repository.groups.GroupsRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
@@ -20,10 +21,15 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
 
         compositeDisposable.add(repo.getGroups()
                 .flatMapIterable { t -> t }
-                .subscribe({group: Group? ->
+                .doOnComplete{
                     view.hideGroupsLoading()
+                    Log.d("getGroups","complete")
+                }
+                .subscribe({group: Group? ->
+                    Log.d("getGroups","next")
                     view.updateGroupsList(group!!)
                 },{t: Throwable? ->
+                    Log.d("getGroups","error")
                     view.hideGroupsLoading()
                 }))
         /*compositeDisposable.add(repo.getTasks()
@@ -33,6 +39,10 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                 .subscribe {item ->
                     view.updateTasksList(item)
                 })*/
+    }
+
+    override fun onDetach() {
+        super.onDetach()
     }
 
     override fun onGroupItemClick(groupName: String, groupId: String) {
