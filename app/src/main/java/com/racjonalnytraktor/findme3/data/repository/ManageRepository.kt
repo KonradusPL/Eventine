@@ -23,6 +23,7 @@ object ManageRepository: BaseRepository() {
     }
 
     fun getTypedArray(oldArray: ArrayList<UserInSubGroup>): ArrayList<Typed>{
+        Log.d("qqqq",oldArray.toString())
         val subGroups = ArrayList<String>()
         for(item in oldArray){
             if(!subGroups.contains(item.subgroup))

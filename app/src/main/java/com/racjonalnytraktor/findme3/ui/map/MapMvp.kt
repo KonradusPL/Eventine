@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.map
 
 import com.google.android.gms.maps.model.LatLng
+import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
@@ -17,6 +18,9 @@ interface MapMvp {
         fun updateCheckedGroups(checked: List<String>)
         fun openManageActivity()
         fun openHistoryFragment()
+        fun openLoginActivity()
+        fun openMapActivity()
+        fun setUpLeftNavigation(groups: ArrayList<Group>)
         fun changeToolbarName(name: String)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
@@ -28,5 +32,6 @@ interface MapMvp {
         fun onSavingState(checked: List<String>, task: String, descr: String,state: String)
         fun onHistoryButtonClick()
         fun clearData()
+        fun onLogoutButtonClick()
     }
 }

@@ -1,14 +1,14 @@
 package com.racjonalnytraktor.findme3.ui.map
 
-import android.Manifest
-import android.content.Context
 import android.util.Log
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
+import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
-import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
@@ -19,14 +19,19 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
+        Log.d("rew","1")
+
         mRepo.onAttatch(mvpView.getCtx())
 
         val checked: List<String>
         val task: String
         val descr: String
 
+        Log.d("rew","2")
+
+
         if(mRepo.type == "ping"){
-            checked = mRepo.newPing.targetGroups
+            checked = mRepo.newPing.targetGroups.toList()
             task = mRepo.newPing.title
             descr = mRepo.newPing.desc
         }
@@ -36,10 +41,17 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
             descr = mRepo.newPing.desc
         }
 
+        Log.d("rew","3")
+
         var toolbarName = mRepo.prefs.getCurrentGroupName()
         if(toolbarName == "null")
             toolbarName = "Kalejdoskop"
         view.changeToolbarName(toolbarName)
+
+        view.setUpLeftNavigation(mRepo.appRepo.groups)
+
+        Log.d("rew","4")
+
 
         view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
 
@@ -76,10 +88,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                         view.updateCheckedGroups(mRepo.newInfo.targetGroups)
                 }
                 .subscribe({t: String? ->
-                    Log.d("asdasd",t!!.toString())
+                    Log.d("asdasdasd",t!!.toString())
                     view.updateSubGroups(t)
                 },{t: Throwable? ->
-                    Log.d("asdasd",t?.message.orEmpty())
+                    Log.d("asdasdasd",t?.message.orEmpty())
                 })
     }
 
@@ -108,6 +120,26 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                         view.showMessage("ERROR :(",MvpView.MessageType.ERROR)
                         view.hideCreatePingView()
                     }))
+        }
+    }
+
+    override fun onLogoutButtonClick() {
+        if(AccessToken.isCurrentAccessTokenActive())
+            LoginManager.getInstance().logOut()
+        mRepo.prefs.setCurrentUser(User())
+        mRepo.prefs.setIsUserLoggedIn(false)
+        view.openLoginActivity()
+    }
+
+    fun onChangeGroupClick(groupName: String) {
+
+        for (group in mRepo.appRepo.groups){
+            if(group.groupName == groupName){
+                mRepo.prefs.setCurrentGroupName(groupName)
+                mRepo.prefs.setCurrentGroupId(group.id)
+                view.openMapActivity()
+                break
+            }
         }
     }
 

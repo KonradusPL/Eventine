@@ -45,6 +45,8 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
 
     override fun onGroupItemClick(groupName: String, groupId: String) {
         repo.prefs.setCurrentGroupId(groupId)
+        repo.prefs.setCurrentGroupName(groupName)
+
     }
 
 }

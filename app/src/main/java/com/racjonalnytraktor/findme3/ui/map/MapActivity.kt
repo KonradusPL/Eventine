@@ -1,6 +1,5 @@
 package com.racjonalnytraktor.findme3.ui.map
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
@@ -9,14 +8,26 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.MenuItem
+import co.zsmb.materialdrawerkt.builders.drawer
+import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
+import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
+import co.zsmb.materialdrawerkt.draweritems.divider
+import co.zsmb.materialdrawerkt.draweritems.sectionItem
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
+import com.racjonalnytraktor.findme3.ui.login.LoginActivity
+import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingBasicFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingDetailsFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.HistoryFragment
@@ -26,7 +37,6 @@ import kotlinx.android.synthetic.main.activity_map.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
-import org.jetbrains.anko.AlertDialogBuilder
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -41,6 +51,8 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
     lateinit var fragmentCreatePingBasic: CreatePingBasicFragment<MapMvp.View>
     lateinit var fragmentCreatePingDetails: CreatePingDetailsFragment<MapMvp.View>
     lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
+
+    lateinit var drawerMap: Drawer
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +83,10 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         fragmentMap.getMapAsync(mMapHelper)
 
         setSupportActionBar(toolbarMap)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+        }
     }
 
     private fun listenSlidingState() {
@@ -96,6 +111,50 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
                 isSliderClosed = slidingPing.isClosed
             }
         }
+    }
+
+    override fun setUpLeftNavigation(groups: ArrayList<Group>) {
+        drawerMap = drawer {
+
+            headerView = LayoutInflater.from(this@MapActivity).inflate(R.layout.navigation_header,null)
+            primaryItem("Wyloguj się"){
+                icon = R.drawable.ic_directions_run_black_24dp
+                iconColor = R.color.colorPrimary.toLong()
+                textColor = R.color.colorPrimary.toLong()
+                tag = "logout"
+            }
+            sectionItem("Zmień wydarzenie") {
+            }
+        }
+        for(group in groups)
+        drawerMap.addItem(PrimaryDrawerItem()
+                .withName(group.groupName)
+                .withTag(group.groupName))
+
+        drawerMap.setOnDrawerItemClickListener({view, position, drawerItem ->
+            if(drawerItem.tag is String){
+                if(drawerItem.tag == "logout")
+                    mPresenter.onLogoutButtonClick()
+                else
+                    mPresenter.onChangeGroupClick(drawerItem.tag.toString())
+
+            }
+            return@setOnDrawerItemClickListener true
+        })
+
+        //drawerMap.addItem(DrawerIte)
+        //drawerMap.addItem(IDrawerItem<>)
+       /* navigationMap.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem?.itemId) {
+                R.id.item_logout ->{
+                    mPresenter.onLogoutButtonClick()
+                    true
+                }
+                R.id.item_change ->{
+
+                }
+            }
+        }*/
     }
 
     private fun initTabs(){
@@ -245,7 +304,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         }
 
         fragmentCreatePingBasic.updateData(task,descr)
-        mPresenter.getAllSubGroups()
+        //mPresenter.getAllSubGroups()
     }
 
     override fun updateCheckedGroups(checked: List<String>) {
@@ -254,6 +313,11 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     override fun openManageActivity() {
         startActivity(Intent(this, ManageSubGroupsActivity::class.java))
+    }
+
+    override fun openMapActivity(){
+        startActivity(Intent(this, MapActivity::class.java))
+        finish()
     }
 
     override fun openHistoryFragment() {
@@ -265,5 +329,21 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
 
     override fun changeToolbarName(name: String) {
         toolbarMap.title = name
+    }
+
+    override fun openLoginActivity() {
+        startActivity(Intent(this,LoginActivity::class.java))
+        finish()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                drawerMap.openDrawer()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
