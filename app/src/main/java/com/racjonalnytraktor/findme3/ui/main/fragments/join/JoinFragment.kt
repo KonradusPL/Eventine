@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.join
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.racjonalnytraktor.findme3.data.model.Invitation
 import com.racjonalnytraktor.findme3.ui.adapters.InvitationsAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import kotlinx.android.synthetic.main.fragment_join_group.*
 
 class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
@@ -56,6 +58,10 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
         progressJoinGroup.visibility = View.INVISIBLE
         fieldGroupCode.isEnabled = true
         buttonJoin.isEnabled = true
+    }
+
+    override fun openMapActivity() {
+        startActivity(Intent(getCtx(), MapActivity::class.java))
     }
 
     private fun initList(){

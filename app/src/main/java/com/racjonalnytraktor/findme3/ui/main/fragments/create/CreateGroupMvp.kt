@@ -10,6 +10,7 @@ interface CreateGroupMvp {
         fun updateList(user: User)
         fun hideCreateGroupLoading()
         fun showCreateGroupLoading()
+        fun openMapActivity()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun createEvent(groupName: String, friendsList: List<String>)

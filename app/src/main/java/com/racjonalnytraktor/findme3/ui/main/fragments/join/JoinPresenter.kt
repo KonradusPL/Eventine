@@ -38,9 +38,11 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
        view.showJoinLoading()
         compositeDisposable.add(repo.joinGroup(groupName)
                 .subscribe({response: String? ->
-                    repo.prefs.setCurrentGroup(response.orEmpty())
+                    repo.prefs.setCurrentGroupId(response.orEmpty())
+                    repo.prefs.setCurrentGroupName(groupName)
                     view.hideJoinLoading()
                     view.showMessage("Udało się !",MvpView.MessageType.SUCCESS)
+                    view.openMapActivity()
                 },{throwable: Throwable? ->
                     view.hideJoinLoading()
                     val errorCode = StringHelper.getErrorCode(throwable?.localizedMessage.orEmpty())

@@ -17,6 +17,7 @@ interface MapMvp {
         fun updateCheckedGroups(checked: List<String>)
         fun openManageActivity()
         fun openHistoryFragment()
+        fun changeToolbarName(name: String)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)

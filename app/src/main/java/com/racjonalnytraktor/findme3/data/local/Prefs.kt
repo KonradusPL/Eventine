@@ -24,7 +24,10 @@ interface Prefs {
     fun setFacebookId(value: String)
     fun getFacebookId(): String
 
-    fun setCurrentGroup(value: String)
-    fun getCurrentGroup(): String
+    fun setCurrentGroupId(value: String)
+    fun getCurrentGroupId(): String
+
+    fun setCurrentGroupName(value: String)
+    fun getCurrentGroupName(): String
 
 }

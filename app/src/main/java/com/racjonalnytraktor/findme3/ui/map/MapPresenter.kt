@@ -36,9 +36,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
             descr = mRepo.newPing.desc
         }
 
-        Log.d("onAttach",task)
-        Log.d("onAttach",descr)
-        Log.d("onAttach",checked.toString())
+        var toolbarName = mRepo.prefs.getCurrentGroupName()
+        if(toolbarName == "null")
+            toolbarName = "Kalejdoskop"
+        view.changeToolbarName(toolbarName)
 
         view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
 

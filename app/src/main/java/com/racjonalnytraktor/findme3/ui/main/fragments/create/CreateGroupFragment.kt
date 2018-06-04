@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.create
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.data.model.User
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 
 
 class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.View {
@@ -53,6 +55,10 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
 
     override fun updateList(user: User) {
         listAdapter.addItem(user)
+    }
+
+    override fun openMapActivity() {
+        startActivity(Intent(getCtx(),MapActivity::class.java))
     }
 
     private fun initList(){

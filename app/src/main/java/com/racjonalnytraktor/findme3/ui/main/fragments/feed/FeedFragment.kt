@@ -87,6 +87,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
         openMapActivity(groupName)
     }
 
+
     override fun hideTasksLoading() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

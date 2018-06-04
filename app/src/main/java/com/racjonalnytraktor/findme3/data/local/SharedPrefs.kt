@@ -16,7 +16,8 @@ class SharedPrefs(context: Context): Prefs {
     private val IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN"
     private val CURRENT_USER_PROFILE_IMAGE = "PROFILE_IMAGE"
     private val CURRENT_USER_FB_ID = "CURRENT_USER_FB_ID"
-    private val CURRENT_GROUP = "CURRENT_GROUP"
+    private val CURRENT_GROUP_ID = "CURRENT_GROUP"
+    private val CURRENT_GROUP_NAME = "CURRENT_GROUP_NAME"
 
 
     private val mSharedPrefs = context.getSharedPreferences("shared_preferences",Context.MODE_PRIVATE)
@@ -98,14 +99,24 @@ class SharedPrefs(context: Context): Prefs {
         return mSharedPrefs.getString(CURRENT_USER_FB_ID,"null")
     }
 
-    override fun setCurrentGroup(value: String) {
+    override fun setCurrentGroupId(value: String) {
         mSharedPrefs.edit{
-            putString(CURRENT_GROUP,value)
+            putString(CURRENT_GROUP_ID,value)
         }
     }
 
-    override fun getCurrentGroup(): String {
-        return mSharedPrefs.getString(CURRENT_GROUP,"null")
+    override fun getCurrentGroupId(): String {
+        return mSharedPrefs.getString(CURRENT_GROUP_ID,"null")
+    }
+
+    override fun setCurrentGroupName(value: String) {
+        mSharedPrefs.edit{
+            putString(CURRENT_GROUP_NAME,value)
+        }
+    }
+
+    override fun getCurrentGroupName(): String {
+        return mSharedPrefs.getString(CURRENT_GROUP_NAME,"null")
     }
 
 

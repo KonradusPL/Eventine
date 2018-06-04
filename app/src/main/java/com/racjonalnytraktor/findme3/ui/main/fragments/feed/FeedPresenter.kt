@@ -4,8 +4,6 @@ import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.repository.groups.GroupsRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
-import com.racjonalnytraktor.findme3.ui.base.MvpView
-import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 
 
 class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
@@ -46,7 +44,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
     }
 
     override fun onGroupItemClick(groupName: String, groupId: String) {
-        repo.prefs.setCurrentGroup(groupId)
+        repo.prefs.setCurrentGroupId(groupId)
     }
 
 }

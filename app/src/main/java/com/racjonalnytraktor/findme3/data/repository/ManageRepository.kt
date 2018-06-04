@@ -15,7 +15,7 @@ import io.reactivex.Single
 object ManageRepository: BaseRepository() {
 
     fun getPeopleInGroups(): Observable<Typed>{
-        return rest.networkService.getPeopleInSubGroups(prefs.getUserToken(),prefs.getCurrentGroup())
+        return rest.networkService.getPeopleInSubGroups(prefs.getUserToken(),prefs.getCurrentGroupId())
                 .map { t -> getTypedArray(t.people) }
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())

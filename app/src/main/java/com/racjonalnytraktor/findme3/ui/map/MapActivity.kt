@@ -262,4 +262,8 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
                 .commit()
         slidingPing.openLayer(true)
     }
+
+    override fun changeToolbarName(name: String) {
+        toolbarMap.title = name
+    }
 }

@@ -47,11 +47,14 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->
                     view.hideCreateGroupLoading()
-                    view.showMessage("Udało się stworzyć event")
+                    repo.prefs.setCurrentGroupId(response.orEmpty())
+                    repo.prefs.setCurrentGroupName(groupName)
+                    view.showMessage("Udało się stworzyć event",MvpView.MessageType.SUCCESS)
+                    view.openMapActivity()
                     Log.d("response",response.orEmpty())
                 }, {error: Throwable? ->
                     view.hideCreateGroupLoading()
-                    view.showMessage("Nie udało się stworzyć eventu")
+                    view.showMessage("Nie udało się stworzyć eventu",MvpView.MessageType.ERROR)
                     Log.d("error",error!!.message)
                         }))
     }
