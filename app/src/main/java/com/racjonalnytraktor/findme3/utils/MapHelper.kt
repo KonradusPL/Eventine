@@ -66,8 +66,8 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         mMap.setOnMarkerClickListener { marker ->
             for(ping in pingsOnMap){
                 if(ping.marker == marker){
-                    listener.onMarkerClick(ping.ping!!)
-                    marker.showInfoWindow()
+                    listener.onMarkerClick(ping.ping)
+                    //marker.showInfoWindow()
                     break
                 }
             }
@@ -154,9 +154,19 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
        // marker.tag = ping.title
         //marker.title = ping.title
 
-        val pingOnMap = PingOnMap()
-        pingOnMap.marker = marker
-        pingOnMap.ping = ping
+        val groupId = ping.groupId
+        val creator = ping.creator
+        val title = ping.title
+        val targetGroups = ping.targetGroups
+        val desc = ping.desc
+        val geo = ping.geo
+        val pingId = ping.pingId
+        val creatorName = ping.creatorName
+
+        val newPing = Ping(groupId,creator,title,targetGroups,
+                desc,geo,ping.inProgress,ping.done,pingId,creatorName)
+
+        val pingOnMap = PingOnMap(newPing, marker)
         pingsOnMap.add(pingOnMap)
 
     }

@@ -10,11 +10,12 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     val CHANNEL_DEFAULT_IMPORTANCE = "asdasdasd"
-    val ONGOING_NOTIFICATION_ID = 123123
+    val NOTIFICATION_ID_PING = 123123
 
     lateinit var notification: Notification
     lateinit var notificationBuilder: NotificationCompat.Builder
@@ -22,29 +23,57 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
-        val groupName = message?.data?.get("groupName")
-        val action = message?.data?.get("action")
 
-       // Log.d("message",groupName)
-        //Log.d("action",action)
+        if(message == null)
+            return
 
-        createNotification(groupName.orEmpty(), action.orEmpty())
+        val action = message.data["action"].orEmpty()
+        if (action.isEmpty())
+            return
+
+        if (action == "pingCreate"){
+            val title = message.data["title"].orEmpty()
+            val desc = message.data["desc"].orEmpty()
+            createPingNotification(title,desc)
+        }
+        else{
+            val groupName = message.data["groupName"].orEmpty()
+            createGroupNotification(groupName)
+        }
+
     }
-    private fun createNotification(groupName: String, action: String){
+
+    private fun createPingNotification(title: String, desc: String){
+        val notificationIntent = Intent(this, MapActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+
+        notificationManager = NotificationManagerCompat.from(this)
+
+        notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle(title)
+                .setContentText(desc)
+                .setSmallIcon(R.drawable.logo_drawer)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+
+        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+    }
+    private fun createGroupNotification(groupName: String){
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
         notificationManager = NotificationManagerCompat.from(this)
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
-                .setContentTitle("Zaproszenie do grupy ${groupName}")
+                .setContentTitle("Zaproszenie do grupy $groupName")
                 .setContentText("Kliknij aby dołączyć")
-                .setSmallIcon(R.drawable.logo_tinder_splash)
+                .setSmallIcon(R.drawable.logo_drawer)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
 
-        notificationManager.notify(ONGOING_NOTIFICATION_ID, notificationBuilder.build())
+        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
 
     }
