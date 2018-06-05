@@ -7,6 +7,7 @@
     android:layout_height="@dimen/slider_height"
     android:background="@drawable/background_ping"
     android:backgroundTint="@color/white"
+    android:alpha="0.95"
     android:elevation="3dp"
     android:id="@+id/layout">
 
@@ -65,7 +66,7 @@
         android:layout_height="36dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:background="@drawable/button_rounded"
         android:textColor="@color/white"
         android:text="Dalej"

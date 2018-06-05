@@ -99,9 +99,11 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 })
     }
 
-    override fun onAddButtonClick(checkedGroups: ArrayList<String>) {
+    override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
         if(typeOfNewThing == "ping"){
-            mRepo.newPing.targetGroups = checkedGroups
+            if(checkedGroups.isNotEmpty())
+                mRepo.newPing.targetGroups = checkedGroups
+            mRepo.newPing.date = date
             compositeDisposable.add(mRepo.createPing()
                     .subscribe({t: String? ->
                         view.updatePings(mRepo.newPing)
@@ -114,7 +116,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     }))
         }
         else{
-            mRepo.newInfo.targetGroups = checkedGroups
+            mRepo.newInfo.date = date
+            if(checkedGroups.isNotEmpty())
+                mRepo.newInfo.targetGroups = checkedGroups
             compositeDisposable.add(mRepo.createInfo()
                     .subscribe({t: String? ->
                         view.showMessage("SUCCESS INFO",MvpView.MessageType.SUCCESS)
@@ -125,6 +129,16 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                         view.hideCreatePingView()
                     }))
         }
+    }
+
+    override fun onPlanButtonClick(checkedGroups: ArrayList<String>) {
+        if(mRepo.type == "ping")
+            mRepo.newPing.targetGroups = checkedGroups
+        else
+            mRepo.newPing.targetGroups = checkedGroups
+
+        view.showPlanDialog()
+
     }
 
     override fun onLogoutButtonClick() {

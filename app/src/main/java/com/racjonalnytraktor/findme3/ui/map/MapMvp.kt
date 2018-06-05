@@ -24,10 +24,12 @@ interface MapMvp {
         fun setUpLeftNavigation(groups: ArrayList<Group>)
         fun changeToolbarName(name: String)
         fun showEndPingBar(typed: Typed)
+        fun showPlanDialog()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)
-        fun onAddButtonClick(checkedGroups: ArrayList<String>)
+        fun onAddButtonClick(checkedGroups: ArrayList<String> = ArrayList(), date: String = "")
+        fun onPlanButtonClick(checkedGroups: ArrayList<String>)
         fun onMapLongClick(location: LatLng)
         fun onInfoTabClick()
         fun onMapPrepared()

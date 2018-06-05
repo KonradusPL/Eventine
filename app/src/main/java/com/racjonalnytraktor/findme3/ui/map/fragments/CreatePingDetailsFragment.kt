@@ -40,7 +40,7 @@ class CreatePingDetailsFragment<V: MapMvp.View>: BaseFragment<V>() {
             mPresenter.onAddButtonClick(mListAdapter.getCheckedGroups())
         }
         buttonPlan.setOnClickListener {
-
+            mPresenter.onPlanButtonClick(mListAdapter.getCheckedGroups())
         }
 
     }

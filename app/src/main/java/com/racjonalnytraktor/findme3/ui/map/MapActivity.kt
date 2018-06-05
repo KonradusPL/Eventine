@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.map
 
 import android.content.Intent
 import android.icu.text.IDNA
+import android.icu.text.SimpleDateFormat
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -15,6 +16,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.DatePicker
+import android.widget.TimePicker
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
@@ -42,11 +45,14 @@ import com.racjonalnytraktor.findme3.ui.map.fragments.ManagementFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
+import kotlinx.android.synthetic.main.dialog_time.*
+import kotlinx.android.synthetic.main.dialog_time.view.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 class MapActivity : BaseActivity(),MapMvp.View{
@@ -234,6 +240,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentCreatePingBasic.type = type
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
+                .addToBackStack(null)
                 .commit()
         slidingPing.openLayer(true)
         if(fragmentCreatePingBasic.isAdded){
@@ -359,6 +366,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun openHistoryFragment() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerCreatePing,fragmentHistory)
+                .addToBackStack(null)
                 .commit()
         slidingPing.openLayer(true)
     }
@@ -375,6 +383,46 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.map_menu, menu)
         return true
+
+    }
+
+    override fun showPlanDialog() {
+        val datePicker = DatePicker(this)
+        val viewDate = layoutInflater.inflate(R.layout.dialog_time,null)
+
+        var date = ""
+
+        val dialogCalendar = AlertDialog.Builder(this)
+                .setView(datePicker)
+                .setPositiveButton("Wybierz",{dialogInterface, i ->
+                    Log.d("bnmbnm","bnmbnm")
+                    viewDate.buttonDate.text ="${datePicker.month+1}/${datePicker.dayOfMonth}/20${datePicker.year}"
+                }).create()
+
+        viewDate.buttonDate.setOnClickListener {
+            dialogCalendar.show()
+        }
+
+        val builder = AlertDialog.Builder(this)
+                .setMessage("Wybierz datę")
+                .setView(viewDate)
+                .setPositiveButton("Zaplanuj",{dialogInterface, i ->
+                    val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.getDefault())
+                    val date = Date()
+                    val calendar = Calendar.getInstance()
+                    calendar.set(datePicker.year,datePicker.month,datePicker.dayOfMonth,
+                            viewDate.timePicker.currentHour,viewDate.timePicker.currentMinute,0)
+                    date.time = calendar.timeInMillis
+
+                    val time = format.format(date)
+                    mPresenter.onAddButtonClick(date = time)
+
+                })
+                .setNegativeButton("Anuluj",{_,_ ->
+
+                })
+
+        builder.create().show()
 
     }
 
