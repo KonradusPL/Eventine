@@ -37,6 +37,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                 .subscribe {item ->
                     view.updateTasksList(item)
                 })*/
+        view.hideTasksLoading()
     }
 
     override fun onDetach() {

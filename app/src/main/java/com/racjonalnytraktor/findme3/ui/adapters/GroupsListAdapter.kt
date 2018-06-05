@@ -28,7 +28,11 @@ class GroupsListAdapter(val list: ArrayList<Group>,
         private val listener = view as GroupsListListener
 
         fun bind(group: Group){
-            itemView.fieldGroupName.text = group.groupName
+            if(group.groupName.length < 7)
+                itemView.fieldGroupName.text = group.groupName
+            else
+                itemView.fieldGroupName.text = group.groupName.substring(0,7) + ".."
+
             Picasso.get()
                     .load(group.groupPictureUri)
                     .placeholder(R.drawable.image_placeholder)

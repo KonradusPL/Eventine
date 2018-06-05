@@ -14,16 +14,16 @@ object GroupsRepository: BaseRepository() {
      TODO()
     }
 
-    fun getGroups(): Observable<List<Group>>{
+    fun getGroups(): Observable<ArrayList<Group>>{
         val token = prefs.getUserToken()
         val observable =  rest.networkService.getGroups(token)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
                 .map { t -> t.groups }
 
-        observable.subscribe({t: List<Group>? ->
+        observable.subscribe({t: ArrayList<Group>? ->
             Log.d("xxxxxxx","xxxxxxx")
-            appRepo.groups.addAll(t!!)
+            appRepo.addGroups(t!!)
         },{t: Throwable? ->
 
         })

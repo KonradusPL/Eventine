@@ -11,4 +11,5 @@ data class Ping(
         var geo: ArrayList<Double> = ArrayList(),
         var inProgress: String = "",
         var done: String = "",
+        var pingId: String = "",
         var creatorName: String = ""): Typed()

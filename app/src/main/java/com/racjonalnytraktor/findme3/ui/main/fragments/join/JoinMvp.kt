@@ -10,6 +10,8 @@ interface JoinMvp {
         fun onInvitationClick(groupId: String)
         fun showJoinLoading()
         fun hideJoinLoading()
+        fun showInvitesLoading()
+        fun hideInvitesLoading()
         fun openMapActivity()
     }
     interface Presenter<V: View>: MvpPresenter<V>{

@@ -6,21 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Invitation
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import kotlinx.android.synthetic.main.item_history.view.*
 
 
-class HistoryAdapter(val pings: ArrayList<Ping>, val infos: ArrayList<Info>)
+class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
     :RecyclerView.Adapter<HistoryAdapter.MyHolder>(){
 
-    var type = "pings"
+    var type = "ping"
 
     override fun onBindViewHolder(holder: HistoryAdapter.MyHolder, position: Int) {
-        if(type == "pings")
-            holder.bind1(pings[position])
+        if(list[position].type == "ping")
+            holder.bind1(list[position] as Ping)
         else
-            holder.bind2(infos[position])
+            holder.bind2(list[position] as Info)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.MyHolder {
@@ -28,16 +29,22 @@ class HistoryAdapter(val pings: ArrayList<Ping>, val infos: ArrayList<Info>)
         return MyHolder(view)
     }
 
-    class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind1(ping: Ping) {
+            itemView.setOnClickListener {
+                listener.onPingClick(ping)
+            }
             itemView.fieldTitle.text = ping.title
             itemView.fieldDescr.text = ping.desc
             val creator = if(ping.creatorName.isNotEmpty()) ping.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
         }
         fun bind2(info: Info){
-            itemView.fieldTitle.text = "Info"
+            itemView.setOnClickListener {
+                listener.onInfoClick(info)
+            }
+            itemView.fieldTitle.text = "Informacja"
             val creator = if(info.creatorName.isNotEmpty()) info.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
             itemView.fieldDescr.text = info.content
@@ -45,26 +52,24 @@ class HistoryAdapter(val pings: ArrayList<Ping>, val infos: ArrayList<Info>)
     }
 
     fun clear(type: String){
-        pings.clear()
-        infos.clear()
+        list.clear()
         notifyDataSetChanged()
         this.type = type
     }
 
-    fun updatePings(item: Ping){
-        pings.add(item)
-        notifyItemInserted(pings.size-1)
+    fun updateList(item: Typed){
+        list.add(item)
+        notifyItemInserted(list.size-1)
     }
 
-    fun updateInfo(item: Info){
-        infos.add(item)
-        notifyItemInserted(infos.size-1)
-    }
+
 
     override fun getItemCount(): Int {
-        if (type == "pings")
-            return pings.size
-        else
-            return infos.size
+        return list.size
+    }
+
+    interface ClickListener{
+        fun onInfoClick(info: Info)
+        fun onPingClick(ping: Ping)
     }
 }

@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.map
 
 import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.Group
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
@@ -22,6 +23,7 @@ interface MapMvp {
         fun openMapActivity()
         fun setUpLeftNavigation(groups: ArrayList<Group>)
         fun changeToolbarName(name: String)
+        fun showEndPingBar(typed: Typed)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)
@@ -33,5 +35,6 @@ interface MapMvp {
         fun onHistoryButtonClick()
         fun clearData()
         fun onLogoutButtonClick()
+        fun onEndPing(id: String)
     }
 }

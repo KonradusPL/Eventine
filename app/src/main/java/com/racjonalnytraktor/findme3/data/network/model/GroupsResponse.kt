@@ -6,5 +6,5 @@ import com.racjonalnytraktor.findme3.data.model.Group
  * Created by Admin on 2018-05-31.
  */
 data class GroupsResponse (
-    val groups: List<Group>
+    val groups: ArrayList<Group>
 )

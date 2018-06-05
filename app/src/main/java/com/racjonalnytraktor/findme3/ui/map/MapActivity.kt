@@ -1,14 +1,19 @@
 package com.racjonalnytraktor.findme3.ui.map
 
 import android.content.Intent
+import android.icu.text.IDNA
 import android.location.Location
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
@@ -24,7 +29,9 @@ import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
+import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
@@ -41,7 +48,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 
-class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
+class MapActivity : BaseActivity(),MapMvp.View{
 
     private lateinit var mMapHelper: MapHelper
     lateinit var mPresenter: MapPresenter<MapMvp.View>
@@ -85,7 +92,7 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         setSupportActionBar(toolbarMap)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+            //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
         }
     }
 
@@ -116,16 +123,19 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
     override fun setUpLeftNavigation(groups: ArrayList<Group>) {
         drawerMap = drawer {
 
+            gravity = GravityCompat.END
+            displayBelowStatusBar = false
+
             headerView = LayoutInflater.from(this@MapActivity).inflate(R.layout.navigation_header,null)
             primaryItem("Wyloguj się"){
                 icon = R.drawable.ic_directions_run_black_24dp
-                iconColor = R.color.colorPrimary.toLong()
-                textColor = R.color.colorPrimary.toLong()
                 tag = "logout"
             }
             sectionItem("Zmień wydarzenie") {
+                selectable = false
             }
         }
+        drawerMap.deselect()
         for(group in groups)
         drawerMap.addItem(PrimaryDrawerItem()
                 .withName(group.groupName)
@@ -215,31 +225,13 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         fragmentCreatePingDetails.updateList(item)
     }
 
-    override fun onMapClick(location: Location) {
-    }
-
-    override fun onMarkerClick(marker: Marker) {
-        val dialog = AlertDialog.Builder(this)
-                .setMessage("Ustawić ping jako wykonany ?")
-                .setPositiveButton("TAK",{_, i ->
-                    marker.remove()
-                }).setNegativeButton("NIE",{dialogInterface, i ->
-
-                }).create()
-        dialog.show()
-    }
-
-    override fun onLongClickListener(location: LatLng) {
-        mPresenter.onMapLongClick(location)
-    }
-
     override fun showCreatePingView(type: String) {
-       slidingPing.openLayer(true)
         fragmentCreatePingDetails.type = type
         fragmentCreatePingBasic.type = type
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
                 .commit()
+        slidingPing.openLayer(true)
         if(fragmentCreatePingBasic.isAdded){
             Log.d("kikiki","kikiki")
             if(type == "ping")
@@ -261,9 +253,6 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         return mPresenter
     }
 
-    override fun onMapPrepared() {
-        mPresenter.onMapPrepared()
-    }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
@@ -320,6 +309,35 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         finish()
     }
 
+    override fun showEndPingBar(typed: Typed) {
+        val title = when(typed is Ping){
+            true -> (typed as Ping).title
+            false -> "Informacja"
+        }
+
+        val message = when(typed is Ping){
+            true -> (typed as Ping).desc
+            false -> (typed as Info).content
+        }
+
+         val builder = AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+               .setIcon(R.drawable.ic_info_black_24dp)
+                 .setNegativeButton("Cofnij",{_,_ ->})
+
+
+        if(typed is Ping){
+            builder.setPositiveButton("Wykonaj",{
+                _,_ ->
+                if(typed.type == "ping")
+                    mPresenter.onEndPing(typed.pingId)
+            })
+        }
+
+        builder.create().show()
+    }
+
     override fun openHistoryFragment() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerCreatePing,fragmentHistory)
@@ -336,9 +354,16 @@ class MapActivity : BaseActivity(),MapMvp.View, MapHelper.MapListener {
         finish()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.map_menu, menu)
+        return true
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
-            android.R.id.home -> {
+
+            R.id.item_hamburger ->{
                 drawerMap.openDrawer()
                 true
             }

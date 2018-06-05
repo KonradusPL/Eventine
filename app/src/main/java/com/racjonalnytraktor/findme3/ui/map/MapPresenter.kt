@@ -1,18 +1,22 @@
 package com.racjonalnytraktor.findme3.ui.map
 
+import android.location.Location
 import android.util.Log
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
+import com.racjonalnytraktor.findme3.utils.MapHelper
 
-class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
+class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
+,MapHelper.MapListener{
 
-     var mRepo =  MapRepository
+    var mRepo =  MapRepository
 
     var typeOfNewThing = "ping"
 
@@ -105,7 +109,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
                         view.hideCreatePingView()
                     },{t: Throwable? ->
                         Log.d("error",t!!.message.orEmpty())
-                        view.showMessage("ERROR :(",MvpView.MessageType.ERROR)
+                        view.showMessage("Nie udało się stworzyć pingu",MvpView.MessageType.ERROR)
                         view.hideCreatePingView()
                     }))
         }
@@ -151,6 +155,21 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
         view.showCreatePingView()
     }
 
+    override fun onMapClick(location: Location) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMarkerClick(ping: Ping) {
+        view.showEndPingBar(ping)
+    }
+
+    override fun onLongClickListener(location: LatLng) {
+        mRepo.newPing.geo.clear()
+        mRepo.newPing.geo.add(location.latitude)
+        mRepo.newPing.geo.add(location.longitude)
+        view.showCreatePingView()
+    }
+
     override fun onDetach() {
         super.onDetach()
        // mRepo.locationProvider.end()
@@ -183,6 +202,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V> {
 
     override fun clearData() {
         mRepo.clearData()
+    }
+
+    override fun onEndPing(id: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

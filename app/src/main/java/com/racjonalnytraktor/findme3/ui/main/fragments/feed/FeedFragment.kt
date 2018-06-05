@@ -13,11 +13,13 @@ import com.racjonalnytraktor.findme3.data.model.Task
 import com.racjonalnytraktor.findme3.ui.adapters.GroupsListAdapter
 import com.racjonalnytraktor.findme3.ui.adapters.TasksListAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
+import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.fragment_groups.*
 import kotlinx.android.synthetic.main.fragment_groups.view.*
+import kotlinx.android.synthetic.main.fragment_join_group.*
 
 class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
@@ -32,11 +34,11 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mPresenter = FeedPresenter()
-        mPresenter.onAttach(this)
-
         initGroupsList()
         initTasksList()
+
+        mPresenter = FeedPresenter()
+        mPresenter.onAttach(this)
     }
 
     private fun initGroupsList(){
@@ -74,8 +76,8 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     override fun hideGroupsLoading() {
         progressGroups.isIndeterminate = false
         progressGroups.visibility = View.INVISIBLE
-        if(mGroupsListAdapter.itemCount == 0)
-            textEmptyGroups.visibility = View.VISIBLE
+        if(mTasksListAdapter.list.size > 0)
+            layoutNoTasks.visibility = View.INVISIBLE
     }
 
     override fun openMapActivity(groupName: String) {
@@ -89,10 +91,11 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
 
     override fun hideTasksLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if(mTasksListAdapter.itemCount == 0)
+            layoutNoTasks.visibility = View.VISIBLE
     }
 
     override fun showTasksLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        layoutNoTasks.visibility = View.INVISIBLE
     }
 }

@@ -18,6 +18,7 @@ import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.fragment_join_group.*
 
 class LoginActivity : BaseActivity(),LoginMvp.View {
 
@@ -67,6 +68,22 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
             } })
     }
 
+    override fun showLoginLoading() {
+        progressBarLogin.visibility = View.VISIBLE
+        progressBarLogin.isIndeterminate = true
+        fieldEmail.isEnabled = false
+        fieldPassword.isEnabled = false
+        buttonLogin.isEnabled = false
+    }
+
+    override fun hideLoginLoading() {
+        progressBarLogin.isIndeterminate = false
+        progressBarLogin.visibility = View.INVISIBLE
+        fieldEmail.isEnabled = true
+        fieldPassword.isEnabled = true
+        buttonLogin.isEnabled = true
+    }
+
     override fun openMainActivity() {
         startActivity(Intent(this,MainActivity::class.java))
         finish()
@@ -82,14 +99,15 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
         callbackManager.onActivityResult(requestCode,resultCode,data)
     }
 
-    override fun showLoginLoading() {
-        hideLoginLoading()
-        progressLogin.isIndeterminate = true
-        progressLogin.visibility = View.VISIBLE
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+
     }
 
-    override fun hideLoginLoading() {
-        progressLogin.isIndeterminate = false
-        progressLogin.visibility = View.INVISIBLE
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
+
 }

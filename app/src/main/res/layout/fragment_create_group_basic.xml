@@ -65,7 +65,7 @@
         android:layout_height="36dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/button_rounded"
         android:textColor="@color/white"
         android:text="Dalej"

@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.ui.main.fragments.join
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,20 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
         progressJoinGroup.visibility = View.INVISIBLE
         fieldGroupCode.isEnabled = true
         buttonJoin.isEnabled = true
+    }
+
+    override fun showInvitesLoading() {
+        //imageNoInvites.visibility = View.INVISIBLE
+        //fieldNoInvites.visibility = View.INVISIBLE
+        layoutNoInvites.visibility = View.INVISIBLE
+    }
+
+    override fun hideInvitesLoading() {
+        // imageNoInvites.visibility = View.VISIBLE
+        //fieldNoInvites.visibility = View.VISIBLE
+        if(mListAdapter.list.size > 0)
+            layoutNoInvites.visibility = View.INVISIBLE
+
     }
 
     override fun openMapActivity() {

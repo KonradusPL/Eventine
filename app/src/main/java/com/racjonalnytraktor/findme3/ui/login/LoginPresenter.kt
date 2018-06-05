@@ -17,16 +17,20 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
     val repo = LoginRepository()
 
     override fun onEmailLoginClick(email: String, password: String) {
+        view.showLoginLoading()
         compositeDisposable.add(repo.loginWithEmail(LoginRequest(email, password))
                 .subscribe({response: LoginResponse? ->
+                    view.hideLoginLoading()
                     repo.prefs.setIsUserLoggedIn(true)
                     repo.prefs.setUserToken(response!!.token)
                     view.openMainActivity()
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
 
                 },{throwable: Throwable? ->
+                    view.hideLoginLoading()
                     val errorCode = StringHelper.getErrorCode(throwable!!.localizedMessage)
-                    view.showMessage(errorCode,MvpView.MessageType.ERROR)
+                    if(errorCode == "401")
+                        view.showMessage("Błędne dane logowania",MvpView.MessageType.ERROR)
                 }))
     }
 
@@ -39,22 +43,25 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
     }
 
     override fun onFacebookLoginSuccess(loginResult: LoginResult?) {
+        view.showLoginLoading()
         repo.getUserInfo()
                 .subscribe({ user: User? ->
                     Log.d("qweqwe",user!!.fullName)
                     repo.registerByFacebook(user!!)
                             .subscribe ({ response: RegisterFbResponse? ->
+                                view.hideLoginLoading()
                                 Log.d("registerresponse",response!!.token)
                                 user.token = response.token
                                 repo.prefs.setIsUserLoggedIn(true)
                                 repo.setCurrentUser(user)
                                 view.openMainActivity()},
                                     {error: Throwable? -> Log.d("error",error.toString())
-
+                                        view.hideLoginLoading()
                             }
 
                     )
                 },{throwable: Throwable? ->
+                    view.hideLoginLoading()
                     Log.d("error",throwable.toString())
                 })
     }

@@ -30,6 +30,9 @@ class FriendsAdapter(val list: ArrayList<User>,
     inner class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
 
         fun bind(position: Int){
+            itemView.setOnClickListener {
+                itemView.checkFriend.performClick()
+            }
             itemView.fieldFriend.text = list[position].fullName
             itemView.checkFriend.setOnClickListener {
                 if (itemView.checkFriend.isChecked){

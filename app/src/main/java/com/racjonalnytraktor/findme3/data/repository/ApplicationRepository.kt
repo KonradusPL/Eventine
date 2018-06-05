@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.data.repository
 
+import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Group
 
 object ApplicationRepository {
@@ -7,8 +8,8 @@ object ApplicationRepository {
     val groups = ArrayList<Group>()
 
     fun addGroups(groups: ArrayList<Group>){
-        groups.clear()
-        groups.addAll(groups)
+        this.groups.clear()
+        this.groups.addAll(groups)
     }
     fun addGroup(group: Group) = groups.add(group)
 

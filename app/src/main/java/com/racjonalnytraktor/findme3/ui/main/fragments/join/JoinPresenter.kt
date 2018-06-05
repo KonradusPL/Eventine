@@ -17,14 +17,23 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
 
         repo.onAttatch(mvpView.getCtx())
 
+        view.showInvitesLoading()
+
         compositeDisposable.add(repo.getInvitations()
                 .map { t -> t.invitations }
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
+                .doOnComplete{
+                    Log.d("bbbbb","b123")
+                    Log.d("poipoipoi","poipoipoi")
+                    view.hideInvitesLoading()
+                }
                 .subscribe({t: Invitation? ->
                     view.updateList(t!!)
+                    view.hideInvitesLoading()
                 },{t: Throwable? ->
+                    view.hideInvitesLoading()
                     Log.d("error",t!!.message)
                 }))
     }

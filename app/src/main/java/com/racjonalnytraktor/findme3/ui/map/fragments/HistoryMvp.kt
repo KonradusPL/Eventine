@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments
 
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
@@ -11,6 +12,7 @@ interface HistoryMvp {
         fun updateInfos(info: Info)
         fun updateAll()
         fun clearList(type: String)
+        fun showEndPingBar(typed: Typed)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onInfoButtonClick()

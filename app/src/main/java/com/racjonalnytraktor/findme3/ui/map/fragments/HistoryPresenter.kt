@@ -4,9 +4,11 @@ import android.util.Log
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.HistoryRepository
+import com.racjonalnytraktor.findme3.ui.adapters.HistoryAdapter
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 
-class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presenter<V> {
+class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presenter<V>
+,HistoryAdapter.ClickListener{
 
     val repo = HistoryRepository
 
@@ -16,8 +18,10 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
 
         compositeDisposable.add(repo.getPings()
                 .subscribe({ping: Ping? ->
-                    if (ping != null)
+                    if (ping != null){
+                        ping.type = "ping"
                         view.updatePings(ping)
+                    }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
                 }))
@@ -27,8 +31,10 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
         view.clearList("info")
         compositeDisposable.add(repo.getInfos()
                 .subscribe({info: Info? ->
-                    if (info != null)
+                    if (info != null){
+                        info.type = "info"
                         view.updateInfos(info)
+                    }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
                 }))
@@ -38,11 +44,21 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
         view.clearList("pings")
         compositeDisposable.add(repo.getPings()
                 .subscribe({ping: Ping? ->
-                    if (ping != null)
-                    view.updatePings(ping)
+                    if (ping != null){
+                        ping.type = "ping"
+                        view.updatePings(ping)
+                    }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
                 }))
+    }
+
+    override fun onInfoClick(info: Info) {
+        view.showEndPingBar(info)
+    }
+
+    override fun onPingClick(ping: Ping) {
+        view.showEndPingBar(ping)
     }
 
     override fun onAllButtonClick() {

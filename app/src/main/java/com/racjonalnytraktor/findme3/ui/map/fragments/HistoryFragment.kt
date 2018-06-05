@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.ui.adapters.HistoryAdapter
@@ -38,11 +39,11 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
     }
 
     override fun updatePings(ping: Ping) {
-        mListAdapter.updatePings(ping)
+        mListAdapter.updateList(ping)
     }
 
     override fun updateInfos(info: Info) {
-        mListAdapter.updateInfo(info)
+        mListAdapter.updateList(info)
     }
 
     override fun updateAll() {
@@ -58,7 +59,11 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         val layoutManager = LinearLayoutManager(activity)
         listHistory.layoutManager = layoutManager
 
-        mListAdapter = HistoryAdapter(arrayListOf(), arrayListOf())
+        mListAdapter = HistoryAdapter(arrayListOf(),mPresenter)
         listHistory.adapter = mListAdapter
+    }
+
+    override fun showEndPingBar(typed: Typed) {
+        parentMvp.showEndPingBar(typed)
     }
 }

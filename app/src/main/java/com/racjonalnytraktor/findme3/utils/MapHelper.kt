@@ -16,8 +16,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.CameraPosition
-
-
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 
 
 class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback {
@@ -34,13 +33,13 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
     interface MapListener {
         fun onMapClick(location: Location)
-        fun onMarkerClick(marker: Marker)
+        fun onMarkerClick(ping: Ping)
         fun onLongClickListener(location: LatLng)
         fun onMapPrepared()
     }
 
     init {
-        listener = context as MapListener
+        listener = (context as MapActivity).mPresenter
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -65,8 +64,13 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
             clickListener.onMapClick(location)*/
         }
         mMap.setOnMarkerClickListener { marker ->
-            listener.onMarkerClick(marker)
-            marker.showInfoWindow()
+            for(ping in pingsOnMap){
+                if(ping.marker == marker){
+                    listener.onMarkerClick(ping.ping!!)
+                    marker.showInfoWindow()
+                    break
+                }
+            }
             true
         }
         mMap.setOnMapLongClickListener { latLng ->
