@@ -41,6 +41,7 @@ import com.racjonalnytraktor.findme3.ui.map.fragments.HistoryFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.ManagementFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.dialog_ping.view.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
@@ -105,6 +106,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 if(!isSliderClosed && isSliderClosed != slidingPing.isClosed){
                     uiThread {
                         Log.d("yuyu","yuyu")
+                        if(fragmentCreatePingBasic.isAdded)
+                            fragmentCreatePingBasic.clearData()
                         mPresenter.clearData()
                         if(fragmentCreatePingDetails.isInLayout){
                             Log.d("vvv","vvv")
@@ -202,6 +205,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun changeCreateGroupFragment() {
+        fragmentCreatePingBasic.clearData()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerCreatePing,fragmentCreatePingDetails)
                 .commit()
@@ -242,6 +246,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun hideCreatePingView() {
+        if(fragmentCreatePingBasic.isAdded){
+            fragmentCreatePingBasic.clearData()
+        }
         slidingPing.closeLayer(true)
     }
 
@@ -320,9 +327,21 @@ class MapActivity : BaseActivity(),MapMvp.View{
             false -> (typed as Info).content
         }
 
+        val view = layoutInflater.inflate(R.layout.dialog_ping,null)
+        view.fieldAutor.text = "Autor: " + if(typed is Ping) typed.creatorName else (typed as Info).creatorName
+
+        val groups = if(typed is Ping) typed.targetGroups else (typed as Info).targetGroups
+
+        val text = "Podgrupy: "
+        for(group in groups){
+            text.plus(group)
+        }
+
+        view.fieldGroups.text = text
          val builder = AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
+                 .setView(view)
                .setIcon(R.drawable.ic_info_black_24dp)
                  .setNegativeButton("Cofnij",{_,_ ->})
 
@@ -330,8 +349,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         if(typed is Ping){
             builder.setPositiveButton("Wykonaj",{
                 _,_ ->
-                if(typed.type == "ping")
-                    mPresenter.onEndPing(typed.pingId)
+                mPresenter.onEndPing(typed.pingId)
             })
         }
 

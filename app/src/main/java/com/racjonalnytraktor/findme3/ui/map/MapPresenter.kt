@@ -71,7 +71,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onNextButtonClick(task: String, descr: String) {
         view.changeCreateGroupFragment()
-        if(typeOfNewThing == "ping"){
+        if(mRepo.type == "ping"){
             mRepo.newPing.title = task
             mRepo.newPing.desc = descr
 
@@ -152,7 +152,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         mRepo.type = typeOfNewThing
         mRepo.newPing.geo.add(location.latitude)
         mRepo.newPing.geo.add(location.longitude)
-        view.showCreatePingView()
+        view.showCreatePingView("ping")
     }
 
     override fun onMapClick(location: Location) {
@@ -164,10 +164,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onLongClickListener(location: LatLng) {
+        typeOfNewThing = "ping"
+        mRepo.type = typeOfNewThing
         mRepo.newPing.geo.clear()
         mRepo.newPing.geo.add(location.latitude)
         mRepo.newPing.geo.add(location.longitude)
-        view.showCreatePingView()
+        view.showCreatePingView("ping")
     }
 
     override fun onDetach() {
@@ -205,7 +207,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onEndPing(id: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mRepo.endPing(id)
+                .subscribe({response: String? ->
+                    Log.d("koko",response.orEmpty())
+                },{ t: Throwable? ->
+                    Log.d("koko",t!!.message.orEmpty())
+                })
     }
 
 }

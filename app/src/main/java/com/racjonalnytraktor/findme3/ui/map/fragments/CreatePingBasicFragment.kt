@@ -33,6 +33,7 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
         super.onViewCreated(view, savedInstanceState)
         Log.d("poipoi","poipoi")
         if(type=="info"){
+            Log.d("poipoi","ukulele")
             onInfo()
         }else{
             clearData()
@@ -46,7 +47,6 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
             doAsync {
                 while (true){
                     Thread.sleep(500)
-                    Log.d("taskiii",task)
                 }
             }
             mPresenter.onNextButtonClick(task,descr)
@@ -76,6 +76,7 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
     }
 
     fun clearData(){
+        Log.d("clearData","tru")
         titleBasic.text = "Tworzenie pingu"
         fieldTask.text.clear()
         fieldDescr.text.clear()

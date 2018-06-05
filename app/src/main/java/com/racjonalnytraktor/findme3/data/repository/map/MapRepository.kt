@@ -89,4 +89,10 @@ object MapRepository: BaseRepository() {
         }
     }
 
+    fun endPing(groupId: String): Single<String>{
+        return rest.networkService.endPing(prefs.getUserToken(),groupId)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+    }
+
 }
