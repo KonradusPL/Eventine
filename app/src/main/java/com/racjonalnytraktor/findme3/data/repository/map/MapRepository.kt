@@ -23,7 +23,7 @@ object MapRepository: BaseRepository() {
     fun clearData(){
         newPing.targetGroups.clear()
         newPing.desc = ""
-        newPing.title = "asd"
+        newPing.title = ""
         newInfo.targetGroups.clear()
         newInfo.content = ""
     }

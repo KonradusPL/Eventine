@@ -29,7 +29,7 @@ class ManagePresenter<V: ManangeMvp.View>: BasePresenter<V>(),ManangeMvp.Present
         val request = ChangeSubGroupRequest(changingId, repo.prefs.getCurrentGroupId(),subGroup)
         compositeDisposable.add(repo.changeSubGroups(request)
                 .subscribe({t: String? ->
-                    view.showMessage("success",MvpView.MessageType.SUCCESS)
+                    view.showMessage("Zapisano",MvpView.MessageType.INFO)
                 },{t: Throwable? ->
                     if(StringHelper.getErrorCode(t!!.localizedMessage) == "403")
                         view.showMessage("Nie jesteś adminem grupy",MvpView.MessageType.INFO)

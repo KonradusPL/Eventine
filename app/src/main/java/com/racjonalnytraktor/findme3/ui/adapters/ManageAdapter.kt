@@ -20,9 +20,26 @@ class ManageAdapter(val list: ArrayList<Typed>, val listener: Listener)
 
     override fun onViewMoved(oldPosition: Int, newPosition: Int) {
 
-        if(list[newPosition].type == "header")
-            listener.onGroupChanged((list[newPosition] as Header).group,
+        if(list[newPosition].type == "header"){
+            var newGroup = ""
+            if(newPosition < oldPosition){
+                for (i in newPosition downTo 0){
+                    Log.d("poipoi","poipoipoi")
+                    if(i > 0 && list[i-1].type == "header"){
+                        Log.d("uhaha","uhaha")
+                     newGroup =  (list[i-1] as Header).group
+                        break
+                    }
+                }
+            }
+            if (newPosition > oldPosition){
+                newGroup = (list[newPosition] as Header).group
+            }
+            listener.onGroupChanged(newGroup,
                     (list[oldPosition] as UserInSubGroup).id)
+            Log.d("koko",newGroup)
+        }
+
 
         Log.d("newPosition",oldPosition.toString())
         val typed = list.get(oldPosition)
