@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import android.support.design.widget.TabLayout
+import android.support.v4.view.GravityCompat
 import android.view.LayoutInflater
 import android.view.Menu
 import co.zsmb.materialdrawerkt.builders.drawer
@@ -45,18 +46,17 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
     override fun setUpLeftNavigation(groups: ArrayList<Group>) {
         drawerMain = drawer {
+
+            gravity = GravityCompat.END
             displayBelowStatusBar = false
 
             headerView = LayoutInflater.from(this@MainActivity).inflate(R.layout.navigation_header,null)
             primaryItem("Wyloguj się"){
                 icon = R.drawable.ic_directions_run_black_24dp
-                iconColor = R.color.colorPrimary.toLong()
-                textColor = R.color.colorPrimary.toLong()
                 tag = "logout"
             }
-            sectionItem("Zmień wydarzenie") {
-            }
         }
+        drawerMain.deselect()
        /* for(group in groups)
             drawerMain.addItem(PrimaryDrawerItem()
                     .withName(group.groupName)
@@ -66,9 +66,6 @@ class MainActivity : BaseActivity(),MainMvp.View {
             if(drawerItem.tag is String){
                 if(drawerItem.tag == "logout")
                     mPresenter.onLogoutButtonClick()
-                else
-                    mPresenter.onChangeGroupClick(drawerItem.tag.toString())
-
             }
             return@setOnDrawerItemClickListener true
         })

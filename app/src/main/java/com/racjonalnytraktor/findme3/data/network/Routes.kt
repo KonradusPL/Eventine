@@ -75,5 +75,5 @@ interface Routes {
     fun changeSubGroups(@Header("X-Token")token: String, @Body request: ChangeSubGroupRequest): Single<String>
 
     @POST("ping/end")
-    fun endPing(@Header("X-Token")token: String, @Body pingId: String): Single<String>
+    fun endPing(@Header("X-Token")token: String, @Body request: EndPing): Single<String>
 }

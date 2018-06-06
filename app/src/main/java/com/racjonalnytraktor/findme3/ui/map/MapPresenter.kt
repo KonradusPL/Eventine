@@ -74,7 +74,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         if(mRepo.type == "ping"){
             mRepo.newPing.title = task
             mRepo.newPing.desc = descr
-
         }
         else
             mRepo.newInfo.content = descr
@@ -194,6 +193,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     override fun onMapPrepared() {
         compositeDisposable.add(mRepo.getPings()
                 .subscribe({ping: Ping? ->
+                    Log.d("wwwww",ping!!.pingId)
                     Log.d("pings","asdasd")
                     if (ping != null)
                         view.updatePings(ping)
@@ -221,10 +221,14 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onEndPing(id: String) {
+        Log.d("idsss",id)
         mRepo.endPing(id)
                 .subscribe({response: String? ->
                     Log.d("koko",response.orEmpty())
+                    view.removePing(id)
+                    view.showMessage("Wykonałeś ping !",MvpView.MessageType.SUCCESS)
                 },{ t: Throwable? ->
+                    view.showMessage("Wykonanie pinga nie powiodło się")
                     Log.d("koko",t!!.message.orEmpty())
                 })
     }

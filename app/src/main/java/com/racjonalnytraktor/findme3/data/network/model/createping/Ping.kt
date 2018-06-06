@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.data.network.model.createping
 
+import com.google.gson.annotations.SerializedName
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 
 data class Ping(
@@ -11,5 +12,5 @@ data class Ping(
         var geo: ArrayList<Double> = ArrayList(),
         var inProgress: String = "",
         var done: String = "",
-        var pingId: String = "",
+        @SerializedName("_id")var pingId: String = "",
         var creatorName: String = ""): Typed()

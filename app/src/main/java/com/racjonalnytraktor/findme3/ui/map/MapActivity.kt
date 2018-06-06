@@ -211,10 +211,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun changeCreateGroupFragment() {
-        fragmentCreatePingBasic.clearData()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerCreatePing,fragmentCreatePingDetails)
                 .commit()
+        fragmentCreatePingBasic.clearFields()
     }
 
     override fun onStart() {
@@ -324,6 +324,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun showEndPingBar(typed: Typed) {
+        if(typed is Ping){
+            Log.d("creatorName1",typed.creatorName)
+            Log.d("pingId",typed.pingId)
+        }
         val title = when(typed is Ping){
             true -> (typed as Ping).title
             false -> "Informacja"
@@ -356,6 +360,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         if(typed is Ping){
             builder.setPositiveButton("Wykonaj",{
                 _,_ ->
+                Log.d("xxxxx",typed.pingId)
                 mPresenter.onEndPing(typed.pingId)
             })
         }
@@ -424,6 +429,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         builder.create().show()
 
+    }
+
+    override fun removePing(pingId: String) {
+       mMapHelper.removePing(pingId)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

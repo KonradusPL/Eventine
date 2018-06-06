@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.data.repository.map
 
 import android.util.Log
+import com.racjonalnytraktor.findme3.data.network.EndPing
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
@@ -45,6 +46,7 @@ object MapRepository: BaseRepository() {
         Log.d("targetGroups",newPing.targetGroups.toString())
         Log.d("groupId",newPing.groupId)
         Log.d("geo",newPing.geo.toString())
+        newPing.creatorName = prefs.getUserFullName()
 
         return rest.networkService.createPing(prefs.getUserToken(),newPing)
                 .subscribeOn(SchedulerProvider.io())
@@ -89,8 +91,9 @@ object MapRepository: BaseRepository() {
         }
     }
 
-    fun endPing(groupId: String): Single<String>{
-        return rest.networkService.endPing(prefs.getUserToken(),groupId)
+    fun endPing(pingId: String): Single<String>{
+        val request = EndPing(pingId)
+        return rest.networkService.endPing(prefs.getUserToken(),request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

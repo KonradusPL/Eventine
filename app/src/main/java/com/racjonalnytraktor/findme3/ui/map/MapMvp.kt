@@ -25,6 +25,7 @@ interface MapMvp {
         fun changeToolbarName(name: String)
         fun showEndPingBar(typed: Typed)
         fun showPlanDialog()
+        fun removePing(pingId: String)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)

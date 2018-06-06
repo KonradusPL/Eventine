@@ -77,9 +77,9 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     fun clearData(){
         Log.d("clearData","tru")
-        titleBasic.text = "Tworzenie pingu"
-        fieldTask.text.clear()
-        fieldDescr.text.clear()
+
+        clearFields()
+
         if(fieldTask.visibility == View.INVISIBLE){
             type = "ping"
             fieldTask.visibility = View.VISIBLE
@@ -93,6 +93,12 @@ class CreatePingBasicFragment<V: MapMvp.View>: BaseFragment<V>() {
             set.connect(R.id.fieldDescr, ConstraintSet.TOP, R.id.fieldTask, ConstraintSet.BOTTOM, 8)
             set.applyTo(layout)
         }
+    }
+
+    fun clearFields(){
+        titleBasic.text = "Tworzenie pingu"
+        fieldTask.text.clear()
+        fieldDescr.text.clear()
     }
 
     override fun onDestroy() {
