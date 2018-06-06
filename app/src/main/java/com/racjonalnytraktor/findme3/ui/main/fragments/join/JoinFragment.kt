@@ -43,8 +43,8 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
         mListAdapter.addItem(invitation)
     }
 
-    override fun onInvitationClick(groupId: String) {
-        mPresenter.onAcceptInvitationClick(groupId)
+    override fun onInvitationClick(invitation: Invitation) {
+        mPresenter.onAcceptInvitationClick(invitation)
     }
 
     override fun showJoinLoading() {
@@ -59,6 +59,7 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
         progressJoinGroup.visibility = View.INVISIBLE
         fieldGroupCode.isEnabled = true
         buttonJoin.isEnabled = true
+        fieldGroupCode.text.clear()
     }
 
     override fun showInvitesLoading() {

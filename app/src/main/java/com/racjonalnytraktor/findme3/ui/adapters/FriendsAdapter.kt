@@ -30,6 +30,11 @@ class FriendsAdapter(val list: ArrayList<User>,
     inner class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
 
         fun bind(position: Int){
+            if(checkedList.contains(position))
+                itemView.checkFriend.performClick()
+            else
+                itemView.checkFriend.isChecked = false
+
             itemView.setOnClickListener {
                 itemView.checkFriend.performClick()
             }
@@ -40,7 +45,8 @@ class FriendsAdapter(val list: ArrayList<User>,
                 }else
                     checkedList.removeAt(checkedList.indexOf(position))
             }
-            Picasso.get()
+            if (list[position].facebookId.isNotEmpty())
+                Picasso.get()
                     .load(list[position].profileUri)
                     .resize(50,50)
                     .into(itemView.imageGroup)
@@ -48,10 +54,21 @@ class FriendsAdapter(val list: ArrayList<User>,
 
     }
 
-    fun getCheckedFriends(): List<String>{
-        val array = ArrayList<String>()
+    fun clearFriends(){
+        list.clear()
+        checkedList.clear()
+        notifyDataSetChanged()
+    }
+
+    fun unCheckFriends(){
+        checkedList.clear()
+        notifyDataSetChanged()
+    }
+
+    fun getCheckedFriends(): List<User>{
+        val array = ArrayList<User>()
         for(i in checkedList){
-            array.add(list[i].facebookId)
+            array.add(list[i])
         }
         return array
     }

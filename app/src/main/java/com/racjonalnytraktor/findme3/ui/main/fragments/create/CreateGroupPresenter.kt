@@ -35,14 +35,33 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
                             })*/
 
                 },{error: Throwable? ->
-
+                    Log.d("error",error.toString())
                 }))
     }
 
-    override fun createEvent(groupName: String, friendsList: List<String>) {
-        val request = CreateGroupRequest(groupName,friendsList)
-        Log.d("plplpl",request.groupName)
-        Log.d("plplpl",request.facebookIds.toString())
+    fun getFriends(){
+
+        compositeDisposable.add(repo.getFriends()
+                .subscribe({user: User? ->
+                    view.updateList(user!!)
+
+                },{error: Throwable? ->
+                    Log.d("error",error.toString())
+                }))
+    }
+
+    override fun createEvent(groupName: String, friendsList: List<User>) {
+        val facebookIds = ArrayList<String>()
+        val normalIds = ArrayList<String>()
+        for(friend in friendsList){
+            if(friend.facebookId.isNotEmpty())
+                facebookIds.add(friend.facebookId)
+            else
+                normalIds.add(friend.id)
+        }
+        val request = CreateGroupRequest(groupName,facebookIds,normalIds)
+        Log.d("facebookIds",facebookIds.toString())
+        Log.d("normalIds",normalIds.toString())
         view.showCreateGroupLoading()
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->

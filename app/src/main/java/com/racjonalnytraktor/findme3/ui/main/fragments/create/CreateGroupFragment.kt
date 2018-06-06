@@ -39,6 +39,11 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
                     Log.d("checkedFriends",checkedFriends.size.toString())
                     presenter.createEvent(fieldGroupCode.text.toString(),checkedFriends)
                 }
+        RxView.clicks(buttonRefresh)
+                .subscribe {
+                    listAdapter.clearFriends()
+                    presenter.getFriends()
+                }
     }
 
     override fun showCreateGroupLoading() {
@@ -51,7 +56,10 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
         progressCreateGroup.isIndeterminate = false
         progressCreateGroup.visibility = View.INVISIBLE
         fieldGroupCode.isEnabled = true
-        buttonCreate.isEnabled = true    }
+        buttonCreate.isEnabled = true
+        fieldGroupCode.text.clear()
+        listAdapter.unCheckFriends()
+    }
 
     override fun updateList(user: User) {
         listAdapter.addItem(user)

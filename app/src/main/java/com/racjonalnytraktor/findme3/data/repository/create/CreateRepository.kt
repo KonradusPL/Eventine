@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.data.repository.create
 
 import android.util.Log
+import com.facebook.AccessToken
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.CreateGroupRequest
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
@@ -12,8 +13,17 @@ import io.reactivex.Single
 object CreateRepository: BaseRepository(){
 
     fun getFriends(): Observable<User>{
-        return mFacebook.getFriends()
-                .map { t -> WhereIsJson.getFriendsArray(t.jsonObject) }
+
+        val facebookObservable =
+                if(AccessToken.getCurrentAccessToken() != null)
+                    mFacebook.getFriends()
+                     .map { t -> WhereIsJson.getFriendsArray(t.jsonObject) }
+                else
+                    Observable.empty()
+
+        return rest.networkService.getFriends(prefs.getUserToken())
+                .map { t -> t.users }
+                .mergeWith(facebookObservable)
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())

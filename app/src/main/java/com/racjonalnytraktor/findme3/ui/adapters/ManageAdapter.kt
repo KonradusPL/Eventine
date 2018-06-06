@@ -35,7 +35,8 @@ class ManageAdapter(val list: ArrayList<Typed>, val listener: Listener)
             if (newPosition > oldPosition){
                 newGroup = (list[newPosition] as Header).group
             }
-            listener.onGroupChanged(newGroup,
+            if(newGroup != "")
+                listener.onGroupChanged(newGroup,
                     (list[oldPosition] as UserInSubGroup).id)
             Log.d("koko",newGroup)
         }

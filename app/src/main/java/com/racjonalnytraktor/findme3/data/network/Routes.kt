@@ -76,4 +76,10 @@ interface Routes {
 
     @POST("ping/end")
     fun endPing(@Header("X-Token")token: String, @Body request: EndPing): Single<String>
+
+    @GET("user/friends")
+    fun getFriends(@Header("X-Token")token: String): Observable<FriendsResponse>
+
+    @GET("user/tasks")
+    fun getTasks(@Header("X-Token")token: String): Observable<PingsResponse>
 }

@@ -36,10 +36,10 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
     }
 
     override fun showMessage(message: String, type: MvpView.MessageType) {
-        parentMvp.showMessage(message)
+        parentMvp.showMessage(message,type)
     }
     override fun showMessage(message: Int, type: MvpView.MessageType) {
-        parentMvp.showMessage(message)
+        parentMvp.showMessage(message,type)
     }
 
 

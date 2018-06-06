@@ -7,7 +7,7 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 interface JoinMvp {
     interface View: MvpView{
         fun updateList(invitation: Invitation)
-        fun onInvitationClick(groupId: String)
+        fun onInvitationClick(invitation: Invitation)
         fun showJoinLoading()
         fun hideJoinLoading()
         fun showInvitesLoading()
@@ -16,6 +16,6 @@ interface JoinMvp {
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onJoinGroupClick(groupName: String)
-        fun onAcceptInvitationClick(groupId: String)
+        fun onAcceptInvitationClick(invitation: Invitation)
     }
 }

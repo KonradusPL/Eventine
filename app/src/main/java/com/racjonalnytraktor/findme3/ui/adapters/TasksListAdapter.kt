@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Task
+import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.item_history.view.*
 import kotlinx.android.synthetic.main.task_item.view.*
 import java.util.ArrayList
 
-class TasksListAdapter(val list: ArrayList<Task>,
+class TasksListAdapter(val list: ArrayList<Ping>,
                      val context: Context) : RecyclerView.Adapter<TasksListAdapter.MyHolder>() {
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
@@ -19,25 +21,23 @@ class TasksListAdapter(val list: ArrayList<Task>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
-        val view =  LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
+        val view =  LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
         return MyHolder(view,context)
     }
 
     class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(task: Task){
-            itemView.fieldTaskName.text = task.taskName
-            itemView.fieldBoss.text = context.getString(R.string.text_commissioned_from) + " ${task.boss}"
-            Picasso.get()
-                    .load(task.groupImageUri)
-                    .resize(50,50)
-                    .into(itemView.imageGroup)
+        fun bind(task: Ping){
+            itemView.fieldCreator.text = task.creatorName
+            itemView.fieldTitle.text = task.title
+            itemView.fieldDescr.text = task.desc
+
         }
 
     }
 
-    fun addItem(task: Task){
-        list.add(task)
+    fun addItem(ping: Ping){
+        list.add(ping)
         notifyDataSetChanged()
     }
 

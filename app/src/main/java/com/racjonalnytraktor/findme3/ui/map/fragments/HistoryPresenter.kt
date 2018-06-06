@@ -64,6 +64,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
     }
 
     override fun onAllButtonClick() {
+        view.clearList("ping")
         compositeDisposable.add(repo.getPings()
                 .subscribe({ping: Ping? ->
                     if (ping != null){

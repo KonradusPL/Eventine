@@ -105,9 +105,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             mRepo.newPing.date = date
             compositeDisposable.add(mRepo.createPing()
                     .subscribe({t: String? ->
-                        if (date.isNotEmpty())
+                        if (date.isEmpty())
                             view.updatePings(mRepo.newPing)
-                        view.showMessage("SUCCESS PING",MvpView.MessageType.SUCCESS)
+                        view.showMessage("Stworzono ping",MvpView.MessageType.SUCCESS)
                         view.hideCreatePingView()
                     },{t: Throwable? ->
                         Log.d("error",t!!.message.orEmpty())
@@ -121,11 +121,11 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 mRepo.newInfo.targetGroups = checkedGroups
             compositeDisposable.add(mRepo.createInfo()
                     .subscribe({t: String? ->
-                        view.showMessage("SUCCESS INFO",MvpView.MessageType.SUCCESS)
+                        view.showMessage("Stworzono info",MvpView.MessageType.SUCCESS)
                         view.hideCreatePingView()
                     },{t: Throwable? ->
                         Log.d("error",t!!.message.orEmpty())
-                        view.showMessage("ERROR :(",MvpView.MessageType.ERROR)
+                        view.showMessage("Nie udało się stworzyć informacji",MvpView.MessageType.ERROR)
                         view.hideCreatePingView()
                     }))
         }
@@ -227,9 +227,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 .subscribe({response: String? ->
                     Log.d("koko",response.orEmpty())
                     view.removePing(id)
-                    view.showMessage("Wykonałeś ping !",MvpView.MessageType.SUCCESS)
+                    view.showMessage("Zadanie wykonane",MvpView.MessageType.SUCCESS)
                 },{ t: Throwable? ->
-                    view.showMessage("Wykonanie pinga nie powiodło się")
+                    view.showMessage("Wykonanie zadania nie powiodło się",MvpView.MessageType.ERROR)
                     Log.d("koko",t!!.message.orEmpty())
                 })
     }

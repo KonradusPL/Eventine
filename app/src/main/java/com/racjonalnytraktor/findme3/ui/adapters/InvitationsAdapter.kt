@@ -30,7 +30,7 @@ class InvitationsAdapter(val list: ArrayList<Invitation>, val joinMvp: JoinMvp.V
             itemView.fieldInvitationTitle.text = invitation.invitingPerson
             itemView.buttonConfirmInvitation.setOnClickListener {
                 adapter.removeItem(layoutPosition)
-                joinMvp.onInvitationClick(invitation.id)
+                joinMvp.onInvitationClick(invitation)
             }
 
             Picasso.get()

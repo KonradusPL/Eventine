@@ -43,6 +43,6 @@
         app:rippleColor="@color/white"
         app:srcCompat="@drawable/ic_add_black_24dp"
         android:tint="@color/white"
-        app:borderWidth="5dp" />
+         />
 
 </android.support.constraint.ConstraintLayout>

@@ -81,7 +81,7 @@ object ImageHelper {
         //paint.colorFilter = null
         //canvas.drawBitmap(bitmapProfile,10f,10f,paint)
 
-        return bitmapMarkerFromRes
+        return bitmapOld
     }
 
 }

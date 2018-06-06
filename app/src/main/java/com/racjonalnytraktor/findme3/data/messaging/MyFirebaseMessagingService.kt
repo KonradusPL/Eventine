@@ -2,15 +2,19 @@ package com.racjonalnytraktor.findme3.data.messaging
 
 import android.app.Notification
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
-import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
+import android.content.Context.VIBRATOR_SERVICE
+import android.os.Vibrator
+
+
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
 
@@ -34,16 +38,16 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         if (action == "pingCreate"){
             val title = message.data["title"].orEmpty()
             val desc = message.data["desc"].orEmpty()
-            createPingNotification(title,desc)
+            onCreatePing(title,desc)
         }
         else{
             val groupName = message.data["groupName"].orEmpty()
-            createGroupNotification(groupName)
+            onCreateGroup(groupName)
         }
 
     }
 
-    private fun createPingNotification(title: String, desc: String){
+    private fun onCreatePing(title: String, desc: String){
         val notificationIntent = Intent(this, MapActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
@@ -52,14 +56,21 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle(title)
                 .setContentText(desc)
-                .setSmallIcon(R.drawable.logo_drawer)
+                .setSmallIcon(R.drawable.ic_pin_drop_black_24dp)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
 
         notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+
+        val mVibratePattern = longArrayOf(0, 400, 200, 400)
+
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            vibrator.vibrate(mVibratePattern,-1)
+        }
     }
-    private fun createGroupNotification(groupName: String){
+    private fun onCreateGroup(groupName: String){
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
@@ -68,13 +79,20 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle("Zaproszenie do grupy $groupName")
                 .setContentText("Kliknij aby dołączyć")
-                .setSmallIcon(R.drawable.logo_drawer)
+                .setSmallIcon(R.drawable.ic_event_white_24dp)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
 
         notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
+
+        val mVibratePattern = longArrayOf(0, 400, 200, 400)
+
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            vibrator.vibrate(mVibratePattern,-1)
+        }
 
     }
 }

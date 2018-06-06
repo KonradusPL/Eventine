@@ -327,6 +327,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         if(typed is Ping){
             Log.d("creatorName1",typed.creatorName)
             Log.d("pingId",typed.pingId)
+            Log.d("targetGroups",typed.targetGroups.toString())
         }
         val title = when(typed is Ping){
             true -> (typed as Ping).title
@@ -343,9 +344,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         val groups = if(typed is Ping) typed.targetGroups else (typed as Info).targetGroups
 
-        val text = "Podgrupy: "
+        var text = "Podgrupy: "
         for(group in groups){
-            text.plus(group)
+           text =  text.plus("$group,")
         }
 
         view.fieldGroups.text = text
@@ -401,7 +402,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .setView(datePicker)
                 .setPositiveButton("Wybierz",{dialogInterface, i ->
                     Log.d("bnmbnm","bnmbnm")
-                    viewDate.buttonDate.text ="${datePicker.month+1}/${datePicker.dayOfMonth}/20${datePicker.year}"
+                    viewDate.buttonDate.text ="${datePicker.month+1}/${datePicker.dayOfMonth}/${datePicker.year}"
                 }).create()
 
         viewDate.buttonDate.setOnClickListener {
@@ -429,6 +430,16 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         builder.create().show()
 
+    }
+
+    override fun onBackPressed() {
+        if(slidingPing.isOpened)
+            slidingPing.closeLayer(true)
+        else{
+            startActivity(Intent(this,MainActivity::class.java))
+            finish()
+        }
+        super.onBackPressed()
     }
 
     override fun removePing(pingId: String) {

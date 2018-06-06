@@ -62,11 +62,15 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
                 }))
     }
 
-    override fun onAcceptInvitationClick(groupId: String) {
-        compositeDisposable.add(repo.acceptInvitation(groupId)
+    override fun onAcceptInvitationClick(invitation: Invitation) {
+        compositeDisposable.add(repo.acceptInvitation(invitation.id)
                 .subscribe({t: String? ->
+                    repo.prefs.setCurrentGroupId(invitation.id)
+                    repo.prefs.setCurrentGroupName(invitation.groupName)
+                    view.showMessage("Witamy w ${invitation.groupName} !",MvpView.MessageType.INFO)
+                    view.openMapActivity()
                 },{t: Throwable? ->
-                    Log.d("eropr",t!!.message)
+                    view.showMessage("Dołączenie nie powiodło się",MvpView.MessageType.ERROR)
                 }))
     }
 }

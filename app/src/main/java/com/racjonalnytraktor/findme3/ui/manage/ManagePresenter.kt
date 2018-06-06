@@ -32,7 +32,7 @@ class ManagePresenter<V: ManangeMvp.View>: BasePresenter<V>(),ManangeMvp.Present
                     view.showMessage("Zapisano",MvpView.MessageType.INFO)
                 },{t: Throwable? ->
                     if(StringHelper.getErrorCode(t!!.localizedMessage) == "403")
-                        view.showMessage("Nie jesteś adminem grupy",MvpView.MessageType.INFO)
+                        view.showMessage("Brak uprawnień",MvpView.MessageType.INFO)
                 }))
     }
 }

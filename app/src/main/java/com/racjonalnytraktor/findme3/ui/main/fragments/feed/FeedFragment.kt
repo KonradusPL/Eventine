@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.Task
+import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.adapters.GroupsListAdapter
 import com.racjonalnytraktor.findme3.ui.adapters.TasksListAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
@@ -41,6 +42,10 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
         mPresenter.onAttach(this)
     }
 
+    override fun updateTasks(ping: Ping) {
+        mTasksListAdapter.addItem(ping)
+    }
+
     private fun initGroupsList(){
         listGroups.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
@@ -63,7 +68,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
         mGroupsListAdapter.addItem(group)
     }
 
-    override fun updateTasksList(task: Task) {
+    override fun updateTasksList(task: Ping) {
         mTasksListAdapter.addItem(task)
     }
 
@@ -91,11 +96,14 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
 
     override fun hideTasksLoading() {
-        if(mTasksListAdapter.itemCount == 0)
-            layoutNoTasks.visibility = View.VISIBLE
+        if(mTasksListAdapter.itemCount == 0){
+            if (layoutNoTasks != null)
+                layoutNoTasks.visibility = View.VISIBLE
+        }
     }
 
     override fun showTasksLoading() {
-        layoutNoTasks.visibility = View.INVISIBLE
+        if(layoutNoTasks != null)
+         layoutNoTasks.visibility = View.INVISIBLE
     }
 }

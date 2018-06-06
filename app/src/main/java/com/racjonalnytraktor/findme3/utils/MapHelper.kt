@@ -134,7 +134,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         Log.d("ping",ping.desc)
         Log.d("ping",ping.geo.toString())
         Log.d("creatorName",ping.creatorName)
-      // val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
+       //val bitmapMarker = ImageHelper.getPingMarkerBitmap(context,R.color.colorPrimary)
         //val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
 
         if (pingsOnMap.isEmpty()){
