@@ -56,7 +56,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
     }
 
     override fun onInfoClick(info: Info) {
-        view.showEndPingBar(info)
+       // view.showEndPingBar(info)
     }
 
     override fun onPingClick(ping: Ping) {

@@ -31,6 +31,10 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
         parentMvp.hideLoading()
     }
 
+    override fun isAttached(): Boolean {
+        return parentMvp.isAttached()
+    }
+
     override fun hideKeyboard() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

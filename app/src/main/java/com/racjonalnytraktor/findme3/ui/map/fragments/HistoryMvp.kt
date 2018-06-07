@@ -12,7 +12,7 @@ interface HistoryMvp {
         fun updateInfos(info: Info)
         fun updateAll()
         fun clearList(type: String)
-        fun showEndPingBar(typed: Typed)
+        fun showEndPingBar(ping: Ping)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onInfoButtonClick()

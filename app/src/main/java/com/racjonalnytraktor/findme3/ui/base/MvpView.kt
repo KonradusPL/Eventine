@@ -28,6 +28,8 @@ interface MvpView {
 
     fun getCtx(): Context
 
+    fun isAttached(): Boolean
+
     enum class MessageType{
         INFO,ERROR,NORMAL,SUCCESS
     }

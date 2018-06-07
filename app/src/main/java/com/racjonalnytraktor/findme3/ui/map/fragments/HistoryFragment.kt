@@ -66,7 +66,7 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         listHistory.adapter = mListAdapter
     }
 
-    override fun showEndPingBar(typed: Typed) {
-        parentMvp.showEndPingBar(typed)
+    override fun showEndPingBar(ping: Ping) {
+        parentMvp.showEndPingBar(ping)
     }
 }

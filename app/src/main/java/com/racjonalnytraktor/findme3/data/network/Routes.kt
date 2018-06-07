@@ -77,6 +77,9 @@ interface Routes {
     @POST("ping/end")
     fun endPing(@Header("X-Token")token: String, @Body request: EndPing): Single<String>
 
+    @POST("ping/inProgress")
+    fun setPingToInProgress(@Header("X-Token")token: String, @Body request: EndPing): Single<String>
+
     @GET("user/friends")
     fun getFriends(@Header("X-Token")token: String): Observable<FriendsResponse>
 

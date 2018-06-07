@@ -32,10 +32,22 @@ open class BaseActivity : AppCompatActivity(),MvpView{
 
     private var mPermissionStatus = false
 
+    var isLive = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDeviceInfo = DeviceInfo(this)
         mPermissionsHelper = PermissionsHelper(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        isLive = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isLive = false
     }
 
     override fun showLoading() {
@@ -141,6 +153,10 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CHECK_SETTINGS){
             mPermissionStatus = true
         }
+    }
+
+    override fun isAttached(): Boolean {
+        return isLive
     }
 
     override fun getCtx(): Context {

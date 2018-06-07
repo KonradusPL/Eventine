@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
 import kotlinx.android.synthetic.main.dialog_time.*
 import kotlinx.android.synthetic.main.dialog_time.view.*
+import kotlinx.android.synthetic.main.fragment_create_group_basic.view.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
@@ -72,6 +73,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+        Log.d("lifecycler","onCreate")
 
         fragmentMap = SupportMapFragment.newInstance()
         fragmentManagement = ManagementFragment()
@@ -101,6 +103,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
             setDisplayHomeAsUpEnabled(true)
             //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("lifecycler","onResume")
     }
 
     private fun listenSlidingState() {
@@ -219,17 +226,25 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun onStart() {
         super.onStart()
+        Log.d("lifecycler","onStart")
         mPresenter.isAttached = true
         EventBus.getDefault().register(this)
+        mPresenter.startUpdatingPings()
     }
 
     override fun onStop() {
         super.onStop()
+        Log.d("lifecycler","onStop")
         EventBus.getDefault().unregister(this)
-        mPresenter.onDetach()
+        mPresenter.isAttached = false
         tabLayoutMap.let {
             it.getTabAt(it.selectedTabPosition)?.icon?.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.onDetach()
     }
 
     override fun updateSubGroups(item: String) {
@@ -324,50 +339,40 @@ class MapActivity : BaseActivity(),MapMvp.View{
         finish()
     }
 
-    override fun showEndPingBar(typed: Typed) {
-        if(typed is Ping){
-            Log.d("creatorName1",typed.creatorName)
-            Log.d("pingId",typed.pingId)
-            Log.d("targetGroups",typed.targetGroups.toString())
-        }
-        val title = when(typed is Ping){
-            true -> (typed as Ping).title
-            false -> "Informacja"
-        }
-
-        val message = when(typed is Ping){
-            true -> (typed as Ping).desc
-            false -> (typed as Info).content
-        }
+    override fun showEndPingBar(ping: Ping) {
 
         val view = layoutInflater.inflate(R.layout.dialog_ping,null)
-        view.fieldAutor.text = "Autor: " + if(typed is Ping) typed.creatorName else (typed as Info).creatorName
 
-        val groups = if(typed is Ping) typed.targetGroups else (typed as Info).targetGroups
-
-        var text = "Podgrupy: "
-        for(group in groups){
+        var text = ""
+        for(group in ping.targetGroups){
            text =  text.plus("$group,")
         }
 
-        view.fieldGroups.text = text
-         val builder = AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message)
-                 .setView(view)
-               .setIcon(R.drawable.ic_info_black_24dp)
-                 .setNegativeButton("Cofnij",{_,_ ->})
+        view.fieldTitle.text = ping.title
+        view.textSubGroups.text = text
+        view.textAuthor.text = ping.creatorName
+        view.textDescr.text = ping.desc
 
+        val builder = AlertDialog.Builder(this)
+                .setView(view)
 
-        if(typed is Ping){
-            builder.setPositiveButton("Wykonaj",{
-                _,_ ->
-                Log.d("xxxxx",typed.pingId)
-                mPresenter.onEndPing(typed.pingId)
-            })
+        val dialog = builder.create()
+        dialog.show()
+
+        view.buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        view.buttonInProgress.setOnClickListener {
+            //mPresenter.onP
+            dialog.dismiss()
+        }
+        view.buttonSetToEnd.setOnClickListener {
+            mPresenter.onEndPing(ping.pingId)
+            dialog.dismiss()
         }
 
-        builder.create().show()
+
+
     }
 
     override fun openHistoryFragment() {

@@ -64,10 +64,33 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
 
+
+
+        /*view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .subscribe { state: PermissionsHelper.PermissionState? ->
+                    if (state == PermissionsHelper.PermissionState.GRANTED)
+                        view.checkLocationSettings()
+                                .subscribe {
+                                   // mRepo.locationProvider.start()
+                                }
+                }*/
+    }
+
+    fun startUpdatingPings(){
         doAsync {
-            while (true){
-                if(isAttached){
-                    Thread.sleep(5000)
+            var isAttached = true
+
+            while (isAttached){
+                Log.d("isAttached",isAttached.toString())
+                for(i in 0..50){
+                    if(!view.isAttached()){
+                        isAttached = false
+                        Log.d("tututu","tututu")
+                        break
+                    }
+                    Thread.sleep(100)
+                }
+                Log.d("logus","isAttached")
                     uiThread {
                         view.clearPings()
                     }
@@ -81,19 +104,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                                 },{t: Throwable? ->
                                     Log.d("error",t!!.message)
                                 }))
-                }
-
             }
         }
-
-        /*view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                .subscribe { state: PermissionsHelper.PermissionState? ->
-                    if (state == PermissionsHelper.PermissionState.GRANTED)
-                        view.checkLocationSettings()
-                                .subscribe {
-                                   // mRepo.locationProvider.start()
-                                }
-                }*/
     }
 
     override fun onNextButtonClick(task: String, descr: String) {

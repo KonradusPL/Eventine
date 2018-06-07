@@ -23,7 +23,7 @@ interface MapMvp {
         fun openMapActivity()
         fun setUpLeftNavigation(groups: ArrayList<Group>)
         fun changeToolbarName(name: String)
-        fun showEndPingBar(typed: Typed)
+        fun showEndPingBar(ping: Ping)
         fun showPlanDialog()
         fun removePing(pingId: String)
         fun clearPings()

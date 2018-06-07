@@ -41,9 +41,6 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
             itemView.fieldCreator.text = "Autor: " + creator
         }
         fun bind2(info: Info){
-            itemView.setOnClickListener {
-                listener.onInfoClick(info)
-            }
             itemView.fieldTitle.text = "Informacja"
             val creator = if(info.creatorName.isNotEmpty()) info.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
@@ -52,8 +49,8 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
     }
 
     fun clear(type: String){
+        notifyItemRangeRemoved(0,list.size)
         list.clear()
-        notifyDataSetChanged()
         this.type = type
     }
 
@@ -61,8 +58,6 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
         list.add(item)
         notifyItemInserted(list.size-1)
     }
-
-
 
     override fun getItemCount(): Int {
         return list.size
