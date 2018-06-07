@@ -61,6 +61,14 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
         listAdapter.unCheckFriends()
     }
 
+    override fun showFriendsLoading() {
+        buttonRefresh.isEnabled = false
+    }
+
+    override fun hideFriendsLoading() {
+        buttonRefresh.isEnabled = true
+    }
+
     override fun updateList(user: User) {
         listAdapter.addItem(user)
     }

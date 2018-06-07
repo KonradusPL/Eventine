@@ -13,7 +13,8 @@ interface MapMvp {
         fun updateSubGroups(item: String)
         fun showCreatePingView(type: String = "ping")
         fun hideCreatePingView()
-        fun updatePings(ping: Ping,value: Boolean = true)
+        fun updatePings(pings: List<Ping>,value: Boolean = true)
+        fun addPing(ping: Ping)
         fun getPresenter(): MapPresenter<View>
         fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
         fun updateCheckedGroups(checked: List<String>)
@@ -40,5 +41,6 @@ interface MapMvp {
         fun clearData()
         fun onLogoutButtonClick()
         fun onEndPing(id: String)
+        fun onInProgressClick(id: String)
     }
 }

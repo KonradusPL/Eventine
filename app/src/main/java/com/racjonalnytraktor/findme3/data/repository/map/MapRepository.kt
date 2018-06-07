@@ -39,7 +39,7 @@ object MapRepository: BaseRepository() {
     fun createPing(): Single<String>{
         Log.d("opopop",newPing.title)
         Log.d("request","${newPing.desc} ${newPing.title} ${newPing.geo} " +
-                "${newPing.groupId} ${newPing.targetGroups} ")
+                "${newPing.groupId} ${newPing.targetGroups} ${newPing.date} ")
         newPing.groupId = prefs.getCurrentGroupId()
         Log.d("title",newPing.title)
         Log.d("desc",newPing.desc)
@@ -54,10 +54,9 @@ object MapRepository: BaseRepository() {
 
     }
 
-    fun getPings(): Observable<Ping>{
+    fun getPings(): Observable<List<Ping>>{
         return rest.networkService.getPings(prefs.getUserToken(),prefs.getCurrentGroupId())
-                .map { t -> t.pings }
-                .flatMapIterable { t -> t }
+                .map { t -> t.pings.toList() }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
@@ -94,6 +93,13 @@ object MapRepository: BaseRepository() {
     fun endPing(pingId: String): Single<String>{
         val request = EndPing(pingId)
         return rest.networkService.endPing(prefs.getUserToken(),request)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+    }
+
+    fun inProgressPing(pingId: String): Single<String>{
+        val request = EndPing(pingId)
+        return rest.networkService.setPingToInProgress(prefs.getUserToken(),request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

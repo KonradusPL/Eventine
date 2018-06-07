@@ -275,8 +275,12 @@ class MapActivity : BaseActivity(),MapMvp.View{
         slidingPing.closeLayer(true)
     }
 
-    override fun updatePings(ping: Ping,value: Boolean) {
-        mMapHelper.addPing(ping,value)
+    override fun addPing(ping: Ping) {
+        mMapHelper.addPing(ping,true)
+    }
+
+    override fun updatePings(pings: List<Ping>,value: Boolean) {
+        mMapHelper.updatePings(pings)
     }
 
     override fun getPresenter(): MapPresenter<MapMvp.View> {
@@ -353,6 +357,18 @@ class MapActivity : BaseActivity(),MapMvp.View{
         view.textAuthor.text = ping.creatorName
         view.textDescr.text = ping.desc
 
+        if(ping.inProgress){
+            view.textStatus.text = "W trakcie robienia"
+            view.textStatus.setTextColor(ContextCompat.getColor(this,R.color.orange))
+        }
+        else if(ping.ended) {
+            view.textStatus.text = "Zakończone"
+            view.textStatus.setTextColor(ContextCompat.getColor(this, R.color.green))
+        }
+        else{
+            view.textStatus.text = "Nie rozpoczęte"
+        }
+
         val builder = AlertDialog.Builder(this)
                 .setView(view)
 
@@ -363,7 +379,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
             dialog.dismiss()
         }
         view.buttonInProgress.setOnClickListener {
-            //mPresenter.onP
+            mPresenter.onInProgressClick(ping.pingId)
             dialog.dismiss()
         }
         view.buttonSetToEnd.setOnClickListener {
@@ -424,7 +440,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .setView(viewDate)
                 .setPositiveButton("Zaplanuj",{dialogInterface, i ->
                     try {
-                        val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.getDefault())
+                        val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)
                         val date = Date()
                         val calendar = Calendar.getInstance()
                         calendar.set(datePicker.year,datePicker.month,datePicker.dayOfMonth,

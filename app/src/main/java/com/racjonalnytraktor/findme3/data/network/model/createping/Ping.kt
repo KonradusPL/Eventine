@@ -10,7 +10,8 @@ data class Ping(
         var targetGroups: ArrayList<String> = ArrayList(),
         var desc: String = "",
         var geo: ArrayList<Double> = ArrayList(),
-        var inProgress: String = "",
+        var inProgress: Boolean = false,
+        var ended: Boolean = false,
         var done: String = "",
         @SerializedName("_id")var pingId: String = "",
         var creatorName: String = ""): Typed(){
@@ -22,7 +23,7 @@ data class Ping(
         targetGroups.addAll(ping.targetGroups)
         desc = desc.plus(ping.desc)
         geo = ArrayList()
-        inProgress = inProgress.plus(ping.inProgress)
+        inProgress = ping.inProgress
         done = done.plus(ping.done)
         pingId = pingId.plus(ping.pingId)
         creatorName = creatorName.plus(ping.creatorName)

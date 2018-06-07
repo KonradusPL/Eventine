@@ -81,6 +81,20 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             var isAttached = true
 
             while (isAttached){
+
+                Log.d("logus","isAttached")
+                    uiThread {
+                        //view.clearPings()
+                    }
+                    if(isAttached)
+                        compositeDisposable.add(mRepo.getPings()
+                                .subscribe({pings: List<Ping>? ->
+                                    if (pings != null)
+                                        view.updatePings(pings,true)
+                                },{t: Throwable? ->
+                                    Log.d("error",t!!.message)
+                                }))
+
                 Log.d("isAttached",isAttached.toString())
                 for(i in 0..50){
                     if(!view.isAttached()){
@@ -90,20 +104,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     }
                     Thread.sleep(100)
                 }
-                Log.d("logus","isAttached")
-                    uiThread {
-                        view.clearPings()
-                    }
-                    if(isAttached)
-                        compositeDisposable.add(mRepo.getPings()
-                                .subscribe({ping: Ping? ->
-                                    Log.d("wwwww",ping!!.pingId)
-                                    Log.d("pings","asdasd")
-                                    if (ping != null)
-                                        view.updatePings(ping,false)
-                                },{t: Throwable? ->
-                                    Log.d("error",t!!.message)
-                                }))
             }
         }
     }
@@ -138,6 +138,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
+        Log.d("datadata",date)
         if(typeOfNewThing == "ping"){
             if(checkedGroups.isNotEmpty())
                 mRepo.newPing.targetGroups = checkedGroups
@@ -145,7 +146,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             compositeDisposable.add(mRepo.createPing()
                     .subscribe({t: String? ->
                         if (date.isEmpty())
-                            view.updatePings(mRepo.newPing)
+                            view.addPing(mRepo.newPing)
                         view.showMessage("Stworzono ping",MvpView.MessageType.SUCCESS)
                         view.hideCreatePingView()
                     },{t: Throwable? ->
@@ -232,7 +233,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onMapPrepared() {
-        compositeDisposable.add(mRepo.getPings()
+        /*compositeDisposable.add(mRepo.getPings()
                 .subscribe({ping: Ping? ->
                     Log.d("wwwww",ping!!.pingId)
                     Log.d("pings","asdasd")
@@ -240,7 +241,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                         view.updatePings(ping)
                 },{t: Throwable? ->
                     Log.d("error",t!!.message)
-                }))
+                }))*/
     }
 
     override fun onSavingState(checked: List<String>, task: String, descr: String, state: String) {
@@ -270,6 +271,18 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     view.showMessage("Zadanie wykonane",MvpView.MessageType.SUCCESS)
                 },{ t: Throwable? ->
                     view.showMessage("Wykonanie zadania nie powiodło się",MvpView.MessageType.ERROR)
+                    Log.d("koko",t!!.message.orEmpty())
+                })
+    }
+
+    override fun onInProgressClick(id: String) {
+        Log.d("idsss",id)
+        mRepo.inProgressPing(id)
+                .subscribe({response: String? ->
+                    Log.d("koko",response.orEmpty())
+                    view.showMessage("Powodzenia !",MvpView.MessageType.SUCCESS)
+                },{ t: Throwable? ->
+                    view.showMessage("Problem ze zmianą statusu zadania",MvpView.MessageType.ERROR)
                     Log.d("koko",t!!.message.orEmpty())
                 })
     }

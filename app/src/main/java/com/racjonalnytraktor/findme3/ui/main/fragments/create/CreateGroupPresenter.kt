@@ -16,36 +16,35 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
 
         repo.onAttatch(view.getCtx())
 
+        view.showFriendsLoading()
+
         compositeDisposable.add(repo.getFriends()
+                .doOnComplete {
+                    view.hideFriendsLoading()
+                }
                 .subscribe({user: User? ->
                     view.updateList(user!!)
                     Log.d("user",user!!.facebookId)
                     Log.d("user",user.fullName)
                     Log.d("user",user.profileUri)
-                   /*repo.getFriendWithPicture(user!!)
-                            .subscribe({userWithPicture: User? ->
-                                view.showMessage("friends loaded",MvpView.MessageType.SUCCESS)
-                                view.updateList(userWithPicture!!)
-                                Log.d("user",userWithPicture!!.facebookId)
-                                Log.d("user",userWithPicture.fullName)
-                                Log.d("user",userWithPicture.profileUri)
-                            },{
-                                error: Throwable? ->
-                                view.showMessage("picture error",MvpView.MessageType.ERROR)
-                            })*/
 
                 },{error: Throwable? ->
+                    view.hideFriendsLoading()
                     Log.d("error",error.toString())
                 }))
     }
 
     fun getFriends(){
-
+        view.showFriendsLoading()
         compositeDisposable.add(repo.getFriends()
+                .doOnComplete{
+                    view.hideFriendsLoading()
+                }
                 .subscribe({user: User? ->
                     view.updateList(user!!)
 
                 },{error: Throwable? ->
+                    view.hideFriendsLoading()
                     Log.d("error",error.toString())
                 }))
     }

@@ -55,9 +55,9 @@ class FriendsAdapter(val list: ArrayList<User>,
     }
 
     fun clearFriends(){
+        notifyItemRangeRemoved(0,list.size)
         list.clear()
         checkedList.clear()
-        notifyDataSetChanged()
     }
 
     fun unCheckFriends(){
@@ -75,7 +75,7 @@ class FriendsAdapter(val list: ArrayList<User>,
 
     fun addItem(user: User){
         list.add(user)
-        notifyDataSetChanged()
+        notifyItemInserted(list.size-1)
     }
 
     override fun getItemCount(): Int {

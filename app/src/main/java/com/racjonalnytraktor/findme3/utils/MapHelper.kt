@@ -188,6 +188,29 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         }
     }
 
+    fun updatePings(newPings: List<Ping>){
+        for (newPing in newPings){
+            var isPingNew = true
+
+            for(ping in pingsOnMap){
+                if(ping.ping.pingId == newPing.pingId){
+                    isPingNew = false
+                    if(newPing.ended){
+                        ping.marker.remove()
+                        pingsOnMap.remove(ping)
+                        break
+                    }else if(newPing.inProgress && !ping.ping.inProgress){
+                        ping.ping.inProgress = true
+                        ping.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    }
+                }
+            }
+
+            if (isPingNew && !newPing.ended)
+                addPing(newPing,false)
+        }
+    }
+
     fun clearPings(){
         for(ping in pingsOnMap){
             ping.marker.remove()
