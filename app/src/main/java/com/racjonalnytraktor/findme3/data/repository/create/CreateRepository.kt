@@ -23,7 +23,6 @@ object CreateRepository: BaseRepository(){
 
         return rest.networkService.getFriends(prefs.getUserToken())
                 .map { t -> t.users }
-                .mergeWith(facebookObservable)
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())

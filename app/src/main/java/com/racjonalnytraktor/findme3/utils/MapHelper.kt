@@ -152,7 +152,11 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
                 .position(LatLng(ping.geo[0],ping.geo[1]))
                 .title(ping.title))
 
-       // marker.tag = ping.title
+        if(ping.inProgress)
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+
+
+        // marker.tag = ping.title
         //marker.title = ping.title
 
         if(ping.title == "kek"){

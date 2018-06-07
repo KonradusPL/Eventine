@@ -45,17 +45,19 @@ class FriendsAdapter(val list: ArrayList<User>,
                 }else
                     checkedList.removeAt(checkedList.indexOf(position))
             }
-            if (list[position].facebookId.isNotEmpty())
+            if (list[position].facebookId.isNotEmpty() && list[position].profileUri.isNotEmpty())
                 Picasso.get()
                     .load(list[position].profileUri)
                     .resize(50,50)
                     .into(itemView.imageGroup)
+            else
+                itemView.imageGroup.setImageResource(R.drawable.user_holder)
         }
 
     }
 
     fun clearFriends(){
-        notifyItemRangeRemoved(0,list.size)
+        notifyDataSetChanged()
         list.clear()
         checkedList.clear()
     }

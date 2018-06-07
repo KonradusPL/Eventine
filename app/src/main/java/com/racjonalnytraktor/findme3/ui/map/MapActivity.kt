@@ -44,6 +44,7 @@ import com.racjonalnytraktor.findme3.ui.map.fragments.HistoryFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.ManagementFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.dialog_ping.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
 import kotlinx.android.synthetic.main.dialog_time.*
 import kotlinx.android.synthetic.main.dialog_time.view.*
@@ -360,10 +361,16 @@ class MapActivity : BaseActivity(),MapMvp.View{
         if(ping.inProgress){
             view.textStatus.text = "W trakcie robienia"
             view.textStatus.setTextColor(ContextCompat.getColor(this,R.color.orange))
+            view.buttonInProgress.isEnabled = false
+            view.buttonInProgress.alpha = 0.5f
         }
         else if(ping.ended) {
             view.textStatus.text = "Zakończone"
             view.textStatus.setTextColor(ContextCompat.getColor(this, R.color.green))
+            view.buttonInProgress.isEnabled = false
+            view.buttonInProgress.alpha = 0.5f
+            view.buttonSetToEnd.isEnabled = false
+            view.buttonSetToEnd.alpha = 0.5f
         }
         else{
             view.textStatus.text = "Nie rozpoczęte"
@@ -469,10 +476,16 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun onBackPressed() {
         if(slidingPing.isOpened)
             slidingPing.closeLayer(true)
-        else{
-            startActivity(Intent(this,MainActivity::class.java))
-            finish()
-        }
+
+        if (fragmentCreatePingBasic.isAdded)
+            supportFragmentManager.beginTransaction()
+                    .remove(fragmentCreatePingBasic)
+                    .commit()
+        if (fragmentCreatePingDetails.isAdded)
+            supportFragmentManager.beginTransaction()
+                    .remove(fragmentCreatePingDetails)
+                    .commit()
+
         super.onBackPressed()
     }
 

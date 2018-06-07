@@ -138,7 +138,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
-        Log.d("datadata",date)
+
+        if(checkedGroups.isEmpty()){
+            view.showMessage("Wybierz co najmniej jedną grupę",MvpView.MessageType.INFO)
+            return
+        }
+
         if(typeOfNewThing == "ping"){
             if(checkedGroups.isNotEmpty())
                 mRepo.newPing.targetGroups = checkedGroups
@@ -161,7 +166,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 mRepo.newInfo.targetGroups = checkedGroups
             compositeDisposable.add(mRepo.createInfo()
                     .subscribe({t: String? ->
-                        view.showMessage("Stworzono info",MvpView.MessageType.SUCCESS)
+                        val message = if(date.isNotEmpty()) "Zaplanowano" else "Stworzono"
+                        view.showMessage("$message info",MvpView.MessageType.SUCCESS)
                         view.hideCreatePingView()
                     },{t: Throwable? ->
                         Log.d("error",t!!.message.orEmpty())
@@ -210,7 +216,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onMapClick(location: Location) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onMarkerClick(ping: Ping) {

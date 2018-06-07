@@ -21,8 +21,9 @@ class MyFirebaseinstanceId: FirebaseInstanceIdService() {
     override fun onTokenRefresh() {
         super.onTokenRefresh()
         val refreshedToken = FirebaseInstanceId.getInstance().token
-        Log.d(TAG, "Refreshed token: " + refreshedToken!!)
-        sendTokenToServer(refreshedToken)
+        Log.d(TAG, "Refreshed token: " + refreshedToken.orEmpty())
+        if (refreshedToken != null)
+            sendTokenToServer(refreshedToken)
     }
 
     private fun sendTokenToServer(token: String){

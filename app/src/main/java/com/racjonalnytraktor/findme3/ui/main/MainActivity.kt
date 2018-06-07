@@ -109,6 +109,10 @@ class MainActivity : BaseActivity(),MainMvp.View {
         })
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
     override fun changeProfileIcon(url: String) {
 
     }

@@ -72,6 +72,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     }
     private fun onCreateGroup(groupName: String){
         val notificationIntent = Intent(this, MainActivity::class.java)
+        notificationIntent.putExtra("action","invite")
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
         notificationManager = NotificationManagerCompat.from(this)

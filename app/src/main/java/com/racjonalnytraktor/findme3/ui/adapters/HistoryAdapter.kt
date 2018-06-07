@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +19,19 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
     var type = "ping"
 
     override fun onBindViewHolder(holder: HistoryAdapter.MyHolder, position: Int) {
+        Log.d("metodzika",list[position].type)
         if(list[position].type == "ping")
             holder.bind1(list[position] as Ping)
         else
             holder.bind2(list[position] as Info)
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.MyHolder {
+        Log.d("wwwwwwwwwwww","wwwwwwwwwwww")
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
         return MyHolder(view)
     }
@@ -41,6 +48,7 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
             itemView.fieldCreator.text = "Autor: " + creator
         }
         fun bind2(info: Info){
+            itemView.setOnClickListener {  }
             itemView.fieldTitle.text = "Informacja"
             val creator = if(info.creatorName.isNotEmpty()) info.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
@@ -49,14 +57,14 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
     }
 
     fun clear(type: String){
-        notifyItemRangeRemoved(0,list.size)
         list.clear()
+        notifyDataSetChanged()
         this.type = type
     }
 
     fun updateList(item: Typed){
         list.add(item)
-        notifyItemInserted(list.size-1)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
@@ -66,5 +74,9 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
     interface ClickListener{
         fun onInfoClick(info: Info)
         fun onPingClick(ping: Ping)
+    }
+
+    enum class HItemType{
+        PING,INFO
     }
 }

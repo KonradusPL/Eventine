@@ -40,6 +40,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                     Log.d("token",response!!.token)
                     val user = User("","",fullName,response.token)
                     repo.prefs.setCurrentUser(user)
+                    repo.prefs.setIsUserLoggedIn(true)
                     view.showMessage(R.string.text_success,MvpView.MessageType.SUCCESS)
                     view.openMainActivity()
                 },{t: Throwable? ->
