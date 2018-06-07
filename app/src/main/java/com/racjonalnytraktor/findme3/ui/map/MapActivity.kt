@@ -219,6 +219,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun onStart() {
         super.onStart()
+        mPresenter.isAttached = true
         EventBus.getDefault().register(this)
     }
 
@@ -259,8 +260,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
         slidingPing.closeLayer(true)
     }
 
-    override fun updatePings(ping: Ping) {
-        mMapHelper.addPing(ping)
+    override fun updatePings(ping: Ping,value: Boolean) {
+        mMapHelper.addPing(ping,value)
     }
 
     override fun getPresenter(): MapPresenter<MapMvp.View> {
@@ -392,6 +393,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     }
 
+    override fun clearPings() {
+        mMapHelper.clearPings()
+    }
+
     override fun showPlanDialog() {
         val datePicker = DatePicker(this)
         val viewDate = layoutInflater.inflate(R.layout.dialog_time,null)
@@ -413,15 +418,23 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .setMessage("Wybierz datę")
                 .setView(viewDate)
                 .setPositiveButton("Zaplanuj",{dialogInterface, i ->
-                    val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.getDefault())
-                    val date = Date()
-                    val calendar = Calendar.getInstance()
-                    calendar.set(datePicker.year,datePicker.month,datePicker.dayOfMonth,
-                            viewDate.timePicker.currentHour,viewDate.timePicker.currentMinute,0)
-                    date.time = calendar.timeInMillis
+                    try {
+                        val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.getDefault())
+                        val date = Date()
+                        val calendar = Calendar.getInstance()
+                        calendar.set(datePicker.year,datePicker.month,datePicker.dayOfMonth,
+                                viewDate.timePicker.currentHour,viewDate.timePicker.currentMinute,0)
+                        date.time = calendar.timeInMillis
 
-                    val time = format.format(date)
-                    mPresenter.onAddButtonClick(date = time)
+                        val time = format.format(date)
+                        Log.d("time",time)
+                        mPresenter.onAddButtonClick(date = time)
+
+                    }catch (e: Exception){
+                        Log.d("asdasdads","asdssad")
+                    }
+
+
 
                 })
                 .setNegativeButton("Anuluj",{_,_ ->

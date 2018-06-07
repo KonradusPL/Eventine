@@ -13,4 +13,18 @@ data class Ping(
         var inProgress: String = "",
         var done: String = "",
         @SerializedName("_id")var pingId: String = "",
-        var creatorName: String = ""): Typed()
+        var creatorName: String = ""): Typed(){
+
+    fun clone(ping: Ping){
+        groupId = groupId.plus(ping.groupId)
+        creator = creator.plus(ping.creator)
+        title = title.plus(ping.title)
+        targetGroups.addAll(ping.targetGroups)
+        desc = desc.plus(ping.desc)
+        geo = ArrayList()
+        inProgress = inProgress.plus(ping.inProgress)
+        done = done.plus(ping.done)
+        pingId = pingId.plus(ping.pingId)
+        creatorName = creatorName.plus(ping.creatorName)
+    }
+}

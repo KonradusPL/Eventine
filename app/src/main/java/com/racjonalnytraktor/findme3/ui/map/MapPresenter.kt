@@ -12,9 +12,13 @@ import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.MapHelper
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 ,MapHelper.MapListener{
+
+    var isAttached = false
 
     var mRepo =  MapRepository
 
@@ -22,6 +26,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
+        isAttached = true
 
         Log.d("rew","1")
 
@@ -58,6 +63,28 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
 
         view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
+
+        doAsync {
+            while (true){
+                if(isAttached){
+                    Thread.sleep(5000)
+                    uiThread {
+                        view.clearPings()
+                    }
+                    if(isAttached)
+                        compositeDisposable.add(mRepo.getPings()
+                                .subscribe({ping: Ping? ->
+                                    Log.d("wwwww",ping!!.pingId)
+                                    Log.d("pings","asdasd")
+                                    if (ping != null)
+                                        view.updatePings(ping,false)
+                                },{t: Throwable? ->
+                                    Log.d("error",t!!.message)
+                                }))
+                }
+
+            }
+        }
 
         /*view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 .subscribe { state: PermissionsHelper.PermissionState? ->
@@ -188,6 +215,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onDetach() {
         super.onDetach()
+        isAttached = false
        // mRepo.locationProvider.end()
     }
 

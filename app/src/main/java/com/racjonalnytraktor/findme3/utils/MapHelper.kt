@@ -128,7 +128,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
     }
 
-    fun addPing(ping: Ping){
+    fun addPing(ping: Ping,animation: Boolean){
         Log.d("ping",ping.title)
         Log.d("ping",ping.creator)
         Log.d("ping",ping.desc)
@@ -137,7 +137,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
        //val bitmapMarker = ImageHelper.getPingMarkerBitmap(context,R.color.colorPrimary)
         //val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
 
-        if (pingsOnMap.isEmpty()){
+        if (pingsOnMap.isEmpty() && animation){
             Log.d("geo1",ping.geo[0].toString())
             Log.d("geo2",ping.geo[1].toString())
             //moveCamera(LatLng(ping.geo[0],ping.geo[1]))
@@ -165,23 +165,34 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
             }
         }
 
-        val groupId = "".plus(ping.groupId)
-        val creator = "".plus(ping.creator)
-        val title = "".plus(ping.title)
-        val targetGroups = ArrayList<String>()
-        targetGroups.addAll(ping.targetGroups)
-        val desc = "".plus(ping.desc)
-        val geo = ArrayList<Double>()
-        geo.addAll(ping.geo)
-        val pingId = "".plus(ping.pingId)
-        val creatorName = "".plus(ping.creatorName)
 
-        val newPing = Ping(groupId,creator,title,targetGroups,
-                desc,geo,ping.inProgress,ping.done,pingId,creatorName)
+
+        val newPing = Ping()
+        newPing.clone(ping)
 
         val pingOnMap = PingOnMap(newPing, marker)
         pingsOnMap.add(pingOnMap)
 
+    }
+
+    fun updatePing(updatedPing: Ping){
+        var isPingNew = true
+        for(ping in pingsOnMap){
+            if(ping.ping.pingId == updatedPing.pingId){
+                ping.marker.position = LatLng(updatedPing.geo[0],updatedPing.geo[1])
+                isPingNew = false
+            }
+        }
+        if(isPingNew){
+            addPing(updatedPing,false)
+        }
+    }
+
+    fun clearPings(){
+        for(ping in pingsOnMap){
+            ping.marker.remove()
+        }
+        pingsOnMap.clear()
     }
 
     fun removePing(pingId: String){
