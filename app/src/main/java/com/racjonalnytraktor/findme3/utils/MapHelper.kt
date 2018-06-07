@@ -65,7 +65,8 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         }
         mMap.setOnMarkerClickListener { marker ->
             for(ping in pingsOnMap){
-                if(ping.marker == marker){
+                if(ping.marker.position == marker.position){
+                    Log.d("pongaponga",ping.ping.inProgress.toString())
                     listener.onMarkerClick(ping.ping)
                     //marker.showInfoWindow()
                     break
@@ -155,22 +156,6 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         if(ping.inProgress)
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
 
-
-        // marker.tag = ping.title
-        //marker.title = ping.title
-
-        if(ping.title == "kek"){
-            Log.d("qweqwe","ewqewq")
-            doAsync {
-                while (true){
-                    Thread.sleep(500)
-                    Log.d("ttttt",ping.creatorName)
-                }
-            }
-        }
-
-
-
         val newPing = Ping()
         newPing.clone(ping)
 
@@ -198,14 +183,16 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
             for(ping in pingsOnMap){
                 if(ping.ping.pingId == newPing.pingId){
+
                     isPingNew = false
                     if(newPing.ended){
                         ping.marker.remove()
                         pingsOnMap.remove(ping)
                         break
-                    }else if(newPing.inProgress && !ping.ping.inProgress){
+                    }else if(newPing.inProgress){
                         ping.ping.inProgress = true
                         ping.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                         break
                     }
                 }
             }

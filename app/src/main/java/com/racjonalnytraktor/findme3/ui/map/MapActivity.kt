@@ -345,6 +345,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun showEndPingBar(ping: Ping) {
+        Log.d("ioioioio",ping.inProgress.toString())
 
         val view = layoutInflater.inflate(R.layout.dialog_ping,null)
 
@@ -358,7 +359,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         view.textAuthor.text = ping.creatorName
         view.textDescr.text = ping.desc
 
-        if(ping.inProgress){
+        if(ping.inProgress && !ping.ended){
             view.textStatus.text = "W trakcie robienia"
             view.textStatus.setTextColor(ContextCompat.getColor(this,R.color.orange))
             view.buttonInProgress.isEnabled = false
@@ -430,6 +431,13 @@ class MapActivity : BaseActivity(),MapMvp.View{
         val viewDate = layoutInflater.inflate(R.layout.dialog_time,null)
 
         var date = ""
+
+        val c = Calendar.getInstance()
+        val day = c.get(Calendar.DAY_OF_MONTH)
+        val month = c.get(Calendar.MONTH)
+        val year = c.get(Calendar.YEAR)
+
+        viewDate.buttonDate.text = "${month}/${day}/${year}"
 
         val dialogCalendar = AlertDialog.Builder(this)
                 .setView(datePicker)

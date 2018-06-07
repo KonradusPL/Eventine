@@ -139,7 +139,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
 
-        if(checkedGroups.isEmpty()){
+        if(checkedGroups.isEmpty() && date.isEmpty()){
             view.showMessage("Wybierz co najmniej jedną grupę",MvpView.MessageType.INFO)
             return
         }
@@ -150,8 +150,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             mRepo.newPing.date = date
             compositeDisposable.add(mRepo.createPing()
                     .subscribe({t: String? ->
-                        if (date.isEmpty())
-                            view.addPing(mRepo.newPing)
+                        //if (date.isEmpty())
+                           // view.addPing(mRepo.newPing)
                         view.showMessage("Stworzono ping",MvpView.MessageType.SUCCESS)
                         view.hideCreatePingView()
                     },{t: Throwable? ->
