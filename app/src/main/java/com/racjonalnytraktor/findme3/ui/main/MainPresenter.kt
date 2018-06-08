@@ -21,14 +21,14 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
 
         //view.changeProfileIcon(repo.prefs.getUserProfileImage())
 
-       /// val token = FirebaseInstanceId.getInstance().token.orEmpty()
-        //val request = UpdateTokenRequest(token)
+        val token = FirebaseInstanceId.getInstance().token.orEmpty()
+        val request = UpdateTokenRequest(token)
 
         view.setUpLeftNavigation(repo.appRepo.groups)
 
         //Log.d("header",repo.prefs.getUserToken())
         //Log.d("token",token)
-        /*if(token.isNotEmpty())
+        if(token.isNotEmpty())
             compositeDisposable.add(repo.rest.networkService.updateNotifToken(repo.prefs.getUserToken(),request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
@@ -36,7 +36,7 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
                     Log.d("tokenik",t)
                 },{t: Throwable? ->
                     Log.d("tokenik",t!!.message)
-                }))*/
+                }))
     }
 
     override fun onChangeGroupClick(groupName: String) {

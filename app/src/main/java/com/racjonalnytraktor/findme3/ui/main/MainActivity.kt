@@ -8,6 +8,7 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import co.zsmb.materialdrawerkt.builders.drawer
@@ -37,6 +38,8 @@ class MainActivity : BaseActivity(),MainMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Log.d("jijiji",'5'.toInt().toString())
 
         setUpViewPager()
 

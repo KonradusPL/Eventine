@@ -71,9 +71,10 @@ class JoinFragment<V: MainMvp.View>: BaseFragment<V>(),JoinMvp.View {
     override fun hideInvitesLoading() {
         // imageNoInvites.visibility = View.VISIBLE
         //fieldNoInvites.visibility = View.VISIBLE
-        if(mListAdapter.list.size > 0)
-            layoutNoInvites.visibility = View.INVISIBLE
-
+        if(mListAdapter.itemCount == 0){
+            if( layoutNoInvites != null)
+                layoutNoInvites.visibility = View.VISIBLE
+        }
     }
 
     override fun openMapActivity() {

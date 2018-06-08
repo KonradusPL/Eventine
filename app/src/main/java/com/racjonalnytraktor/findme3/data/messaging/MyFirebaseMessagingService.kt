@@ -40,11 +40,39 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             val desc = message.data["desc"].orEmpty()
             onCreatePing(title,desc)
         }
+        else if (action == "infoCreate"){
+            val content = message.data["content"].orEmpty()
+            onInfoCreate(content)
+        }
         else{
             val groupName = message.data["groupName"].orEmpty()
             onCreateGroup(groupName)
         }
 
+    }
+
+    private fun onInfoCreate(content: String){
+        val notificationIntent = Intent(this, MapActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+
+        notificationManager = NotificationManagerCompat.from(this)
+
+        notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle("Informacja")
+                .setContentText(content)
+                .setSmallIcon(R.drawable.ic_info_outline_white_24dp)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+
+        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+
+        val mVibratePattern = longArrayOf(0, 400, 200, 400)
+
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            vibrator.vibrate(mVibratePattern,-1)
+        }
     }
 
     private fun onCreatePing(title: String, desc: String){

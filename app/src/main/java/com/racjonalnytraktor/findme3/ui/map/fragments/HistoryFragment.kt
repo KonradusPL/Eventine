@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -62,7 +63,7 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         val layoutManager = LinearLayoutManager(activity)
         listHistory.layoutManager = layoutManager
 
-        mListAdapter = HistoryAdapter(arrayListOf(),mPresenter)
+        mListAdapter = HistoryAdapter(arrayListOf(),mPresenter,parentMvp as Context)
         listHistory.adapter = mListAdapter
     }
 

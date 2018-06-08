@@ -38,8 +38,10 @@
         android:drawableStart="@drawable/ic_info_black_24dp"
         android:drawableTint="@color/colorPrimary"
         android:text="TextView"
+        android:textAlignment="viewStart"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/textStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,5 +67,16 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldCreator" />
+
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

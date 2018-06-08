@@ -1,19 +1,23 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.zxing.common.StringUtils
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Invitation
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
+import com.racjonalnytraktor.findme3.utils.StringHelper
 import kotlinx.android.synthetic.main.item_history.view.*
 
 
-class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
+class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener,val context: Context)
     :RecyclerView.Adapter<HistoryAdapter.MyHolder>(){
 
     var type = "ping"
@@ -41,26 +45,40 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
             itemView.setOnClickListener {
                 listener.onPingClick(ping)
             }
+
+            if (ping.ended){
+                itemView.textStatus.setText("wykonany")
+                itemView.textStatus.setTextColor(ContextCompat.getColor(context,R.color.green))
+            }
+            else if(ping.inProgress){
+                itemView.textStatus.setText("W trakcie")
+                itemView.textStatus.setTextColor(ContextCompat.getColor(context,R.color.orange))
+            }
+            else
+                itemView.textStatus.text = "nie zaczęty"
+
             itemView.fieldTitle.text = ping.title
             itemView.fieldDescr.text = ping.desc
             val creator = if(ping.creatorName.isNotEmpty()) ping.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
-            if(ping.date != null && ping.date.isEmpty())
-                itemView.fieldDate.text = "Data stworzenia: ${ping.createdAt}"
-            else
-                itemView.fieldDate.text = "Zaplanowano na : ${ping.date}"
+            if(ping.createdAt != null && ping.createdAt.isNotEmpty() && ping.date.orEmpty().isEmpty())
+                itemView.fieldDate.text = "Data stworzenia: ${StringHelper.getCalendarText(ping.createdAt.orEmpty())}"
+            else if (ping.date.orEmpty().isNotEmpty())
+                itemView.fieldDate.text = "Zaplanowano na : ${StringHelper.getCalendarText(ping.date.orEmpty())}"
 
         }
         fun bind2(info: Info){
+            itemView.textStatus.text = ""
+
             itemView.setOnClickListener {  }
             itemView.fieldTitle.text = "Informacja"
             val creator = if(info.creatorName.isNotEmpty()) info.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
             itemView.fieldDescr.text = info.content
-            if(info.date != null && info.date.isEmpty())
-                itemView.fieldDate.text = "Data stworzenia: ${info.createdAt}"
-            else
-                itemView.fieldDate.text = "Zaplanowano na : ${info.date}"
+            if(info.createdAt != null && info.createdAt.isNotEmpty() && info.date.orEmpty().isEmpty())
+                itemView.fieldDate.text = "Data stworzenia: ${StringHelper.getCalendarText(info.createdAt.orEmpty())}"
+            else if(info.date.orEmpty().isNotEmpty())
+                itemView.fieldDate.text = "Zaplanowano na : ${StringHelper.getCalendarText(info.date.orEmpty())}"
         }
     }
 

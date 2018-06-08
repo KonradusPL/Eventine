@@ -41,11 +41,11 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                     val user = User("","",fullName,response.token)
                     repo.prefs.setCurrentUser(user)
                     repo.prefs.setIsUserLoggedIn(true)
-                    view.showMessage(R.string.text_success,MvpView.MessageType.SUCCESS)
+                    view.showMessage("Udało się !",MvpView.MessageType.SUCCESS)
                     view.openMainActivity()
                 },{t: Throwable? ->
                     view.hideLoading()
-                    view.showMessage(StringHelper.getErrorCode(t?.message.orEmpty()),MvpView.MessageType.ERROR)
+                    view.showMessage("Uzupełnij poprawnie pola",MvpView.MessageType.INFO)
                 }))
     }
 

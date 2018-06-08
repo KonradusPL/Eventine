@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Task
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
+import com.racjonalnytraktor.findme3.utils.StringHelper
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_history.view.*
 import kotlinx.android.synthetic.main.task_item.view.*
@@ -32,10 +33,10 @@ class TasksListAdapter(val list: ArrayList<Ping>,
             itemView.fieldTitle.text = task.title
             itemView.fieldDescr.text = task.desc
 
-            if(task.date != null && task.date.isEmpty())
-                itemView.fieldDate.text = "Data stworzenia: ${task.createdAt.orEmpty()}"
+            if(task.createdAt != null && task.createdAt.isNotEmpty())
+                itemView.fieldDate.text = "Data stworzenia: ${StringHelper.getCalendarText(task.createdAt.orEmpty())}"
             else
-                itemView.fieldDate.text = "Zaplanowano na : ${task.date.orEmpty()}"
+                itemView.fieldDate.text = "Zaplanowano na : ${StringHelper.getCalendarText(task.date.orEmpty())}"
 
         }
 

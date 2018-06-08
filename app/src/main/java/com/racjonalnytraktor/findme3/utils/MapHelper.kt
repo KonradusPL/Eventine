@@ -138,7 +138,10 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
        //val bitmapMarker = ImageHelper.getPingMarkerBitmap(context,R.color.colorPrimary)
         //val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
 
-        if (pingsOnMap.isEmpty() && animation){
+        if (ping.geo.size<2)
+            return
+
+        if (pingsOnMap.isEmpty()){
             Log.d("geo1",ping.geo[0].toString())
             Log.d("geo2",ping.geo[1].toString())
             //moveCamera(LatLng(ping.geo[0],ping.geo[1]))
@@ -178,12 +181,19 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
     }
 
     fun updatePings(newPings: List<Ping>){
+        val oldPings = ArrayList<String>()
+
+        for(_ping in pingsOnMap){
+            oldPings.add(_ping.ping.pingId)
+        }
+
         for (newPing in newPings){
             var isPingNew = true
 
             for(ping in pingsOnMap){
                 if(ping.ping.pingId == newPing.pingId){
-
+                    oldPings.remove(ping.ping.pingId)
+                    Log.d("iopiop","iopiop")
                     isPingNew = false
                     if(newPing.ended){
                         ping.marker.remove()
@@ -199,6 +209,16 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
             if (isPingNew && !newPing.ended)
                 addPing(newPing,false)
+        }
+
+        for (_ping in oldPings){
+            for (ping in pingsOnMap){
+                if(ping.ping.pingId == _ping){
+                    ping.marker.remove()
+                    pingsOnMap.remove(ping)
+                    break
+                }
+            }
         }
     }
 

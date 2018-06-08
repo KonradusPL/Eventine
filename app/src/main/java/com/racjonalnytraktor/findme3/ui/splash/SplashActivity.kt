@@ -7,6 +7,7 @@ import android.util.Log
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
+import com.racjonalnytraktor.findme3.utils.StringHelper
 
 class SplashActivity : BaseActivity(),SplashMvp.View {
 
@@ -14,6 +15,7 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         presenter = SplashPresenter()
         presenter.onAttach(this)
     }

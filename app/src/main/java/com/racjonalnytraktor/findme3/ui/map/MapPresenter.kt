@@ -178,6 +178,11 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onPlanButtonClick(checkedGroups: ArrayList<String>) {
+        if(checkedGroups.isEmpty()){
+            view.showMessage("Wybierz co najmniej jedną grupę",MvpView.MessageType.INFO)
+            return
+        }
+
         if(mRepo.type == "ping")
             mRepo.newPing.targetGroups = checkedGroups
         else

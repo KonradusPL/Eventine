@@ -79,10 +79,13 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     }
 
     override fun hideGroupsLoading() {
-        progressGroups.isIndeterminate = false
-        progressGroups.visibility = View.INVISIBLE
-        if(mTasksListAdapter.list.size > 0)
-            layoutNoTasks.visibility = View.INVISIBLE
+        if(mGroupsListAdapter.list.size == 0){
+            if(progressGroups != null){
+                progressGroups.isIndeterminate = false
+                progressGroups.visibility = View.INVISIBLE
+            }
+        }
+
     }
 
     override fun openMapActivity(groupName: String) {

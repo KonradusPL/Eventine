@@ -66,6 +66,7 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
     }
 
     override fun hideFriendsLoading() {
+        if (buttonRefresh != null)
         buttonRefresh.isEnabled = true
     }
 
