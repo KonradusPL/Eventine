@@ -6,4 +6,5 @@ data class Info(
         var groupId: String = "",
         var content: String = "",
         var targetGroups: ArrayList<String> = ArrayList(),
-        var creatorName: String = ""): Typed()
+        var creatorName: String = "",
+        var createdAt: String = ""): Typed()

@@ -14,7 +14,10 @@ data class Ping(
         var ended: Boolean = false,
         var done: String = "",
         @SerializedName("_id")var pingId: String = "",
-        var creatorName: String = ""): Typed(){
+        var creatorName: String = "",
+        var createdAt: String = "")
+
+        : Typed(){
 
     fun clone(ping: Ping){
         groupId = groupId.plus(ping.groupId)
@@ -24,6 +27,7 @@ data class Ping(
         desc = desc.plus(ping.desc)
         geo = ArrayList()
         inProgress = if(ping.inProgress) true else false
+        createdAt = "".plus(ping.createdAt)
         done = done.plus(ping.done)
         pingId = pingId.plus(ping.pingId)
         creatorName = creatorName.plus(ping.creatorName)

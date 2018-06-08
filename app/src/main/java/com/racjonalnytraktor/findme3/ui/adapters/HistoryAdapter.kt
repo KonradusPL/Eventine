@@ -31,7 +31,6 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.MyHolder {
-        Log.d("wwwwwwwwwwww","wwwwwwwwwwww")
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
         return MyHolder(view)
     }
@@ -46,6 +45,11 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
             itemView.fieldDescr.text = ping.desc
             val creator = if(ping.creatorName.isNotEmpty()) ping.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
+            if(ping.date != null && ping.date.isEmpty())
+                itemView.fieldDate.text = "Data stworzenia: ${ping.createdAt}"
+            else
+                itemView.fieldDate.text = "Zaplanowano na : ${ping.date}"
+
         }
         fun bind2(info: Info){
             itemView.setOnClickListener {  }
@@ -53,6 +57,10 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener)
             val creator = if(info.creatorName.isNotEmpty()) info.creatorName else "nieznany"
             itemView.fieldCreator.text = "Autor: " + creator
             itemView.fieldDescr.text = info.content
+            if(info.date != null && info.date.isEmpty())
+                itemView.fieldDate.text = "Data stworzenia: ${info.createdAt}"
+            else
+                itemView.fieldDate.text = "Zaplanowano na : ${info.date}"
         }
     }
 

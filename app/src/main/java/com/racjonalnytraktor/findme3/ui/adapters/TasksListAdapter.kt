@@ -32,6 +32,11 @@ class TasksListAdapter(val list: ArrayList<Ping>,
             itemView.fieldTitle.text = task.title
             itemView.fieldDescr.text = task.desc
 
+            if(task.date != null && task.date.isEmpty())
+                itemView.fieldDate.text = "Data stworzenia: ${task.createdAt.orEmpty()}"
+            else
+                itemView.fieldDate.text = "Zaplanowano na : ${task.date.orEmpty()}"
+
         }
 
     }
