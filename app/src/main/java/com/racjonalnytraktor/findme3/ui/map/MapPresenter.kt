@@ -139,6 +139,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
 
+        Log.d("groupss",checkedGroups.toString())
+
         if(checkedGroups.isEmpty() && date.isEmpty()){
             view.showMessage("Wybierz co najmniej jedną grupę",MvpView.MessageType.INFO)
             return

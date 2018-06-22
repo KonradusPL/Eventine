@@ -1,7 +1,9 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,7 @@ class FriendsAdapter(val list: ArrayList<User>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+        Log.d("zxczxczxc","zxczxczxc")
         val view =  LayoutInflater.from(parent.context).inflate(R.layout.friend_item, parent, false)
         return MyHolder(view,context)
     }
@@ -30,36 +33,53 @@ class FriendsAdapter(val list: ArrayList<User>,
     inner class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
 
         fun bind(position: Int){
-            if(checkedList.contains(position))
-                itemView.checkFriend.performClick()
-            else
+
+            if(!checkedList.contains(position)){
+                itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.backgroundColor))
                 itemView.checkFriend.isChecked = false
+            }else{
+                itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.lightGrey))
+                itemView.checkFriend.isChecked = true
+            }
 
             itemView.setOnClickListener {
-                itemView.checkFriend.performClick()
+                Log.d("popopo",position.toString())
+                if (itemView.checkFriend.isChecked){
+                    itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.backgroundColor))
+                    checkedList.remove(position)
+                    itemView.checkFriend.isChecked = false
+                }
+                else{
+                    itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.lightGrey))
+                    checkedList.add(position)
+                    itemView.checkFriend.isChecked = true
+                }
             }
             itemView.fieldFriend.text = list[position].fullName
             itemView.checkFriend.setOnClickListener {
                 if (itemView.checkFriend.isChecked){
                     checkedList.add(position)
-                }else
-                    checkedList.removeAt(checkedList.indexOf(position))
+                    itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.lightGrey))
+                }else{
+                    itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.backgroundColor))
+                    checkedList.remove(position)
+                }
             }
-            if (list[position].facebookId.isNotEmpty() && list[position].profileUri.isNotEmpty())
+            /*if (list[position].facebookId.isNotEmpty() && list[position].profileUri.isNotEmpty())
                 Picasso.get()
                     .load(list[position].profileUri)
                     .resize(50,50)
                     .into(itemView.imageGroup)
             else
-                itemView.imageGroup.setImageResource(R.drawable.user_holder)
+                itemView.imageGroup.setImageResource(R.drawable.user_holder)*/
         }
 
     }
 
     fun clearFriends(){
-        notifyDataSetChanged()
         list.clear()
         checkedList.clear()
+        notifyDataSetChanged()
     }
 
     fun unCheckFriends(){
@@ -77,7 +97,7 @@ class FriendsAdapter(val list: ArrayList<User>,
 
     fun addItem(user: User){
         list.add(user)
-        notifyItemInserted(list.size-1)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

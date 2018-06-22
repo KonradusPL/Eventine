@@ -15,7 +15,7 @@
         <item>Grupy</item>
     </string-array>
 
-    <string name="app_name">Up</string>
+    <string name="app_name">Eventine</string>
 
     <string name="facebook_app_id">194669471175342</string>
 
@@ -35,6 +35,8 @@
     <string name="text_fill_all_fields">Musisz wypełnić wszystkie pola</string>
     <string name="text_turn_on_internet_connection">Włącz internet!</string>
     <string name="text_success">Udało się!</string>
+    <string name="text_sign_up_now"><u>Zarejestrój się</u></string>
+    <string name="text_sign_in_now"><u>Zaloguj się</u></string>
 
     <string name="toolbar_join_group">Dołącz</string>
     <string name="toolbar_changeGroup">Zmień grupę</string>

@@ -17,9 +17,11 @@ import kotlinx.android.synthetic.main.dialog_new_subgroup.view.*
 
 class ManageSubGroupsActivity : BaseActivity(),ManangeMvp.View,ManageAdapter.Listener {
 
-    lateinit private var mListAdapter: ManageAdapter
     lateinit var mPresenter: ManagePresenter<ManangeMvp.View>
     lateinit var dialog: AlertDialog
+
+    private lateinit var mListAdapter: ManageAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -41,7 +41,8 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
                 }
         RxView.clicks(buttonRefresh)
                 .subscribe {
-                    listAdapter.clearFriends()
+                    if (listAdapter.list.size != 0)
+                        listAdapter.clearFriends()
                     presenter.getFriends()
                 }
     }
@@ -58,7 +59,6 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
         fieldGroupCode.isEnabled = true
         buttonCreate.isEnabled = true
         fieldGroupCode.text.clear()
-        listAdapter.unCheckFriends()
     }
 
     override fun showFriendsLoading() {
@@ -72,6 +72,10 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
 
     override fun updateList(user: User) {
         listAdapter.addItem(user)
+    }
+
+    override fun clearFriendsList() {
+        listAdapter.clearFriends()
     }
 
     override fun openMapActivity() {

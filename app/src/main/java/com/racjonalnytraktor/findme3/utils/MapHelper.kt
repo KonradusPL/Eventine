@@ -50,6 +50,12 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
         mMap.setPadding(0,60,0,0)
 
+        val cameraPosition = CameraPosition.Builder()
+                .target(LatLng(51.101669, 22.854012))
+                .zoom(18f)
+                .build()
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
+
         //moveCamera(LatLng(51.101809,22.854009))
 
        // moveCamera(LatLng(51.101809,22.854009))
@@ -140,17 +146,6 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
         if (ping.geo.size<2)
             return
-
-        if (pingsOnMap.isEmpty()){
-            Log.d("geo1",ping.geo[0].toString())
-            Log.d("geo2",ping.geo[1].toString())
-            //moveCamera(LatLng(ping.geo[0],ping.geo[1]))
-            val cameraPosition = CameraPosition.Builder()
-                    .target(LatLng(ping.geo[0], ping.geo[1]))
-                    .zoom(13f)
-                    .build()
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-        }
 
         val marker = mMap.addMarker(MarkerOptions()
                 .position(LatLng(ping.geo[0],ping.geo[1]))

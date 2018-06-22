@@ -56,7 +56,8 @@
         </service>
 
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.login.LoginActivity"
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -73,7 +74,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.register.RegisterActivity"
-            android:parentActivityName=".ui.login.LoginActivity" />
+            android:theme="@style/LoginTheme"/>
 
         <activity android:name=".ui.manage.ManageSubGroupsActivity"
             android:parentActivityName=".ui.map.MapActivity"></activity>

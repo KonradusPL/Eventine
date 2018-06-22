@@ -1,6 +1,8 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,19 +22,28 @@ class SubGroupsAdapter(val list: ArrayList<String> = ArrayList(),
 
     inner class MyHolder(itemView: View, val view: MapMvp.View): RecyclerView.ViewHolder(itemView) {
         fun bind(group: String){
+
+            if(checkedList.contains(group)){
+                itemView.setBackgroundColor(ContextCompat.getColor(mvpView.getCtx(),R.color.colorAccent))
+            }else{
+                itemView.setBackgroundColor(ContextCompat.getColor(mvpView.getCtx(),R.color.backgroundColor))
+
+            }
+
+
             itemView.fieldGroupName.text = group
             itemView.setOnClickListener {
                 if(checkedList.contains(group)){
                     checkedList.remove(group)
-                    itemView.background = mvpView.getCtx().getDrawable(R.color.white)
+                    itemView.setBackgroundColor(ContextCompat.getColor(mvpView.getCtx(),R.color.backgroundColor))
                 }else{
                     checkedList.add(group)
-                    itemView.background = mvpView.getCtx().getDrawable(R.color.grey)
+                    itemView.setBackgroundColor(ContextCompat.getColor(mvpView.getCtx(),R.color.colorAccent))
 
                 }
             }
             if(checkedList.contains(group)){
-                itemView.background = mvpView.getCtx().getDrawable(R.color.grey)
+                itemView.setBackgroundColor(ContextCompat.getColor(mvpView.getCtx(),R.color.colorAccent))
             }
         }
     }

@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageLogo"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -18,117 +17,113 @@
 
     <EditText
         android:id="@+id/fieldEmail"
+        style="@style/LoginEditText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_marginTop="32dp"
-        android:ems="11"
-        android:hint="Email"
+        android:background="@drawable/edit_text_login"
         android:inputType="textEmailAddress"
+        android:text="michno@design.com"
+        android:fontFamily="@font/roboto"
+        android:textColor="#2699FB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageLogo" />
 
     <EditText
         android:id="@+id/fieldPassword"
+        style="@style/LoginEditText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:ems="11"
-        android:hint="Password"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
+        android:background="@drawable/edit_text_login"
         android:inputType="textPassword"
+        android:text="michno"
+        android:textColor="#2699FB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldEmail" />
 
+    <View
+        android:id="@+id/dividerLogin"
+        android:layout_width="25dp"
+        android:layout_height="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_rounded"
+        android:backgroundTint="#8187FF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fieldPassword" />
+
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="46dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/button_rounded"
+        android:backgroundTint="#1DE9B6"
         android:text="Login"
         android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/fieldPassword"
         app:layout_constraintStart_toStartOf="@+id/fieldPassword"
-        app:layout_constraintTop_toBottomOf="@+id/fieldPassword" />
-
-    <LinearLayout
-        android:id="@+id/dividerLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:weightSum="2.5"
-        app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
-        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/lightGrey" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="center"
-            android:text="OR"
-            android:textAllCaps="true"
-            android:textColor="@color/lightGrey"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/lightGrey" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/dividerLogin" />
 
     <Button
         android:id="@+id/buttonFbLogin"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_rounded"
         android:backgroundTint="@color/facebookColor"
         android:drawableStart="@drawable/ic_facebook"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp"
-        android:text="@string/text_continue_with_fb"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="Login with facebook"
         android:textColor="@color/white"
         android:textSize="13dp"
-        app:layout_constraintEnd_toEndOf="@+id/dividerLogin"
-        app:layout_constraintStart_toStartOf="@+id/dividerLogin"
-        app:layout_constraintTop_toBottomOf="@+id/dividerLogin" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
+        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
-    <TextView
-        android:id="@+id/fieldForgot"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Zapomniałeś hasła?"
-        app:layout_constraintEnd_toStartOf="@+id/buttonNewAccount"
-        app:layout_constraintStart_toStartOf="@+id/buttonFbLogin"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFbLogin" />
-
-    <TextView
-        android:id="@+id/buttonNewAccount"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Stwórz konto"
-        app:layout_constraintEnd_toEndOf="@+id/buttonFbLogin"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFbLogin" />
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textNewAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Don't have an account?"
+            android:textColor="@color/white"/>
+
+
+        <TextView
+            android:id="@+id/buttonNewAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="Sign up now"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
 
     <ProgressBar
         android:id="@+id/progressBarLogin"

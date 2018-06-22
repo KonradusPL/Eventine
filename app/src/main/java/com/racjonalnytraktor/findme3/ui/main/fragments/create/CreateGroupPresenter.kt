@@ -67,10 +67,12 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
                     view.hideCreateGroupLoading()
                     repo.prefs.setCurrentGroupId(response.orEmpty())
                     repo.prefs.setCurrentGroupName(groupName)
+                    view.clearFriendsList()
                     view.showMessage("Udało się stworzyć event",MvpView.MessageType.SUCCESS)
                     view.openMapActivity()
                     Log.d("response",response.orEmpty())
                 }, {error: Throwable? ->
+                    view.clearFriendsList()
                     view.hideCreateGroupLoading()
                     view.showMessage("Nie udało się stworzyć eventu",MvpView.MessageType.ERROR)
                     Log.d("error",error!!.message)

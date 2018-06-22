@@ -4,7 +4,10 @@ import android.content.Intent
 import android.icu.text.IDNA
 import android.icu.text.SimpleDateFormat
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -12,10 +15,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.widget.DatePicker
 import android.widget.TimePicker
 import co.zsmb.materialdrawerkt.builders.drawer
@@ -197,7 +197,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
+                //tab!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
 
             }
 
@@ -239,7 +239,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         EventBus.getDefault().unregister(this)
         mPresenter.isAttached = false
         tabLayoutMap.let {
-            it.getTabAt(it.selectedTabPosition)?.icon?.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
+           // it.getTabAt(it.selectedTabPosition)?.icon?.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
         }
     }
 
@@ -353,6 +353,13 @@ class MapActivity : BaseActivity(),MapMvp.View{
         for(group in ping.targetGroups){
            text =  text.plus("$group,")
         }
+
+        if(ping.progressorName.isNotEmpty()){
+            view.fieldProgressor.text = ping.progressorName
+            view.fieldProgressor.visibility = View.VISIBLE
+        }
+        else
+            view.fieldProgressor.visibility = View.GONE
 
         view.fieldTitle.text = ping.title
         view.textSubGroups.text = text

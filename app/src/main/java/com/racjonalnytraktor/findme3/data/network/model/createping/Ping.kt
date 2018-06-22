@@ -13,6 +13,7 @@ data class Ping(
         var inProgress: Boolean = false,
         var ended: Boolean = false,
         var done: String = "",
+        var progressorName: String = "",
         @SerializedName("_id")var pingId: String = "",
         var creatorName: String = "",
         var createdAt: String = "")
@@ -31,5 +32,6 @@ data class Ping(
         done = done.plus(ping.done)
         pingId = pingId.plus(ping.pingId)
         creatorName = creatorName.plus(ping.creatorName)
+        progressorName = "".plus(ping.progressorName)
     }
 }

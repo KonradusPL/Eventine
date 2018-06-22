@@ -110,6 +110,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
                 pageAdapter.setTabColor(true,tab!!.customView!!,applicationContext)
             }
         })
+
     }
 
     override fun onBackPressed() {

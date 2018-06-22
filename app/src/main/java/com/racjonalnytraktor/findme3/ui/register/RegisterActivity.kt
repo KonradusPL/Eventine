@@ -20,9 +20,6 @@ class RegisterActivity : RegisterMvp.View, BaseActivity() {
         mPresenter = RegisterPresenter()
         mPresenter.onAttach(this)
 
-        setSupportActionBar(toolbarRegister)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         progressBar = progressRegister
 
         initClickListeners()

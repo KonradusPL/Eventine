@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/slider_height"
     android:background="@drawable/background_ping"
-    android:backgroundTint="@color/white"
+    android:backgroundTint="@color/backgroundColor"
     android:elevation="3dp"
     android:alpha="0.95">
 
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Wybór podgrup"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
@@ -34,7 +34,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textTitle"
-        android:alpha="0.9"/>
+        android:alpha="0.9"
+        android:background="@color/backgroundColor"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -50,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lighterGrey"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_marginBottom="0dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
