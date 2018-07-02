@@ -28,7 +28,7 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
 
         //Log.d("header",repo.prefs.getUserToken())
         //Log.d("token",token)
-        if(token.isNotEmpty())
+        if(false)
             compositeDisposable.add(repo.rest.networkService.updateNotifToken(repo.prefs.getUserToken(),request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())

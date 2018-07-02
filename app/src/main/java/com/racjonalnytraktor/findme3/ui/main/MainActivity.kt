@@ -39,8 +39,6 @@ class MainActivity : BaseActivity(),MainMvp.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.d("jijiji",'5'.toInt().toString())
-
         setUpViewPager()
 
         mPresenter = MainPresenter()

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Group
+import com.racjonalnytraktor.findme3.data.model.GroupWithUsers
 import com.racjonalnytraktor.findme3.data.model.Task
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.adapters.GroupsListAdapter
@@ -64,7 +65,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
         listTasks.adapter = mTasksListAdapter*/
     }
 
-    override fun updateGroupsList(group: Group) {
+    override fun updateGroupsList(group: GroupWithUsers) {
         mGroupsListAdapter.addItem(group)
     }
 

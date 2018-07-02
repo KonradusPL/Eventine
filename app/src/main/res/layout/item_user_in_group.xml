@@ -6,8 +6,9 @@
     android:layout_height="wrap_content"
     app:cardBackgroundColor="#3D5AFE"
     android:alpha="0.6"
-    android:elevation="8dp"
-    android:layout_marginBottom="8dp">
+    android:layout_marginTop="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,11 +16,11 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imageUser"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:src="@drawable/user_holder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +31,8 @@
             android:id="@+id/fieldUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto"
             android:text="TextView"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -41,12 +43,12 @@
             android:id="@+id/fieldSubGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="TextView"
+            android:layout_marginStart="8dp"
+            android:alpha="0.56"
+            android:fontFamily="@font/roboto"
+            android:text="Admin"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:alpha="0.56"
             app:layout_constraintStart_toEndOf="@+id/imageUser"
             app:layout_constraintTop_toBottomOf="@+id/fieldUserName" />
 
