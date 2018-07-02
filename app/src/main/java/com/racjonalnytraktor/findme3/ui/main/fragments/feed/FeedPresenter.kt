@@ -31,7 +31,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                     Log.d("getGroups","error")
                     view.hideGroupsLoading()
                 }))
-        compositeDisposable.add(repo.getTasks()
+        /*compositeDisposable.add(repo.getTasks()
                 .doOnComplete{
                     Log.d("getTasks","complete")
                     view.hideTasksLoading()
@@ -42,7 +42,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                 },{t ->
                     Log.d("getTasks",t.message)
                     view.hideTasksLoading()
-                }))
+                }))*/
     }
 
     override fun onDetach() {
