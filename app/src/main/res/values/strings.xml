@@ -39,7 +39,8 @@
 
     <string name="hint_enter_group_code">Enter group code</string>
     <string name="hint_email">Email</string>
-    <string name="hint_password">Passoword</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_fullname">Full name</string>
 
     <string name="toolbar_create_group">Create group</string>
     <string name="toolbar_join_group">Join group</string>

@@ -7,7 +7,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/layout_splash</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/gradient_login</item>
     </style>
     <style name="MapTheme" parent="AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>

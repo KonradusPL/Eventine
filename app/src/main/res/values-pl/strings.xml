@@ -45,6 +45,8 @@
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Hasło</string>
+    <string name="hint_fullname">Imię i nazwisko</string>
+
 
     <string name="toolbar_create_group">Stwórz grupę</string>
 
