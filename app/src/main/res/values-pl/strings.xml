@@ -35,7 +35,7 @@
     <string name="text_fill_all_fields">Musisz wypełnić wszystkie pola</string>
     <string name="text_turn_on_internet_connection">Włącz internet!</string>
     <string name="text_success">Udało się!</string>
-    <string name="text_sign_up_now"><u>Zarejestrój się</u></string>
+    <string name="text_sign_up_now"><u>Zarejestruj się</u></string>
     <string name="text_sign_in_now"><u>Zaloguj się</u></string>
 
     <string name="toolbar_join_group">Dołącz</string>

@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.main
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -11,8 +12,10 @@ import android.support.v4.view.GravityCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
+import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
+import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import co.zsmb.materialdrawerkt.draweritems.sectionItem
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
@@ -25,7 +28,9 @@ import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import com.racjonalnytraktor.findme3.utils.CircleTransform
+
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.email
 import org.jetbrains.anko.uiThread
 
 
@@ -43,19 +48,38 @@ class MainActivity : BaseActivity(),MainMvp.View {
 
         mPresenter = MainPresenter()
         mPresenter.onAttach(this)
+
+        setSupportActionBar(toolbarMain)
+
+        val actionBar = supportActionBar
+
+        //actionBar?.setDefaultDisplayHomeAsUpEnabled(true)
+        //actionBar?.setDisplayShowHomeEnabled(true)
+        actionBar?.title = ""
+        //actionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+        toolbarMain.setNavigationIcon(R.drawable.ic_menu_black_24dp)
+        toolbarMain.setNavigationOnClickListener {
+            drawerMain.openDrawer()
+        }
     }
 
     override fun setUpLeftNavigation(groups: ArrayList<Group>) {
         drawerMain = drawer {
 
-            gravity = GravityCompat.END
-            displayBelowStatusBar = false
+            gravity = GravityCompat.START
 
-            headerView = LayoutInflater.from(this@MainActivity).inflate(R.layout.navigation_header,null)
+            accountHeader {
+                profile("Marcin Michno","marcin@design.pl")
+                background = Color.WHITE
+                textColor = Color.BLACK.toLong()
+            }
+
+            //headerView = LayoutInflater.from(this@MainActivity).inflate(R.layout.navigation_header,null)
             primaryItem("Wyloguj się"){
                 icon = R.drawable.ic_directions_run_black_24dp
                 tag = "logout"
             }
+
         }
         drawerMain.deselect()
        /* for(group in groups)
@@ -91,7 +115,6 @@ class MainActivity : BaseActivity(),MainMvp.View {
         viewPagerMain.adapter = pageAdapter
 
         tabLayoutMain.setupWithViewPager(viewPagerMain)
-        viewPagerMain.currentItem = 0
 
         for (i in 0..tabLayoutMain.tabCount-1) {
             val tab = tabLayoutMain.getTabAt(i)
@@ -108,11 +131,8 @@ class MainActivity : BaseActivity(),MainMvp.View {
                 pageAdapter.setTabColor(true,tab!!.customView!!,applicationContext)
             }
         })
+        viewPagerMain.currentItem = 0
 
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 
     override fun changeProfileIcon(url: String) {

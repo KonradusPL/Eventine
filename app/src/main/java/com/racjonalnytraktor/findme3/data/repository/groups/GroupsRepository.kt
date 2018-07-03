@@ -19,10 +19,24 @@ object GroupsRepository: BaseRepository() {
              .flatMapIterable { t -> t }
              .subscribeOn(SchedulerProvider.io())
              .observeOn(SchedulerProvider.ui())
+
+        /*val arrayList = ArrayList<Ping>()
+        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
+                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
+        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
+                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
+        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
+                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
+        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
+                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
+        return Observable.just(arrayList)
+                .flatMapIterable { t -> t }*/
+
+
     }
 
-    fun getGroups(): Observable<ArrayList<GroupWithUsers>>{
-        val groups = ArrayList<GroupWithUsers>()
+    fun getGroups(): Observable<ArrayList<Group>>{
+        /*val groups = ArrayList<GroupWithUsers>()
         //val group = Groc
         val arrayList = ArrayList<Person>()
         arrayList.add(Person("Konrad Pękala","",""))
@@ -31,7 +45,7 @@ object GroupsRepository: BaseRepository() {
         groups.add(GroupWithUsers(Group("Szachiści","asd",""),arrayList))
         groups.add(GroupWithUsers(Group("Kalejdoskop","asd",""),arrayList))
         groups.add(GroupWithUsers(Group("Karnawał Sztukmistrzów","asd",""),arrayList))
-        return Observable.just(groups)
+        return Observable.just(groups)*/
 
 
         val token = prefs.getUserToken()
@@ -46,6 +60,6 @@ object GroupsRepository: BaseRepository() {
         },{t: Throwable? ->
 
         })
-        //return observable
+        return observable
     }
 }

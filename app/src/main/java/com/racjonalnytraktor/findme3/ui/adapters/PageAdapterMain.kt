@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -29,18 +30,17 @@ class PageAdapterMain(fm: FragmentManager, val context: Context): FragmentPagerA
     val tabNames = context.resources.getStringArray(R.array.tab_names_main)
 
     init {
-        tabIcons.add(CommunityMaterial.Icon.cmd_account_multiple_outline)
-        tabIcons.add(CommunityMaterial.Icon.cmd_home_outline)
-        tabIcons.add(CommunityMaterial.Icon.cmd_plus)
+        tabIcons.add(GoogleMaterial.Icon.gmd_people_outline)
+        tabIcons.add(GoogleMaterial.Icon.gmd_home)
+        tabIcons.add(GoogleMaterial.Icon.gmd_add)
     }
 
 
     override fun getItem(position: Int): Fragment {
         when(position){
-            0 -> return FeedFragment<MainMvp.View>()
-            1 -> return CreateGroupFragment<MainMvp.View>()
+            0 -> return CreateGroupFragment<MainMvp.View>()
+            1 -> return FeedFragment<MainMvp.View>()
             2 -> return JoinFragment<MainMvp.View>()
-            //3 -> return ProfileFragment()
         }
         return Fragment()
     }
@@ -69,10 +69,14 @@ class PageAdapterMain(fm: FragmentManager, val context: Context): FragmentPagerA
     fun setTabColor(selected: Boolean, view: View, ctx: Context){
         when(selected){
             true -> {
+                view.tabTitle.typeface = Typeface.DEFAULT_BOLD
+                view.tabIcon.icon.sizeDp(22)
                // view.tabIcon.setColorFilter(ContextCompat.getColor(ctx, R.color.colorPrimaryDark))
                 //view.tabTitle.setTextColor(ctx.resources.getColor(R.color.colorPrimaryDark))
             }
             false ->{
+                view.tabTitle.typeface = Typeface.DEFAULT
+                view.tabIcon.icon.sizeDp(20)
                 //view.tabIcon.setColorFilter(ContextCompat.getColor(ctx,R.color.dimGrey))
                 //view.tabTitle.setTextColor(ctx.resources.getColor(R.color.dimGrey))
             }

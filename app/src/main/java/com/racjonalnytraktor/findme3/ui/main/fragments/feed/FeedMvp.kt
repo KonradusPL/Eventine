@@ -10,7 +10,7 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 
 interface FeedMvp {
     interface View: MvpView,GroupsListAdapter.GroupsListListener{
-        fun updateGroupsList(group: GroupWithUsers)
+        fun updateGroupsList(group: Group)
         fun updateTasksList(task: Ping)
         fun openMapActivity(groupName: String)
         fun showGroupsLoading()

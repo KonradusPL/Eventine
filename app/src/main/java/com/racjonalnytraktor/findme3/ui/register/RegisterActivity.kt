@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
+import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -32,6 +33,11 @@ class RegisterActivity : RegisterMvp.View, BaseActivity() {
                             fieldEmail.text.toString(),
                             fieldPassword.text.toString(),
                             fieldName.text.toString())
+                }
+        RxView.clicks(buttonSignIn)
+                .subscribe {
+                    startActivity(Intent(this,LoginActivity::class.java))
+                    finish()
                 }
     }
 

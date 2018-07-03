@@ -10,7 +10,6 @@ import com.racjonalnytraktor.findme3.data.model.Task
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.utils.StringHelper
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_history.view.*
 import kotlinx.android.synthetic.main.task_item.view.*
 import java.util.ArrayList
 
@@ -22,14 +21,13 @@ class TasksListAdapter(val list: ArrayList<Ping>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
-        val view =  LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
+        val view =  LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
         return MyHolder(view,context)
     }
 
     class MyHolder(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
 
         fun bind(task: Ping){
-            itemView.fieldCreator.text = task.creatorName
             itemView.fieldTitle.text = task.title
             itemView.fieldDescr.text = task.desc
 

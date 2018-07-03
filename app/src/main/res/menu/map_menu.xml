@@ -6,6 +6,6 @@
         app:showAsAction="always"
         android:id="@+id/item_hamburger"
         android:icon="@drawable/ic_menu_black_24dp"
-        android:title=""/>
+        android:title="" />
 
 </menu>

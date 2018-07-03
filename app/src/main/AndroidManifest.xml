@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.racjonalnytraktor.findme3">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -14,8 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -55,12 +55,15 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.LoginActivity"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,7 +77,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.register.RegisterActivity"
-            android:theme="@style/LoginTheme"/>
+            android:theme="@style/LoginTheme"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.manage.ManageSubGroupsActivity"
             android:parentActivityName=".ui.map.MapActivity"></activity>

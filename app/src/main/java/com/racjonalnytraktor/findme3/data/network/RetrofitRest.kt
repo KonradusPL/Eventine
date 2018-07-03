@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitRest: Rest {
 
-    private val BASE_URL = "https://findme-186320.appspot.com"
+    private val BASE_URL = "http://localhost:8080/"
 
         private var gson = GsonBuilder()
                 .setLenient()

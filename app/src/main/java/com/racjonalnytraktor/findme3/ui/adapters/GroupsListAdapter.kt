@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_groups.view.*
 import java.util.ArrayList
 
-class GroupsListAdapter(val list: ArrayList<GroupWithUsers>,
+class GroupsListAdapter(val list: ArrayList<Group>,
                         val mvpView: FeedMvp.View) : RecyclerView.Adapter<GroupsListAdapter.MyHolder>() {
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
@@ -29,8 +29,8 @@ class GroupsListAdapter(val list: ArrayList<GroupWithUsers>,
 
         private val listener = view as GroupsListListener
 
-        fun bind(group: GroupWithUsers){
-            itemView.fieldTitle.text = group.group.groupName
+        fun bind(group: Group){
+            itemView.fieldTitle.text = group.groupName
 
             /*Picasso.get()
                     .load(group.groupPictureUri)
@@ -39,25 +39,28 @@ class GroupsListAdapter(val list: ArrayList<GroupWithUsers>,
                     .into(itemView.imageGroup)*/
 
             itemView.setOnClickListener {
-                listener.onGroupsItemClick(group.group.groupName,group.group.id)
+                listener.onGroupsItemClick(group.groupName,group.id)
 
                 itemView.listPeopleInGroup.apply {
-                    visibility = if(visibility == View.GONE)
-                        View.VISIBLE
-                    else
-                        View.GONE
+                    if(visibility == View.GONE){
+                        visibility = View.VISIBLE
+                        itemView.imageArrow.rotation = 180f
+                    }else{
+                        visibility = View.GONE
+                        itemView.imageArrow.rotation = 0f
+                    }
                 }
 
             }
-            itemView.listPeopleInGroup.apply {
+            /*itemView.listPeopleInGroup.apply {
                 layoutManager = LinearLayoutManager(view.getCtx())
                 adapter = UsersInGroupAdapter(group.users)
-            }
+            }*/
         }
 
     }
 
-    fun addItem(group: GroupWithUsers){
+    fun addItem(group: Group){
         list.add(group)
         notifyDataSetChanged()
     }

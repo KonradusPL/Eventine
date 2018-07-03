@@ -36,7 +36,7 @@
         android:rotation="188"
         android:scaleType="fitXY"
         android:translationX="-110dp"
-        android:translationY="70dp"
+        android:translationY="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -51,7 +51,7 @@
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:translationX="-70dp"
-        android:translationY="110dp"
+        android:translationY="130dp"
         android:rotation="170"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,12 +66,12 @@
             android:id="@+id/tabLayoutMain"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="72dp"
-            android:elevation="1dp"
             app:tabIndicatorHeight="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@android:color/transparent"
+            app:tabBackground="@android:color/transparent">
 
         </android.support.design.widget.TabLayout>
 

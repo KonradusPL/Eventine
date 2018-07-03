@@ -25,14 +25,14 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                     view.hideGroupsLoading()
                     Log.d("getGroups","complete")
                 }
-                .subscribe({group: GroupWithUsers? ->
+                .subscribe({group: Group? ->
                     Log.d("getGroups","next")
                     view.updateGroupsList(group!!)
                 },{t: Throwable? ->
                     Log.d("getGroups","error")
                     view.hideGroupsLoading()
                 }))
-        /*compositeDisposable.add(repo.getTasks()
+        compositeDisposable.add(repo.getTasks()
                 .doOnComplete{
                     Log.d("getTasks","complete")
                     view.hideTasksLoading()
@@ -43,7 +43,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                 },{t ->
                     Log.d("getTasks",t.message)
                     view.hideTasksLoading()
-                }))*/
+                }))
     }
 
     override fun onDetach() {
