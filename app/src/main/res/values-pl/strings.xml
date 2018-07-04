@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tab_names_main">
-        <item>Główna</item>
         <item>Stwórz</item>
+        <item>Główna</item>
         <item>Dołącz</item>
-        <item>Profil</item>
     </string-array>
 
     <string-array name="tab_names_map">
@@ -37,6 +36,12 @@
     <string name="text_success">Udało się!</string>
     <string name="text_sign_up_now"><u>Zarejestruj się</u></string>
     <string name="text_sign_in_now"><u>Zaloguj się</u></string>
+    <string name="text_sign_up"><u>Zarejestruj sie</u></string>
+    <string name="text_fb_login"><u>Zaloguj się facebookiem</u></string>
+    <string name="text_dont_have_account">Nie masz konta?</string>
+    <string name="text_have_account">Masz konto?</string>
+    <string name="text_last_tasks">Ostatnie zadania</string>
+    <string name="text_your_groups">Twoje grupy</string>
 
     <string name="toolbar_join_group">Dołącz</string>
     <string name="toolbar_changeGroup">Zmień grupę</string>

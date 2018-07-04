@@ -6,28 +6,30 @@
     android:layout_height="match_parent">
 
 
-        <Button
-            android:id="@+id/buttonCreate"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/button_colored"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Stwórz"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="@+id/fieldGroupCode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fieldGroupCode"
-            app:layout_constraintTop_toTopOf="@+id/fieldGroupCode" />
+    <Button
+        android:id="@+id/buttonCreate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/button_rounded"
+        android:backgroundTint="#1DE9B6"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Stwórz"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/fieldGroupCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fieldGroupCode"
+        app:layout_constraintTop_toTopOf="@+id/fieldGroupCode" />
 
     <EditText
         android:id="@+id/fieldGroupCode"
+        style="@style/LoginEditText"
+        android:background="@drawable/edit_text_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
+        android:ems="13"
         android:hint="Nazwa wydarzenia"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +43,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Znajomi"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldGroupCode" />
@@ -64,8 +66,9 @@
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/white"
             android:elevation="4dp"
+            android:background="@color/white"
             android:text="Odśwież"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/textColor"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,8 +79,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldGroupCode" />
 </android.support.constraint.ConstraintLayout>

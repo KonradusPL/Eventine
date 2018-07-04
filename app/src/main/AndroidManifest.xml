@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.racjonalnytraktor.findme3">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +18,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyChti0ILewzirsgDUeYVPiC9jmWS3NarT4" />
@@ -40,7 +38,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data  android:scheme="fb194669471175342" />
+                <data android:scheme="fb194669471175342" />
             </intent-filter>
         </activity>
 
@@ -55,15 +53,17 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.login.LoginActivity"
-            android:theme="@style/LoginTheme"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,11 +77,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.register.RegisterActivity"
-            android:theme="@style/LoginTheme"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".ui.manage.ManageSubGroupsActivity"
-            android:parentActivityName=".ui.map.MapActivity"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".ui.manage.ManageSubGroupsActivity"
+            android:parentActivityName=".ui.map.MapActivity" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

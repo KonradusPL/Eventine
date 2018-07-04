@@ -8,6 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.zxing.common.StringUtils
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.IIcon
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Invitation
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
@@ -19,6 +23,15 @@ import kotlinx.android.synthetic.main.item_history.view.*
 
 class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener,val context: Context)
     :RecyclerView.Adapter<HistoryAdapter.MyHolder>(){
+
+    private val statusIcons = ArrayList<IIcon>()
+
+    init {
+        statusIcons.add(CommunityMaterial.Icon.cmd_star_outline)
+        statusIcons.add(CommunityMaterial.Icon.cmd_star_half)
+        statusIcons.add(CommunityMaterial.Icon.cmd_star)
+        statusIcons.add(CommunityMaterial.Icon.cmd_information_outline)
+    }
 
     var type = "ping"
 
@@ -47,20 +60,23 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener,val
             }
 
             if (ping.ended){
-                itemView.textStatus.setText("wykonany")
-                itemView.textStatus.setTextColor(ContextCompat.getColor(context,R.color.green))
+                itemView.imageStatus.icon = IconicsDrawable(context,statusIcons[2])
+                        .color(ContextCompat.getColor(context,R.color.green))
+                        .sizeDp(24)
             }
             else if(ping.inProgress){
-                itemView.textStatus.setText("W trakcie")
-                itemView.textStatus.setTextColor(ContextCompat.getColor(context,R.color.orange))
+                itemView.imageStatus.icon = IconicsDrawable(context,statusIcons[1])
+                        .color(ContextCompat.getColor(context,R.color.orange))
             }
             else
-                itemView.textStatus.text = "nie zaczęty"
+                itemView.imageStatus.icon = IconicsDrawable(context,statusIcons[0])
+                        .color(ContextCompat.getColor(context,R.color.red))
+                        .sizeDp(24)
 
             itemView.fieldTitle.text = ping.title
             itemView.fieldDescr.text = ping.desc
-            val creator = if(ping.creatorName.isNotEmpty()) ping.creatorName else "nieznany"
-            itemView.fieldCreator.text = "Autor: " + creator
+            //val creator = if(ping.creatorName.isNotEmpty()) ping.creatorName else "nieznany"
+            //itemView.fieldCreator.text = "Autor: " + creator
             if(ping.createdAt != null && ping.createdAt.isNotEmpty() && ping.date.orEmpty().isEmpty())
                 itemView.fieldDate.text = "Data stworzenia: ${StringHelper.getCalendarText(ping.createdAt.orEmpty())}"
             else if (ping.date.orEmpty().isNotEmpty())
@@ -68,12 +84,13 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener,val
 
         }
         fun bind2(info: Info){
-            itemView.textStatus.text = ""
+            itemView.imageStatus.icon = IconicsDrawable(context,statusIcons[3])
+                    .color(ContextCompat.getColor(context,R.color.textColor))
+                    .sizeDp(24)
 
             itemView.setOnClickListener {  }
             itemView.fieldTitle.text = "Informacja"
             val creator = if(info.creatorName.isNotEmpty()) info.creatorName else "nieznany"
-            itemView.fieldCreator.text = "Autor: " + creator
             itemView.fieldDescr.text = info.content
             if(info.createdAt != null && info.createdAt.isNotEmpty() && info.date.orEmpty().isEmpty())
                 itemView.fieldDate.text = "Data stworzenia: ${StringHelper.getCalendarText(info.createdAt.orEmpty())}"

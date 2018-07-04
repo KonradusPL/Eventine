@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
@@ -55,7 +56,7 @@ class PageAdapterMain(fm: FragmentManager, val context: Context): FragmentPagerA
         view.tabIcon.icon = IconicsDrawable(context)
                 .icon(tabIcons[position])
                 .color(Color.WHITE)
-                .sizeDp(20)
+                .sizeDp(18)
 
 
         when(position){
@@ -69,14 +70,16 @@ class PageAdapterMain(fm: FragmentManager, val context: Context): FragmentPagerA
     fun setTabColor(selected: Boolean, view: View, ctx: Context){
         when(selected){
             true -> {
+                view.tabTitle.textSize = 14f
+                view.tabIcon.icon.sizeDp(20)
                 view.tabTitle.typeface = Typeface.DEFAULT_BOLD
-                view.tabIcon.icon.sizeDp(22)
-               // view.tabIcon.setColorFilter(ContextCompat.getColor(ctx, R.color.colorPrimaryDark))
+                // view.tabIcon.setColorFilter(ContextCompat.getColor(ctx, R.color.colorPrimaryDark))
                 //view.tabTitle.setTextColor(ctx.resources.getColor(R.color.colorPrimaryDark))
             }
             false ->{
                 view.tabTitle.typeface = Typeface.DEFAULT
-                view.tabIcon.icon.sizeDp(20)
+                view.tabIcon.icon.sizeDp(18)
+                view.tabTitle.textSize = 12f
                 //view.tabIcon.setColorFilter(ContextCompat.getColor(ctx,R.color.dimGrey))
                 //view.tabTitle.setTextColor(ctx.resources.getColor(R.color.dimGrey))
             }

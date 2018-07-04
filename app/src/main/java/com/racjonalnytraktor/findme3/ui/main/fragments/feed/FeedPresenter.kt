@@ -6,6 +6,7 @@ import com.racjonalnytraktor.findme3.data.model.GroupWithUsers
 import com.racjonalnytraktor.findme3.data.repository.groups.GroupsRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
+import java.util.concurrent.TimeUnit
 
 
 class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
@@ -18,6 +19,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
         repo.onAttatch(mvpView.getCtx())
 
         view.showGroupsLoading()
+        view.showTasksLoading()
 
         compositeDisposable.add(repo.getGroups()
                 .flatMapIterable { t -> t }
@@ -25,7 +27,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
                     view.hideGroupsLoading()
                     Log.d("getGroups","complete")
                 }
-                .subscribe({group: Group? ->
+                .subscribe({group: GroupWithUsers? ->
                     Log.d("getGroups","next")
                     view.updateGroupsList(group!!)
                 },{t: Throwable? ->
@@ -54,7 +56,5 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
         Log.d("groupIdhehe",groupId)
         repo.prefs.setCurrentGroupId(groupId)
         repo.prefs.setCurrentGroupName(groupName)
-
     }
-
 }

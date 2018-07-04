@@ -6,9 +6,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class RetrofitRest: Rest {
+class RetrofitRest {
 
-    private val BASE_URL = "http://localhost:8080/"
+    private val BASE_URL = "http://35.234.124.12"
 
         private var gson = GsonBuilder()
                 .setLenient()
@@ -21,12 +21,4 @@ class RetrofitRest: Rest {
                 .build()
 
         val networkService = retrofit.create(Routes::class.java)
-
-    override fun loginWithEmail(email: String, password: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun registerWithEmail(email: String, password: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

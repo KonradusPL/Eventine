@@ -68,7 +68,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/button_rounded"
         android:backgroundTint="#1DE9B6"
-        android:text="Login"
+        android:text="@string/text_login"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/fieldPassword"
@@ -85,7 +85,7 @@
         android:drawableStart="@drawable/ic_facebook"
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
-        android:text="Login with facebook"
+        android:text="@string/text_fb_login"
         android:textColor="@color/white"
         android:textSize="13dp"
         android:textStyle="bold"
@@ -108,8 +108,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:text="Don't have an account?"
-            android:textColor="@color/white"/>
+            android:text="@string/text_dont_have_account"
+            android:textColor="@color/white" />
 
 
         <TextView

@@ -19,8 +19,8 @@ import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.fragment_groups.*
 import kotlinx.android.synthetic.main.fragment_groups.view.*
+import kotlinx.android.synthetic.main.fragment_groups_new.*
 import kotlinx.android.synthetic.main.fragment_join_group.*
 
 class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
@@ -30,7 +30,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     lateinit var mPresenter: FeedPresenter<FeedMvp.View>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_groups,container,false)
+        return inflater.inflate(R.layout.fragment_groups_new,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,6 +49,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
     private fun initGroupsList(){
         listGroups.setHasFixedSize(true)
+        listGroups.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(activity)
         listGroups.layoutManager = layoutManager
 
@@ -58,6 +59,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
     private fun initTasksList(){
         listTasks.setHasFixedSize(true)
+        listTasks.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(activity)
         listTasks.layoutManager = layoutManager
 
@@ -65,7 +67,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
         listTasks.adapter = mTasksListAdapter
     }
 
-    override fun updateGroupsList(group: Group) {
+    override fun updateGroupsList(group: GroupWithUsers) {
         mGroupsListAdapter.addItem(group)
     }
 
@@ -74,15 +76,15 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
     }
 
     override fun showGroupsLoading() {
-       progressGroups.isIndeterminate = true
-        progressGroups.visibility = View.VISIBLE
-        textEmptyGroups.visibility = View.INVISIBLE
+        progressGroups?.isIndeterminate = true
+        progressGroups?.visibility = View.VISIBLE
+        //textEmptyGroups.visibility = View.INVISIBLE
     }
 
     override fun hideGroupsLoading() {
             if(progressGroups != null){
-                progressGroups.isIndeterminate = false
-                progressGroups.visibility = View.INVISIBLE
+               progressGroups.isIndeterminate = false
+               progressGroups.visibility = View.INVISIBLE
             }
     }
 
@@ -97,14 +99,16 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
 
     override fun hideTasksLoading() {
+        progressTasks?.visibility = View.INVISIBLE
         if(mTasksListAdapter.itemCount == 0){
-            if (layoutNoTasks != null)
-                layoutNoTasks.visibility = View.VISIBLE
+            //if (layoutNoTasks != null)
+                //layoutNoTasks.visibility = View.VISIBLE
         }
     }
 
     override fun showTasksLoading() {
-        if(layoutNoTasks != null)
-         layoutNoTasks.visibility = View.INVISIBLE
+        progressTasks?.visibility = View.VISIBLE
+        //if(layoutNoTasks != null)
+         //layoutNoTasks.visibility = View.INVISIBLE
     }
 }

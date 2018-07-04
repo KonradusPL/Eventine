@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_groups.view.*
 import java.util.ArrayList
 
-class GroupsListAdapter(val list: ArrayList<Group>,
+class GroupsListAdapter(val list: ArrayList<GroupWithUsers>,
                         val mvpView: FeedMvp.View) : RecyclerView.Adapter<GroupsListAdapter.MyHolder>() {
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
@@ -29,8 +29,8 @@ class GroupsListAdapter(val list: ArrayList<Group>,
 
         private val listener = view as GroupsListListener
 
-        fun bind(group: Group){
-            itemView.fieldTitle.text = group.groupName
+        fun bind(group: GroupWithUsers){
+            itemView.fieldTitle.text = group.group.groupName
 
             /*Picasso.get()
                     .load(group.groupPictureUri)
@@ -39,7 +39,7 @@ class GroupsListAdapter(val list: ArrayList<Group>,
                     .into(itemView.imageGroup)*/
 
             itemView.setOnClickListener {
-                listener.onGroupsItemClick(group.groupName,group.id)
+               // listener.onGroupsItemClick(group.group.groupName,group.group.id)
 
                 itemView.listPeopleInGroup.apply {
                     if(visibility == View.GONE){
@@ -52,15 +52,15 @@ class GroupsListAdapter(val list: ArrayList<Group>,
                 }
 
             }
-            /*itemView.listPeopleInGroup.apply {
+            itemView.listPeopleInGroup.apply {
                 layoutManager = LinearLayoutManager(view.getCtx())
                 adapter = UsersInGroupAdapter(group.users)
-            }*/
+            }
         }
 
     }
 
-    fun addItem(group: Group){
+    fun addItem(group: GroupWithUsers){
         list.add(group)
         notifyDataSetChanged()
     }

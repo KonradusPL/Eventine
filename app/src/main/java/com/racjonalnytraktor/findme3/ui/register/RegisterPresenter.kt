@@ -53,5 +53,4 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
         super.onDetach()
         compositeDisposable.clear()
     }
-
 }
