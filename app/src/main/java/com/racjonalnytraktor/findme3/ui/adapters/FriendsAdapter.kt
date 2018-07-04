@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -35,7 +36,7 @@ class FriendsAdapter(val list: ArrayList<User>,
         fun bind(position: Int){
 
             if(!checkedList.contains(position)){
-                itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.backgroundColor))
+                itemView.setBackgroundColor(Color.WHITE)
                 itemView.checkFriend.isChecked = false
             }else{
                 itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.lightGrey))
@@ -45,7 +46,7 @@ class FriendsAdapter(val list: ArrayList<User>,
             itemView.setOnClickListener {
                 Log.d("popopo",position.toString())
                 if (itemView.checkFriend.isChecked){
-                    itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.backgroundColor))
+                    itemView.setBackgroundColor(Color.WHITE)
                     checkedList.remove(position)
                     itemView.checkFriend.isChecked = false
                 }
@@ -61,7 +62,7 @@ class FriendsAdapter(val list: ArrayList<User>,
                     checkedList.add(position)
                     itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.lightGrey))
                 }else{
-                    itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.backgroundColor))
+                    itemView.setBackgroundColor(Color.WHITE)
                     checkedList.remove(position)
                 }
             }

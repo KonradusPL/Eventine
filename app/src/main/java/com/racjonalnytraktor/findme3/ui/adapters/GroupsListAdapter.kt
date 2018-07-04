@@ -38,9 +38,11 @@ class GroupsListAdapter(val list: ArrayList<GroupWithUsers>,
                     .resize(50,50)
                     .into(itemView.imageGroup)*/
 
-            itemView.setOnClickListener {
-               // listener.onGroupsItemClick(group.group.groupName,group.group.id)
+            itemView.imageOpen.setOnClickListener {
+                 listener.onGroupsItemClick(group.group.groupName,group.group.id)
+            }
 
+            itemView.imageArrow.setOnClickListener {
                 itemView.listPeopleInGroup.apply {
                     if(visibility == View.GONE){
                         visibility = View.VISIBLE
@@ -50,7 +52,6 @@ class GroupsListAdapter(val list: ArrayList<GroupWithUsers>,
                         itemView.imageArrow.rotation = 0f
                     }
                 }
-
             }
             itemView.listPeopleInGroup.apply {
                 layoutManager = LinearLayoutManager(view.getCtx())

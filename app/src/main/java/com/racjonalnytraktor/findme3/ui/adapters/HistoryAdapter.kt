@@ -67,6 +67,7 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener,val
             else if(ping.inProgress){
                 itemView.imageStatus.icon = IconicsDrawable(context,statusIcons[1])
                         .color(ContextCompat.getColor(context,R.color.orange))
+                        .sizeDp(24)
             }
             else
                 itemView.imageStatus.icon = IconicsDrawable(context,statusIcons[0])

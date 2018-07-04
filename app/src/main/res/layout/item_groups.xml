@@ -67,6 +67,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
+            <ImageView
+                android:id="@+id/imageOpen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_open_in_browser_black_24dp"
+                android:tint="@color/textColor"
+                app:layout_constraintEnd_toStartOf="@+id/imageArrow"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/listPeopleInGroup"
                 android:layout_width="0dp"

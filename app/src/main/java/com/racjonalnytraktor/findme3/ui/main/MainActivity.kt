@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.WindowManager
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
@@ -43,7 +44,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        
         setUpViewPager()
 
         mPresenter = MainPresenter()
