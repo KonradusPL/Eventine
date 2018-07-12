@@ -8,4 +8,5 @@ class User(
     var profileUri: String = "",
     var fullName: String = "",
     var token: String = "",
-    @SerializedName("_id")var id: String = "")
+    @SerializedName("_id")var id: String = "",
+    var email: String = "")

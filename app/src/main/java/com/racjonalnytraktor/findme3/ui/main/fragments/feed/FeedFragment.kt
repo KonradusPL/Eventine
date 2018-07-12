@@ -83,6 +83,7 @@ class FeedFragment<V: MainMvp.View>: BaseFragment<V>(), FeedMvp.View {
 
     override fun hideGroupsLoading() {
             if(progressGroups != null){
+                listGroups.minimumHeight =0
                progressGroups.isIndeterminate = false
                progressGroups.visibility = View.INVISIBLE
             }

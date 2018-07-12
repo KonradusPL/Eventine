@@ -78,7 +78,8 @@ class SharedPrefs(context: Context): Prefs {
         return User(
                 "",
                 getUserProfileImage(),
-                getUserFullName())
+                getUserFullName(),"","",
+                getUserEmail())
     }
 
     override fun setCurrentUser(value: User) {
@@ -87,6 +88,7 @@ class SharedPrefs(context: Context): Prefs {
         setUserProfileImage(value.profileUri)
         setFacebookId(value.facebookId)
         setUserToken(value.token)
+        setUserEmail(value.email)
     }
 
     override fun setFacebookId(value: String) {

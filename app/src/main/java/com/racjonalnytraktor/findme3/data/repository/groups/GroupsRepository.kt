@@ -39,33 +39,36 @@ object GroupsRepository: BaseRepository() {
 
     }
 
-    fun getGroups(): Observable<ArrayList<GroupWithUsers>>{
+    fun getGroups(): Observable<GroupWithUsers>{
         val groups = ArrayList<GroupWithUsers>()
         //val group = Groc
         val arrayList = ArrayList<Person>()
-        arrayList.add(Person("Konrad Pękala","",""))
-        arrayList.add(Person("Marcin Michno","",""))
-        arrayList.add(Person("Andrzej Duda","",""))
-        groups.add(GroupWithUsers(Group("Szachiści","asd",""),arrayList))
+        arrayList.add(Person("Anna Kowalska","",""))
+        arrayList.add(Person("Adam Nowak","",""))
+        arrayList.add(Person("Jan Kowalski","",""))
+        /*groups.add(GroupWithUsers(Group("Szachiści","asd",""),arrayList))
         groups.add(GroupWithUsers(Group("Kalejdoskop","asd",""),arrayList))
         groups.add(GroupWithUsers(Group("Karnawał Sztukmistrzów","asd",""),arrayList))
         return Observable.just(groups)
                 .delay(4L,TimeUnit.SECONDS)
                 .subscribeOn(SchedulerProvider.io())
-                .observeOn(SchedulerProvider.ui())
+                .observeOn(SchedulerProvider.ui())*/
 
-        /*val token = prefs.getUserToken()
+        val token = prefs.getUserToken()
         val observable =  rest.networkService.getGroups(token)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
                 .map { t -> t.groups }
+                .flatMapIterable { t -> t }
+                .map { t ->  GroupWithUsers(t,arrayList)}
 
-        observable.subscribe({t: ArrayList<Group>? ->
-            Log.d("xxxxxxx","xxxxxxx")
-            appRepo.addGroups(t!!)
+        appRepo.clearGroups()
+
+        observable.subscribe({t: GroupWithUsers? ->
+            appRepo.addGroup(t!!.group)
         },{t: Throwable? ->
 
         })
-        return observable*/
+        return observable
     }
 }

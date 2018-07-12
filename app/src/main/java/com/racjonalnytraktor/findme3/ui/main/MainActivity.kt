@@ -23,6 +23,7 @@ import com.facebook.login.LoginManager
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.racjonalnytraktor.findme3.data.model.Group
+import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.ui.adapters.PageAdapterMain
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
@@ -44,7 +45,7 @@ class MainActivity : BaseActivity(),MainMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
         setUpViewPager()
 
         mPresenter = MainPresenter()
@@ -64,13 +65,13 @@ class MainActivity : BaseActivity(),MainMvp.View {
         }
     }
 
-    override fun setUpLeftNavigation(groups: ArrayList<Group>) {
+    override fun setUpLeftNavigation(groups: ArrayList<Group>, user: User) {
         drawerMain = drawer {
 
             gravity = GravityCompat.START
 
             accountHeader {
-                profile("Marcin Michno","marcin@design.pl")
+                profile(user.fullName,user.email)
                 background = Color.WHITE
                 textColor = Color.BLACK.toLong()
             }

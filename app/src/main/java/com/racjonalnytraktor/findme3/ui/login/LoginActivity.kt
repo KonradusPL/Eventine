@@ -7,18 +7,14 @@ import android.view.View
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.User
-import com.racjonalnytraktor.findme3.data.repository.create.CreateRepository
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_join_group.*
 
 class LoginActivity : BaseActivity(),LoginMvp.View {
 
@@ -35,11 +31,11 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
 
         registerFbLoginCallback()
 
-        observeViews()
+        initClickListeners()
 
     }
 
-    private fun observeViews(){
+    private fun initClickListeners(){
         RxView.clicks(buttonLogin)
                 .subscribe {
                     presenter.onEmailLoginClick(fieldEmail.text.toString(),fieldPassword.text.toString())

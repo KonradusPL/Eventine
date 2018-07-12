@@ -24,11 +24,10 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
         val token = FirebaseInstanceId.getInstance().token.orEmpty()
         val request = UpdateTokenRequest(token)
 
-        view.setUpLeftNavigation(repo.appRepo.groups)
+        view.setUpLeftNavigation(repo.appRepo.groups,repo.getCurrentUser())
 
         //Log.d("header",repo.prefs.getUserToken())
         //Log.d("token",token)
-        if(false)
             compositeDisposable.add(repo.rest.networkService.updateNotifToken(repo.prefs.getUserToken(),request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())

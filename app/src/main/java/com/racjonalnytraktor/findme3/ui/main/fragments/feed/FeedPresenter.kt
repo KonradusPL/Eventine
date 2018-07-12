@@ -22,7 +22,6 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
         view.showTasksLoading()
 
         compositeDisposable.add(repo.getGroups()
-                .flatMapIterable { t -> t }
                 .doOnComplete{
                     view.hideGroupsLoading()
                     Log.d("getGroups","complete")

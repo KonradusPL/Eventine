@@ -1,8 +1,10 @@
 package com.racjonalnytraktor.findme3.ui.register
 
 import android.util.Log
+import com.facebook.login.LoginResult
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.User
+import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbResponse
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterRequest
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterResponse
 import com.racjonalnytraktor.findme3.data.repository.RegisterRepository
@@ -47,6 +49,30 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                     view.hideLoading()
                     view.showMessage("Uzupełnij poprawnie pola",MvpView.MessageType.INFO)
                 }))
+    }
+
+    override fun onFacebookLoginSuccess(loginResult: LoginResult?) {
+        view.showLoginLoading()
+        repo.getUserInfo()
+                .subscribe({ user: User? ->
+                    Log.d("qweqwe",user!!.fullName)
+                    repo.registerByFacebook(user!!)
+                            .subscribe ({ response: RegisterFbResponse? ->
+                                view.hideLoginLoading()
+                                Log.d("registerresponse",response!!.token)
+                                user.token = response.token
+                                repo.prefs.setIsUserLoggedIn(true)
+                                repo.setCurrentUser(user)
+                                view.openMainActivity()},
+                                    {error: Throwable? -> Log.d("error",error.toString())
+                                        view.hideLoginLoading()
+                                    }
+
+                            )
+                },{throwable: Throwable? ->
+                    view.hideLoginLoading()
+                    Log.d("error",throwable.toString())
+                })
     }
 
     override fun onDetach() {
