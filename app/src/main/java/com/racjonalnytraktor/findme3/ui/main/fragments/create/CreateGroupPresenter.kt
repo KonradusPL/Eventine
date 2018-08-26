@@ -14,7 +14,7 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        repo.onAttatch(view.getCtx())
+        repo.onAttach(view.getCtx())
 
         view.showFriendsLoading()
 

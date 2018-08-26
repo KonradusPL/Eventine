@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.base
 
 import android.content.Context
 import android.widget.ProgressBar
+import com.racjonalnytraktor.findme3.data.local.SharedPrefs
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import io.reactivex.Completable
 import io.reactivex.Observable

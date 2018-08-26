@@ -55,10 +55,18 @@ object MapRepository: BaseRepository() {
     }
 
     fun getPings(): Observable<List<Ping>>{
-        return rest.networkService.getPings(prefs.getUserToken(),prefs.getCurrentGroupId())
-                .map { t -> t.pings.toList() }
+        val array = ArrayList<Ping>()
+        array.add(Ping(pingId = "1",title = "Go to kitchen",geo = arrayListOf(51.101850,22.853889),desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
+        array.add(Ping(pingId = "2",title = "Please, remove rubbish",geo = arrayListOf(51.101628,22.853626),desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
+        array.add(Ping(pingId = "3",title = "meeting in the dining room",geo = arrayListOf(51.101599,22.854527),desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
+        return Observable.just(array.toList())
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
+
+        /*return rest.networkService.getPings(prefs.getUserToken(),prefs.getCurrentGroupId())
+                .map { t -> t.pings.toList() }
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())*/
     }
 
     fun createInfo(): Single<String>{

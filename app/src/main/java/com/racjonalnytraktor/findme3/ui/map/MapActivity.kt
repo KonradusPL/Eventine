@@ -76,6 +76,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
         setContentView(R.layout.activity_map)
         Log.d("lifecycler","onCreate")
 
+        mPresenter = MapPresenter()
+
         fragmentMap = SupportMapFragment.newInstance()
         fragmentManagement = ManagementFragment()
         fragmentCreatePingBasic = CreatePingBasicFragment()
@@ -86,8 +88,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .replace(R.id.fragmentContainer,fragmentMap)
                 .commit()
 
-        mPresenter = MapPresenter()
-        mPresenter.onAttach(this)
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
+                .addToBackStack(null)
+                .commit()
 
         mMapHelper = MapHelper(this,null)
 
@@ -95,6 +99,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentCreatePingDetails.mPresenter = mPresenter
 
         initTabs()
+
+        mPresenter.onAttach(this)
 
         listenSlidingState()
         fragmentMap.getMapAsync(mMapHelper)
@@ -158,7 +164,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .withName(group.groupName)
                 .withTag(group.groupName))
 
-        drawerMap.setOnDrawerItemClickListener({view, position, drawerItem ->
+        drawerMap.setOnDrawerItemClickListener { view, position, drawerItem ->
             if(drawerItem.tag is String){
                 if(drawerItem.tag == "logout")
                     mPresenter.onLogoutButtonClick()
@@ -167,21 +173,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
             }
             return@setOnDrawerItemClickListener true
-        })
-
-        //drawerMap.addItem(DrawerIte)
-        //drawerMap.addItem(IDrawerItem<>)
-       /* navigationMap.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem?.itemId) {
-                R.id.item_logout ->{
-                    mPresenter.onLogoutButtonClick()
-                    true
-                }
-                R.id.item_change ->{
-
-                }
-            }
-        }*/
+        }
     }
 
     private fun initTabs(){
@@ -448,10 +440,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         val dialogCalendar = AlertDialog.Builder(this)
                 .setView(datePicker)
-                .setPositiveButton("Wybierz",{dialogInterface, i ->
+                .setPositiveButton("Wybierz") { dialogInterface, i ->
                     Log.d("bnmbnm","bnmbnm")
                     viewDate.buttonDate.text ="${datePicker.month+1}/${datePicker.dayOfMonth}/${datePicker.year}"
-                }).create()
+                }.create()
 
         viewDate.buttonDate.setOnClickListener {
             dialogCalendar.show()
@@ -460,7 +452,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         val builder = AlertDialog.Builder(this)
                 .setMessage("Wybierz datę")
                 .setView(viewDate)
-                .setPositiveButton("Zaplanuj",{dialogInterface, i ->
+                .setPositiveButton("Zaplanuj") { dialogInterface, i ->
                     try {
                         val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)
                         val date = Date()
@@ -476,13 +468,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     }catch (e: Exception){
                         Log.d("asdasdads","asdssad")
                     }
+                }
+                .setNegativeButton("Anuluj") { _, _ ->
 
-
-
-                })
-                .setNegativeButton("Anuluj",{_,_ ->
-
-                })
+                }
 
         builder.create().show()
 

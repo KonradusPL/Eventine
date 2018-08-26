@@ -1,12 +1,9 @@
 package com.racjonalnytraktor.findme3.ui.main.fragments.feed
 
 import android.util.Log
-import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.GroupWithUsers
 import com.racjonalnytraktor.findme3.data.repository.groups.GroupsRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
-import com.racjonalnytraktor.findme3.utils.SchedulerProvider
-import java.util.concurrent.TimeUnit
 
 
 class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
@@ -16,7 +13,7 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        repo.onAttatch(mvpView.getCtx())
+        repo.onAttach(view.getCtx())
 
         view.showGroupsLoading()
         view.showTasksLoading()

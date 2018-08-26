@@ -15,26 +15,22 @@ import java.util.concurrent.TimeUnit
 object GroupsRepository: BaseRepository() {
 
     fun getTasks(): Observable<Ping> {
-     return rest.networkService.getTasks(prefs.getUserToken())
+     /*return rest.networkService.getTasks(prefs.getUserToken())
              .map { t -> t.pings }
              .flatMapIterable { t -> t }
              .subscribeOn(SchedulerProvider.io())
-             .observeOn(SchedulerProvider.ui())
+             .observeOn(SchedulerProvider.ui())*/
 
-        /*val arrayList = ArrayList<Ping>()
-        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
-                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
-        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
-                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
-        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
-                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
-        arrayList.add(Ping(title = "Podążaj za tramwajem", desc = "Jedyne co musisz zrobić to podążać za " +
-                "tym głupim tramwajem, CJ !", createdAt = "10:13 AM"))
+        val arrayList = ArrayList<Ping>()
+        arrayList.add(Ping(title = "Lorem ipsum dolor", desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", createdAt = "10:13 AM"))
+        arrayList.add(Ping(title = "Lorem ipsum dolor", desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", createdAt = "10:13 AM"))
+        arrayList.add(Ping(title = "Lorem ipsum dolor", desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", createdAt = "10:13 AM"))
+        arrayList.add(Ping(title = "Lorem ipsum dolor", desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", createdAt = "10:13 AM"))
         return Observable.just(arrayList)
                 .flatMapIterable { t -> t }
                 .delay(4L, TimeUnit.SECONDS)
                 .subscribeOn(SchedulerProvider.io())
-                .observeOn(SchedulerProvider.ui())*/
+                .observeOn(SchedulerProvider.ui())
 
 
     }
@@ -46,15 +42,16 @@ object GroupsRepository: BaseRepository() {
         arrayList.add(Person("Anna Kowalska","",""))
         arrayList.add(Person("Adam Nowak","",""))
         arrayList.add(Person("Jan Kowalski","",""))
-        /*groups.add(GroupWithUsers(Group("Szachiści","asd",""),arrayList))
+        groups.add(GroupWithUsers(Group("Football Cup 2018","asd",""),arrayList))
         groups.add(GroupWithUsers(Group("Kalejdoskop","asd",""),arrayList))
-        groups.add(GroupWithUsers(Group("Karnawał Sztukmistrzów","asd",""),arrayList))
+        groups.add(GroupWithUsers(Group("Metallica Cracow","asd",""),arrayList))
         return Observable.just(groups)
                 .delay(4L,TimeUnit.SECONDS)
+                .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
-                .observeOn(SchedulerProvider.ui())*/
+                .observeOn(SchedulerProvider.ui())
 
-        val token = prefs.getUserToken()
+        /*val token = prefs.getUserToken()
         val observable =  rest.networkService.getGroups(token)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
@@ -69,6 +66,6 @@ object GroupsRepository: BaseRepository() {
         },{t: Throwable? ->
 
         })
-        return observable
+        return observable*/
     }
 }

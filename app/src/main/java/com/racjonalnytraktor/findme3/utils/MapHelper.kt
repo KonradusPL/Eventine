@@ -141,18 +141,25 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         Log.d("ping",ping.desc)
         Log.d("ping",ping.geo.toString())
         Log.d("creatorName",ping.creatorName)
+        Log.d("asdqweasd","asdqweasd")
        //val bitmapMarker = ImageHelper.getPingMarkerBitmap(context,R.color.colorPrimary)
         //val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
 
-        if (ping.geo.size<2)
-            return
+        //if (ping.geo.size<2)
+            //return
+
+        Log.d("positionOfMarker1",ping.geo[0].toString())
+        Log.d("positionOfMarker2",ping.geo[1].toString())
+        Log.d("titleOfMarker",ping.title)
 
         val marker = mMap.addMarker(MarkerOptions()
                 .position(LatLng(ping.geo[0],ping.geo[1]))
                 .title(ping.title))
 
-        if(ping.inProgress)
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+        //if(ping.inProgress)
+           // marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+
+        Log.d("kuku","kukuku")
 
         val newPing = Ping()
         newPing.clone(ping)
@@ -176,6 +183,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
     }
 
     fun updatePings(newPings: List<Ping>){
+        Log.d("michno1",newPings.size.toString())
         val oldPings = ArrayList<String>()
 
         for(_ping in pingsOnMap){
@@ -201,6 +209,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
                     }
                 }
             }
+            Log.d("michno2",newPings.size.toString())
 
             if (isPingNew && !newPing.ended)
                 addPing(newPing,false)

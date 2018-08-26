@@ -18,16 +18,16 @@ interface MapMvp {
         fun getPresenter(): MapPresenter<View>
         fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
         fun updateCheckedGroups(checked: List<String>)
-        fun openManageActivity()
-        fun openHistoryFragment()
-        fun openLoginActivity()
-        fun openMapActivity()
         fun setUpLeftNavigation(groups: ArrayList<Group>)
         fun changeToolbarName(name: String)
         fun showEndPingBar(ping: Ping)
         fun showPlanDialog()
         fun removePing(pingId: String)
         fun clearPings()
+        fun openManageActivity()
+        fun openHistoryFragment()
+        fun openLoginActivity()
+        fun openMapActivity()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onNextButtonClick(task: String, descr: String)

@@ -1,6 +1,5 @@
 package com.racjonalnytraktor.findme3.ui.login
 
-import android.content.Context
 import android.util.Log
 import com.facebook.login.LoginResult
 import com.racjonalnytraktor.findme3.data.model.User
@@ -11,6 +10,8 @@ import com.racjonalnytraktor.findme3.data.repository.LoginRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.StringHelper
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V> {
 
@@ -18,6 +19,14 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
     override fun onEmailLoginClick(email: String, password: String) {
         view.showLoginLoading()
+        doAsync {
+            Thread.sleep(2000)
+            uiThread {
+                view.hideLoginLoading()
+                view.openMainActivity()
+            }
+        }
+        return
         compositeDisposable.add(repo.loginWithEmail(LoginRequest(email, password))
                 .subscribe({response: LoginResponse? ->
                     view.hideLoginLoading()
@@ -69,6 +78,6 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttatch(mvpView.getCtx())
+        repo.onAttach(view.getCtx())
     }
 }

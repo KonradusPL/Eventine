@@ -27,7 +27,7 @@ data class Ping(
         targetGroups.addAll(ping.targetGroups)
         desc = desc.plus(ping.desc)
         geo = ArrayList()
-        inProgress = if(ping.inProgress) true else false
+        inProgress = ping.inProgress
         createdAt = "".plus(ping.createdAt)
         done = done.plus(ping.done)
         pingId = pingId.plus(ping.pingId)

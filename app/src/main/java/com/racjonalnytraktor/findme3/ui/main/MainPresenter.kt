@@ -8,7 +8,6 @@ import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.repository.main.MainRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
-import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 
 class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
@@ -17,7 +16,7 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttatch(mvpView.getCtx())
+        repo.onAttach(view.getCtx())
 
         //view.changeProfileIcon(repo.prefs.getUserProfileImage())
 

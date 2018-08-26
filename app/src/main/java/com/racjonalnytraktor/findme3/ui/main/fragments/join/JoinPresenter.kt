@@ -15,7 +15,7 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        repo.onAttatch(mvpView.getCtx())
+        repo.onAttach(view.getCtx())
 
         view.showInvitesLoading()
 

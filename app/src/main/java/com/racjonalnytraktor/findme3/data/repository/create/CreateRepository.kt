@@ -9,12 +9,17 @@ import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import com.racjonalnytraktor.findme3.utils.WhereIsJson
 import io.reactivex.Observable
 import io.reactivex.Single
+import java.util.concurrent.TimeUnit
 
 object CreateRepository: BaseRepository(){
 
     fun getFriends(): Observable<User>{
 
-        val facebookObservable =
+        return Observable.just(User(fullName = "Adam Nowak"),
+                User(fullName = "Jakub Kowalski"),
+                User(fullName = "Patryk Godek"))
+
+        /*val facebookObservable =
                 if(AccessToken.getCurrentAccessToken() != null)
                     mFacebook.getFriends()
                      .map { t -> WhereIsJson.getFriendsArray(t.jsonObject) }
@@ -25,7 +30,7 @@ object CreateRepository: BaseRepository(){
                 .map { t -> t.users }
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
-                .observeOn(SchedulerProvider.ui())
+                .observeOn(SchedulerProvider.ui())*/
     }
 
     fun getFriendWithPicture(user: User): Single<User>{

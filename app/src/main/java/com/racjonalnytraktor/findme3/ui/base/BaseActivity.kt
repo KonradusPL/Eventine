@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.racjonalnytraktor.findme3.data.local.SharedPrefs
 import com.racjonalnytraktor.findme3.utils.DeviceInfo
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import es.dmoral.toasty.Toasty
@@ -29,6 +30,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
     protected lateinit var progressBar: ProgressBar
     private lateinit var mDeviceInfo: DeviceInfo
     private lateinit var mPermissionsHelper: PermissionsHelper
+    lateinit var prefs: SharedPrefs
 
     private var mPermissionStatus = false
 
@@ -38,6 +40,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         super.onCreate(savedInstanceState)
         mDeviceInfo = DeviceInfo(this)
         mPermissionsHelper = PermissionsHelper(this)
+        prefs = SharedPrefs(this)
     }
 
     override fun onStart() {

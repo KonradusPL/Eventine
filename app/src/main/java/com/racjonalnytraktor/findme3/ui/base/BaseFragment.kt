@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.base
 
 import android.content.Context
 import android.support.v4.app.Fragment
+import com.racjonalnytraktor.findme3.data.local.SharedPrefs
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -45,7 +46,6 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
     override fun showMessage(message: Int, type: MvpView.MessageType) {
         parentMvp.showMessage(message,type)
     }
-
 
     override fun checkPermission(permission: String): Observable<PermissionsHelper.PermissionState> {
         return parentMvp.checkPermission(permission)

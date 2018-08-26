@@ -10,7 +10,6 @@ import com.racjonalnytraktor.findme3.data.network.model.register.RegisterRespons
 import com.racjonalnytraktor.findme3.data.repository.RegisterRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
-import com.racjonalnytraktor.findme3.utils.StringHelper
 
 class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Presenter<V> {
 
@@ -18,7 +17,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttatch(mvpView.getCtx())
+        repo.onAttach(view.getCtx())
     }
 
     override fun onRegisterButtonClick(email: String, password: String, fullName: String) {

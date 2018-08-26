@@ -5,7 +5,6 @@ import android.util.Log
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
@@ -30,7 +29,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         Log.d("rew","1")
 
-        mRepo.onAttatch(mvpView.getCtx())
+        mRepo.onAttach(view.getCtx())
 
         val checked: List<String>
         val task: String
@@ -89,6 +88,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     if(isAttached)
                         compositeDisposable.add(mRepo.getPings()
                                 .subscribe({pings: List<Ping>? ->
+                                    Log.d("pings",pings.toString())
                                     if (pings != null)
                                         view.updatePings(pings,true)
                                 },{t: Throwable? ->
