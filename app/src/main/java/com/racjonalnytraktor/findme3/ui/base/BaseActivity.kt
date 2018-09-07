@@ -13,12 +13,14 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.local.SharedPrefs
 import com.racjonalnytraktor.findme3.utils.DeviceInfo
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import es.dmoral.toasty.Toasty
 import io.reactivex.Completable
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_map.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -165,4 +167,5 @@ open class BaseActivity : AppCompatActivity(),MvpView{
     override fun getCtx(): Context {
         return this
     }
+
 }

@@ -19,7 +19,6 @@ interface MapMvp {
         fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
         fun updateCheckedGroups(checked: List<String>)
         fun setUpLeftNavigation(groups: ArrayList<Group>)
-        fun changeToolbarName(name: String)
         fun showEndPingBar(ping: Ping)
         fun showPlanDialog()
         fun removePing(pingId: String)

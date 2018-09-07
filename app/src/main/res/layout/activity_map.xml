@@ -2,40 +2,43 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator">
+    android:fitsSystemWindows="false">
+
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.map.MapActivity"
-        android:id="@+id/root">
+        tools:context=".ui.map.MapActivity">
+
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/tabLayoutMap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="1dp">
+
+        </FrameLayout>
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/fragmentContainer"
+            android:id="@+id/mapContainer"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/tabLayoutMap"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarMap"
-            tools:context=".MapsActivity" />
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarMap"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="4dp"
-            app:titleTextColor="@color/colorPrimaryDark"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:theme="@style/ToolbarColoredBackArrow"
-            app:title="Kalejdoskop" />
+            tools:context=".MapsActivity">
+
+        </FrameLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayoutMap"
@@ -46,43 +49,53 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:tabIndicatorHeight="0dp">
+            app:tabIndicatorHeight="0dp" />
 
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_event_black_24dp" />
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_info_black_24dp" />
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_group_black_24dp" />
-        </android.support.design.widget.TabLayout>
 
         <com.wunderlist.slidinglayer.SlidingLayer
+            android:id="@+id/slidePanel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:changeStateOnTap="false"
             app:layout_constraintBottom_toTopOf="@+id/tabLayoutMap"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:stickTo="bottom"
-            android:id="@+id/slidingPing"
-            app:changeStateOnTap="false"
-            android:elevation="10dp">
+            app:stickTo="bottom">
+
             <FrameLayout
-                android:id="@+id/containerCreatePing"
+                android:id="@+id/containerSlide"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/slider_height"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="bottom" />
 
         </com.wunderlist.slidinglayer.SlidingLayer>
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/bottomCircle"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:elevation="5dp"
+            android:scaleType="centerCrop"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:civ_circle_background_color="@color/colorPrimaryNew"
+            android:src="@color/colorPrimaryNew"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/iconCircle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottomCircle"
+            app:layout_constraintEnd_toEndOf="@+id/bottomCircle"
+            app:layout_constraintStart_toStartOf="@+id/bottomCircle"
+            app:layout_constraintTop_toTopOf="@+id/bottomCircle" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>

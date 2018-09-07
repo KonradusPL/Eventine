@@ -8,6 +8,7 @@ import com.racjonalnytraktor.findme3.TestActivity
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import com.racjonalnytraktor.findme3.utils.StringHelper
 
 class SplashActivity : BaseActivity(),SplashMvp.View {
@@ -22,7 +23,8 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
     }
 
     override fun openMainActivity() {
-        startActivity(Intent(this,LoginActivity::class.java))
+        //Logowanie -> Mapa
+        startActivity(Intent(this,MapActivity::class.java))
         finish()
     }
 

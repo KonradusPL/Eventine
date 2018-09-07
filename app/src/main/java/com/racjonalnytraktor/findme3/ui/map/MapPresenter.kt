@@ -27,16 +27,11 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         super.onAttach(mvpView)
         isAttached = true
 
-        Log.d("rew","1")
-
         mRepo.onAttach(view.getCtx())
 
         val checked: List<String>
         val task: String
         val descr: String
-
-        Log.d("rew","2")
-
 
         if(mRepo.type == "ping"){
             checked = mRepo.newPing.targetGroups.toList()
@@ -49,17 +44,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             descr = mRepo.newPing.desc
         }
 
-        Log.d("rew","3")
-
-        var toolbarName = mRepo.prefs.getCurrentGroupName()
-        if(toolbarName == "null")
-            toolbarName = "Kalejdoskop"
-        view.changeToolbarName(toolbarName)
-
         view.setUpLeftNavigation(mRepo.appRepo.groups)
-
-        Log.d("rew","4")
-
 
         view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
 

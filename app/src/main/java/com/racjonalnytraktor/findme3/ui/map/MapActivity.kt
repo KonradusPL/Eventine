@@ -1,14 +1,8 @@
 package com.racjonalnytraktor.findme3.ui.map
 
 import android.content.Intent
-import android.icu.text.IDNA
-import android.icu.text.SimpleDateFormat
-import android.location.Location
-import android.os.Build
+import android.graphics.Color
 import android.os.Bundle
-import android.support.annotation.RequiresApi
-import android.support.constraint.ConstraintLayout
-import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -17,38 +11,28 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.widget.DatePicker
-import android.widget.TimePicker
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
-import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
-import co.zsmb.materialdrawerkt.draweritems.divider
 import co.zsmb.materialdrawerkt.draweritems.sectionItem
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
+import com.mikepenz.fontawesome_typeface_library.FontAwesome
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.IIcon
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
-import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
-import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
-import com.racjonalnytraktor.findme3.ui.main.MainActivity
-import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingBasicFragment
-import com.racjonalnytraktor.findme3.ui.map.fragments.CreatePingDetailsFragment
-import com.racjonalnytraktor.findme3.ui.map.fragments.HistoryFragment
-import com.racjonalnytraktor.findme3.ui.map.fragments.ManagementFragment
+import com.racjonalnytraktor.findme3.ui.map.fragments.*
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.dialog_ping.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
-import kotlinx.android.synthetic.main.dialog_time.*
 import kotlinx.android.synthetic.main.dialog_time.view.*
-import kotlinx.android.synthetic.main.fragment_create_group_basic.view.*
+import kotlinx.android.synthetic.main.item_tab.view.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
@@ -56,6 +40,16 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
 
+/*Potrzebne fragmenty :
+    przez alfe:
+        opcje
+        grupy
+        profile
+    przez slide:
+        dodaj zadanie:
+
+
+*/
 
 class MapActivity : BaseActivity(),MapMvp.View{
 
@@ -67,6 +61,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var fragmentCreatePingBasic: CreatePingBasicFragment<MapMvp.View>
     lateinit var fragmentCreatePingDetails: CreatePingDetailsFragment<MapMvp.View>
     lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
+    lateinit var fragmentOptions: SettingsFragment
 
     lateinit var drawerMap: Drawer
 
@@ -83,14 +78,19 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentCreatePingBasic = CreatePingBasicFragment()
         fragmentCreatePingDetails = CreatePingDetailsFragment()
         fragmentHistory = HistoryFragment()
+        fragmentOptions = SettingsFragment()
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer,fragmentMap)
+                .replace(R.id.mapContainer,fragmentMap)
                 .commit()
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
+                .replace(R.id.containerSlide,fragmentCreatePingBasic)
                 .addToBackStack(null)
+                .commit()
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer,fragmentOptions)
                 .commit()
 
         mMapHelper = MapHelper(this,null)
@@ -105,7 +105,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
         listenSlidingState()
         fragmentMap.getMapAsync(mMapHelper)
 
-        setSupportActionBar(toolbarMap)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
@@ -118,12 +117,12 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     private fun listenSlidingState() {
-        var isSliderClosed: Boolean = slidingPing.isClosed
+        var isSliderClosed: Boolean = slidePanel.isClosed
         Log.d("isClosed", isSliderClosed.toString())
         doAsync {
             while (!isDestroyed) {
                 Thread.sleep(100)
-                if(!isSliderClosed && isSliderClosed != slidingPing.isClosed){
+                if(!isSliderClosed && isSliderClosed != slidePanel.isClosed){
                     uiThread {
                         Log.d("yuyu","yuyu")
                         if(fragmentCreatePingBasic.isAdded)
@@ -138,7 +137,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     }
 
                 }
-                isSliderClosed = slidingPing.isClosed
+                isSliderClosed = slidePanel.isClosed
             }
         }
     }
@@ -177,20 +176,38 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     private fun initTabs(){
+        val icons = arrayListOf<IIcon>(
+                FontAwesome.Icon.faw_cog,
+                FontAwesome.Icon.faw_history,
+                FontAwesome.Icon.faw_users,
+                FontAwesome.Icon.faw_users,
+                FontAwesome.Icon.faw_map_marker_alt)
+        val titles = arrayListOf("Opcje","Historia","nic","Grupy","Mapa")
+
+        for(i in 0..4){
+            val tabView = LayoutInflater.from(this).inflate(R.layout.item_tab,null,false)
+            if(i != 2){
+                tabView.icon.icon = IconicsDrawable(this)
+                        .icon(icons[i])
+                        .color(ContextCompat.getColor(this,R.color.greyTab))
+                        .sizeDp(22)
+                tabView.text.text = titles[i]
+            }else{
+                tabView.isClickable = false
+            }
+            tabLayoutMap.addTab(tabLayoutMap.newTab().setCustomView(tabView))
+        }
         tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
                 val fragment: Fragment
                 when(tab!!.position){
                     2 -> openManageActivity()
-                    1 -> mPresenter.onInfoTabClick()
-                    0 -> mPresenter.onHistoryButtonClick()
+                    1 -> showSlide(fragmentHistory)
+                    0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
                 }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                //tab!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
-
+            override fun onTabUnselected(tab: TabLayout.Tab?) { //tab!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -198,11 +215,15 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 val fragment: Fragment
                 when(tab!!.position){
                     2 -> openManageActivity()
-                    1 -> mPresenter.onInfoTabClick()
-                    0 -> mPresenter.onHistoryButtonClick()
+                    1 -> showSlide(fragmentHistory)
+                    0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
                 }
             }
         })
+        iconCircle.icon = IconicsDrawable(this)
+                .icon(FontAwesome.Icon.faw_plus)
+                .sizeDp(30)
+                .color(Color.WHITE)
         //tabLayoutMap.getTabAt(2)!!.select()
     }
 
@@ -212,7 +233,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun changeCreateGroupFragment() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerCreatePing,fragmentCreatePingDetails)
+                .replace(R.id.containerSlide,fragmentCreatePingDetails)
                 .commit()
         fragmentCreatePingBasic.clearFields()
     }
@@ -248,10 +269,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentCreatePingDetails.type = type
         fragmentCreatePingBasic.type = type
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerCreatePing,fragmentCreatePingBasic)
-                .addToBackStack(null)
+                .replace(R.id.containerSlide,fragmentCreatePingBasic)
                 .commit()
-        slidingPing.openLayer(true)
+        slidePanel.openLayer(true)
         if(fragmentCreatePingBasic.isAdded){
             Log.d("kikiki","kikiki")
             if(type == "ping")
@@ -265,7 +285,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         if(fragmentCreatePingBasic.isAdded){
             fragmentCreatePingBasic.clearData()
         }
-        slidingPing.closeLayer(true)
+        slidePanel.closeLayer(true)
     }
 
     override fun addPing(ping: Ping) {
@@ -284,7 +304,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
-        if(slidingPing.isClosed)
+        if(slidePanel.isClosed)
             return
 
         val checked = ArrayList<String>()
@@ -309,8 +329,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String, state: String) {
-        Log.d("uiuiui",slidingPing.isClosed.toString())
-        Log.d("uiuiui",slidingPing.isOpened.toString())
+        Log.d("uiuiui",slidePanel.isClosed.toString())
+        Log.d("uiuiui",slidePanel.isOpened.toString())
 
         if(type == "info")
             fragmentCreatePingBasic.type = type
@@ -400,14 +420,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun openHistoryFragment() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerCreatePing,fragmentHistory)
+                .replace(R.id.containerSlide,fragmentHistory)
                 .addToBackStack(null)
                 .commit()
-        slidingPing.openLayer(true)
-    }
-
-    override fun changeToolbarName(name: String) {
-        toolbarMap.title = name
+        slidePanel.openLayer(true)
     }
 
     override fun openLoginActivity() {
@@ -477,9 +493,19 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     }
 
+    fun showSlide(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerSlide,fragment)
+                .addToBackStack(null)
+                .commit()
+
+        if(slidePanel.isClosed)
+            slidePanel.openLayer(true)
+    }
+
     override fun onBackPressed() {
-        if(slidingPing.isOpened)
-            slidingPing.closeLayer(true)
+        if(slidePanel.isOpened)
+            slidePanel.closeLayer(true)
 
         if (fragmentCreatePingBasic.isAdded)
             supportFragmentManager.beginTransaction()
@@ -490,7 +516,14 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     .remove(fragmentCreatePingDetails)
                     .commit()
 
+        if(fragmentOptions.isAdded)
+            supportFragmentManager.beginTransaction()
+                    .remove(fragmentOptions)
+                    .commit()
+
         super.onBackPressed()
+
+
     }
 
     override fun removePing(pingId: String) {
@@ -507,5 +540,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun replaceFragment(fragment: Fragment, id: Int){
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer,fragment)
+                .commit()
     }
 }
