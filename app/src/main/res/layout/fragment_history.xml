@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/slider_height"
-    android:alpha="0.95"
-    android:elevation="4dp">
+    android:background="@color/white">
 
     <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/iconArrow"

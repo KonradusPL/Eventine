@@ -44,7 +44,7 @@
             android:id="@+id/tabLayoutMap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="#EEEEEE"
             android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
             <FrameLayout
                 android:id="@+id/containerSlide"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/slider_height"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom" />
 
         </com.wunderlist.slidinglayer.SlidingLayer>
@@ -77,10 +77,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:elevation="5dp"
-            android:scaleType="centerCrop"
+            android:foreground="@drawable/circle_selector"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
             app:civ_circle_background_color="@color/colorPrimaryNew"
             android:src="@color/colorPrimaryNew"
             app:layout_constraintBottom_toBottomOf="parent"

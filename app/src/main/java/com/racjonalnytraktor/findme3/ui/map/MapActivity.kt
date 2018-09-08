@@ -62,6 +62,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var fragmentCreatePingDetails: CreatePingDetailsFragment<MapMvp.View>
     lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
     lateinit var fragmentOptions: SettingsFragment
+    lateinit var fragmentAddTask: AddTaskFragment
 
     lateinit var drawerMap: Drawer
 
@@ -79,6 +80,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentCreatePingDetails = CreatePingDetailsFragment()
         fragmentHistory = HistoryFragment()
         fragmentOptions = SettingsFragment()
+        fragmentAddTask = AddTaskFragment()
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.mapContainer,fragmentMap)
@@ -99,6 +101,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentCreatePingDetails.mPresenter = mPresenter
 
         initTabs()
+        bottomCircle.setOnClickListener {
+            showSlide(fragmentAddTask)
+        }
 
         mPresenter.onAttach(this)
 

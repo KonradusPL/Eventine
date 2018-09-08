@@ -43,10 +43,6 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener,val
             holder.bind2(list[position] as Info)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.MyHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
         return MyHolder(view)
@@ -120,7 +116,7 @@ class HistoryAdapter(val list: ArrayList<Typed>, val listener: ClickListener,val
         fun onPingClick(ping: Ping)
     }
 
-    enum class HItemType{
-        PING,INFO
+    enum class ItemType{
+        INFO,HELP
     }
 }
