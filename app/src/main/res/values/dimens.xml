@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="slider_height">400dp</dimen>
+    <dimen name="slider_height">500dp</dimen>
 </resources>
