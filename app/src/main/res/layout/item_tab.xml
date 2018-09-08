@@ -15,8 +15,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:iiv_color="@color/grey"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text"
@@ -24,7 +23,8 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:textAllCaps="true"
-        android:textColor="@color/greyTab"
+        android:textColor="@color/black"
+        android:alpha="0.56"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -22,13 +22,13 @@ class FacebookNetwork {
             parameters.putString("fields", "id,name,picture")
 
             val request = GraphRequest.newGraphPathRequest(accessToken,
-                    accessToken.userId, { response: GraphResponse? ->
+                    accessToken.userId) { response: GraphResponse? ->
                 Log.d("graphresponse",response.toString())
                 if(response == null)
                     emitter.onError(Throwable("null"))
                 else
                     emitter.onSuccess(response)
-            })
+            }
             request.parameters = parameters
             request.executeAndWait()
         }
@@ -47,7 +47,7 @@ class FacebookNetwork {
             Log.d("asdasd","/${friendId}/picture")
 
             val request = GraphRequest.newGraphPathRequest(accessToken,
-                    friendId + "/picture", { response: GraphResponse? ->
+                    "$friendId/picture") { response: GraphResponse? ->
                 Log.d("graphresponse",response.toString())
                 if(response == null)
                     emitter.onError(Throwable("null"))
@@ -56,7 +56,7 @@ class FacebookNetwork {
                     user.profileUri = newUser.profileUri
                     emitter.onSuccess(user)
                 }
-            })
+            }
             request.parameters = params
             request.executeAndWait()
         }
@@ -73,7 +73,7 @@ class FacebookNetwork {
             //parameters.putString("fields", "friends")
 
             val request = GraphRequest.newGraphPathRequest(accessToken,
-                    accessToken.userId+"/friends?fields=picture,name", { response: GraphResponse? ->
+                    accessToken.userId+"/friends?fields=picture,name") { response: GraphResponse? ->
                 Log.d("graphresponse",response.toString())
                 if(response == null)
                     emitter.onError(Throwable("null"))
@@ -82,7 +82,7 @@ class FacebookNetwork {
                         onNext(response)
                         onComplete()
                     }
-            })
+            }
             //request.parameters = parameters
             request.executeAndWait()
         }

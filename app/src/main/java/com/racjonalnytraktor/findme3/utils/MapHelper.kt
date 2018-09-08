@@ -1,6 +1,8 @@
 package com.racjonalnytraktor.findme3.utils
 
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.res.Resources
 import android.location.Location
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -17,6 +19,9 @@ import org.jetbrains.anko.uiThread
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.CameraPosition
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
+import com.google.android.gms.maps.model.MapStyleOptions
+
+
 
 
 class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback {
@@ -59,8 +64,14 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         //moveCamera(LatLng(51.101809,22.854009))
 
        // moveCamera(LatLng(51.101809,22.854009))
-
-        //mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.theme_map))
+        try {
+            val success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            context, R.raw.theme_map))
+        }catch (e: Resources.NotFoundException) {
+            Log.e("asdqwe", "Can't find style. Error: ", e);
+        }
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.theme_map))
 
         mMap.setOnMapClickListener { latLng ->
             val location = Location("GPS")

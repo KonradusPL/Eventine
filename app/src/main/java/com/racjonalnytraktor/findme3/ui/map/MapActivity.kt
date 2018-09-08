@@ -72,6 +72,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
     private var tabStatus = 1
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -144,6 +146,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                             fragmentCreatePingDetails.clearData()
 
                         }
+
+                        tabLayoutMap.isSelected = false
 
                     }
 
@@ -218,7 +222,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) { //tab!!.icon!!.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                val color = ContextCompat.getColor(this@MapActivity,R.color.greyTab)
+                tab?.customView?.text?.setTextColor(color)
+                tab?.customView?.icon?.icon?.color(color)
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -229,6 +236,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     1 -> showSlide(fragmentHistory)
                     0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
                 }
+                val color = ContextCompat.getColor(this@MapActivity,R.color.colorPrimaryNew)
+                tab.customView?.text?.setTextColor(color)
+                tab.customView?.icon?.icon?.color(color)
+
             }
         })
         iconCircle.icon = IconicsDrawable(this)
@@ -517,7 +528,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     fun showSlide(fragment: Fragment){
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerSlide,fragment)
-                .addToBackStack(null)
                 .commit()
 
         if(slidePanel.isClosed)
@@ -525,6 +535,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun onBackPressed() {
+        if(supportFragmentManager.beginTransaction().isEmpty)
+            super.onBackPressed()
+
         if(slidePanel.isOpened)
             slidePanel.closeLayer(true)
 
@@ -541,10 +554,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
             supportFragmentManager.beginTransaction()
                     .remove(fragmentOptions)
                     .commit()
-
-        super.onBackPressed()
-
-
     }
 
     override fun removePing(pingId: String) {
