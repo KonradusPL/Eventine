@@ -210,6 +210,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onMapClick(location: Location) {
+        view.animateExtendedCircle(false)
     }
 
     override fun onMarkerClick(ping: Ping) {

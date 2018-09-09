@@ -530,12 +530,21 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun animateExtendedCircle(show: Boolean) {
+        if(!show && biggerCircleContainer.visibility == View.INVISIBLE)
+            return
+        if(show)
+            biggerCircleContainer.visibility = View.VISIBLE
+
+
         val animation = if(show) AlphaAnimation(0f,1f) else AlphaAnimation(1f,0f)
 
-        animation.duration = 1000
+        animation.duration = 300
         //animation.startOffset = 5000
         animation.fillAfter = true
         biggerCircleContainer.startAnimation(animation)
+
+        if(!show)
+            biggerCircleContainer.visibility = View.INVISIBLE
     }
 
     fun animateTabLayout(){

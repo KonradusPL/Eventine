@@ -44,7 +44,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
     }
 
     init {
-        listener = (context as MapActivity).mPresenter
+        listener = (context as MapActivity).getPresenter()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -61,9 +61,6 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
                 .build()
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
 
-        //moveCamera(LatLng(51.101809,22.854009))
-
-       // moveCamera(LatLng(51.101809,22.854009))
         try {
             val success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
@@ -75,9 +72,10 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
         mMap.setOnMapClickListener { latLng ->
             val location = Location("GPS")
-            /*location.longitude = latLng.longitude
+            location.longitude = latLng.longitude
             location.latitude = latLng.latitude
-            addFriendToMap(PersonOnMap("Marcin Michno","",latLng.latitude,latLng.longitude,null))
+            listener.onMapClick(location)
+            /*addFriendToMap(PersonOnMap("Marcin Michno","",latLng.latitude,latLng.longitude,null))
             clickListener.onMapClick(location)*/
         }
         mMap.setOnMarkerClickListener { marker ->
