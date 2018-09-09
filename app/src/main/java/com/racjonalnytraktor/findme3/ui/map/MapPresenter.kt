@@ -44,8 +44,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             descr = mRepo.newPing.desc
         }
 
-        view.setUpLeftNavigation(mRepo.appRepo.groups)
-
         view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
 
 
@@ -91,6 +89,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 }
             }
         }
+    }
+
+    override fun onCircleClick() {
+        view.animateExtendedCircle(true)
     }
 
     override fun onNextButtonClick(task: String, descr: String) {

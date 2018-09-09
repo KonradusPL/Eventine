@@ -18,7 +18,6 @@ interface MapMvp {
         fun getPresenter(): MapPresenter<View>
         fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
         fun updateCheckedGroups(checked: List<String>)
-        fun setUpLeftNavigation(groups: ArrayList<Group>)
         fun showEndPingBar(ping: Ping)
         fun showPlanDialog()
         fun removePing(pingId: String)
@@ -27,8 +26,11 @@ interface MapMvp {
         fun openHistoryFragment()
         fun openLoginActivity()
         fun openMapActivity()
+        fun animateExtendedCircle(show: Boolean)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
+        //onClick:
+        fun onCircleClick()
         fun onNextButtonClick(task: String, descr: String)
         fun onAddButtonClick(checkedGroups: ArrayList<String> = ArrayList(), date: String = "")
         fun onPlanButtonClick(checkedGroups: ArrayList<String>)

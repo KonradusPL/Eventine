@@ -12,7 +12,9 @@ import android.support.v7.app.AlertDialog
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
+import android.view.animation.AlphaAnimation
 import android.widget.DatePicker
+import android.widget.TextView
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.sectionItem
@@ -72,8 +74,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     private var tabStatus = 1
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -107,10 +107,25 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentCreatePingBasic.mPresenter = mPresenter
         fragmentCreatePingDetails.mPresenter = mPresenter
 
+        val organiserIcon = IconicsDrawable(this)
+                .color(Color.WHITE)
+                .sizeDp(22)
+                .icon(FontAwesome.Icon.faw_user_alt)
+
+        val helpIcon = IconicsDrawable(this)
+                .color(Color.WHITE)
+                .sizeDp(22)
+                .icon(FontAwesome.Icon.faw_question_circle)
+
+        textOrganiser.setCompoundDrawables(null,organiserIcon,null,null)
+        textHelp.setCompoundDrawables(null,helpIcon,null,null)
+
+
         initTabs()
         bottomCircle.setOnClickListener {
-            animateTabLayout()
-            showSlide(fragmentAddTask)
+            //animateTabLayout()
+            mPresenter.onCircleClick()
+            //showSlide(fragmentAddTask)
         }
 
         mPresenter.onAttach(this)
@@ -122,11 +137,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
             setDisplayHomeAsUpEnabled(true)
             //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("lifecycler","onResume")
     }
 
     private fun listenSlidingState() {
@@ -154,39 +164,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 }
                 isSliderClosed = slidePanel.isClosed
             }
-        }
-    }
-
-    override fun setUpLeftNavigation(groups: ArrayList<Group>) {
-        drawerMap = drawer {
-
-            gravity = GravityCompat.END
-            displayBelowStatusBar = false
-
-            headerView = LayoutInflater.from(this@MapActivity).inflate(R.layout.navigation_header,null)
-            primaryItem("Wyloguj się"){
-                icon = R.drawable.ic_directions_run_black_24dp
-                tag = "logout"
-            }
-            sectionItem("Zmień wydarzenie") {
-                selectable = false
-            }
-        }
-        drawerMap.deselect()
-        for(group in groups)
-        drawerMap.addItem(PrimaryDrawerItem()
-                .withName(group.groupName)
-                .withTag(group.groupName))
-
-        drawerMap.setOnDrawerItemClickListener { view, position, drawerItem ->
-            if(drawerItem.tag is String){
-                if(drawerItem.tag == "logout")
-                    mPresenter.onLogoutButtonClick()
-                else
-                    mPresenter.onChangeGroupClick(drawerItem.tag.toString())
-
-            }
-            return@setOnDrawerItemClickListener true
         }
     }
 
@@ -395,24 +372,32 @@ class MapActivity : BaseActivity(),MapMvp.View{
         else
             view.fieldProgressor.visibility = View.GONE
 
-        view.fieldTitle.text = ping.title
-        view.textSubGroups.text = text
-        view.textAuthor.text = ping.creatorName
-        view.textDescr.text = ping.desc
+        view.apply {
+            fieldTitle.text = ping.title
+            textSubGroups.text = text
+            textAuthor.text = ping.creatorName
+            textDescr.text = ping.desc
+        }
 
         if(ping.inProgress && !ping.ended){
-            view.textStatus.text = "W trakcie robienia"
-            view.textStatus.setTextColor(ContextCompat.getColor(this,R.color.orange))
-            view.buttonInProgress.isEnabled = false
-            view.buttonInProgress.alpha = 0.5f
+            view.apply {
+                textStatus.text = "W trakcie robienia"
+                textStatus.setTextColor(ContextCompat.getColor(this@MapActivity,R.color.orange))
+                buttonInProgress.isEnabled = false
+                buttonInProgress.alpha = 0.5f
+            }
+
         }
         else if(ping.ended) {
-            view.textStatus.text = "Zakończone"
-            view.textStatus.setTextColor(ContextCompat.getColor(this, R.color.green))
-            view.buttonInProgress.isEnabled = false
-            view.buttonInProgress.alpha = 0.5f
-            view.buttonSetToEnd.isEnabled = false
-            view.buttonSetToEnd.alpha = 0.5f
+            view.apply {
+                textStatus.text = "Zakończone"
+                textStatus.setTextColor(ContextCompat.getColor(this@MapActivity, R.color.green))
+                buttonInProgress.isEnabled = false
+                buttonInProgress.alpha = 0.5f
+                buttonSetToEnd.isEnabled = false
+                buttonSetToEnd.alpha = 0.5f
+            }
+
         }
         else{
             view.textStatus.text = "Nie rozpoczęte"
@@ -456,18 +441,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     }
 
-    fun animateTabLayout(){
-        Log.d("plokpl","plokpl")
-        val constraint1 = ConstraintSet()
-        constraint1.clone(this, R.layout.activity_map)
-        val constraint2 = ConstraintSet()
-        constraint2.clone(this, R.layout.activity_map_hide_tab)
-        TransitionManager.beginDelayedTransition(root)
-        val constraint = if(tabStatus == 0) constraint1 else constraint2
-        constraint.applyTo(root)
-        tabStatus = if(tabStatus == 1) 0 else 1
-        Log.d("tabStatus",tabStatus.toString())
-    }
 
     override fun clearPings() {
         mMapHelper.clearPings()
@@ -555,6 +528,29 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     .remove(fragmentOptions)
                     .commit()
     }
+
+    override fun animateExtendedCircle(show: Boolean) {
+        val animation = if(show) AlphaAnimation(0f,1f) else AlphaAnimation(1f,0f)
+
+        animation.duration = 1000
+        //animation.startOffset = 5000
+        animation.fillAfter = true
+        biggerCircleContainer.startAnimation(animation)
+    }
+
+    fun animateTabLayout(){
+        Log.d("plokpl","plokpl")
+        val constraint1 = ConstraintSet()
+        constraint1.clone(this, R.layout.activity_map)
+        val constraint2 = ConstraintSet()
+        constraint2.clone(this, R.layout.activity_map_hide_tab)
+        TransitionManager.beginDelayedTransition(root)
+        val constraint = if(tabStatus == 0) constraint1 else constraint2
+        constraint.applyTo(root)
+        tabStatus = if(tabStatus == 1) 0 else 1
+        Log.d("tabStatus",tabStatus.toString())
+    }
+
 
     override fun removePing(pingId: String) {
        mMapHelper.removePing(pingId)

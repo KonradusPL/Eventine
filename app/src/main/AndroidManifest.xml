@@ -76,7 +76,7 @@
             android:configChanges="orientation"
             android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@styles/MapTheme"/>
+            android:theme="@style/MapTheme"/>
         <activity
             android:name=".ui.register.RegisterActivity"
             android:screenOrientation="portrait"
