@@ -57,10 +57,11 @@ import kotlin.math.abs
     przez slide:
         dodaj zadanie:
 */
+//https://xd.adobe.com/spec/39ba5ff1-b994-4bea-507d-1cf1b10031a9-4f8b/
 
 class MapActivity : BaseActivity(),MapMvp.View{
 
-    private lateinit var mMapHelper: MapHelper
+    lateinit var mMapHelper: MapHelper
     lateinit var mPresenter: MapPresenter<MapMvp.View>
 
     lateinit var fragmentMap: SupportMapFragment
@@ -529,8 +530,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.beginTransaction().isEmpty)
-            super.onBackPressed()
 
         if(slidePanel.isOpened)
             slidePanel.closeLayer(true)
