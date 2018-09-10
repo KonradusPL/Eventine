@@ -16,6 +16,7 @@ import android.view.*
 import android.view.animation.AlphaAnimation
 import android.widget.DatePicker
 import android.widget.TextView
+import androidx.view.get
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.sectionItem
@@ -30,6 +31,7 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
+import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
@@ -71,6 +73,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
     lateinit var fragmentOptions: SettingsFragment
     lateinit var fragmentAddTask: AddTaskFragment<MapMvp.View>
+    lateinit var fragmentManageGroup: ManageGroupFragment<MapMvp.View>
 
     var circleClickedPosition = floatArrayOf(0f,0f)
 
@@ -93,6 +96,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentHistory = HistoryFragment()
         fragmentOptions = SettingsFragment()
         fragmentAddTask = AddTaskFragment()
+        fragmentManageGroup = ManageGroupFragment()
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.mapContainer,fragmentMap)
@@ -172,6 +176,12 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 Thread.sleep(100)
                 if(!isSliderClosed && isSliderClosed != slidePanel.isClosed){
                     uiThread {
+                        Log.d("tabLayoutMap",tabLayoutMap.selectedTabPosition.toString())
+                        val n = tabLayoutMap.selectedTabPosition
+                        if(n > -1 && n < 5 && n != 2){
+                            Log.d("tabLayoutMap","qweqweqwe")
+                            tabLayoutMap.getTabAt(2)?.select()
+                        }
                         if(tabStatus == 0)
                             animateTabLayout()
                         if(fragmentCreatePingBasic.isAdded)
@@ -218,9 +228,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 val fragment: Fragment
                 when(tab!!.position){
-                    2 -> openManageActivity()
                     1 -> mPresenter.onHistoryButtonClick()
                     0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
+                    3 -> mPresenter.onGroupsClick()
                 }
             }
 
@@ -234,9 +244,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 Log.d("method","onTabSelected")
                 val fragment: Fragment
                 when(tab!!.position){
-                    2 -> openManageActivity()
                     1 -> mPresenter.onHistoryButtonClick()
                     0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
+                    3 -> mPresenter.onGroupsClick()
                 }
                 val color = ContextCompat.getColor(this@MapActivity,R.color.colorPrimaryNew)
                 tab.customView?.text?.setTextColor(color)
@@ -287,6 +297,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun updateSubGroups(item: String) {
         fragmentCreatePingDetails.updateList(item)
+    }
+
+    override fun showManageGroupList(list: List<Job>) {
+        fragmentManageGroup.showList(list)
     }
 
     override fun showCreatePingView(type: String) {
@@ -529,6 +543,20 @@ class MapActivity : BaseActivity(),MapMvp.View{
             slidePanel.openLayer(true)
     }
 
+    override fun showFullFragments(type: String) {
+        val fragment = when(type){
+            "options" -> fragmentOptions
+            "groups" -> fragmentManageGroup
+            else -> Fragment()
+        }
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer,fragment)
+                .commit()
+
+        if(slidePanel.isOpened)
+            slidePanel.closeLayer(true)
+    }
+
     override fun onBackPressed() {
 
         if(slidePanel.isOpened)
@@ -544,9 +572,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     .commit()
 
         if(fragmentOptions.isAdded)
-            supportFragmentManager.beginTransaction()
-                    .remove(fragmentOptions)
-                    .commit()
+            supportFragmentManager.beginTransaction().remove(fragmentOptions).commit()
+        if(fragmentManageGroup.isAdded)
+            supportFragmentManager.beginTransaction().remove(fragmentManageGroup).commit()
+
     }
 
     override fun animateExtendedCircle(show: Boolean) {

@@ -9,6 +9,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
+import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
+import com.racjonalnytraktor.findme3.ui.adapters.manage.Worker
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.MapHelper
@@ -287,6 +289,24 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     view.showMessage("Wykonanie zadania nie powiodło się",MvpView.MessageType.ERROR)
                     Log.d("koko",t!!.message.orEmpty())
                 })
+    }
+
+    override fun onManageGroupAttach() {
+        Log.d("presenter","onManageGroupAttach")
+        val workers = ArrayList<Worker>()
+        val worker = Worker("Marcin Michno")
+        val jobs = ArrayList<Job>()
+        for(i in 0..5)
+            workers.add(worker)
+
+        val job = Job("Administrator",12,workers)
+        for(i in 0..5)
+            jobs.add(job)
+        view.showManageGroupList(jobs)
+    }
+
+    override fun onGroupsClick() {
+        view.showFullFragments("groups")
     }
 
     override fun onInProgressClick(id: String) {
