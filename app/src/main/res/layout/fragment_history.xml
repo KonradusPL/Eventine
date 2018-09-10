@@ -6,11 +6,15 @@
     android:layout_height="@dimen/slider_height"
     android:background="@color/white">
 
-    <com.mikepenz.iconics.view.IconicsImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iconArrow"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
         android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/circle_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

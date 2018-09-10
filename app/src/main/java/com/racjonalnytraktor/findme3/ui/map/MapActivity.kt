@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.map
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Point
 import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.TabLayout
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.util.*
 import kotlin.math.abs
@@ -68,6 +70,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
     lateinit var fragmentOptions: SettingsFragment
     lateinit var fragmentAddTask: AddTaskFragment<MapMvp.View>
+
+    var circleClickedPosition = floatArrayOf(0f,0f)
 
     lateinit var drawerMap: Drawer
 
@@ -120,13 +124,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
         textOrganiser.setCompoundDrawables(null,organiserIcon,null,null)
         textHelp.setCompoundDrawables(null,helpIcon,null,null)
 
-
         initTabs()
-        bottomCircle.setOnClickListener {
-            //animateTabLayout()
-            mPresenter.onCircleClick()
-            //showSlide(fragmentAddTask)
-        }
+        setUpClickListeners()
 
         mPresenter.onAttach(this)
 
@@ -137,6 +136,31 @@ class MapActivity : BaseActivity(),MapMvp.View{
             setDisplayHomeAsUpEnabled(true)
             //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
         }
+    }
+
+    private fun setUpClickListeners(){
+        bottomCircle.setOnClickListener {
+            //animateTabLayout()
+            mPresenter.onCircleClick(biggerCircleContainer.visibility)
+            //showSlide(fragmentAddTask)
+        }
+        biggerCircle.setOnTouchListener { view, event ->
+            if(event.action != MotionEvent.ACTION_DOWN)
+                return@setOnTouchListener false
+            val size = Point()
+            windowManager.defaultDisplay.getSize(size)
+
+            if (event.rawX + biggerCircle.x < size.x/2)
+                mPresenter.onOrganiserClick()
+            else
+                mPresenter.onHelpClick()
+
+            return@setOnTouchListener false
+        }
+        biggerCircleContainer.setOnClickListener{
+            //view -> view.place
+        }
+
     }
 
     private fun listenSlidingState() {
@@ -194,7 +218,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 val fragment: Fragment
                 when(tab!!.position){
                     2 -> openManageActivity()
-                    1 -> showSlide(fragmentHistory)
+                    1 -> mPresenter.onHistoryButtonClick()
                     0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
                 }
             }
@@ -210,7 +234,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 val fragment: Fragment
                 when(tab!!.position){
                     2 -> openManageActivity()
-                    1 -> showSlide(fragmentHistory)
+                    1 -> mPresenter.onHistoryButtonClick()
                     0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
                 }
                 val color = ContextCompat.getColor(this@MapActivity,R.color.colorPrimaryNew)
@@ -328,8 +352,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String, state: String) {
-        Log.d("uiuiui",slidePanel.isClosed.toString())
-        Log.d("uiuiui",slidePanel.isOpened.toString())
 
         if(type == "info")
             fragmentCreatePingBasic.type = type
@@ -422,13 +444,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         }
 }
 
-    override fun openHistoryFragment() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.containerSlide,fragmentHistory)
-                .addToBackStack(null)
-                .commit()
-        slidePanel.openLayer(true)
-    }
+
 
     override fun openLoginActivity() {
         startActivity(Intent(this,LoginActivity::class.java))
@@ -498,7 +514,12 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     }
 
-    fun showSlide(fragment: Fragment){
+    override fun showSlide(type: String){
+        val fragment = when(type){
+            "history" -> fragmentHistory
+            "addTask" -> fragmentAddTask
+            else -> Fragment()
+        }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerSlide,fragment)
                 .commit()
@@ -530,24 +551,24 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun animateExtendedCircle(show: Boolean) {
-        if(!show && biggerCircleContainer.visibility == View.INVISIBLE)
+        if(!show && biggerCircleContainer.visibility == View.GONE)
             return
         if(show)
             biggerCircleContainer.visibility = View.VISIBLE
 
 
-        val animation = if(show) AlphaAnimation(0f,1f) else AlphaAnimation(1f,0f)
+        /*val animation = if(show) AlphaAnimation(0f,1f) else AlphaAnimation(1f,0f)
 
         animation.duration = 300
-        //animation.startOffset = 5000
+        //animation.startOffset = 50
         animation.fillAfter = true
-        biggerCircleContainer.startAnimation(animation)
+        biggerCircleContainer.startAnimation(animation)*/
 
         if(!show)
-            biggerCircleContainer.visibility = View.INVISIBLE
+            biggerCircleContainer.visibility = View.GONE
     }
 
-    fun animateTabLayout(){
+    override fun animateTabLayout(){
         Log.d("plokpl","plokpl")
         val constraint1 = ConstraintSet()
         constraint1.clone(this, R.layout.activity_map)

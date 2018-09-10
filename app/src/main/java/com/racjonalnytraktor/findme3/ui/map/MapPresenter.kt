@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.map
 
 import android.location.Location
 import android.util.Log
+import android.view.View
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
@@ -91,8 +92,21 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         }
     }
 
-    override fun onCircleClick() {
-        view.animateExtendedCircle(true)
+    override fun onCircleClick(visibility: Int) {
+        if(visibility == View.GONE)
+            view.animateExtendedCircle(true)
+        else{
+            view.animateExtendedCircle(false)
+            view.animateTabLayout()
+            view.showSlide("addTask")
+        }
+    }
+
+    override fun onOrganiserClick() {
+    }
+
+    override fun onHelpClick() {
+
     }
 
     override fun onNextButtonClick(task: String, descr: String) {
@@ -255,7 +269,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onHistoryButtonClick() {
-        view.openHistoryFragment()
+        view.showSlide("history")
     }
 
     override fun clearData() {

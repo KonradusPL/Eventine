@@ -34,10 +34,10 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         super.onViewCreated(view, savedInstanceState)
         mPresenter = HistoryPresenter()
         mPresenter.onAttach(this)
-        iconArrow.icon = IconicsDrawable(parentContext)
+        iconArrow.setImageDrawable(IconicsDrawable(parentContext)
                 .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
                 .sizeDp(24)
-                .color(Color.BLACK)
+                .color(Color.BLACK))
         initList()
         buttonInfo.setOnClickListener {
             mPresenter.onInfoButtonClick()

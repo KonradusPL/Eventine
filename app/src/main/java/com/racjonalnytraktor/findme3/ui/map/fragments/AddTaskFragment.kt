@@ -28,10 +28,10 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>() {
                 .replace(R.id.detailsContainer,firstFragment)
                 .commit()
 
-        iconArrowTask.icon = IconicsDrawable(parentContext)
+        iconArrowTask.setImageDrawable(IconicsDrawable(parentContext)
                 .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
                 .sizeDp(24)
-                .color(Color.BLACK)
+                .color(Color.BLACK))
     }
 
 }

@@ -11,6 +11,7 @@ interface MapMvp {
     interface View: MvpView{
         fun changeCreateGroupFragment()
         fun updateSubGroups(item: String)
+        fun animateTabLayout()
         fun showCreatePingView(type: String = "ping")
         fun hideCreatePingView()
         fun updatePings(pings: List<Ping>,value: Boolean = true)
@@ -23,14 +24,16 @@ interface MapMvp {
         fun removePing(pingId: String)
         fun clearPings()
         fun openManageActivity()
-        fun openHistoryFragment()
         fun openLoginActivity()
         fun openMapActivity()
         fun animateExtendedCircle(show: Boolean)
+        fun showSlide(type: String)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         //onClick:
-        fun onCircleClick()
+        fun onCircleClick(visibility: Int)
+        fun onOrganiserClick()
+        fun onHelpClick()
         fun onNextButtonClick(task: String, descr: String)
         fun onAddButtonClick(checkedGroups: ArrayList<String> = ArrayList(), date: String = "")
         fun onPlanButtonClick(checkedGroups: ArrayList<String>)
