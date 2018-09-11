@@ -26,6 +26,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     var typeOfNewThing = "ping"
 
+    var isChoosingLocation = false
+
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
         isAttached = true
@@ -99,7 +101,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             view.animateExtendedCircle(true)
         else{
             view.animateExtendedCircle(false)
-            view.animateTabLayout()
+            view.animateTabLayout(false)
             view.showSlide("addTask")
         }
     }
@@ -227,6 +229,15 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onMapClick(location: Location) {
+        if(isChoosingLocation){
+            isChoosingLocation = false
+            val ping = Ping()
+            ping.geo.add(location.latitude)
+            ping.geo.add(location.longitude)
+            view.addPing(ping)
+            view.showSlide("addTask")
+            view.animateTabLayout(false)
+        }
         view.animateExtendedCircle(false)
     }
 
@@ -297,12 +308,21 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         val workers = ArrayList<Worker>()
         val worker = Worker("Marcin Michno")
         val jobs = ArrayList<Job>()
-        for(i in 0..5)
-            workers.add(worker)
+        workers.add(Worker("Jan Kowalski"))
+        workers.add(Worker("Mateusz Zawada"))
+        workers.add(Worker("John Doe"))
+        workers.add(Worker("Ewelina Nowak"))
+        workers.add(Worker("Ryszard Mularski"))
+        workers.add(Worker("Martyna Kawa"))
 
-        val job = Job("Administrator",12,workers)
-        for(i in 0..5)
+        val stringArray = arrayListOf("Organizator","MC","Logistyka","Marketing & PR","Sprzedaż","Serwis")
+
+
+
+        for(i in 0..5){
+            val job = Job(stringArray[i],6,workers)
             jobs.add(job)
+        }
         view.showManageGroupList(jobs)
     }
 
@@ -323,8 +343,19 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onBackInFragmentClick(type: String) {
-        view.hideFullFragments(type)
+        view.hideFullFragments(type,true)
         view.hideSlide()
+        view.animateExtendedCircle(false)
+    }
+
+    override fun onChangeLocationClick() {
+        isChoosingLocation = true
+        view.hideSlide()
+    }
+
+    override fun onSlideHide() {
+        if(!isChoosingLocation)
+            view.animateTabLayout(true)
     }
 
 }

@@ -17,19 +17,19 @@ import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import kotlinx.android.synthetic.main.item_job_type.view.*
 import kotlinx.android.synthetic.main.item_worker.view.*
 
-internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.View)
+internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.View, val type: String = "manage")
     :ExpandableRecyclerViewAdapter<ManageGroupAdapter.JobViewHolder, ManageGroupAdapter.WorkerViewHolder>(jobs){
 
     override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): JobViewHolder {
         val view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_job_type,
                 parent,false)
-        return JobViewHolder(view,mvpView)
+        return JobViewHolder(view,mvpView,type)
     }
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): WorkerViewHolder {
         val view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_worker,
                 parent,false)
-        return WorkerViewHolder(view,mvpView)
+        return WorkerViewHolder(view,mvpView,type)
     }
 
     override fun onBindChildViewHolder(holder: WorkerViewHolder?, flatPosition: Int, group: ExpandableGroup<*>?, childIndex: Int) {
@@ -41,7 +41,7 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
         holder?.bind(group as Job)
     }
 
-    internal class JobViewHolder(itemView: View,val  mvpView: MapMvp.View): GroupViewHolder(itemView){
+    internal class JobViewHolder(itemView: View,val  mvpView: MapMvp.View, val type: String): GroupViewHolder(itemView){
         override fun onClick(v: View?) {
 
             itemView.iconArrow.rotation += 180
@@ -50,18 +50,27 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
         }
         fun bind(job: Job){
             itemView.apply {
+                val color = if(type == "addTask") Color.BLACK else Color.WHITE
                 textOrganiser.text = job.name
+                textOrganiser.setTextColor(color)
                 iconArrow.setImageDrawable(IconicsDrawable(mvpView.getCtx())
                         .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
                         .sizeDp(18)
-                        .color(Color.WHITE))
+                        .color(color))
 
             }
         }
     }
-    internal class WorkerViewHolder(itemView: View,val mvpView: MapMvp.View): ChildViewHolder(itemView){
+    internal class WorkerViewHolder(itemView: View,val mvpView: MapMvp.View, val type: String): ChildViewHolder(itemView){
         fun bind(worker: Worker){
             itemView.textWorker.text = worker.name
+            if(type == "addTask"){
+                itemView.textWorker.setTextColor(Color.BLACK)
+                itemView.iconAddWorker.setImageDrawable(IconicsDrawable(mvpView.getCtx())
+                        .icon(FontAwesome.Icon.faw_plus)
+                        .sizeDp(14)
+                        .color(Color.BLACK))
+            }
         }
     }
 }

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.map.MapActivity">
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayoutMap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="1dp">
+
+    </FrameLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mapContainer"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".MapsActivity">
+    </FrameLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayoutMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:elevation="4.5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabIndicatorHeight="0dp" />
+
+
+    <com.wunderlist.slidinglayer.SlidingLayer
+        android:id="@+id/slidePanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:changeStateOnTap="false"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayoutMap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:stickTo="bottom"
+        android:elevation="2dp">
+
+        <FrameLayout
+            android:id="@+id/containerSlide"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/slider_height"
+            android:layout_gravity="bottom" />
+
+    </com.wunderlist.slidinglayer.SlidingLayer>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/biggerCircleContainer"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:elevation="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bottomCircle">
+
+        <TextView
+            android:id="@+id/textOrganiser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:drawableTop="@drawable/ic_add_black_24dp"
+            android:elevation="3dp"
+            android:fontFamily="@font/roboto"
+            android:rotation="-40"
+            android:text="organizator"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="30dp"
+            android:elevation="3dp"
+            android:fontFamily="@font/roboto"
+            android:rotation="40"
+            android:text="help"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/biggerCircle"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:clickable="true"
+            android:elevation="1dp"
+            android:focusable="true"
+            android:foreground="@drawable/circle_selector"
+            android:src="@color/colorPrimaryNew"
+            app:civ_circle_background_color="@color/colorPrimaryNew" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:alpha="0.3"
+            android:background="@color/white"
+            android:elevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/bottomCircle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:elevation="5dp"
+        android:foreground="@drawable/circle_selector"
+        android:clickable="true"
+        android:focusable="true"
+        app:civ_circle_background_color="@color/colorPrimaryNew"
+        android:src="@color/colorPrimaryNew"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:id="@+id/iconCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomCircle"
+        app:layout_constraintEnd_toEndOf="@+id/bottomCircle"
+        app:layout_constraintStart_toStartOf="@+id/bottomCircle"
+        app:layout_constraintTop_toTopOf="@+id/bottomCircle" />
+
+    <TextView
+        android:id="@+id/textAddTask"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto"
+        android:text="Dodaj zadanie"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bottomCircle"
+        app:layout_constraintStart_toStartOf="@+id/bottomCircle"
+        app:layout_constraintTop_toTopOf="@+id/bottomCircle" />
+
+</android.support.constraint.ConstraintLayout>

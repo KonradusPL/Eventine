@@ -22,7 +22,6 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                     if (ping != null){
                         Log.d("pongaponga","pongaponga")
                         ping.type = "ping"
-                        view.updatePings(ping)
                     }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
@@ -35,7 +34,6 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                 .subscribe({info: Info? ->
                     if (info != null){
                         info.type = "info"
-                        view.updateInfos(info)
                     }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
@@ -48,7 +46,6 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                 .subscribe({ping: Ping? ->
                     if (ping != null){
                         ping.type = "ping"
-                        view.updatePings(ping)
                     }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
@@ -69,7 +66,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                 .subscribe({ping: Ping? ->
                     if (ping != null){
                         ping.type = "ping"
-                        view.updatePings(ping)
+                        //view.updatePings(ping)
                     }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())
@@ -78,7 +75,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                 .subscribe({info: Info? ->
                     if (info != null){
                         info.type = "info"
-                        view.updateInfos(info)
+                        //view.updateInfos(info)
                     }
                 },{t: Throwable? ->
                     Log.d("error",t.toString())

@@ -66,14 +66,14 @@
         </com.wunderlist.slidinglayer.SlidingLayer>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/biggerCircleContainer"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:id="@+id/biggerCircleContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
         android:elevation="4dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/bottomCircle">
 
         <TextView
@@ -82,11 +82,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="30dp"
+            android:drawableTop="@drawable/ic_add_black_24dp"
             android:elevation="3dp"
             android:fontFamily="@font/roboto"
             android:rotation="-40"
             android:text="organizator"
-            android:drawableTop="@drawable/ic_add_black_24dp"
             android:textAllCaps="true"
             android:textColor="#ffffff"
             android:textSize="12sp"
@@ -113,21 +113,21 @@
             android:id="@+id/biggerCircle"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:elevation="1dp"
-            android:foreground="@drawable/circle_selector"
             android:clickable="true"
+            android:elevation="1dp"
             android:focusable="true"
-            app:civ_circle_background_color="@color/colorPrimaryNew"
+            android:foreground="@drawable/circle_selector"
             android:src="@color/colorPrimaryNew"
-            />
+            app:civ_circle_background_color="@color/colorPrimaryNew" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
+            android:alpha="0.3"
             android:background="@color/white"
             android:elevation="2dp"
-            android:alpha="0.3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 
@@ -158,4 +158,20 @@
             app:layout_constraintStart_toStartOf="@+id/bottomCircle"
             app:layout_constraintTop_toTopOf="@+id/bottomCircle" />
 
-    </android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/textAddTask"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto"
+        android:text="Dodaj zadanie"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bottomCircle"
+        app:layout_constraintStart_toStartOf="@+id/bottomCircle"
+        app:layout_constraintTop_toTopOf="@+id/bottomCircle" />
+
+</android.support.constraint.ConstraintLayout>

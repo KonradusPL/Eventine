@@ -12,7 +12,7 @@ interface MapMvp {
     interface View: MvpView{
         fun changeCreateGroupFragment()
         fun updateSubGroups(item: String)
-        fun animateTabLayout()
+        fun animateTabLayout(show: Boolean)
         fun hideCreatePingView()
         fun updatePings(pings: List<Ping>,value: Boolean = true)
         fun addPing(ping: Ping)
@@ -32,7 +32,7 @@ interface MapMvp {
         fun showPlanDialog()
         fun showManageGroupList(list: List<Job>)
         fun showFullFragments(type: String)
-        fun hideFullFragments(type: String)
+        fun hideFullFragments(type: String, unSelectTab: Boolean = false)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         //onClick:
@@ -54,5 +54,7 @@ interface MapMvp {
         fun onInProgressClick(id: String)
         fun onManageGroupAttach()
         fun onBackInFragmentClick(type: String)
+        fun onChangeLocationClick()
+        fun onSlideHide()
     }
 }

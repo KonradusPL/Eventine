@@ -8,8 +8,8 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 
 interface HistoryMvp {
     interface View: MvpView{
-        fun updatePings(ping: Ping)
-        fun updateInfos(info: Info)
+        //fun updatePings(ping: Ping)
+        //fun updateInfos(info: Info)
         fun updateAll()
         fun clearList(type: String)
         fun showEndPingBar(ping: Ping)

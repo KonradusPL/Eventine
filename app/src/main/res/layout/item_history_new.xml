@@ -7,46 +7,42 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textOrganiser"
+        android:id="@+id/fieldTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/roboto"
-        android:text="Organizator"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:text="Szachownica"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:id="@+id/iconArrow"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/fieldMessage"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textOrganiser"
-        app:layout_constraintEnd_toStartOf="@+id/iconPlus"
-        app:layout_constraintTop_toTopOf="@+id/textOrganiser" />
-
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:id="@+id/iconPlus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textOrganiser"
-        app:layout_constraintEnd_toStartOf="@+id/fieldUserCount"
-        app:layout_constraintTop_toTopOf="@+id/textOrganiser" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:alpha="0.56"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fieldTitle" />
 
     <TextView
-        android:id="@+id/fieldUserCount"
+        android:id="@+id/fieldDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
+        android:alpha="0.56"
         android:fontFamily="@font/roboto"
-        android:text="21"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:text="TextView"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,10 +51,10 @@
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:background="#707070"
         android:alpha="0.5"
-        android:background="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textOrganiser" />
+        app:layout_constraintTop_toBottomOf="@id/fieldMessage" />
 </android.support.constraint.ConstraintLayout>

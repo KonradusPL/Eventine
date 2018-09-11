@@ -81,6 +81,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var drawerMap: Drawer
 
     private var tabStatus = 1
+    private var circleStatus = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,7 +129,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         listenSlidingState()
         fragmentMap.getMapAsync(mMapHelper)
-        
+
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
@@ -168,14 +169,14 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 Thread.sleep(100)
                 if(!isSliderClosed && isSliderClosed != slidePanel.isClosed){
                     uiThread {
-                        Log.d("tabLayoutMap",tabLayoutMap.selectedTabPosition.toString())
                         val n = tabLayoutMap.selectedTabPosition
                         if(n > -1 && n < 5 && n != 2){
                             Log.d("tabLayoutMap","qweqweqwe")
                             tabLayoutMap.getTabAt(2)?.select()
                         }
-                        if(tabStatus == 0)
-                            animateTabLayout()
+
+                        mPresenter.onSlideHide()
+
                         if(fragmentCreatePingBasic.isAdded)
                             fragmentCreatePingBasic.clearData()
                         mPresenter.clearData()
@@ -211,7 +212,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                         .color(ContextCompat.getColor(this,R.color.greyTab))
                         .sizeDp(22)
                 tabView.text.text = titles[i]
-            }else{
+            }
+            if(i == 2 || i == 4){
                 tabView.isClickable = false
             }
             tabLayoutMap.addTab(tabLayoutMap.newTab().setCustomView(tabView))
@@ -554,7 +556,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
             slidePanel.closeLayer(true)
     }
 
-    override fun hideFullFragments(type: String) {
+    override fun hideFullFragments(type: String, unSelectTab: Boolean) {
         val fragment = when(type){
             "options" -> fragmentOptions
             "groups" -> fragmentManageGroup
@@ -563,6 +565,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
         supportFragmentManager.beginTransaction()
                 .remove(fragment)
                 .commit()
+
+        if(unSelectTab)
+            tabLayoutMap.getTabAt(2)?.select()
+
+
     }
 
     override fun onBackPressed() {
@@ -579,42 +586,45 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     .remove(fragmentCreatePingDetails)
                     .commit()
 
-        if(fragmentOptions.isAdded)
-            supportFragmentManager.beginTransaction().remove(fragmentOptions).commit()
-        if(fragmentManageGroup.isAdded)
-            supportFragmentManager.beginTransaction().remove(fragmentManageGroup).commit()
+        if(fragmentOptions.isAdded){
+            mPresenter.onBackInFragmentClick("options")
+        }
+        if(fragmentManageGroup.isAdded){
+            mPresenter.onBackInFragmentClick("groups")
+
+        }
 
     }
 
     override fun animateExtendedCircle(show: Boolean) {
         if(!show && biggerCircleContainer.visibility == View.GONE)
             return
-        if(show)
+        if(show){
+            //circleStatus = 2
             biggerCircleContainer.visibility = View.VISIBLE
+            textAddTask.visibility = View.VISIBLE
+            iconCircle.visibility = View.GONE
+        }
 
-
-        /*val animation = if(show) AlphaAnimation(0f,1f) else AlphaAnimation(1f,0f)
-
-        animation.duration = 300
-        //animation.startOffset = 50
-        animation.fillAfter = true
-        biggerCircleContainer.startAnimation(animation)*/
-
-        if(!show)
+        if(!show){
+            circleStatus = 1
             biggerCircleContainer.visibility = View.GONE
+            textAddTask.visibility = View.GONE
+            iconCircle.visibility = View.VISIBLE
+
+        }
     }
 
-    override fun animateTabLayout(){
-        Log.d("plokpl","plokpl")
+    override fun animateTabLayout(show: Boolean){
         val constraint1 = ConstraintSet()
         constraint1.clone(this, R.layout.activity_map)
         val constraint2 = ConstraintSet()
         constraint2.clone(this, R.layout.activity_map_hide_tab)
+
         TransitionManager.beginDelayedTransition(root)
-        val constraint = if(tabStatus == 0) constraint1 else constraint2
+
+        val constraint = if(show) constraint1 else constraint2
         constraint.applyTo(root)
-        tabStatus = if(tabStatus == 1) 0 else 1
-        Log.d("tabStatus",tabStatus.toString())
     }
 
 

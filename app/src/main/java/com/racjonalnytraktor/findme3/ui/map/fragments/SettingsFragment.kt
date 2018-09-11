@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
@@ -33,5 +34,11 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
         iconBack.setOnClickListener {
             parentMvp.getPresenter().onBackInFragmentClick("options")
         }
+
+        val list = arrayListOf("Polski")
+
+        val adp = ArrayAdapter<String>(parentMvp.getCtx(), android.R.layout.simple_spinner_item, list)
+        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerLanguage.adapter = adp
     }
 }
