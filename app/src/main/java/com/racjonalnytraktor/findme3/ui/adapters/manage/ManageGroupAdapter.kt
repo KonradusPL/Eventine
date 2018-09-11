@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.RxView
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
@@ -41,6 +42,12 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
     }
 
     internal class JobViewHolder(itemView: View,val  mvpView: MapMvp.View): GroupViewHolder(itemView){
+        override fun onClick(v: View?) {
+
+            itemView.iconArrow.rotation += 180
+
+            super.onClick(v)
+        }
         fun bind(job: Job){
             itemView.apply {
                 textOrganiser.text = job.name
@@ -48,6 +55,7 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
                         .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
                         .sizeDp(18)
                         .color(Color.WHITE))
+
             }
         }
     }

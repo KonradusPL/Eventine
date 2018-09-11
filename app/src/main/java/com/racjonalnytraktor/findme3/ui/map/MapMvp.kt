@@ -27,10 +27,12 @@ interface MapMvp {
         fun animateExtendedCircle(show: Boolean)
         fun showCreatePingView(type: String = "ping")
         fun showSlide(type: String)
+        fun hideSlide()
         fun showEndPingBar(ping: Ping)
         fun showPlanDialog()
         fun showManageGroupList(list: List<Job>)
         fun showFullFragments(type: String)
+        fun hideFullFragments(type: String)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         //onClick:
@@ -51,5 +53,6 @@ interface MapMvp {
         fun onEndPing(id: String)
         fun onInProgressClick(id: String)
         fun onManageGroupAttach()
+        fun onBackInFragmentClick(type: String)
     }
 }

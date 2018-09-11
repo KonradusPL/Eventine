@@ -108,7 +108,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onHelpClick() {
-
+        view.showMessage("Wysłano prośbę o pomoc!",MvpView.MessageType.SUCCESS)
+        view.animateExtendedCircle(false)
     }
 
     override fun onNextButtonClick(task: String, descr: String) {
@@ -319,6 +320,11 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     view.showMessage("Problem ze zmianą statusu zadania",MvpView.MessageType.ERROR)
                     Log.d("koko",t!!.message.orEmpty())
                 })
+    }
+
+    override fun onBackInFragmentClick(type: String) {
+        view.hideFullFragments(type)
+        view.hideSlide()
     }
 
 }

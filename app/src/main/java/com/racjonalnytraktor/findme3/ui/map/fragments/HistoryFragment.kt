@@ -38,6 +38,10 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
                 .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
                 .sizeDp(24)
                 .color(Color.BLACK))
+        iconArrow.setOnClickListener {
+            parentMvp.getPresenter().onBackInFragmentClick("history")
+        }
+
         initList()
         buttonInfo.setOnClickListener {
             mPresenter.onInfoButtonClick()

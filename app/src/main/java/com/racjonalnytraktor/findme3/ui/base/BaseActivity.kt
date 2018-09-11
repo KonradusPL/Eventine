@@ -7,6 +7,7 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.ProgressBar
 import com.google.android.gms.common.api.ResolvableApiException
@@ -75,21 +76,25 @@ open class BaseActivity : AppCompatActivity(),MvpView{
     }
 
     override fun showMessage(message: Int, type: MvpView.MessageType) {
-        when(type){
-            MvpView.MessageType.NORMAL -> Toasty.normal(this, resources.getString(message)).show()
-            MvpView.MessageType.ERROR -> Toasty.error(this, resources.getString(message)).show()
-            MvpView.MessageType.INFO -> Toasty.info(this, resources.getString(message)).show()
-            MvpView.MessageType.SUCCESS -> Toasty.success(this, resources.getString(message)).show()
+        var newMessage = ""
+        try {
+            newMessage = resources.getString(message)
+        }catch (e: Exception){
+            Log.d("exception",e.toString())
         }
+        showMessage(newMessage,type)
+
     }
 
     override fun showMessage(message: String, type: MvpView.MessageType) {
-        when(type){
-            MvpView.MessageType.NORMAL -> Toasty.normal(this, message).show()
-            MvpView.MessageType.ERROR -> Toasty.error(this, message).show()
-            MvpView.MessageType.INFO -> Toasty.info(this,message).show()
-            MvpView.MessageType.SUCCESS -> Toasty.success(this, message).show()
+        val toast = when(type){
+            MvpView.MessageType.NORMAL -> Toasty.normal(this, message)
+            MvpView.MessageType.ERROR -> Toasty.error(this, message)
+            MvpView.MessageType.INFO -> Toasty.info(this,message)
+            MvpView.MessageType.SUCCESS -> Toasty.success(this, message)
         }
+        toast.setGravity(Gravity.TOP.xor(Gravity.CENTER_HORIZONTAL),0,64)
+        toast.show()
     }
 
     override fun isConnectedToNetwork(): Boolean {

@@ -29,5 +29,9 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
                 .sizeDp(18)
                 .color(Color.WHITE)
                 .icon(GoogleMaterial.Icon.gmd_arrow_back))
+
+        iconBack.setOnClickListener {
+            parentMvp.getPresenter().onBackInFragmentClick("options")
+        }
     }
 }

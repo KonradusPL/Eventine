@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#EEEEEE"
-            android:elevation="4dp"
+            android:elevation="4.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,8 @@
             app:layout_constraintBottom_toTopOf="@+id/tabLayoutMap"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:stickTo="bottom">
+            app:stickTo="bottom"
+            android:elevation="2dp">
 
             <FrameLayout
                 android:id="@+id/containerSlide"
@@ -70,6 +71,7 @@
         android:id="@+id/biggerCircleContainer"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
+        android:elevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/bottomCircle">

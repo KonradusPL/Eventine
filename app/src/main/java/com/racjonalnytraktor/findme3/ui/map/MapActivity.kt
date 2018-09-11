@@ -37,6 +37,7 @@ import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import com.wunderlist.slidinglayer.SlidingLayer
+import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
 import kotlinx.android.synthetic.main.dialog_time.view.*
@@ -102,15 +103,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .replace(R.id.mapContainer,fragmentMap)
                 .commit()
 
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.containerSlide,fragmentCreatePingBasic)
-                .addToBackStack(null)
-                .commit()
-
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer,fragmentOptions)
-                .commit()
-
         mMapHelper = MapHelper(this,null)
 
         fragmentCreatePingBasic.mPresenter = mPresenter
@@ -136,7 +128,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         listenSlidingState()
         fragmentMap.getMapAsync(mMapHelper)
-
+        
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
@@ -208,8 +200,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 FontAwesome.Icon.faw_history,
                 FontAwesome.Icon.faw_users,
                 FontAwesome.Icon.faw_users,
-                FontAwesome.Icon.faw_map_marker_alt)
-        val titles = arrayListOf("Opcje","Historia","nic","Grupy","Mapa")
+                FontAwesome.Icon.faw_user_alt)
+        val titles = arrayListOf("Opcje","Historia","nic","Grupy","Profil")
 
         for(i in 0..4){
             val tabView = LayoutInflater.from(this).inflate(R.layout.item_tab,null,false)
@@ -543,6 +535,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
             slidePanel.openLayer(true)
     }
 
+    override fun hideSlide() {
+        if(slidePanel.isOpened)
+            slidePanel.closeLayer(true)
+    }
+
     override fun showFullFragments(type: String) {
         val fragment = when(type){
             "options" -> fragmentOptions
@@ -555,6 +552,17 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         if(slidePanel.isOpened)
             slidePanel.closeLayer(true)
+    }
+
+    override fun hideFullFragments(type: String) {
+        val fragment = when(type){
+            "options" -> fragmentOptions
+            "groups" -> fragmentManageGroup
+            else -> Fragment()
+        }
+        supportFragmentManager.beginTransaction()
+                .remove(fragment)
+                .commit()
     }
 
     override fun onBackPressed() {
