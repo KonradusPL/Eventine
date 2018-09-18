@@ -10,7 +10,6 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 
 interface MapMvp {
     interface View: MvpView{
-        fun changeCreateGroupFragment()
         fun updateSubGroups(item: String)
         fun animateTabLayout(show: Boolean)
         fun hideCreatePingView()

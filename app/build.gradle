@@ -81,21 +81,28 @@ dependencies {
     implementation 'org.jetbrains.anko:anko-common:0.9'
     implementation 'androidx.core:core-ktx:0.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
+
     //CircleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
     //Picasso(image loader)
     implementation 'com.squareup.picasso:picasso:2.71828'
+
     //Google api
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+
     //Firebase
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
+
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
     //Facebook
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
     //Toast
     implementation 'com.github.GrenderG:Toasty:1.3.0'
 
@@ -119,9 +126,13 @@ dependencies {
     //Rounded images
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-    implementation 'com.sdsmdg.harjot:materialshadows:1.2.5'
-
+    //Blur :(
     implementation 'jp.wasabeef:blurry:2.1.1'
+
+    //Estimote
+    implementation 'com.estimote:mustard:0.2.1'
+    implementation 'com.estimote:indoorsdk:2.5.3'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

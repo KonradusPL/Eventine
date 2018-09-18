@@ -50,17 +50,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         }
 
         view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
-
-
-
-        /*view.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                .subscribe { state: PermissionsHelper.PermissionState? ->
-                    if (state == PermissionsHelper.PermissionState.GRANTED)
-                        view.checkLocationSettings()
-                                .subscribe {
-                                   // mRepo.locationProvider.start()
-                                }
-                }*/
     }
 
     fun startUpdatingPings(){
@@ -115,7 +104,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onNextButtonClick(task: String, descr: String) {
-        view.changeCreateGroupFragment()
         if(mRepo.type == "ping"){
             mRepo.newPing.title = task
             mRepo.newPing.desc = descr

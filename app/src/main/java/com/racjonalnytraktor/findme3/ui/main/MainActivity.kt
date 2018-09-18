@@ -89,13 +89,13 @@ class MainActivity : BaseActivity(),MainMvp.View {
                     .withName(group.groupName)
                     .withTag(group.groupName))*/
 
-        drawerMain.setOnDrawerItemClickListener({view, position, drawerItem ->
+        drawerMain.setOnDrawerItemClickListener{view, position, drawerItem ->
             if(drawerItem.tag is String){
                 if(drawerItem.tag == "logout")
                     mPresenter.onLogoutButtonClick()
             }
             return@setOnDrawerItemClickListener true
-        })
+        }
 
         //drawerMap.addItem(DrawerIte)
         //drawerMap.addItem(IDrawerItem<>)

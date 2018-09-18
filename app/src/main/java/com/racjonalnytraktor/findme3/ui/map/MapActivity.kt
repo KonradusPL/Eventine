@@ -20,6 +20,13 @@ import androidx.view.get
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.sectionItem
+import com.estimote.indoorsdk.EstimoteCloudCredentials
+import com.estimote.indoorsdk.IndoorLocationManagerBuilder
+import com.estimote.indoorsdk_module.algorithm.IndoorLocationManager
+import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener
+import com.estimote.indoorsdk_module.algorithm.ScanningIndoorLocationManager
+import com.estimote.indoorsdk_module.cloud.*
+import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.iconics.IconicsDrawable
@@ -52,14 +59,6 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 import kotlin.math.abs
 
-/*Potrzebne fragmenty :
-    przez alfe:
-        opcje
-        grupy
-        profile
-    przez slide:
-        dodaj zadanie:
-*/
 //https://xd.adobe.com/spec/39ba5ff1-b994-4bea-507d-1cf1b10031a9-4f8b/
 
 class MapActivity : BaseActivity(),MapMvp.View{
@@ -67,14 +66,15 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var mMapHelper: MapHelper
     lateinit var mPresenter: MapPresenter<MapMvp.View>
 
-    lateinit var fragmentMap: SupportMapFragment
-    lateinit var fragmentManagement: ManagementFragment
-    lateinit var fragmentCreatePingBasic: CreatePingBasicFragment<MapMvp.View>
-    lateinit var fragmentCreatePingDetails: CreatePingDetailsFragment<MapMvp.View>
-    lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
-    lateinit var fragmentOptions: SettingsFragment
-    lateinit var fragmentAddTask: AddTaskFragment<MapMvp.View>
-    lateinit var fragmentManageGroup: ManageGroupFragment<MapMvp.View>
+    private lateinit var indoorLocationManager: IndoorLocationManager
+    private val cloudCredentials = EstimoteCloudCredentials("indoorlocation-m4a","846401acdfecd6753a2d69750172aa67")
+
+    private lateinit var fragmentMap: SupportMapFragment
+    private lateinit var fragmentManagement: ManagementFragment
+    private lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
+    private lateinit var fragmentOptions: SettingsFragment
+    private lateinit var fragmentAddTask: AddTaskFragment<MapMvp.View>
+    private lateinit var fragmentManageGroup: ManageGroupFragment<MapMvp.View>
 
     var circleClickedPosition = floatArrayOf(0f,0f)
 
@@ -87,14 +87,12 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-        Log.d("lifecycler","onCreate")
 
         mPresenter = MapPresenter()
+        mMapHelper = MapHelper(this,null)
 
         fragmentMap = SupportMapFragment.newInstance()
         fragmentManagement = ManagementFragment()
-        fragmentCreatePingBasic = CreatePingBasicFragment()
-        fragmentCreatePingDetails = CreatePingDetailsFragment()
         fragmentHistory = HistoryFragment()
         fragmentOptions = SettingsFragment()
         fragmentAddTask = AddTaskFragment()
@@ -104,11 +102,20 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .replace(R.id.mapContainer,fragmentMap)
                 .commit()
 
-        mMapHelper = MapHelper(this,null)
+        fragmentMap.getMapAsync(mMapHelper)
 
-        fragmentCreatePingBasic.mPresenter = mPresenter
-        fragmentCreatePingDetails.mPresenter = mPresenter
+        initTabs()
+        initOtherViews()
+        setUpClickListeners()
 
+        mPresenter.onAttach(this)
+
+        listenSlidingState()
+
+        initIndoorLocation()
+    }
+
+    private fun initOtherViews(){
         val organiserIcon = IconicsDrawable(this)
                 .color(Color.WHITE)
                 .sizeDp(22)
@@ -121,26 +128,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         textOrganiser.setCompoundDrawables(null,organiserIcon,null,null)
         textHelp.setCompoundDrawables(null,helpIcon,null,null)
-
-        initTabs()
-        setUpClickListeners()
-
-        mPresenter.onAttach(this)
-
-        listenSlidingState()
-        fragmentMap.getMapAsync(mMapHelper)
-
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            //setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
-        }
     }
 
     private fun setUpClickListeners(){
         bottomCircle.setOnClickListener {
-            //animateTabLayout()
             mPresenter.onCircleClick(biggerCircleContainer.visibility)
-            //showSlide(fragmentAddTask)
         }
         biggerCircle.setOnTouchListener { view, event ->
             if(event.action != MotionEvent.ACTION_DOWN)
@@ -159,40 +151,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
             //view -> view.place
         }
 
-    }
-
-    private fun listenSlidingState() {
-        var isSliderClosed: Boolean = slidePanel.isClosed
-        Log.d("isClosed", isSliderClosed.toString())
-        doAsync {
-            while (!isDestroyed) {
-                Thread.sleep(100)
-                if(!isSliderClosed && isSliderClosed != slidePanel.isClosed){
-                    uiThread {
-                        val n = tabLayoutMap.selectedTabPosition
-                        if(n > -1 && n < 5 && n != 2){
-                            Log.d("tabLayoutMap","qweqweqwe")
-                            tabLayoutMap.getTabAt(2)?.select()
-                        }
-
-                        mPresenter.onSlideHide()
-
-                        if(fragmentCreatePingBasic.isAdded)
-                            fragmentCreatePingBasic.clearData()
-                        mPresenter.clearData()
-                        if(fragmentCreatePingDetails.isInLayout){
-                            fragmentCreatePingDetails.clearData()
-
-                        }
-
-                        tabLayoutMap.isSelected = false
-
-                    }
-
-                }
-                isSliderClosed = slidePanel.isClosed
-            }
-        }
     }
 
     private fun initTabs(){
@@ -252,21 +210,81 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .icon(FontAwesome.Icon.faw_plus)
                 .sizeDp(30)
                 .color(Color.WHITE)
-        //tabLayoutMap.getTabAt(2)!!.select()
+    }
+
+    private fun initIndoorLocation(){
+        val cloudManager = IndoorCloudManagerFactory().create(this,cloudCredentials)
+        cloudManager.getAllLocations(object: CloudCallback<List<Location>>{
+            override fun failure(serverException: EstimoteCloudException) {
+                Log.d("estimoteError",serverException.body.orEmpty())
+            }
+
+            override fun success(t: List<Location>) {
+                Log.d("EstimoteD","get location success")
+                Log.d("EstimoteD",t[0].name)
+                indoorLocationManager = IndoorLocationManagerBuilder(this@MapActivity, t[0], cloudCredentials)
+                        .build()
+                indoorLocationManager.setOnPositionUpdateListener(object: OnPositionUpdateListener{
+                    override fun onPositionOutsideLocation() {
+                        Log.d("EstimoteD","onPositionOutsideLocation")
+                    }
+
+                    override fun onPositionUpdate(locationPosition: LocationPosition) {
+                        Log.d("EstimoteD","onPositionUpdate")
+                        Log.d("ELocationX",locationPosition.x.toString())
+                    }
+
+                })
+                RequirementsWizardFactory.createEstimoteRequirementsWizard()
+                        .fulfillRequirements(this@MapActivity,
+                                onRequirementsFulfilled = {
+                                    Log.d("EstimoteD","Supcio :)")
+                                    indoorLocationManager.startPositioning()
+                                },
+                                onRequirementsMissing = {
+
+                                },
+                                onError = {
+
+                                })
+            }
+
+        })
+
+    }
+
+    private fun listenSlidingState() {
+        var isSliderClosed: Boolean = slidePanel.isClosed
+        Log.d("isClosed", isSliderClosed.toString())
+        doAsync {
+            while (!isDestroyed) {
+                Thread.sleep(100)
+                if(!isSliderClosed && isSliderClosed != slidePanel.isClosed){
+                    uiThread {
+                        val n = tabLayoutMap.selectedTabPosition
+                        if(n > -1 && n < 5 && n != 2){
+                            Log.d("tabLayoutMap","qweqweqwe")
+                            tabLayoutMap.getTabAt(2)?.select()
+                        }
+
+                        mPresenter.onSlideHide()
+
+                        tabLayoutMap.isSelected = false
+
+                    }
+
+                }
+                isSliderClosed = slidePanel.isClosed
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLocationUpdate(location: LocationEvent) {
     }
 
-    override fun changeCreateGroupFragment() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.containerSlide,fragmentCreatePingDetails)
-                .commit()
-        fragmentCreatePingBasic.clearFields()
-    }
-
     override fun onStart() {
+
         super.onStart()
         Log.d("lifecycler","onStart")
         mPresenter.isAttached = true
@@ -290,7 +308,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updateSubGroups(item: String) {
-        fragmentCreatePingDetails.updateList(item)
     }
 
     override fun showManageGroupList(list: List<Job>) {
@@ -298,26 +315,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun showCreatePingView(type: String) {
-        fragmentCreatePingDetails.type = type
-        fragmentCreatePingBasic.type = type
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.containerSlide,fragmentCreatePingBasic)
-                .commit()
-        slidePanel.openLayer(true)
-        if(fragmentCreatePingBasic.isAdded){
-            Log.d("kikiki","kikiki")
-            if(type == "ping")
-                fragmentCreatePingBasic.clearData()
-            else
-                fragmentCreatePingBasic.onInfo()
-        }
+
     }
 
     override fun hideCreatePingView() {
-        if(fragmentCreatePingBasic.isAdded){
-            fragmentCreatePingBasic.clearData()
-        }
-        slidePanel.closeLayer(true)
+
     }
 
     override fun addPing(ping: Ping) {
@@ -343,38 +345,14 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         var state = "basic"
 
-        if (fragmentCreatePingDetails.isAdded){
-            outState!!.putString("isAdded","true")
-            checked.addAll(fragmentCreatePingDetails.mListAdapter.getCheckedGroups())
-            state = "extended"
-        }
-        val bundle: Bundle
-
-        if(fragmentCreatePingBasic.isInLayout)
-            bundle = fragmentCreatePingBasic.getData()
-        else bundle = Bundle()
-
-
-        mPresenter.onSavingState(checked,bundle.getString("fieldTask").orEmpty(),
-                bundle.getString("fieldDescr").orEmpty(),state)
-
     }
 
     override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String, state: String) {
 
-        if(type == "info")
-            fragmentCreatePingBasic.type = type
-
-        if(state == "extended"){
-            changeCreateGroupFragment()
-        }
-
-        fragmentCreatePingBasic.updateData(task,descr)
-        //mPresenter.getAllSubGroups()
     }
 
     override fun updateCheckedGroups(checked: List<String>) {
-        fragmentCreatePingDetails.mListAdapter.updateCheckedGroups(checked)
+
     }
 
     override fun openManageActivity() {
@@ -576,15 +554,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         if(slidePanel.isOpened)
             slidePanel.closeLayer(true)
-
-        if (fragmentCreatePingBasic.isAdded)
-            supportFragmentManager.beginTransaction()
-                    .remove(fragmentCreatePingBasic)
-                    .commit()
-        if (fragmentCreatePingDetails.isAdded)
-            supportFragmentManager.beginTransaction()
-                    .remove(fragmentCreatePingDetails)
-                    .commit()
 
         if(fragmentOptions.isAdded){
             mPresenter.onBackInFragmentClick("options")
