@@ -32,8 +32,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         super.onAttach(mvpView)
         isAttached = true
 
-        mRepo.onAttach(view.getCtx())
-
         val checked: List<String>
         val task: String
         val descr: String
@@ -115,7 +113,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     fun getAllSubGroups(){
-        mRepo.getAllSubGroups()
+        mRepo.getAllSubGroups("","")
                 .flatMapIterable { t -> t }
                 .doOnComplete {
                     if (mRepo.type == "ping")
@@ -191,8 +189,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     override fun onLogoutButtonClick() {
         if(AccessToken.isCurrentAccessTokenActive())
             LoginManager.getInstance().logOut()
-        mRepo.prefs.setCurrentUser(User())
-        mRepo.prefs.setIsUserLoggedIn(false)
+        mRepo.prefs.removeUser()
         view.openLoginActivity()
     }
 
@@ -200,8 +197,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         for (group in mRepo.appRepo.groups){
             if(group.groupName == groupName){
-                mRepo.prefs.setCurrentGroupName(groupName)
-                mRepo.prefs.setCurrentGroupId(group.id)
+                mRepo.prefs.apply {
+                    setCurrentGroupName(groupName)
+                    setCurrentGroupId(group.id)
+                }
                 view.openMapActivity()
                 break
             }

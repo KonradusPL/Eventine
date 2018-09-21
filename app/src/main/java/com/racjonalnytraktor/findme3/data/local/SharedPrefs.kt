@@ -7,6 +7,13 @@ import com.racjonalnytraktor.findme3.data.model.User
 
 
 class SharedPrefs(context: Context): Prefs {
+    override fun createUser(user: User) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun removeUser() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val CURRENT_USER_TOKEN = "CURRENT_USER_TOKEN"
     private val CURRENT_USER_EMAIL = "CURRENT_USER_EMAIL"

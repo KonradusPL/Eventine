@@ -10,6 +10,7 @@ import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import com.racjonalnytraktor.findme3.utils.StringHelper
+import io.realm.Realm
 
 class SplashActivity : BaseActivity(),SplashMvp.View {
 
@@ -17,6 +18,7 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Realm.init(this)
 
         presenter = SplashPresenter()
         presenter.onAttach(this)

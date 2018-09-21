@@ -14,7 +14,6 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttach(view.getCtx())
 
         compositeDisposable.add(repo.getPings()
                 .subscribe({ping: Ping? ->

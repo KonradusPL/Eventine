@@ -15,8 +15,6 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        repo.onAttach(view.getCtx())
-
         view.showInvitesLoading()
 
         compositeDisposable.add(repo.getInvitations()
@@ -47,8 +45,10 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
        view.showJoinLoading()
         compositeDisposable.add(repo.joinGroup(groupName)
                 .subscribe({response: String? ->
-                    repo.prefs.setCurrentGroupId(response.orEmpty())
-                    repo.prefs.setCurrentGroupName(groupName)
+                    repo.prefs.apply {
+                        setCurrentGroupId(response.orEmpty())
+                        setCurrentGroupName(groupName)
+                    }
                     view.hideJoinLoading()
                     view.showMessage("Udało się !",MvpView.MessageType.SUCCESS)
                     view.openMapActivity()
@@ -65,8 +65,11 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
     override fun onAcceptInvitationClick(invitation: Invitation) {
         compositeDisposable.add(repo.acceptInvitation(invitation.id)
                 .subscribe({t: String? ->
-                    repo.prefs.setCurrentGroupId(invitation.id)
-                    repo.prefs.setCurrentGroupName(invitation.groupName)
+                    repo.prefs.apply {
+                        setCurrentGroupId(invitation.id)
+                        setCurrentGroupName(invitation.groupName)
+                    }
+
                     view.showMessage("Witamy w ${invitation.groupName} !",MvpView.MessageType.INFO)
                     view.openMapActivity()
                 },{t: Throwable? ->

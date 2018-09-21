@@ -33,7 +33,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
     protected lateinit var progressBar: ProgressBar
     private lateinit var mDeviceInfo: DeviceInfo
     private lateinit var mPermissionsHelper: PermissionsHelper
-    lateinit var prefs: SharedPrefs
+    lateinit var sharedPrefs: SharedPrefs
 
     private var mPermissionStatus = false
 
@@ -43,7 +43,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         super.onCreate(savedInstanceState)
         mDeviceInfo = DeviceInfo(this)
         mPermissionsHelper = PermissionsHelper(this)
-        prefs = SharedPrefs(this)
+        sharedPrefs = SharedPrefs(this)
     }
 
     override fun onStart() {
@@ -73,6 +73,10 @@ open class BaseActivity : AppCompatActivity(),MvpView{
 
     override fun hideKeyboard() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getPrefs(): SharedPrefs {
+        return sharedPrefs
     }
 
     override fun showMessage(message: Int, type: MvpView.MessageType) {

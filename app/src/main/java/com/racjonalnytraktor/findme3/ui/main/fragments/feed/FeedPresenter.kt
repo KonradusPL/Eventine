@@ -13,8 +13,6 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        repo.onAttach(view.getCtx())
-
         view.showGroupsLoading()
         view.showTasksLoading()
 
@@ -50,7 +48,10 @@ class FeedPresenter<V: FeedMvp.View>: BasePresenter<V>(), FeedMvp.Presenter<V> {
 
     override fun onGroupItemClick(groupName: String, groupId: String) {
         Log.d("groupIdhehe",groupId)
-        repo.prefs.setCurrentGroupId(groupId)
-        repo.prefs.setCurrentGroupName(groupName)
+        repo.prefs.apply {
+            setCurrentGroupId(groupId)
+            setCurrentGroupName(groupName)
+        }
+
     }
 }

@@ -15,7 +15,7 @@ class ManagePresenter<V: ManangeMvp.View>: BasePresenter<V>(),ManangeMvp.Present
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttach(view.getCtx())
+
         compositeDisposable.add(repo.getPeopleInGroups()
                 .subscribe({t: Typed? ->
                     view.updateList(t!!)

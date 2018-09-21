@@ -28,6 +28,7 @@ interface MvpView {
     fun isConnectedToNetwork(): Boolean
 
     fun getCtx(): Context
+    fun getPrefs(): SharedPrefs
 
     fun isAttached(): Boolean
 

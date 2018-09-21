@@ -28,10 +28,9 @@ object MapRepository: BaseRepository() {
         newInfo.content = ""
     }
 
-    fun getAllSubGroups(): Observable<List<String>>{
-        Log.d("zzzzzz",prefs.getUserToken())
-        Log.d("zzzzzz",prefs.getCurrentGroupId())
-        return rest.networkService.getAllSubGroups(prefs.getUserToken(),prefs.getCurrentGroupId())
+    fun getAllSubGroups(token: String, groupId: String): Observable<List<String>>{
+
+        return rest.networkService.getAllSubGroups(token,groupId)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
@@ -40,15 +39,15 @@ object MapRepository: BaseRepository() {
         Log.d("opopop",newPing.title)
         Log.d("request","${newPing.desc} ${newPing.title} ${newPing.geo} " +
                 "${newPing.groupId} ${newPing.targetGroups} ${newPing.date} ")
-        newPing.groupId = prefs.getCurrentGroupId()
+        //newPing.groupId = prefs.getCurrentGroupId()
         Log.d("title",newPing.title)
         Log.d("desc",newPing.desc)
         Log.d("targetGroups",newPing.targetGroups.toString())
         Log.d("groupId",newPing.groupId)
         Log.d("geo",newPing.geo.toString())
-        newPing.creatorName = prefs.getUserFullName()
+        //newPing.creatorName = prefs.getUserFullName()
 
-        return rest.networkService.createPing(prefs.getUserToken(),newPing)
+        return rest.networkService.createPing("",newPing)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
 
@@ -70,13 +69,13 @@ object MapRepository: BaseRepository() {
     }
 
     fun createInfo(): Single<String>{
-        newInfo.groupId = prefs.getCurrentGroupId()
+       // newInfo.groupId = prefs.getCurrentGroupId()
 
         Log.d("content",newInfo.content)
         Log.d("groupId",newInfo.groupId)
         Log.d("targetGroups",newInfo.targetGroups.toString())
 
-        return rest.networkService.createInfo(prefs.getUserToken(),newInfo)
+        return rest.networkService.createInfo("",newInfo)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
@@ -100,14 +99,14 @@ object MapRepository: BaseRepository() {
 
     fun endPing(pingId: String): Single<String>{
         val request = EndPing(pingId)
-        return rest.networkService.endPing(prefs.getUserToken(),request)
+        return rest.networkService.endPing("",request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
 
     fun inProgressPing(pingId: String): Single<String>{
         val request = EndPing(pingId)
-        return rest.networkService.setPingToInProgress(prefs.getUserToken(),request)
+        return rest.networkService.setPingToInProgress("",request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

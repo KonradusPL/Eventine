@@ -14,8 +14,6 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        repo.onAttach(view.getCtx())
-
         view.showFriendsLoading()
 
         compositeDisposable.add(repo.getFriends()
@@ -65,8 +63,13 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->
                     view.hideCreateGroupLoading()
-                    repo.prefs.setCurrentGroupId(response.orEmpty())
-                    repo.prefs.setCurrentGroupName(groupName)
+                    repo.prefs.apply {
+                        repo.prefs.apply {
+                            setCurrentGroupId(response.orEmpty())
+                            setCurrentGroupName(groupName)
+                        }
+                    }
+
                     view.clearFriendsList()
                     view.showMessage("Udało się stworzyć event",MvpView.MessageType.SUCCESS)
                     view.openMapActivity()

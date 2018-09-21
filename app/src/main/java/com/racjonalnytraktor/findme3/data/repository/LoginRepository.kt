@@ -33,7 +33,6 @@ class LoginRepository: BaseRepository() {
 
     fun setCurrentUser(user: User){
         user.facebookId = mFacebook.getAccessToken().userId
-        prefs.setCurrentUser(user)
     }
 
     fun registerByFacebook(user: User): Single<RegisterFbResponse>{

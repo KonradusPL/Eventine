@@ -15,7 +15,6 @@ class MyFirebaseinstanceId: FirebaseInstanceIdService() {
 
     override fun onCreate() {
         super.onCreate()
-        repo.onAttach(this)
     }
 
     override fun onTokenRefresh() {

@@ -17,7 +17,6 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttach(view.getCtx())
     }
 
     override fun onRegisterButtonClick(email: String, password: String, fullName: String) {
@@ -39,9 +38,15 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                 .subscribe({response: RegisterResponse? ->
                     view.hideLoading()
                     Log.d("token",response!!.token)
+
                     val user = User("","",fullName,response.token)
-                    repo.prefs.setCurrentUser(user)
-                    repo.prefs.setIsUserLoggedIn(true)
+
+                    repo.prefs.apply {
+                        setCurrentUser(user)
+                        setIsUserLoggedIn(true)
+                    }
+
+
                     view.showMessage("Udało się !",MvpView.MessageType.SUCCESS)
                     view.openMainActivity()
                 },{t: Throwable? ->

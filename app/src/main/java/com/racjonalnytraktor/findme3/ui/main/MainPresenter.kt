@@ -16,7 +16,6 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
-        repo.onAttach(view.getCtx())
 
         //view.changeProfileIcon(repo.prefs.getUserProfileImage())
 
@@ -40,8 +39,10 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
     override fun onChangeGroupClick(groupName: String) {
         for (group in repo.appRepo.groups){
             if(group.groupName == groupName){
-                repo.prefs.setCurrentGroupName(groupName)
-                repo.prefs.setCurrentGroupId(group.id)
+                repo.prefs.apply {
+                    setCurrentGroupName(groupName)
+                    setCurrentGroupId(group.id)
+                }
                 view.openMainActivity()
                 break
             }
@@ -65,8 +66,8 @@ class MainPresenter<V: MainMvp.View>: BasePresenter<V>(),MainMvp.Presenter<V> {
     override fun onLogoutButtonClick() {
         if(AccessToken.isCurrentAccessTokenActive())
             LoginManager.getInstance().logOut()
-        repo.prefs.setCurrentUser(User())
-        repo.prefs.setIsUserLoggedIn(false)
+
+        repo.prefs.removeUser()
         view.openLoginActivity()
     }
 

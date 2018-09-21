@@ -19,19 +19,14 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
     override fun onEmailLoginClick(email: String, password: String) {
         view.showLoginLoading()
-        doAsync {
-            Thread.sleep(2000)
-            uiThread {
-                view.hideLoginLoading()
-                view.openMainActivity()
-            }
-        }
-        return
+
         compositeDisposable.add(repo.loginWithEmail(LoginRequest(email, password))
                 .subscribe({response: LoginResponse? ->
                     view.hideLoginLoading()
-                    repo.prefs.setIsUserLoggedIn(true)
-                    repo.prefs.setUserToken(response!!.token)
+                    repo.prefs.apply {
+                        setIsUserLoggedIn(true)
+                        setUserToken(response!!.token)
+                    }
                     view.openMainActivity()
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
 
@@ -61,8 +56,11 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                                 view.hideLoginLoading()
                                 Log.d("registerresponse",response!!.token)
                                 user.token = response.token
-                                repo.prefs.setIsUserLoggedIn(true)
                                 repo.setCurrentUser(user)
+                                repo.prefs.apply {
+                                    setIsUserLoggedIn(true)
+                                    setCurrentUser(user)
+                                }
                                 view.openMainActivity()},
                                     {error: Throwable? -> Log.d("error",error.toString())
                                         view.hideLoginLoading()
@@ -75,9 +73,9 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                 })
     }
 
-
-    override fun onAttach(mvpView: V) {
-        super.onAttach(mvpView)
-        repo.onAttach(view.getCtx())
+    override fun onDetach() {
+        super.onDetach()
+        compositeDisposable.clear()
     }
+
 }
