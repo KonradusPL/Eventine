@@ -1,7 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,15 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import kotlinx.android.synthetic.main.add_task_description.*
-import kotlinx.android.synthetic.main.fragment_create_group_extended.*
 import java.util.*
 
-class DescriptionFragment<V: MapMvp.View>: BaseFragment<V>(){
+class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(){
 
     lateinit var parentListener: DescriptionListener
+
+    var date = Date()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.add_task_description,container,false)
@@ -28,7 +29,7 @@ class DescriptionFragment<V: MapMvp.View>: BaseFragment<V>(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        titleDescr.addTextChangedListener(object: TextWatcher{
+        fieldTitle.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
             }
 
@@ -63,12 +64,7 @@ class DescriptionFragment<V: MapMvp.View>: BaseFragment<V>(){
                 .setView(timePicker)
                 .setPositiveButton("OK") { dialogInterface, i ->
                     try {
-                        val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z", Locale.ENGLISH)
-                        val date = Date()
-                        val calendar = Calendar.getInstance()
-
-
-                        val time = format.format(date)
+                        //date.time = timePicker.tex* 3600
 
                     }catch (e: Exception){
                         Log.d("asdasdads","asdssad")
@@ -76,5 +72,11 @@ class DescriptionFragment<V: MapMvp.View>: BaseFragment<V>(){
                 }
                 .setNegativeButton("ANULUJ") { _, _ -> }
         builder.create().show()
+    }
+
+    fun getActionData(): CreateActionRequest{
+        val action = CreateActionRequest()
+        //action.title = fieldTitle
+        return CreateActionRequest()
     }
 }

@@ -7,6 +7,7 @@ import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.User
+import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
@@ -19,6 +20,8 @@ import org.jetbrains.anko.uiThread
 
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 ,MapHelper.MapListener{
+
+    var actionRequest = CreateActionRequest()
 
     var isAttached = false
 
@@ -127,6 +130,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 },{t: Throwable? ->
                     Log.d("asdasdasd",t?.message.orEmpty())
                 })
+    }
+
+    override fun onCreateActionClick(action: CreateActionRequest) {
+
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {

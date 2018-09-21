@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.map
 
 import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.Group
+import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
@@ -55,5 +56,6 @@ interface MapMvp {
         fun onBackInFragmentClick(type: String)
         fun onChangeLocationClick()
         fun onSlideHide()
+        fun onCreateActionClick(action: CreateActionRequest)
     }
 }

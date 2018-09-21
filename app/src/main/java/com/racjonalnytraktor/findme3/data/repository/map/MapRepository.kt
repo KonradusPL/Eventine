@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.data.repository.map
 
 import android.util.Log
+import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.EndPing
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
@@ -16,6 +17,7 @@ object MapRepository: BaseRepository() {
     val newInfo = Info()
     var type: String = "ping"
     var state: String = "basic"
+
     //val locationProvider = LocationProvider(1000,context)
 
     val pings = ArrayList<Ping>()
