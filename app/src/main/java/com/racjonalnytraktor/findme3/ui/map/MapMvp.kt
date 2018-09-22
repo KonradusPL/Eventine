@@ -8,9 +8,10 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
+import com.racjonalnytraktor.findme3.utils.MapHelper
 
 interface MapMvp {
-    interface View: MvpView{
+    interface View: MvpView,MapHelper.MapViewListener{
         fun updateSubGroups(item: String)
         fun animateTabLayout(show: Boolean)
         fun hideCreatePingView()
@@ -44,6 +45,7 @@ interface MapMvp {
         fun onPlanButtonClick(checkedGroups: ArrayList<String>)
         fun onMapLongClick(location: LatLng)
         fun onGroupsClick()
+        fun onOptionsClick()
         fun onInfoTabClick()
         fun onMapPrepared()
         fun onSavingState(checked: List<String>, task: String, descr: String,state: String)

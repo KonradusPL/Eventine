@@ -300,14 +300,14 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     override fun onManageGroupAttach() {
         Log.d("presenter","onManageGroupAttach")
         val workers = ArrayList<Worker>()
-        val worker = Worker("Marcin Michno")
+        //val worker = Worker("Marcin Michno")
         val jobs = ArrayList<Job>()
-        workers.add(Worker("Jan Kowalski"))
+       /* workers.add(Worker("Jan Kowalski"))
         workers.add(Worker("Mateusz Zawada"))
         workers.add(Worker("John Doe"))
         workers.add(Worker("Ewelina Nowak"))
         workers.add(Worker("Ryszard Mularski"))
-        workers.add(Worker("Martyna Kawa"))
+        workers.add(Worker("Martyna Kawa"))*/
 
         val stringArray = arrayListOf("Organizator","MC","Logistyka","Marketing & PR","Sprzedaż","Serwis")
 
@@ -322,6 +322,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onGroupsClick() {
         view.showFullFragments("groups")
+    }
+
+    override fun onOptionsClick() {
+        view.showFullFragments("options")
     }
 
     override fun onInProgressClick(id: String) {

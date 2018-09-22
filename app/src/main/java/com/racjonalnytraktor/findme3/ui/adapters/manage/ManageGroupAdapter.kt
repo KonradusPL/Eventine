@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.adapters.manage
 
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,17 +71,44 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
             }
         }
     }
+
+    fun getSelectedWorkers(): ArrayList<String>{
+        val workersList = ArrayList<String>()
+        for(job in jobs){
+            for(worker in job.workers){
+                if(worker.selected)
+                    workersList.add(worker.id)
+            }
+        }
+        return workersList
+    }
     internal class WorkerViewHolder(itemView: View,val mvpView: MapMvp.View, val type: String): ChildViewHolder(itemView){
         fun bind(worker: Worker){
             itemView.textWorker.text = worker.name
             if(type == "addTask"){
-                itemView.textWorker.setTextColor(Color.BLACK)
-                itemView.iconAddWorker.setImageDrawable(IconicsDrawable(mvpView.getCtx())
-                        .icon(FontAwesome.Icon.faw_plus)
-                        .sizeDp(14)
-                        .color(Color.BLACK))
+                changeOnSelected(itemView,worker.selected)
 
+                itemView.apply {
+                    iconAddWorker.setOnClickListener {
+                        worker.selected = !worker.selected
+                        changeOnSelected(itemView,worker.selected)
+                    }
+                }
             }
         }
+        private fun changeOnSelected(view: View, selected: Boolean){
+            val icon = if(!selected) FontAwesome.Icon.faw_plus
+                        else FontAwesome.Icon.faw_times
+            val color = if(!selected) Color.BLACK
+                    else ContextCompat.getColor(mvpView.getCtx(),R.color.colorPrimaryNew)
+
+            view.iconAddWorker.setImageDrawable(IconicsDrawable(mvpView.getCtx())
+                    .icon(icon)
+                    .sizeDp(14)
+                    .color(color))
+            view.textWorker.setTextColor(color)
+
+        }
+
     }
 }

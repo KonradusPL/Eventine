@@ -40,21 +40,28 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
 
     fun showList(list: List<Job>) {
         val workers = ArrayList<Worker>()
-        val worker = Worker("Marcin Michno")
+        val workers1 = ArrayList<Worker>()
         val jobs = ArrayList<Job>()
-        workers.add(Worker("Jan Kowalski"))
-        workers.add(Worker("Mateusz Zawada"))
-        workers.add(Worker("John Doe"))
-        workers.add(Worker("Ewelina Nowak"))
-        workers.add(Worker("Ryszard Mularski"))
-        workers.add(Worker("Martyna Kawa"))
+
+        workers.add(Worker("Jan Kowalski",""))
+        workers.add(Worker("Mateusz Zawada",""))
+        workers.add(Worker("John Doe",""))
+        workers.add(Worker("Ewelina Nowak",""))
+        workers.add(Worker("Ryszard Mularski",""))
+        workers.add(Worker("Martyna Kawa",""))
+
+        workers1.add(Worker("Jan Kowalski",""))
+        workers1.add(Worker("Mateusz Zawada",""))
+        workers1.add(Worker("John Doe",""))
+        workers1.add(Worker("Ewelina Nowak",""))
+        workers1.add(Worker("Ryszard Mularski",""))
+        workers1.add(Worker("Martyna Kawa",""))
 
         val stringArray = arrayListOf("Organizator","MC","Logistyka","Marketing & PR","Sprzedaż","Serwis")
 
-        for(i in 0..5){
-            val job = Job(stringArray[i],6,workers)
-            jobs.add(job)
-        }
+        jobs.add(Job(stringArray[0],6,workers))
+        jobs.add(Job(stringArray[1],6,workers1))
+
         val arrayList = ArrayList<Job>()
         arrayList.addAll(list)
         mListAdapter = ManageGroupAdapter(jobs,parentMvp,"addTask")
@@ -63,6 +70,8 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
         listGroups.adapter = mListAdapter
     }
 
-    //fun getList()
+    fun getList(): ArrayList<String>{
+        return mListAdapter.getSelectedWorkers()
+    }
 
 }

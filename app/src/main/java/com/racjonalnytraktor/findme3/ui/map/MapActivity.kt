@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.map
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
@@ -34,6 +35,7 @@ import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
 import com.racjonalnytraktor.findme3.ui.map.fragments.add_task.AddTaskFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
+import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
 import kotlinx.android.synthetic.main.dialog_time.view.*
@@ -167,7 +169,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 val fragment: Fragment
                 when(tab!!.position){
                     1 -> mPresenter.onHistoryButtonClick()
-                    0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
+                    0 -> mPresenter.onOptionsClick()
                     3 -> mPresenter.onGroupsClick()
                 }
             }
@@ -183,7 +185,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 val fragment: Fragment
                 when(tab!!.position){
                     1 -> mPresenter.onHistoryButtonClick()
-                    0 -> replaceFragment(fragmentOptions,R.id.fragmentContainer)
+                    0 -> mPresenter.onOptionsClick()
                     3 -> mPresenter.onGroupsClick()
                 }
                 val color = ContextCompat.getColor(this@MapActivity,R.color.colorPrimaryNew)
@@ -286,6 +288,22 @@ class MapActivity : BaseActivity(),MapMvp.View{
         tabLayoutMap.let {
            // it.getTabAt(it.selectedTabPosition)?.icon?.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
         }
+    }
+
+    override fun updateMapImage(bitmap: Bitmap) {
+        imageMap.visibility = View.VISIBLE
+        //imageMap.setImageBitmap(bitmap)
+        Blurry.with(this)
+                .from(bitmap)
+                .into(imageMap)
+    }
+
+   fun showBlur() {
+        mMapHelper.getImage()
+    }
+
+    fun hideBlur() {
+        imageMap.visibility = View.GONE
     }
 
     override fun onDestroy() {
@@ -516,6 +534,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .replace(R.id.fragmentContainer,fragment)
                 .commit()
 
+        showBlur()
+
         if(slidePanel.isOpened)
             slidePanel.closeLayer(true)
     }
@@ -529,6 +549,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
         supportFragmentManager.beginTransaction()
                 .remove(fragment)
                 .commit()
+
+        hideBlur()
 
         if(unSelectTab)
             tabLayoutMap.getTabAt(2)?.select()

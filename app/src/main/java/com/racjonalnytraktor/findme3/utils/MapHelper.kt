@@ -1,8 +1,7 @@
 package com.racjonalnytraktor.findme3.utils
 
-import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.location.Location
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -18,17 +17,16 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.CameraPosition
-import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.racjonalnytraktor.findme3.ui.map.MapMvp
 
 
-
-
-class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback {
+class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallback {
 
     var isUserInitialized = false
 
-    private var listener: MapListener
+    private var listenerPresenter: MapListener = mvpView.getPresenter()
+    private var listenerView : MapViewListener = mvpView
 
     private lateinit var mMap: GoogleMap
 
@@ -43,15 +41,21 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         fun onMapPrepared()
     }
 
-    init {
-        listener = (context as MapActivity).getPresenter()
+    interface MapViewListener{
+        fun updateMapImage(bitmap: Bitmap)
+    }
+
+    fun getImage(){
+        mMap.snapshot{ bitmap ->
+            listenerView.updateMapImage(bitmap)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d("map","ready")
         mMap = googleMap
 
-        listener.onMapPrepared()
+        listenerPresenter.onMapPrepared()
 
         mMap.setPadding(0,60,0,0)
 
@@ -64,25 +68,23 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
         try {
             val success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
-                            context, R.raw.theme_map))
+                            mvpView.getCtx(), R.raw.theme_map))
         }catch (e: Resources.NotFoundException) {
-            Log.e("asdqwe", "Can't find style. Error: ", e);
+            Log.e("asdqwe", "Can't find style. Error: ", e)
         }
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.theme_map))
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(mvpView.getCtx(), R.raw.theme_map))
 
         mMap.setOnMapClickListener { latLng ->
             val location = Location("GPS")
             location.longitude = latLng.longitude
             location.latitude = latLng.latitude
-            listener.onMapClick(location)
-            /*addFriendToMap(PersonOnMap("Marcin Michno","",latLng.latitude,latLng.longitude,null))
-            clickListener.onMapClick(location)*/
+            listenerPresenter.onMapClick(location)
         }
         mMap.setOnMarkerClickListener { marker ->
             for(ping in pingsOnMap){
                 if(ping.marker.position == marker.position){
                     Log.d("pongaponga",ping.ping.inProgress.toString())
-                    listener.onMarkerClick(ping.ping)
+                    listenerPresenter.onMarkerClick(ping.ping)
                     //marker.showInfoWindow()
                     break
                 }
@@ -90,7 +92,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
             true
         }
         mMap.setOnMapLongClickListener { latLng ->
-            listener.onLongClickListener(latLng)
+            listenerPresenter.onLongClickListener(latLng)
         }
     }
 
@@ -117,7 +119,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
 
         val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
         doAsync {
-            val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimaryDark)
+            val bitmapMarker = ImageHelper.getMarkerImage(mvpView.getCtx(),R.color.colorPrimaryDark)
 
             val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
             uiThread {
@@ -131,7 +133,7 @@ class MapHelper(val context: Context, fragment: Fragment?) : OnMapReadyCallback 
     fun addFriendToMap(person: PersonOnMap){
         val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
         doAsync {
-            val bitmapMarker = ImageHelper.getMarkerImage(context,R.color.colorPrimary)
+            val bitmapMarker = ImageHelper.getMarkerImage(mvpView.getCtx(),R.color.colorPrimary)
 
             val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
             uiThread {
