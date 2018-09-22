@@ -43,8 +43,10 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
 
     internal class JobViewHolder(itemView: View,val  mvpView: MapMvp.View, val type: String): GroupViewHolder(itemView){
         override fun onClick(v: View?) {
-
-            itemView.iconArrow.rotation += 180
+            if (type == "manage")
+                itemView.iconArrow.rotation += 180
+            else
+                itemView.iconArrow2.rotation += 180
 
             super.onClick(v)
         }
@@ -53,11 +55,18 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
                 val color = if(type == "addTask") Color.BLACK else Color.WHITE
                 textOrganiser.text = job.name
                 textOrganiser.setTextColor(color)
-                iconArrow.setImageDrawable(IconicsDrawable(mvpView.getCtx())
-                        .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
-                        .sizeDp(18)
-                        .color(color))
-
+                if(type == "manage"){
+                    iconArrow.setImageDrawable(IconicsDrawable(mvpView.getCtx())
+                            .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
+                            .sizeDp(18)
+                            .color(color))
+                }else{
+                    iconArrow2.visibility = View.VISIBLE
+                    iconArrow2.setImageDrawable(IconicsDrawable(mvpView.getCtx())
+                            .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
+                            .sizeDp(18)
+                            .color(color))
+                }
             }
         }
     }
@@ -70,6 +79,7 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
                         .icon(FontAwesome.Icon.faw_plus)
                         .sizeDp(14)
                         .color(Color.BLACK))
+
             }
         }
     }

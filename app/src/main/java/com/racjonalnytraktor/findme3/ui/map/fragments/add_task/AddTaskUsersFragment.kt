@@ -1,4 +1,4 @@
-package com.racjonalnytraktor.findme3.ui.map.fragments
+package com.racjonalnytraktor.findme3.ui.map.fragments.add_task
 
 import android.graphics.Color
 import android.os.Bundle
@@ -51,8 +51,6 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
 
         val stringArray = arrayListOf("Organizator","MC","Logistyka","Marketing & PR","Sprzedaż","Serwis")
 
-
-
         for(i in 0..5){
             val job = Job(stringArray[i],6,workers)
             jobs.add(job)
@@ -64,5 +62,7 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
         listGroups.layoutManager = LinearLayoutManager(parentMvp.getCtx())
         listGroups.adapter = mListAdapter
     }
+
+    //fun getList()
 
 }

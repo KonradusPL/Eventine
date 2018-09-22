@@ -1,5 +1,7 @@
-package com.racjonalnytraktor.findme3.ui.map.fragments
+package com.racjonalnytraktor.findme3.ui.map.fragments.add_task
 
+import android.app.Activity
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.text.Editable
@@ -13,10 +15,11 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
+import com.racjonalnytraktor.findme3.ui.map.fragments.pickers.TimePickerFragment
 import kotlinx.android.synthetic.main.add_task_description.*
 import java.util.*
 
-class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(){
+class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.OnTimeSetListener{
 
     lateinit var parentListener: DescriptionListener
 
@@ -59,24 +62,23 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(){
 
     fun showClockDialog() {
         val viewDate = layoutInflater.inflate(R.layout.dialog_time,null)
-        val timePicker = TimePicker(parentMvp.getCtx())
-        val builder = AlertDialog.Builder(parentMvp.getCtx())
-                .setView(timePicker)
-                .setPositiveButton("OK") { dialogInterface, i ->
-                    try {
-                        //date.time = timePicker.tex* 3600
+        //val timePicker = TimePicker(parentMvp.getCtx())
+        val timePicker = TimePickerFragment()
+        timePicker.show((parentContext as Activity).fragmentManager,"")
 
-                    }catch (e: Exception){
-                        Log.d("asdasdads","asdssad")
-                    }
-                }
-                .setNegativeButton("ANULUJ") { _, _ -> }
-        builder.create().show()
     }
 
     fun getActionData(): CreateActionRequest{
         val action = CreateActionRequest()
-        //action.title = fieldTitle
+        action.title = fieldTitle?.text.toString()
+        action.descr = fieldTitle?.text.toString()
+        action.plannedTime = date
+
         return CreateActionRequest()
     }
+
+    override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
+        date.time = (hourOfDay * 3600 + minute * 60).toLong()
+    }
+
 }

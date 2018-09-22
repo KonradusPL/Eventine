@@ -8,23 +8,15 @@ import android.support.constraint.ConstraintSet
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.GravityCompat
 import android.support.v7.app.AlertDialog
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
-import android.view.animation.AlphaAnimation
 import android.widget.DatePicker
-import android.widget.TextView
-import androidx.view.get
-import co.zsmb.materialdrawerkt.builders.drawer
-import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
-import co.zsmb.materialdrawerkt.draweritems.sectionItem
 import com.estimote.indoorsdk.EstimoteCloudCredentials
 import com.estimote.indoorsdk.IndoorLocationManagerBuilder
 import com.estimote.indoorsdk_module.algorithm.IndoorLocationManager
 import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener
-import com.estimote.indoorsdk_module.algorithm.ScanningIndoorLocationManager
 import com.estimote.indoorsdk_module.cloud.*
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -32,32 +24,26 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import com.mikepenz.materialdrawer.Drawer
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
+import com.racjonalnytraktor.findme3.ui.map.fragments.add_task.AddTaskFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
-import com.wunderlist.slidinglayer.SlidingLayer
-import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
 import kotlinx.android.synthetic.main.dialog_time.view.*
-import kotlinx.android.synthetic.main.fragment_add_task.*
 import kotlinx.android.synthetic.main.item_tab.view.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.util.*
-import kotlin.math.abs
 
 //https://xd.adobe.com/spec/39ba5ff1-b994-4bea-507d-1cf1b10031a9-4f8b/
 

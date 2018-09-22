@@ -1,4 +1,4 @@
-package com.racjonalnytraktor.findme3.ui.map.fragments
+package com.racjonalnytraktor.findme3.ui.map.fragments.add_task
 
 import android.graphics.Color
 import android.os.Bundle
@@ -14,7 +14,7 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import kotlinx.android.synthetic.main.fragment_add_task.*
 
-class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(),DescriptionListener,UsersListener {
+class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener, UsersListener {
 
     lateinit var firstFragment: AddTaskDescrFragment<V>
     lateinit var secondFragment: AddTaskUsersFragment<V>
@@ -43,11 +43,10 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(),DescriptionListener,Us
         }
 
         buttonAddTask.setOnClickListener {
-            val action = CreateActionRequest()
-            action.tit
-            parentMvp.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)
-            parentMvp.hideSlide()
-            parentMvp.animateTabLayout(true)
+            val action = firstFragment.getActionData()
+
+            parentMvp.getPresenter().onCreateActionClick(action)
+
         }
     }
 

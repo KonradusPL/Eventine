@@ -10,5 +10,5 @@ data class CreateActionRequest(
         var descr: String = "",
         var targetGroups: ArrayList<String> = ArrayList(),
         var plannedTime: Date = Date(),
-        var geo: ArrayList<Double> = ArrayList()
+        var geo: ArrayList<Double> = arrayListOf(0.0,0.0)
 )
