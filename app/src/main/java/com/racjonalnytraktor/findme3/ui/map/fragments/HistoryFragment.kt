@@ -49,6 +49,9 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         super.onViewCreated(view, savedInstanceState)
         mPresenter = HistoryPresenter()
         mPresenter.onAttach(this)
+
+        initList()
+
         iconArrow.setImageDrawable(IconicsDrawable(parentContext)
                 .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
                 .sizeDp(24)
@@ -57,7 +60,6 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
             parentMvp.getPresenter().onBackInFragmentClick("history")
         }
 
-        initList()
         buttonInfo.setOnClickListener {
             buttonHelp.setTextColor(Color.BLACK)
             buttonInfo.setTextColor(ContextCompat.getColor(parentMvp.getCtx(),R.color.colorPrimaryNew))
@@ -91,5 +93,13 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
 
     override fun showEndPingBar(ping: Ping) {
         parentMvp.showEndPingBar(ping)
+    }
+
+    override fun showProgress() {
+        progressHistory.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressHistory.visibility = View.GONE
     }
 }

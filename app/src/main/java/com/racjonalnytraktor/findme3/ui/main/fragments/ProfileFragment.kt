@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.ui.main.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class ProfileFragment: BaseFragment<MapMvp.View>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("ProfileFragment","onViewCreated")
         iconBack.setImageDrawable(IconicsDrawable(parentMvp.getCtx())
                 .sizeDp(18)
                 .color(Color.BLACK)
