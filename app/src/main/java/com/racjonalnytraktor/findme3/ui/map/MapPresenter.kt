@@ -276,6 +276,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         view.showCreatePingView("info")
     }
 
+    override fun onProfileClick() {
+        view.showFullFragments("profile")
+    }
+
     override fun onHistoryButtonClick() {
         view.showSlide("history")
     }

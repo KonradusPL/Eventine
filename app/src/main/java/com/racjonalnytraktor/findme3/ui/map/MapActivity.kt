@@ -32,6 +32,7 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
+import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
 import com.racjonalnytraktor.findme3.ui.map.fragments.add_task.AddTaskFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
@@ -61,6 +62,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     private lateinit var fragmentManagement: ManagementFragment
     private lateinit var fragmentHistory: HistoryFragment<MapMvp.View>
     private lateinit var fragmentOptions: SettingsFragment
+    private lateinit var fragmentProfile: ProfileFragment
     private lateinit var fragmentAddTask: AddTaskFragment<MapMvp.View>
     private lateinit var fragmentManageGroup: ManageGroupFragment<MapMvp.View>
 
@@ -85,6 +87,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentOptions = SettingsFragment()
         fragmentAddTask = AddTaskFragment()
         fragmentManageGroup = ManageGroupFragment()
+        fragmentProfile = ProfileFragment()
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.mapContainer,fragmentMap)
@@ -171,6 +174,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     1 -> mPresenter.onHistoryButtonClick()
                     0 -> mPresenter.onOptionsClick()
                     3 -> mPresenter.onGroupsClick()
+                    4 -> mPresenter.onProfileClick()
                 }
             }
 
@@ -187,6 +191,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     1 -> mPresenter.onHistoryButtonClick()
                     0 -> mPresenter.onOptionsClick()
                     3 -> mPresenter.onGroupsClick()
+                    4 -> mPresenter.onProfileClick()
                 }
                 val color = ContextCompat.getColor(this@MapActivity,R.color.colorPrimaryNew)
                 tab.customView?.text?.setTextColor(color)
@@ -236,7 +241,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
                                 })
             }
-
         })
 
     }
@@ -291,7 +295,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updateMapImage(bitmap: Bitmap) {
-        imageMap.visibility = View.VISIBLE
+        if(isFullFragmentAdded())
+            imageMap.visibility = View.VISIBLE
         //imageMap.setImageBitmap(bitmap)
         Blurry.with(this)
                 .from(bitmap)
@@ -528,6 +533,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         val fragment = when(type){
             "options" -> fragmentOptions
             "groups" -> fragmentManageGroup
+            "profile" -> fragmentProfile
             else -> Fragment()
         }
         supportFragmentManager.beginTransaction()
@@ -544,6 +550,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         val fragment = when(type){
             "options" -> fragmentOptions
             "groups" -> fragmentManageGroup
+            "profile" -> fragmentProfile
             else -> Fragment()
         }
         supportFragmentManager.beginTransaction()
@@ -563,13 +570,15 @@ class MapActivity : BaseActivity(),MapMvp.View{
         if(slidePanel.isOpened)
             slidePanel.closeLayer(true)
 
-        if(fragmentOptions.isAdded){
+        if(fragmentOptions.isAdded)
             mPresenter.onBackInFragmentClick("options")
-        }
-        if(fragmentManageGroup.isAdded){
+
+        if(fragmentManageGroup.isAdded)
             mPresenter.onBackInFragmentClick("groups")
 
-        }
+        if(fragmentProfile.isAdded)
+            mPresenter.onBackInFragmentClick("profile")
+
 
     }
 
@@ -621,9 +630,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
         }
     }
 
-    fun replaceFragment(fragment: Fragment, id: Int){
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer,fragment)
-                .commit()
-    }
+    fun isFullFragmentAdded() = fragmentProfile.isAdded || fragmentManageGroup.isAdded
+            || fragmentOptions.isAdded
 }

@@ -47,6 +47,7 @@ interface MapMvp {
         fun onGroupsClick()
         fun onOptionsClick()
         fun onInfoTabClick()
+        fun onProfileClick()
         fun onMapPrepared()
         fun onSavingState(checked: List<String>, task: String, descr: String,state: String)
         fun onHistoryButtonClick()

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.add_task_users.*
 
 class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
 
-    private lateinit var mListAdapter: ManageGroupAdapter
+    private var mListAdapter: ManageGroupAdapter? = null
     lateinit var parentListener: UsersListener
 
 
@@ -71,7 +71,7 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
     }
 
     fun getList(): ArrayList<String>{
-        return mListAdapter.getSelectedWorkers()
+        return mListAdapter?.getSelectedWorkers() ?: ArrayList()
     }
 
 }
