@@ -8,6 +8,8 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
+import com.racjonalnytraktor.findme3.ui.map.fragments.ManageGroupFragment
+import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import com.racjonalnytraktor.findme3.utils.MapHelper
 
 interface MapMvp {
@@ -31,12 +33,11 @@ interface MapMvp {
         fun hideSlide()
         fun showEndPingBar(ping: Ping)
         fun showPlanDialog()
-        fun showManageGroupList(list: List<Job>)
         fun showFullFragments(type: String)
         fun hideFullFragments(type: String, unSelectTab: Boolean = false)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-        //onClick:
+        //clickers
         fun onCircleClick(visibility: Int)
         fun onOrganiserClick()
         fun onHelpClick()
@@ -48,17 +49,21 @@ interface MapMvp {
         fun onOptionsClick()
         fun onInfoTabClick()
         fun onProfileClick()
+        fun onHistoryButtonClick()
+        fun onLogoutButtonClick()
+        fun onInProgressClick(id: String)
+        fun onBackInFragmentClick(type: String)
+        fun onChangeLocationClick(locationListener: Listener.ChangeLocation)
+        fun onCreateActionClick(action: CreateActionRequest)
+
+        //others
+        fun onSlideHide()
         fun onMapPrepared()
         fun onSavingState(checked: List<String>, task: String, descr: String,state: String)
-        fun onHistoryButtonClick()
         fun clearData()
-        fun onLogoutButtonClick()
         fun onEndPing(id: String)
-        fun onInProgressClick(id: String)
-        fun onManageGroupAttach()
-        fun onBackInFragmentClick(type: String)
-        fun onChangeLocationClick()
-        fun onSlideHide()
-        fun onCreateActionClick(action: CreateActionRequest)
+        fun onManageGroupAttach(fView: Listener.Manage)
+        fun onAddTaskListAttach(listener: Listener.AddTaskList)
+
     }
 }

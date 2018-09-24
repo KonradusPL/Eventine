@@ -1,8 +1,9 @@
-package com.racjonalnytraktor.findme3.ui.map.fragments.add_task
+package com.racjonalnytraktor.findme3.ui.map.fragments.addtask
 
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,10 @@ import com.racjonalnytraktor.findme3.ui.adapters.manage.ManageGroupAdapter
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Worker
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
+import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import kotlinx.android.synthetic.main.add_task_users.*
 
-class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
+class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.AddTaskList {
 
     private var mListAdapter: ManageGroupAdapter? = null
     lateinit var parentListener: UsersListener
@@ -36,38 +38,26 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>() {
             parentListener.onBackArrowPressed()
         }
         showList(emptyList())
+
+        parentMvp.getPresenter().onAddTaskListAttach(this)
     }
 
     fun showList(list: List<Job>) {
-        val workers = ArrayList<Worker>()
-        val workers1 = ArrayList<Worker>()
-        val jobs = ArrayList<Job>()
-
-        workers.add(Worker("Jan Kowalski",""))
-        workers.add(Worker("Mateusz Zawada",""))
-        workers.add(Worker("John Doe",""))
-        workers.add(Worker("Ewelina Nowak",""))
-        workers.add(Worker("Ryszard Mularski",""))
-        workers.add(Worker("Martyna Kawa",""))
-
-        workers1.add(Worker("Jan Kowalski",""))
-        workers1.add(Worker("Mateusz Zawada",""))
-        workers1.add(Worker("John Doe",""))
-        workers1.add(Worker("Ewelina Nowak",""))
-        workers1.add(Worker("Ryszard Mularski",""))
-        workers1.add(Worker("Martyna Kawa",""))
-
-        val stringArray = arrayListOf("Organizator","MC","Logistyka","Marketing & PR","Sprzedaż","Serwis")
-
-        jobs.add(Job(stringArray[0],6,workers))
-        jobs.add(Job(stringArray[1],6,workers1))
-
         val arrayList = ArrayList<Job>()
         arrayList.addAll(list)
-        mListAdapter = ManageGroupAdapter(jobs,parentMvp,"addTask")
+        mListAdapter = ManageGroupAdapter(arrayList,parentMvp,"addTask")
 
         listGroups.layoutManager = LinearLayoutManager(parentMvp.getCtx())
         listGroups.adapter = mListAdapter
+    }
+
+
+    override fun showListLoading() {
+        progressUsers?.visibility = View.VISIBLE
+    }
+
+    override fun hideListLoading() {
+        progressUsers?.visibility = View.GONE
     }
 
     fun getList(): ArrayList<String>{

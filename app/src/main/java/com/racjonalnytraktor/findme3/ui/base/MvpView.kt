@@ -9,9 +9,6 @@ import io.reactivex.Observable
 
 interface MvpView {
 
-    fun showLoading()
-    fun hideLoading()
-
     fun hideKeyboard()
 
     fun showMessage(message: String, type: MessageType = MessageType.NORMAL)

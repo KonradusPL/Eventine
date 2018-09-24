@@ -1,4 +1,4 @@
-package com.racjonalnytraktor.findme3.ui.map.fragments.add_task
+package com.racjonalnytraktor.findme3.ui.map.fragments.addtask
 
 import android.graphics.Color
 import android.os.Bundle
@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
-import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import kotlinx.android.synthetic.main.fragment_add_task.*
 
-class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener, UsersListener {
+class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
+        UsersListener {
 
     lateinit var firstFragment: AddTaskDescrFragment<V>
     lateinit var secondFragment: AddTaskUsersFragment<V>
@@ -68,8 +67,14 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener, 
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_right)
                 .replace(R.id.detailsContainer,firstFragment)
-                .commit()    }
+                .commit()
+    }
+
+
 }
+
+
+
 interface DescriptionListener{
     fun onTitleChanged(title: String)
     fun onAddUsersClick()

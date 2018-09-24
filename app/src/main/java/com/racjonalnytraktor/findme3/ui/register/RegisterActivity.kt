@@ -57,6 +57,13 @@ class RegisterActivity : RegisterMvp.View, BaseActivity() {
                 }
     }
 
+    override fun showLoading() {
+
+    }
+
+    override fun hideLoading() {
+    }
+
     override fun showLoginLoading() {
         progressRegister.visibility = View.VISIBLE
         progressRegister.isIndeterminate = true

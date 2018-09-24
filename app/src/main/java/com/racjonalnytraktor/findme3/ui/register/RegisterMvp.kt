@@ -9,6 +9,8 @@ interface RegisterMvp {
         fun openMainActivity()
         fun showLoginLoading()
         fun hideLoginLoading()
+        fun showLoading()
+        fun hideLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         fun onRegisterButtonClick(email: String, password: String, fullName: String)

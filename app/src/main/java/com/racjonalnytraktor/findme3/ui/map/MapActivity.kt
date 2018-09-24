@@ -29,12 +29,11 @@ import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
-import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
-import com.racjonalnytraktor.findme3.ui.map.fragments.add_task.AddTaskFragment
+import com.racjonalnytraktor.findme3.ui.map.fragments.addtask.AddTaskFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_map.*
@@ -317,10 +316,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updateSubGroups(item: String) {
-    }
-
-    override fun showManageGroupList(list: List<Job>) {
-        fragmentManageGroup.showList(list)
     }
 
     override fun showCreatePingView(type: String) {

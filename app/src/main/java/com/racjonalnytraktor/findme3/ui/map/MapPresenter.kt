@@ -14,7 +14,10 @@ import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Worker
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
+import com.racjonalnytraktor.findme3.ui.map.fragments.ManageGroupFragment
+import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import com.racjonalnytraktor.findme3.utils.MapHelper
+import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -30,6 +33,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     var typeOfNewThing = "ping"
 
     var isChoosingLocation = false
+    var mLocationListener: Listener.ChangeLocation? = null
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
@@ -229,6 +233,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             isChoosingLocation = false
             actionRequest.geo[0] = location.latitude
             actionRequest.geo[1] = location.longitude
+            mLocationListener?.changeLocation("${location.latitude.toFloat()}, ${location.longitude.toFloat()}")
             view.showSlide("addTask")
             view.animateTabLayout(false)
         }
@@ -301,27 +306,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 })
     }
 
-    override fun onManageGroupAttach() {
-        Log.d("presenter","onManageGroupAttach")
-        val workers = ArrayList<Worker>()
-        //val worker = Worker("Marcin Michno")
-        val jobs = ArrayList<Job>()
-       /* workers.add(Worker("Jan Kowalski"))
-        workers.add(Worker("Mateusz Zawada"))
-        workers.add(Worker("John Doe"))
-        workers.add(Worker("Ewelina Nowak"))
-        workers.add(Worker("Ryszard Mularski"))
-        workers.add(Worker("Martyna Kawa"))*/
-
-        val stringArray = arrayListOf("Organizator","MC","Logistyka","Marketing & PR","Sprzedaż","Serwis")
-
-
-
-        for(i in 0..5){
-            val job = Job(stringArray[i],6,workers)
-            jobs.add(job)
-        }
-        view.showManageGroupList(jobs)
+    override fun onManageGroupAttach(fView: Listener.Manage) {
+        //TO DO
     }
 
     override fun onGroupsClick() {
@@ -350,14 +336,26 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         view.animateExtendedCircle(false)
     }
 
-    override fun onChangeLocationClick() {
+    override fun onChangeLocationClick(locationListener: Listener.ChangeLocation) {
         isChoosingLocation = true
+        mLocationListener = locationListener
+        view.showMessage("Wybierz położenie pingu",MvpView.MessageType.INFO)
         view.hideSlide()
     }
 
     override fun onSlideHide() {
         if(!isChoosingLocation)
             view.animateTabLayout(true)
+    }
+
+    override fun onAddTaskListAttach(listener: Listener.AddTaskList) {
+        listener.showListLoading()
+        doAsync {
+            Thread.sleep(3000)
+            uiThread {
+                listener.hideListLoading()
+            }
+        }
     }
 
 }

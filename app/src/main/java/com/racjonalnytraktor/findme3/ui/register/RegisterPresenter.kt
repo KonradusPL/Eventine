@@ -31,12 +31,12 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
             return
         }
 
-        view.showLoading()
+        view.showLoginLoading()
 
         val request = RegisterRequest(email, fullName, password)
         compositeDisposable.add(repo.registerUser(request)
                 .subscribe({response: RegisterResponse? ->
-                    view.hideLoading()
+                    view.hideLoginLoading()
                     Log.d("token",response!!.token)
 
                     val user = User("","",fullName,response.token)
@@ -46,11 +46,10 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                         setIsUserLoggedIn(true)
                     }
 
-
                     view.showMessage("Udało się !",MvpView.MessageType.SUCCESS)
                     view.openMainActivity()
                 },{t: Throwable? ->
-                    view.hideLoading()
+                    view.hideLoginLoading()
                     view.showMessage("Uzupełnij poprawnie pola",MvpView.MessageType.INFO)
                 }))
     }

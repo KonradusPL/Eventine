@@ -1,12 +1,10 @@
-package com.racjonalnytraktor.findme3.ui.map.fragments.add_task
+package com.racjonalnytraktor.findme3.ui.map.fragments.addtask
 
 import android.app.Activity
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +14,12 @@ import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import com.racjonalnytraktor.findme3.ui.map.fragments.pickers.TimePickerFragment
+import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import kotlinx.android.synthetic.main.add_task_description.*
 import java.util.*
 
-class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.OnTimeSetListener{
+class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.OnTimeSetListener
+,Listener.ChangeLocation{
 
     lateinit var parentListener: DescriptionListener
 
@@ -51,7 +51,7 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
         }
 
         buttonChangeLocation.setOnClickListener {
-            parentMvp.getPresenter().onChangeLocationClick()
+            parentMvp.getPresenter().onChangeLocationClick(this)
         }
 
         buttonAddUsers.setOnClickListener {
@@ -79,6 +79,10 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
 
     override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
         date.time = (hourOfDay * 3600 + minute * 60).toLong()
+    }
+
+    override fun changeLocation(text: String){
+        textLocation?.text = text
     }
 
 }

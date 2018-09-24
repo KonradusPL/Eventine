@@ -15,11 +15,12 @@ import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.adapters.manage.ManageGroupAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
+import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_group_manager.*
 import kotlinx.android.synthetic.main.fragment_group_manager.view.*
 
-class ManageGroupFragment<V: MapMvp.View>: BaseFragment<V>() {
+class ManageGroupFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.Manage {
 
     private lateinit var mListAdapter: ManageGroupAdapter
 
@@ -41,8 +42,7 @@ class ManageGroupFragment<V: MapMvp.View>: BaseFragment<V>() {
             parentMvp.getPresenter().onBackInFragmentClick("groups")
         }
 
-
-        parentMvp.getPresenter().onManageGroupAttach()
+        parentMvp.getPresenter().onManageGroupAttach(this as ManageGroupFragment<MapMvp.View>)
     }
 
     fun showList(list: List<Job>) {
@@ -54,4 +54,15 @@ class ManageGroupFragment<V: MapMvp.View>: BaseFragment<V>() {
         listGroups.adapter = mListAdapter
     }
 
+    override fun showList() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun hideLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -24,14 +24,6 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
         return parentMvp.isConnectedToNetwork()
     }
 
-    override fun showLoading() {
-        parentMvp.showLoading()
-    }
-
-    override fun hideLoading() {
-        parentMvp.hideLoading()
-    }
-
     override fun isAttached(): Boolean {
         return parentMvp.isAttached()
     }

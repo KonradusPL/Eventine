@@ -56,21 +56,6 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         isLive = false
     }
 
-    override fun showLoading() {
-        if(::progressBar.isInitialized){
-            hideLoading()
-            progressBar.isIndeterminate = true
-            progressBar.visibility = View.VISIBLE
-        }
-    }
-
-    override fun hideLoading() {
-        if(::progressBar.isInitialized){
-            progressBar.isIndeterminate = false
-            progressBar.visibility = View.INVISIBLE
-        }
-    }
-
     override fun hideKeyboard() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
