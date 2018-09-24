@@ -82,6 +82,15 @@ object MapRepository: BaseRepository() {
                 .observeOn(SchedulerProvider.ui())
     }
 
+    fun createAction(action: CreateActionRequest): Single<String>{
+        val token = prefs.getUserToken()
+        Log.d("tokenik",token)
+
+        return rest.networkService.createAction(token,action)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+    }
+
     fun saveState(checked: List<String>,task: String, descr: String, type: String, state: String){
         Log.d("savestate",task)
         Log.d("savestate",descr)

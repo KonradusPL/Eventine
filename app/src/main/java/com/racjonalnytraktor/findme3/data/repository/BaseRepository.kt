@@ -10,7 +10,7 @@ import com.racjonalnytraktor.findme3.data.network.facebook.FacebookNetwork
 
 open class BaseRepository {
     val rest = RetrofitRest()
-    val mFacebook = FacebookNetwork()
+    val facebook = FacebookNetwork()
     val appRepo = ApplicationRepository
     val prefs: Prefs = RealmLocalDb()
 }

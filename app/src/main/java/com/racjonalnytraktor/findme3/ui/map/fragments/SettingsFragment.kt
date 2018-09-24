@@ -35,6 +35,10 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
             parentMvp.getPresenter().onBackInFragmentClick("options")
         }
 
+        buttonLogOut.setOnClickListener {
+            parentMvp.getPresenter().onLogOutClick()
+        }
+
         val list = arrayListOf("Polski")
 
         val adp = ArrayAdapter<String>(parentMvp.getCtx(), android.R.layout.simple_spinner_item, list)

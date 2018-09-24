@@ -55,6 +55,7 @@ interface MapMvp {
         fun onBackInFragmentClick(type: String)
         fun onChangeLocationClick(locationListener: Listener.ChangeLocation)
         fun onCreateActionClick(action: CreateActionRequest)
+        fun onLogOutClick()
 
         //others
         fun onSlideHide()

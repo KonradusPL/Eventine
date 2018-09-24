@@ -8,10 +8,11 @@ object StringHelper {
         for(char in message){
             if (char.isDigit()){
                 val index = message.indexOf(char,0,false)
-                errorCode = message.substring(index,message.lastIndex)
+                if(index + 2 < message.length)
+                    errorCode = message.substring(index,index + 3)
                 if(errorCode.length > 3)
                     errorCode = message
-                break
+                return errorCode
             }
         }
         return errorCode

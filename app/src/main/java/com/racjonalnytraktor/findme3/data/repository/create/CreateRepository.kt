@@ -1,15 +1,12 @@
 package com.racjonalnytraktor.findme3.data.repository.create
 
 import android.util.Log
-import com.facebook.AccessToken
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.CreateGroupRequest
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
-import com.racjonalnytraktor.findme3.utils.WhereIsJson
 import io.reactivex.Observable
 import io.reactivex.Single
-import java.util.concurrent.TimeUnit
 
 object CreateRepository: BaseRepository(){
 
@@ -21,7 +18,7 @@ object CreateRepository: BaseRepository(){
 
         /*val facebookObservable =
                 if(AccessToken.getCurrentAccessToken() != null)
-                    mFacebook.getFriends()
+                    facebook.getFriends()
                      .map { t -> WhereIsJson.getFriendsArray(t.jsonObject) }
                 else
                     Observable.empty()
@@ -34,7 +31,7 @@ object CreateRepository: BaseRepository(){
     }
 
     fun getFriendWithPicture(user: User): Single<User>{
-        return mFacebook.getFriendWithPicture(user.facebookId,user)
+        return facebook.getFriendWithPicture(user.facebookId,user)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

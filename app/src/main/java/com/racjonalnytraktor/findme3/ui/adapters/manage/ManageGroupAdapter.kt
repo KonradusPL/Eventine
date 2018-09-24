@@ -11,11 +11,13 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
+import com.squareup.picasso.Picasso
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import kotlinx.android.synthetic.main.item_job_type.view.*
+import kotlinx.android.synthetic.main.item_user_with_profile.view.*
 import kotlinx.android.synthetic.main.item_worker.view.*
 
 internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.View, val type: String = "manage")
@@ -28,7 +30,9 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
     }
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): WorkerViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_worker,
+        val itemId = if(type == "organizer") R.layout.item_user_with_profile
+                    else R.layout.item_worker
+        val view = LayoutInflater.from(parent!!.context).inflate(itemId,
                 parent,false)
         return WorkerViewHolder(view,mvpView,type)
     }
@@ -84,6 +88,15 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
     }
     internal class WorkerViewHolder(itemView: View,val mvpView: MapMvp.View, val type: String): ChildViewHolder(itemView){
         fun bind(worker: Worker){
+            if(type == "organizer"){
+                itemView.apply {
+                    textFullName.text = worker.name
+                    Picasso.get()
+                            .load(worker.profileUrl)
+                            .resize(50,50)
+                            .into(imageProfile)
+                }
+            }
             itemView.textWorker.text = worker.name
             if(type == "addTask"){
                 changeOnSelected(itemView,worker.selected)

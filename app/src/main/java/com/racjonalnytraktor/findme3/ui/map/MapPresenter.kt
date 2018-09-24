@@ -4,6 +4,7 @@ import android.location.Location
 import android.util.Log
 import android.view.View
 import com.facebook.AccessToken
+import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.User
@@ -137,9 +138,16 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onCreateActionClick(action: CreateActionRequest) {
-        view.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)
-        view.hideSlide()
-        view.animateTabLayout(true)
+        compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->
+            view.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)
+            view.hideSlide()
+            view.animateTabLayout(true)
+        },{ t: Throwable? ->
+            view.showMessage(t?.localizedMessage.orEmpty(),MvpView.MessageType.ERROR)
+            view.hideSlide()
+            view.animateTabLayout(true)
+        }))
+
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
@@ -356,6 +364,15 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 listener.hideListLoading()
             }
         }
+    }
+
+    override fun onLogOutClick() {
+        if(mRepo.facebook.isLoggedIn())
+            mRepo.facebook.logOut()
+        mRepo.prefs.removeUser()
+
+        view.openLoginActivity()
+
     }
 
 }

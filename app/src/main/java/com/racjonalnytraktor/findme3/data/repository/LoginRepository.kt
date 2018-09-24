@@ -24,7 +24,7 @@ class LoginRepository: BaseRepository() {
     }
 
     fun getUserInfo(): Single<User>{
-        return mFacebook.getUserBasicInfo()
+        return facebook.getUserBasicInfo()
                 .map { t -> WhereIsJson.getUserBasic(t.jsonObject) }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
@@ -32,7 +32,7 @@ class LoginRepository: BaseRepository() {
     }
 
     fun setCurrentUser(user: User){
-        user.facebookId = mFacebook.getAccessToken().userId
+        user.facebookId = facebook.getAccessToken().userId
     }
 
     fun registerByFacebook(user: User): Single<RegisterFbResponse>{

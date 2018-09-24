@@ -73,14 +73,15 @@ class RealmLocalDb: LocalDb {
     }
 
     override fun setCurrentUser(value: User) {
-        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        /*val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
         mRealm.executeTransaction {
             user.fullName = value.fullName
             user.email = value.email
             user.profileImage = value.profileUri
             user.facebookId = value.facebookId
             user.token = value.token
-        }
+        }*/
+        createUser(value)
     }
 
     override fun setFacebookId(value: String) {
@@ -124,7 +125,8 @@ class RealmLocalDb: LocalDb {
                 Log.d("useruser","asdsad")
                 val newUserRealm = mRealm.createObject(UserRealm::class.java)
                 newUserRealm?.setUser(user)
-            }
+            }else
+                userRealm.setUser(user)
         }
     }
 

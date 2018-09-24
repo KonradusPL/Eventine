@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.concurrent.Callable
 import android.os.Bundle
+import com.facebook.login.LoginManager
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.utils.WhereIsJson
 
@@ -92,5 +93,14 @@ class FacebookNetwork {
 
     fun getAccessToken(): AccessToken{
         return AccessToken.getCurrentAccessToken()
+    }
+
+    fun isLoggedIn(): Boolean{
+        val token = AccessToken.getCurrentAccessToken()
+        return token != null && !token.isExpired
+    }
+
+    fun logOut(){
+        LoginManager.getInstance().logOut()
     }
 }

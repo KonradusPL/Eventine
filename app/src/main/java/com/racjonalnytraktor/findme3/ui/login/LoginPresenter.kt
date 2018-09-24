@@ -24,8 +24,8 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                 .subscribe({response: LoginResponse? ->
                     view.hideLoginLoading()
                     repo.prefs.apply {
+                        createUser(User(token = response!!.token))
                         setIsUserLoggedIn(true)
-                        setUserToken(response!!.token)
                     }
                     view.openMainActivity()
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
@@ -33,33 +33,31 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                 },{throwable: Throwable? ->
                     view.hideLoginLoading()
                     val errorCode = StringHelper.getErrorCode(throwable!!.localizedMessage)
+                    Log.d("errorCodeaaa",errorCode)
                     if(errorCode == "401")
                         view.showMessage("Błędne dane logowania",MvpView.MessageType.ERROR)
                 }))
     }
 
     override fun onFacebookLoginClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onGoogleLoginClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onFacebookLoginSuccess(loginResult: LoginResult?) {
         view.showLoginLoading()
         repo.getUserInfo()
                 .subscribe({ user: User? ->
-                    Log.d("qweqwe",user!!.fullName)
-                    repo.registerByFacebook(user!!)
+                    if(user != null)
+                        repo.registerByFacebook(user)
                             .subscribe ({ response: RegisterFbResponse? ->
                                 view.hideLoginLoading()
-                                Log.d("registerresponse",response!!.token)
-                                user.token = response.token
+                                user.token = response?.token ?: ""
                                 repo.setCurrentUser(user)
                                 repo.prefs.apply {
+                                    createUser(user)
                                     setIsUserLoggedIn(true)
-                                    setCurrentUser(user)
                                 }
                                 view.openMainActivity()},
                                     {error: Throwable? -> Log.d("error",error.toString())
