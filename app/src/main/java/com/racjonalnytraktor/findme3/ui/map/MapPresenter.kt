@@ -138,7 +138,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onCreateActionClick(action: CreateActionRequest) {
+        Log.d("CreateActionRequest",action.toString())
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->
+
             view.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)
             view.hideSlide()
             view.animateTabLayout(true)
@@ -147,7 +149,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             view.hideSlide()
             view.animateTabLayout(true)
         }))
-
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
@@ -241,7 +242,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             isChoosingLocation = false
             actionRequest.geo[0] = location.latitude
             actionRequest.geo[1] = location.longitude
-            mLocationListener?.changeLocation("${location.latitude.toFloat()}, ${location.longitude.toFloat()}")
+            mLocationListener?.changeLocation(location)
             view.showSlide("addTask")
             view.animateTabLayout(false)
         }

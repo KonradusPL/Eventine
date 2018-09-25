@@ -60,15 +60,16 @@ interface Routes {
     @POST("action/create")
     fun createAction(@Header("X-Token")token: String, @Body action: CreateActionRequest): Single<String>
 
+    @POST("ping/create")
+    fun createPing(@Header("X-Token")token: String, @Body request: Ping): Single<String>
+
+    @GET("action/list/{groupId}")
+    fun getActions(@Header("X-Token")token: String, @Path("groupId") id: String): Observable<ActionsResponse>
+
     @GET("info/list/{groupId}")
     fun getInfos(@Header("X-Token")token: String, @Path("groupId") groupId: String)
             : Observable<HistoryInfosResponse>
 
-    @POST("ping/create")
-    fun createPing(@Header("X-Token")token: String, @Body request: Ping): Single<String>
-
-    @GET("ping/list/{groupId}")
-    fun getPings(@Header("X-Token")token: String, @Path("groupId") id: String): Observable<PingsResponse>
 
     @POST("info/create")
     fun createInfo(@Header("X-Token")token: String, @Body request: Info): Single<String>

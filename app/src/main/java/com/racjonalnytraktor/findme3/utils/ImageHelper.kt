@@ -40,7 +40,7 @@ object ImageHelper {
         return resizedBitmap
     }
 
-    fun getMarkerImage(context: Context, color: Int): Bitmap{
+    fun getUserImageMarker(context: Context, color: Int): Bitmap{
         val bitmapProfile = Picasso.get()
                 .load("https://i2.wp.com/startupkids.pl/wp-content/uploads/2018/01/kuba-mularski-250x343-supervisor.jpg?fit=250%2C343")
                 .resize(100,100)
@@ -60,7 +60,7 @@ object ImageHelper {
 
         canvas.drawBitmap(bitmapOld,0f,0f,paint)
         paint.colorFilter = null
-        canvas.drawBitmap(bitmapProfile,10f,10f,paint)
+        //canvas.drawBitmap(bitmapProfile,10f,10f,paint)
 
         return bitmapNew
     }

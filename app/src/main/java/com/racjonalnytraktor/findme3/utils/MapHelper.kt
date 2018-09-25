@@ -66,13 +66,12 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
 
         try {
-            val success = googleMap.setMapStyle(
+            val success = mMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             mvpView.getCtx(), R.raw.theme_map))
         }catch (e: Resources.NotFoundException) {
-            Log.e("asdqwe", "Can't find style. Error: ", e)
+            Log.e("myErrors", "Can't find style. Error: ", e)
         }
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(mvpView.getCtx(), R.raw.theme_map))
 
         mMap.setOnMapClickListener { latLng ->
             val location = Location("GPS")
@@ -85,7 +84,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
                 if(ping.marker.position == marker.position){
                     Log.d("pongaponga",ping.ping.inProgress.toString())
                     listenerPresenter.onMarkerClick(ping.ping)
-                    //marker.showInfoWindow()
                     break
                 }
             }
@@ -93,16 +91,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
         mMap.setOnMapLongClickListener { latLng ->
             listenerPresenter.onLongClickListener(latLng)
-        }
-    }
-
-    fun removeMarker(position: LatLng){
-        for(item in pingsOnMap){
-            if(item.ping!!.geo[0] == position.latitude){
-                item.marker?.remove()
-                pingsOnMap.remove(item)
-                break
-            }
         }
     }
 
@@ -114,36 +102,23 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         mMap.animateCamera(CameraUpdateFactory.zoomTo(value),2000,null)
     }
 
-    fun addUserToMap(person: PersonOnMap){
+    fun addPersonToMap(person: PersonOnMap, isUser: Boolean){
         isUserInitialized = true
 
         val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
         doAsync {
-            val bitmapMarker = ImageHelper.getMarkerImage(mvpView.getCtx(),R.color.colorPrimaryDark)
+            val bitmapMarker = ImageHelper.getUserImageMarker(mvpView.getCtx(),R.color.colorPrimaryDark)
 
             val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
             uiThread {
                 marker.setIcon(bitmapDescriptor)
                 person.marker = marker
-                userOnMap = person
+                if(isUser)
+                    userOnMap = person
+                else
+                    peopleOnMap.add(person)
             }
         }
-    }
-
-    fun addFriendToMap(person: PersonOnMap){
-        val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
-        doAsync {
-            val bitmapMarker = ImageHelper.getMarkerImage(mvpView.getCtx(),R.color.colorPrimary)
-
-            val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
-            uiThread {
-                marker.setIcon(bitmapDescriptor)
-                person.marker = marker
-                peopleOnMap.add(person)
-            }
-
-        }
-
     }
 
     fun addPing(ping: Ping,animation: Boolean){

@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.ui.map.fragments.addtask
 
 import android.app.Activity
 import android.app.TimePickerDialog
+import android.location.Location
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,6 +25,8 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
     lateinit var parentListener: DescriptionListener
 
     var date = Date()
+
+    var mLocation: Location = Location("")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.add_task_description,container,false)
@@ -71,18 +74,26 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
     fun getActionData(): CreateActionRequest{
         val action = CreateActionRequest()
         action.title = fieldTitle?.text.toString()
-        action.descr = fieldTitle?.text.toString()
+        action.descr = fieldDescr?.text.toString()
         action.plannedTime = date
+        try {
+            action.geo[0] = mLocation.latitude
+            action.geo[1] = mLocation.longitude
 
-        return CreateActionRequest()
+        }catch (e: ArrayIndexOutOfBoundsException){
+
+        }
+
+        return action
     }
 
     override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
         date.time = (hourOfDay * 3600 + minute * 60).toLong()
     }
 
-    override fun changeLocation(text: String){
-        textLocation?.text = text
+    override fun changeLocation(location: Location){
+        mLocation.set(location)
+        textLocation?.text = "${location.latitude.toFloat()}, ${location.longitude.toFloat()}"
     }
 
 }

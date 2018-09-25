@@ -30,16 +30,6 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
     val listInfo = ArrayList<Model1>()
     val listHelp = ArrayList<Model1>()
 
-    init {
-        listHelp.add(Model1("Jan Kowalski","Wykonał Mateusz Zalewski","9 min temu"))
-        listHelp.add(Model1("Mateusz Zalewski","Wykonał John Doe","18 min temu") )
-        listHelp.add(Model1("Jan Kowalski","Wykonał John Doe","25 min temu"))
-        listHelp.add(Model1("Ewelina Nowak","Wykonał Mateusz Zalewski","30 min temu"))
-        listInfo.add(Model1("SZACHOWNICA","Musisz zanieść szachownice do drugiego pokoju. Stara ma zniszczone nawiasy.","9 min temu"))
-        listInfo.add(Model1("WYMIANA BATERII","Musisz wymienić stare baterie w mikrofonach na 2 auli.","18 min temu") )
-        listInfo.add(Model1("SPRAWDŹ NAGŁOŚNIENIE","Sprawdź nagłośnienie w małej salce przy punkcie u higienistki nieopodal portierni.","25 min temu"))
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.fragment_history,container,false)
@@ -48,7 +38,6 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mPresenter = HistoryPresenter()
-        mPresenter.onAttach(this)
 
         initList()
 
@@ -75,6 +64,16 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        mPresenter.onAttach(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mPresenter.onDetach()
+    }
+
     override fun updateAll() {
     }
 
@@ -96,10 +95,10 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
     }
 
     override fun showProgress() {
-        progressHistory.visibility = View.VISIBLE
+        progressHistory?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progressHistory.visibility = View.GONE
+        progressHistory?.visibility = View.GONE
     }
 }

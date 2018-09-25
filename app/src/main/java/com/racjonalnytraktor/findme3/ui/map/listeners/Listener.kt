@@ -1,5 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.map.listeners
 
+import android.location.Location
+
 object Listener {
     interface Manage{
         fun showList()
@@ -11,6 +13,6 @@ object Listener {
         fun hideListLoading()
     }
     interface ChangeLocation{
-        fun changeLocation(text: String)
+        fun changeLocation(location: Location)
     }
 }
