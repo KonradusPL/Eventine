@@ -21,6 +21,7 @@ import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener
 import com.estimote.indoorsdk_module.cloud.*
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.google.android.gms.maps.SupportMapFragment
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
@@ -96,6 +97,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         initTabs()
         initOtherViews()
+        initFloatingButtons()
         setUpClickListeners()
 
         mPresenter.onAttach(this)
@@ -202,6 +204,25 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .icon(FontAwesome.Icon.faw_plus)
                 .sizeDp(30)
                 .color(Color.WHITE)
+    }
+
+    private fun initFloatingButtons(){
+        fb.fabIcon = IconicsDrawable(this)
+                .icon(CommunityMaterial.Icon.cmd_numeric_1_box_outline)
+                .sizeDp(20)
+                .color(Color.BLACK)
+        fb1.fabIcon = IconicsDrawable(this)
+                .icon(CommunityMaterial.Icon.cmd_numeric_1_box_outline)
+                .sizeDp(16)
+                .color(Color.BLACK)
+        fb2.fabIcon = IconicsDrawable(this)
+                .icon(CommunityMaterial.Icon.cmd_numeric_2_box_outline)
+                .sizeDp(16)
+                .color(Color.BLACK)
+        fb3.fabIcon = IconicsDrawable(this)
+                .icon(CommunityMaterial.Icon.cmd_numeric_3_box_outline)
+                .sizeDp(16)
+                .color(Color.BLACK)
     }
 
     private fun initIndoorLocation(){

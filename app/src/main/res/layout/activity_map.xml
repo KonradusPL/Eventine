@@ -185,4 +185,47 @@
         app:layout_constraintStart_toStartOf="@+id/bottomCircle"
         app:layout_constraintTop_toTopOf="@+id/bottomCircle" />
 
+    <com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/floatingLayout"
+        app:fabMenuStyle="popDown"
+        app:fabMenuGravity="end"
+        android:paddingTop="32dp">
+
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="@color/white"
+            app:fabSize="normal"/>
+
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="@color/white"
+            app:fabSize="mini"
+            />
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fb2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="@color/white"
+            app:fabSize="mini"
+            />
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fb3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="@color/white"
+            app:fabSize="mini"/>
+
+    </com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout>
+
+
+
 </android.support.constraint.ConstraintLayout>

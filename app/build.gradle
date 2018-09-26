@@ -141,6 +141,9 @@ dependencies {
     implementation 'com.estimote:mustard:0.2.1'
     implementation 'com.estimote:indoorsdk:2.5.3'
 
+    //For floors
+    implementation 'com.robertlevonyan.view:CustomFloatingActionButton:2.1.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

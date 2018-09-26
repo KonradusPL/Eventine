@@ -4,7 +4,6 @@ import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.*
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.SubGroupPeople
-import com.racjonalnytraktor.findme3.data.network.model.changegroups.UserInSubGroup
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
@@ -63,8 +62,8 @@ interface Routes {
     @POST("ping/create")
     fun createPing(@Header("X-Token")token: String, @Body request: Ping): Single<String>
 
-    @GET("action/list/{groupId}")
-    fun getActions(@Header("X-Token")token: String, @Path("groupId") id: String): Observable<ActionsResponse>
+    //@GET("action/list/{groupId}")
+    //fun getActions(@Header("X-Token")token: String, @Path("groupId") id: String): Observable<GetActionsResponse>
 
     @GET("info/list/{groupId}")
     fun getInfos(@Header("X-Token")token: String, @Path("groupId") groupId: String)
