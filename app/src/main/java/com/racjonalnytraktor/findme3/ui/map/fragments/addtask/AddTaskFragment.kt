@@ -32,12 +32,12 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
                 .replace(R.id.detailsContainer,firstFragment)
                 .commit()
 
-        iconArrowTask.setImageDrawable(IconicsDrawable(parentContext)
+        iconArrow.setImageDrawable(IconicsDrawable(parentContext)
                 .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)
                 .sizeDp(24)
                 .color(Color.BLACK))
 
-        iconArrowTask.setOnClickListener {
+        iconArrow.setOnClickListener {
             parentMvp.getPresenter().onBackInFragmentClick("addTask")
         }
 

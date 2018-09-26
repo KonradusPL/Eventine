@@ -65,6 +65,7 @@ interface MapMvp {
         fun onEndPing(id: String)
         fun onManageGroupAttach(fView: Listener.Manage)
         fun onAddTaskListAttach(listener: Listener.AddTaskList)
+        fun onOrganisersAttach(listener: Listener.Organisers)
 
     }
 }

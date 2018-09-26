@@ -198,8 +198,7 @@
             android:id="@+id/fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fabColor="@color/white"
-            app:fabSize="normal"/>
+            app:fabColor="@color/white" />
 
 
         <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
@@ -214,8 +213,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabColor="@color/white"
-            app:fabSize="mini"
-            />
+            app:fabCustomSize="24dp"
+            app:fabSize="mini"/>
 
         <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
             android:id="@+id/fb3"

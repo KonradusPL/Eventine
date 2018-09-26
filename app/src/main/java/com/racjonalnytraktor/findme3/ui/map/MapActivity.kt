@@ -65,6 +65,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     private lateinit var fragmentProfile: ProfileFragment
     private lateinit var fragmentAddTask: AddTaskFragment<MapMvp.View>
     private lateinit var fragmentManageGroup: ManageGroupFragment<MapMvp.View>
+    private lateinit var fragmentOrganisers: OrganisersFragment<MapMvp.View>
 
     var circleClickedPosition = floatArrayOf(0f,0f)
 
@@ -88,6 +89,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         fragmentAddTask = AddTaskFragment()
         fragmentManageGroup = ManageGroupFragment()
         fragmentProfile = ProfileFragment()
+        fragmentOrganisers = OrganisersFragment()
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.mapContainer,fragmentMap)
@@ -530,6 +532,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         val fragment = when(type){
             "history" -> fragmentHistory
             "addTask" -> fragmentAddTask
+            "organizer" -> fragmentOrganisers
             else -> Fragment()
         }
         supportFragmentManager.beginTransaction()

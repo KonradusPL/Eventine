@@ -102,6 +102,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onOrganiserClick() {
+        view.showSlide("organizer")
+        view.animateExtendedCircle(false)
     }
 
     override fun onHelpClick() {
@@ -265,6 +267,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     override fun onDetach() {
         super.onDetach()
         isAttached = false
+        compositeDisposable.clear()
        // mRepo.locationProvider.end()
     }
 
@@ -363,6 +366,16 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             Thread.sleep(3000)
             uiThread {
                 listener.hideListLoading()
+            }
+        }
+    }
+
+    override fun onOrganisersAttach(listener: Listener.Organisers) {
+        listener.showLoading()
+        doAsync {
+            Thread.sleep(3000)
+            uiThread {
+                listener.hideLoading()
             }
         }
     }
