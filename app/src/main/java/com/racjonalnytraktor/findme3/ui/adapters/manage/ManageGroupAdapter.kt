@@ -91,13 +91,15 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
             if(type == "organizer"){
                 itemView.apply {
                     textFullName.text = worker.name
-                    Picasso.get()
+                    if (worker.profileUrl.isNotEmpty())
+                        Picasso.get()
                             .load(worker.profileUrl)
                             .resize(50,50)
                             .into(imageProfile)
                 }
             }
-            itemView.textWorker.text = worker.name
+            else
+                itemView.textWorker.text = worker.name
             if(type == "addTask"){
                 changeOnSelected(itemView,worker.selected)
 

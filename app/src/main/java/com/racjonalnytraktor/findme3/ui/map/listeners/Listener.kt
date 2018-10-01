@@ -13,6 +13,7 @@ object Listener {
     interface AddTaskList{
         fun showListLoading()
         fun hideListLoading()
+        fun showList(list: ArrayList<Job>)
     }
     interface ChangeLocation{
         fun changeLocation(location: Location)

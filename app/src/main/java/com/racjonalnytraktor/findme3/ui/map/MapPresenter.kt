@@ -10,6 +10,7 @@ import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
+import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
@@ -320,13 +321,14 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onManageGroupAttach(listener: Listener.Manage) {
         listener.showLoading()
-        doAsync {
-            Thread.sleep(3000)
-            uiThread {
-                listener.hideLoading()
-                listener.onError()
-            }
-        }
+        compositeDisposable.add(mRepo.getMembers()
+                .subscribe({t: ArrayList<Job>? ->
+                    listener.hideLoading()
+                    listener.showList(t ?: emptyList())
+                },{t: Throwable? ->
+                    listener.hideLoading()
+                    listener.onError()
+                }))
     }
 
     override fun onGroupsClick() {
@@ -369,22 +371,24 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onAddTaskListAttach(listener: Listener.AddTaskList) {
         listener.showListLoading()
-        doAsync {
-            Thread.sleep(3000)
-            uiThread {
-                listener.hideListLoading()
-            }
-        }
+        compositeDisposable.add(mRepo.getMembers()
+                .subscribe({t: ArrayList<Job>? ->
+                    listener.hideListLoading()
+                    listener.showList(t ?: arrayListOf())
+                },{t: Throwable? ->
+                    listener.hideListLoading()
+                }))
     }
 
     override fun onOrganisersAttach(listener: Listener.Organisers) {
         listener.showLoading()
-        doAsync {
-            Thread.sleep(3000)
-            uiThread {
-                listener.hideLoading()
-            }
-        }
+        compositeDisposable.add(mRepo.getMembers()
+                .subscribe({t: ArrayList<Job>? ->
+                    listener.hideLoading()
+                    listener.showList(t ?: arrayListOf())
+                },{t: Throwable? ->
+                    listener.hideLoading()
+                }))
     }
 
     override fun onLogOutClick() {

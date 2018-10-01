@@ -9,6 +9,7 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
+import com.racjonalnytraktor.findme3.utils.ClassTransform
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -108,7 +109,11 @@ object MapRepository: BaseRepository() {
     fun getMembers(): Single<ArrayList<Job>>{
         val token = prefs.getUserToken()
         val groupId = prefs.getCurrentGroupId()
-        return Single.create{}
+        return rest.networkService.getGroupMembers(token, groupId)
+                .map { t -> t.people }
+                .map { t -> ClassTransform.fromPeopleArrayToJobs(t) }
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
     }
 
     fun saveState(checked: List<String>,task: String, descr: String, type: String, state: String){

@@ -37,12 +37,11 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.AddTaskL
         iconBack.setOnClickListener {
             parentListener.onBackArrowPressed()
         }
-        showList(emptyList())
 
         parentMvp.getPresenter().onAddTaskListAttach(this)
     }
 
-    fun showList(list: List<Job>) {
+    override fun showList(list: ArrayList<Job>) {
         val arrayList = ArrayList<Job>()
         arrayList.addAll(list)
         mListAdapter = ManageGroupAdapter(arrayList,parentMvp,"addTask")
