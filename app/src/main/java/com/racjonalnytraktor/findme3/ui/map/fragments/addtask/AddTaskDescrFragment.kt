@@ -17,6 +17,7 @@ import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import com.racjonalnytraktor.findme3.ui.map.fragments.pickers.TimePickerFragment
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import kotlinx.android.synthetic.main.add_task_description.*
+import kotlinx.android.synthetic.main.fragment_add_task.*
 import java.util.*
 
 class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.OnTimeSetListener
@@ -63,10 +64,11 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
 
     }
 
-    fun showClockDialog() {
+    private fun showClockDialog() {
         val viewDate = layoutInflater.inflate(R.layout.dialog_time,null)
         //val timePicker = TimePicker(parentMvp.getCtx())
         val timePicker = TimePickerFragment()
+        timePicker.onTimeSetListener = this
         timePicker.show((parentContext as Activity).fragmentManager,"")
 
     }
@@ -89,6 +91,9 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
 
     override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
         date.time = (hourOfDay * 3600 + minute * 60).toLong()
+        val hourText = if(hourOfDay < 10) "0$hourOfDay" else "$hourOfDay"
+        val minuteText = if(minute < 10) "0$minute" else "$minute"
+        parentListener.onDateChanged("Termin powiadomienia: $hourOfDay:$minuteText")
     }
 
     override fun changeLocation(location: Location){

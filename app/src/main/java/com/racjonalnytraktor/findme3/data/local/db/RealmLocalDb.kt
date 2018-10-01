@@ -16,7 +16,9 @@ class RealmLocalDb: LocalDb {
 
     override fun setUserToken(token: String) {
         val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
-        user.token = token
+        mRealm.executeTransaction {
+            user.token = token
+        }
     }
 
     override fun setUserFullName(fullName: String) {
@@ -135,6 +137,4 @@ class RealmLocalDb: LocalDb {
             mRealm.where(UserRealm::class.java).findAll().deleteAllFromRealm()
         }
     }
-
-
 }

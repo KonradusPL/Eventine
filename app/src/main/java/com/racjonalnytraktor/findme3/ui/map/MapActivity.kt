@@ -21,7 +21,6 @@ import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener
 import com.estimote.indoorsdk_module.cloud.*
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.google.android.gms.maps.SupportMapFragment
-import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
@@ -29,6 +28,7 @@ import com.mikepenz.materialdrawer.Drawer
 import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
+import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
@@ -341,6 +341,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun updatePings(pings: List<Ping>,value: Boolean) {
         mMapHelper.updatePings(pings)
+    }
+
+    override fun updatePings(ping: Action) {
+        //mMapHelper.updatePings(pings)
     }
 
     override fun getPresenter(): MapPresenter<MapMvp.View> {

@@ -4,21 +4,16 @@ import android.location.Location
 import android.util.Log
 import android.view.View
 import com.facebook.AccessToken
-import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
-import com.racjonalnytraktor.findme3.data.model.User
+import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
-import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
-import com.racjonalnytraktor.findme3.ui.adapters.manage.Worker
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
-import com.racjonalnytraktor.findme3.ui.map.fragments.ManageGroupFragment
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import com.racjonalnytraktor.findme3.utils.MapHelper
-import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -69,13 +64,18 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                         //view.clearPings()
                     }
                     if(isAttached)
-                        compositeDisposable.add(mRepo.getPings()
-                                .subscribe({pings: List<Ping>? ->
-                                    Log.d("pings",pings.toString())
-                                    if (pings != null)
-                                        view.updatePings(pings,true)
+                        compositeDisposable.add(mRepo.getMapPings()
+                                .subscribe({pings: ArrayList<Action>? ->
+                                if (pings != null){
+                                    val pingsNew = ArrayList<Ping>()
+                                    for (action in pings){
+                                        if (action.type == "ping")
+                                            pingsNew.add(Ping(action))
+                                    }
+                                    view.updatePings(pingsNew,true)
+                                }
                                 },{t: Throwable? ->
-                                    Log.d("error",t!!.message)
+                                    Log.d("updating pings: ",t!!.message)
                                 }))
 
                 Log.d("isAttached",isAttached.toString())

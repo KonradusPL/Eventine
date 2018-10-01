@@ -1,5 +1,6 @@
-package com.racjonalnytraktor.findme3.data.model.new
+package com.racjonalnytraktor.findme3.data.model
 
+import com.racjonalnytraktor.findme3.data.model.new.Relative
 import java.util.*
 import kotlin.collections.ArrayList
 

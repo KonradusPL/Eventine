@@ -107,24 +107,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         mMap.animateCamera(CameraUpdateFactory.zoomTo(value),2000,null)
     }
 
-    fun addPersonToMap(person: PersonOnMap, isUser: Boolean){
-        isUserInitialized = true
-
-        val marker = mMap.addMarker(MarkerOptions().position(LatLng(person.firstLat,person.firstLng)))
-        doAsync {
-            val bitmapMarker = ImageHelper.getUserImageMarker(mvpView.getCtx(),R.color.colorPrimaryDark)
-
-            val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
-            uiThread {
-                marker.setIcon(bitmapDescriptor)
-                person.marker = marker
-                if(isUser)
-                    userOnMap = person
-                else
-                    peopleOnMap.add(person)
-            }
-        }
-    }
 
     fun addPing(ping: Ping,animation: Boolean){
         Log.d("ping",ping.title)

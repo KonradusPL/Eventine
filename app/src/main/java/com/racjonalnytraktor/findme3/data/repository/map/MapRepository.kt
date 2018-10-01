@@ -1,11 +1,14 @@
 package com.racjonalnytraktor.findme3.data.repository.map
 
 import android.util.Log
+import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.EndPing
+import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
+import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -21,6 +24,9 @@ object MapRepository: BaseRepository() {
     //val locationProvider = LocationProvider(1000,context)
 
     val pings = ArrayList<Ping>()
+    val actions = ArrayList<Action>()
+
+    val members = ArrayList<UserSimple>()
 
     fun clearData(){
         newPing.targetGroups.clear()
@@ -91,6 +97,20 @@ object MapRepository: BaseRepository() {
                 .observeOn(SchedulerProvider.ui())
     }
 
+    fun getMapPings(): Single<ArrayList<Action>>{
+        val token = prefs.getUserToken()
+        val groupId = prefs.getCurrentGroupId()
+        return rest.networkService.getActions(token,groupId)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+    }
+
+    fun getMembers(): Single<ArrayList<Job>>{
+        val token = prefs.getUserToken()
+        val groupId = prefs.getCurrentGroupId()
+        return Single.create{}
+    }
+
     fun saveState(checked: List<String>,task: String, descr: String, type: String, state: String){
         Log.d("savestate",task)
         Log.d("savestate",descr)
@@ -120,6 +140,10 @@ object MapRepository: BaseRepository() {
         return rest.networkService.setPingToInProgress("",request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
+    }
+
+    fun getJobs(members: ArrayList<UserSimple>){
+
     }
 
 }

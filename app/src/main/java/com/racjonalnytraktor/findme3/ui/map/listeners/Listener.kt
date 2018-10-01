@@ -22,4 +22,7 @@ object Listener {
         fun showLoading()
         fun hideLoading()
     }
+    interface ChangeDate{
+        fun onDateChanged()
+    }
 }

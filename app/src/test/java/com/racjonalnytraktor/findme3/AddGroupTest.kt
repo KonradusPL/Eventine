@@ -93,6 +93,7 @@ class AddGroupTest {
 
     @Test
     fun getGroupUsers(){
+        print("token: $token1, groupId: $grupaTestowa1")
         rest.getGroupMembers(token1,grupaTestowa1)
                 .subscribe({t: MembersResponse? ->
                     println("users:  ${t?.people.toString()}")

@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.data.network
 
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
+import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.*
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.SubGroupPeople
@@ -40,7 +41,6 @@ interface Routes {
     @POST("group/acceptInvitation")
     fun acceptInvitation(@Header("X-Token") token: String, @Body request: AcceptInvitationRequest)
             : Single<String>
-
     @GET("group/subgroups/{groupId}")
     fun getSubGroups(@Header("X-Token") token: String)
 
@@ -63,8 +63,9 @@ interface Routes {
     @POST("ping/create")
     fun createPing(@Header("X-Token")token: String, @Body request: Ping): Single<String>
 
-    //@GET("action/list/{groupId}")
-    //fun getActions(@Header("X-Token")token: String, @Path("groupId") id: String): Observable<GetActionsResponse>
+    @GET("actions/list/{groupId}")
+    fun getActions(@Header("X-Token")token: String, @Path("groupId")groupId: String): Single<ArrayList<Action>>
+
 
     @GET("info/list/{groupId}")
     fun getInfos(@Header("X-Token")token: String, @Path("groupId") groupId: String)

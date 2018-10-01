@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.data.network.model.createping
 
 import com.google.gson.annotations.SerializedName
+import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 
 data class Ping(
@@ -20,6 +21,10 @@ data class Ping(
 
         : Typed(){
 
+    constructor(action: Action) : this() {
+        fromAction(action)
+    }
+
     fun clone(ping: Ping){
         groupId = groupId.plus(ping.groupId)
         creator = creator.plus(ping.creator)
@@ -33,5 +38,18 @@ data class Ping(
         pingId = pingId.plus(ping.pingId)
         creatorName = creatorName.plus(ping.creatorName)
         progressorName = "".plus(ping.progressorName)
+    }
+
+    fun fromAction(action: Action){
+        groupId = action.groupId
+        creator = action.creator.id
+        title = action.title
+        targetGroups.addAll(action.targetGroups)
+        desc = action.desc
+        geo = action.geo
+        createdAt = action.createdAt.toString()
+        pingId = pingId.plus(action.id)
+        creatorName = action.creator.name
+        progressorName = action.progressor.name
     }
 }

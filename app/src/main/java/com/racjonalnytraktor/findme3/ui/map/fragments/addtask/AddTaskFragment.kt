@@ -70,6 +70,10 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
                 .commit()
     }
 
+    override fun onDateChanged(date: String) {
+        textFinalDate?.text = date
+    }
+
 
 }
 
@@ -78,6 +82,7 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
 interface DescriptionListener{
     fun onTitleChanged(title: String)
     fun onAddUsersClick()
+    fun onDateChanged(date: String)
 }
 interface UsersListener{
     fun onBackArrowPressed()

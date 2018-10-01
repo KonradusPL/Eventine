@@ -1,14 +1,11 @@
 package com.racjonalnytraktor.findme3.ui.map
 
 import com.google.android.gms.maps.model.LatLng
-import com.racjonalnytraktor.findme3.data.model.Group
+import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
-import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
-import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
-import com.racjonalnytraktor.findme3.ui.map.fragments.ManageGroupFragment
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import com.racjonalnytraktor.findme3.utils.MapHelper
 
@@ -18,6 +15,7 @@ interface MapMvp {
         fun animateTabLayout(show: Boolean)
         fun hideCreatePingView()
         fun updatePings(pings: List<Ping>,value: Boolean = true)
+        fun updatePings(ping: Action)
         fun addPing(ping: Ping)
         fun getPresenter(): MapPresenter<View>
         fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
