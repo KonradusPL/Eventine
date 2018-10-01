@@ -63,7 +63,7 @@ interface MapMvp {
         fun onSavingState(checked: List<String>, task: String, descr: String,state: String)
         fun clearData()
         fun onEndPing(id: String)
-        fun onManageGroupAttach(fView: Listener.Manage)
+        fun onManageGroupAttach(listener: Listener.Manage)
         fun onAddTaskListAttach(listener: Listener.AddTaskList)
         fun onOrganisersAttach(listener: Listener.Organisers)
 

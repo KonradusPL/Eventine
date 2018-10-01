@@ -51,12 +51,13 @@ interface Routes {
     @POST("group/changeSubGroup")
     fun changeSubGroups(@Header("X-Token")token: String, @Body request: ChangeSubGroupRequest): Single<String>
 
-    @GET("user/groupList")
-    fun getGroups(@Header("X-Token")token: String): Observable<GroupsResponse>
+    @GET("group/members/{groupId}")
+    fun getGroupMembers(@Header("X-Token")token: String,@Path("groupId") groupId: String)
+    :Single<MembersResponse>
 
     //actions////
 
-    @POST("action/create")
+    @POST("actions/create")
     fun createAction(@Header("X-Token")token: String, @Body action: CreateActionRequest): Single<String>
 
     @POST("ping/create")
@@ -84,16 +85,21 @@ interface Routes {
     @POST("notif/updateToken")
     fun updateNotifToken(@Header("X-Token")token: String, @Body notifToken: UpdateTokenRequest): Single<String>
 
-    @GET("user/invitations")
-    fun getInvitations(@Header("X-Token")token: String): Observable<InvitationResponse>
-
     @GET("group/subgroups/{groupId}")
     fun getPeopleInSubGroups(@Header("X-Token")token: String, @Path("groupId") groupId: String)
             :Observable<SubGroupPeople>
+
+    //user////
+
+    @GET("user/invitations")
+    fun getInvitations(@Header("X-Token")token: String): Observable<InvitationResponse>
 
     @GET("user/friends")
     fun getFriends(@Header("X-Token")token: String): Observable<FriendsResponse>
 
     @GET("user/tasks")
     fun getTasks(@Header("X-Token")token: String): Observable<PingsResponse>
+
+    @GET("user/groupList")
+    fun getGroups(@Header("X-Token")token: String): Observable<GroupsResponse>
 }

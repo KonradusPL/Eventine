@@ -318,8 +318,15 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 })
     }
 
-    override fun onManageGroupAttach(fView: Listener.Manage) {
-        //TO DO
+    override fun onManageGroupAttach(listener: Listener.Manage) {
+        listener.showLoading()
+        doAsync {
+            Thread.sleep(3000)
+            uiThread {
+                listener.hideLoading()
+                listener.onError()
+            }
+        }
     }
 
     override fun onGroupsClick() {

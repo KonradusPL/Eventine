@@ -104,13 +104,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-    <Spinner
+    <org.angmarch.views.NiceSpinner
         android:id="@+id/spinnerLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
-        android:foregroundTint="@color/white"
+        app:arrowTint="@color/white"
+        app:textTint="@color/white"
+        android:backgroundTint="@android:color/transparent"
+        app:backgroundSelector="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/textLanguage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textLanguage" />
@@ -119,28 +121,25 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
         android:backgroundTint="#3D5AFE"
-        android:ems="12"
         android:fontFamily="@font/roboto_medium"
         android:text="odwiedź stronę"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLanguage" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/white"
-        android:layout_marginEnd="8dp"
         android:text="Wyloguj się"
-         android:ems="12"
         android:textColor="@color/colorPrimaryNew"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

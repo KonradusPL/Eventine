@@ -7,4 +7,8 @@ import com.racjonalnytraktor.findme3.data.model.Group
  */
 data class GroupsResponse (
     val groups: ArrayList<Group>
-)
+){
+    override fun toString(): String {
+        return groups.toString()
+    }
+}

@@ -5,9 +5,10 @@ import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 
 object Listener {
     interface Manage{
-        fun showList()
+        fun showList(list: List<Job>)
         fun showLoading()
         fun hideLoading()
+        fun onError()
     }
     interface AddTaskList{
         fun showListLoading()

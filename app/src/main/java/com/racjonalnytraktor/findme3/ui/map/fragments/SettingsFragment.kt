@@ -41,8 +41,6 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
 
         val list = arrayListOf("Polski")
 
-        val adp = ArrayAdapter<String>(parentMvp.getCtx(), android.R.layout.simple_spinner_item, list)
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerLanguage.adapter = adp
+        spinnerLanguage.attachDataSource(list)
     }
 }

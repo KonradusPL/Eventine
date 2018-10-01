@@ -57,11 +57,16 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
 
         listenerPresenter.onMapPrepared()
 
-        mMap.setPadding(0,60,0,0)
+        mMap.apply {
+            setPadding(0,60,0,0)
+            isBuildingsEnabled = false
+            uiSettings.isTiltGesturesEnabled = false
+            isIndoorEnabled = true
+        }
 
         val cameraPosition = CameraPosition.Builder()
-                .target(LatLng(51.101669, 22.854012))
-                .zoom(18f)
+                .target(LatLng(52.208856, 21.008713))
+                .zoom(19f)
                 .build()
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
 

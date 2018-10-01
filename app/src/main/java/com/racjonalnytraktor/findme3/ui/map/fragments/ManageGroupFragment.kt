@@ -42,10 +42,14 @@ class ManageGroupFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.Manage {
             parentMvp.getPresenter().onBackInFragmentClick("groups")
         }
 
-        parentMvp.getPresenter().onManageGroupAttach(this as ManageGroupFragment<MapMvp.View>)
+        parentMvp.getPresenter().onManageGroupAttach(this as ManageGroupFragment<*>)
+
+        buttonRefreshManage.setOnClickListener {
+            parentMvp.getPresenter().onManageGroupAttach(this as ManageGroupFragment<*>)
+        }
     }
 
-    fun showList(list: List<Job>) {
+    override fun showList(list: List<Job>) {
         val arrayList = ArrayList<Job>()
         arrayList.addAll(list)
         mListAdapter = ManageGroupAdapter(arrayList,parentMvp)
@@ -54,15 +58,16 @@ class ManageGroupFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.Manage {
         listGroups.adapter = mListAdapter
     }
 
-    override fun showList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        buttonRefreshManage.visibility = View.GONE
+        progressManage?.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        progressManage?.visibility = View.GONE
+    }
+
+    override fun onError() {
+        buttonRefreshManage?.visibility = View.VISIBLE
     }
 }

@@ -99,7 +99,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         initTabs()
         initOtherViews()
-        initFloatingButtons()
+        initFloorSpinner()
         setUpClickListeners()
 
         mPresenter.onAttach(this)
@@ -208,23 +208,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .color(Color.WHITE)
     }
 
-    private fun initFloatingButtons(){
-        fb.fabIcon = IconicsDrawable(this)
-                .icon(CommunityMaterial.Icon.cmd_numeric_1_box_outline)
-                .sizeDp(20)
-                .color(Color.BLACK)
-        fb1.fabIcon = IconicsDrawable(this)
-                .icon(CommunityMaterial.Icon.cmd_numeric_1_box_outline)
-                .sizeDp(16)
-                .color(Color.BLACK)
-        fb2.fabIcon = IconicsDrawable(this)
-                .icon(CommunityMaterial.Icon.cmd_numeric_2_box_outline)
-                .sizeDp(16)
-                .color(Color.BLACK)
-        fb3.fabIcon = IconicsDrawable(this)
-                .icon(CommunityMaterial.Icon.cmd_numeric_3_box_outline)
-                .sizeDp(16)
-                .color(Color.BLACK)
+    private fun initFloorSpinner(){
+        val floors = arrayListOf("-1","0","1","2","3","4")
+        spinnerFloor.attachDataSource(floors)
     }
 
     private fun initIndoorLocation(){
