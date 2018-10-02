@@ -58,7 +58,7 @@ interface Routes {
 
     //pings////
 
-    @POST("pings/create")
+    @POST("actions/create")
     fun createAction(@Header("X-Token")token: String, @Body action: CreateActionRequest): Single<String>
 
     @POST("ping/create")

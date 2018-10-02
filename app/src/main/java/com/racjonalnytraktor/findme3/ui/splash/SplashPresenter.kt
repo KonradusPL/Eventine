@@ -14,12 +14,12 @@ class SplashPresenter<V: SplashMvp.View>: BasePresenter<V>(),SplashMvp.Presenter
         super.onAttach(mvpView)
         repo = SplashRepository()
 
-        val token2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6Ik1hcmNpbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyYjUwYzUxZjMwMDEwZjVkMDhmIiwiaWF0IjoxNTM4MDM2NDA1LCJleHAiOjE1Mzg2NDEyMDV9.i4_JXB9iREQlJ7ioPWvf4algZSaJLxzpj6PZOJygf7Y"
-        val request2 = RegisterRequest("test2@test.pl", "Marcin Kowalski", "password2")
+        val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IkphbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyN2QwYzUxZjMwMDEwZjVkMDhlIiwiaWF0IjoxNTM4MDM2MzQ5LCJleHAiOjE1Mzg2NDExNDl9.4K1c_fN50r8qgTpUanUw_p15oAJ9924lzChNzQ13U9o"
+        val request2 = RegisterRequest("test1@test.pl", "Jan Kowalski", "password1")
         val grupaTestowa1 = "5bb206e3c4b7060010e4c667"
         repo.prefs.apply {
             createUser(User())
-            setUserToken(token2)
+            setUserToken(token1)
             setUserFullName(request2.fullName)
             setUserEmail(request2.email)
             setCurrentGroupId(grupaTestowa1)
