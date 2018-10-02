@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.data.network
 
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.model.Action
+import com.racjonalnytraktor.findme3.data.model.ActionsResponse
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.*
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.SubGroupPeople
@@ -55,17 +56,20 @@ interface Routes {
     fun getGroupMembers(@Header("X-Token")token: String,@Path("groupId") groupId: String)
     :Single<MembersResponse>
 
-    //actions////
+    //pings////
 
-    @POST("actions/create")
+    @POST("pings/create")
     fun createAction(@Header("X-Token")token: String, @Body action: CreateActionRequest): Single<String>
 
     @POST("ping/create")
     fun createPing(@Header("X-Token")token: String, @Body request: Ping): Single<String>
 
     @GET("actions/list/{groupId}")
-    fun getActions(@Header("X-Token")token: String, @Path("groupId")groupId: String): Single<ArrayList<Action>>
+    fun getActions(@Header("X-Token")token: String, @Path("groupId")groupId: String): Single<ActionsResponse>
 
+    @GET("actions/list/{groupId}")
+    fun getActionsTest(@Header("X-Token")token: String, @Path("groupId")groupId: String)
+            : Single<HashMap<String,Any>>
 
     @GET("info/list/{groupId}")
     fun getInfos(@Header("X-Token")token: String, @Path("groupId") groupId: String)

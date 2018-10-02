@@ -498,6 +498,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                         val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)
                         val date = Date()
                         val calendar = Calendar.getInstance()
+
                         calendar.set(datePicker.year,datePicker.month,datePicker.dayOfMonth,
                                 viewDate.timePicker.currentHour,viewDate.timePicker.currentMinute,0)
                         date.time = calendar.timeInMillis

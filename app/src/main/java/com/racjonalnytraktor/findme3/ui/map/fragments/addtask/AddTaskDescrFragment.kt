@@ -6,6 +6,7 @@ import android.location.Location
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import com.racjonalnytraktor.findme3.ui.map.fragments.pickers.TimePickerFragment
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import kotlinx.android.synthetic.main.add_task_description.*
-import kotlinx.android.synthetic.main.fragment_add_task.*
 import java.util.*
 
 class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.OnTimeSetListener
@@ -28,6 +28,8 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
     var date = Date()
 
     var mLocation: Location = Location("")
+    var mHourText = "-1"
+    var mMinuteText = "-1"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.add_task_description,container,false)
@@ -62,6 +64,11 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
             parentListener.onAddUsersClick()
         }
 
+        if(mLocation.latitude != 0.0)
+            textLocation?.text = "${mLocation.latitude.toFloat()}, ${mLocation.longitude.toFloat()}"
+        if (mHourText != "-1")
+            textDate.text = "$mHourText:$mMinuteText"
+
     }
 
     private fun showClockDialog() {
@@ -77,23 +84,33 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
         val action = CreateActionRequest()
         action.title = fieldTitle?.text.toString()
         action.descr = fieldDescr?.text.toString()
-        action.plannedTime = date
+
         try {
+            val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)
             action.geo[0] = mLocation.latitude
             action.geo[1] = mLocation.longitude
+            val calendar = Calendar.getInstance()
+            if(mMinuteText != "-1"){
+                calendar.set(Calendar.MINUTE,mMinuteText.toInt())
+                calendar.set(Calendar.HOUR_OF_DAY,mHourText.toInt())
+                Log.d("calendar time",calendar.time.toString())
+                date.time = calendar.timeInMillis
+                action.plannedTime = format.format(date)
 
-        }catch (e: ArrayIndexOutOfBoundsException){
+            }
+        }catch (e: Exception){ }
 
-        }
+
 
         return action
     }
 
     override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
         date.time = (hourOfDay * 3600 + minute * 60).toLong()
-        val hourText = if(hourOfDay < 10) "0$hourOfDay" else "$hourOfDay"
-        val minuteText = if(minute < 10) "0$minute" else "$minute"
-        parentListener.onDateChanged("Termin powiadomienia: $hourOfDay:$minuteText")
+        mHourText = if(hourOfDay < 10) "0$hourOfDay" else "$hourOfDay"
+        mMinuteText = if(minute < 10) "0$minute" else "$minute"
+        textDate.text = "$mHourText:$mMinuteText"
+        parentListener.onDateChanged("Termin powiadomienia: $mHourText:$mMinuteText")
     }
 
     override fun changeLocation(location: Location){

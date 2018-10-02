@@ -1,18 +1,19 @@
 package com.racjonalnytraktor.findme3
 
-import android.util.Log
+import com.racjonalnytraktor.findme3.data.model.Action
+import com.racjonalnytraktor.findme3.data.model.ActionsResponse
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.MembersResponse
 import com.racjonalnytraktor.findme3.data.network.RetrofitRest
 import com.racjonalnytraktor.findme3.data.network.model.CreateGroupRequest
-import com.racjonalnytraktor.findme3.data.network.model.GroupsResponse
-import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterRequest
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterResponse
 import org.junit.Test
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class AddGroupTest {
 
@@ -77,10 +78,9 @@ class AddGroupTest {
             type = "ping"
             title = "Title"
             descr = "Descr"
-            plannedTime = Date()
+            plannedTime = ""
             geo = arrayListOf(50.747765,19.178419)
             groupId = "Id5baf837cc4b7060010e4c663"
-            users.add("5bac92e90c51f30010f5d090")
         }
         rest.createAction(token1,action)
                 .subscribe({ t: String? ->
@@ -101,4 +101,16 @@ class AddGroupTest {
                     println(t.toString())
                 })
     }
+    @Test
+    fun getPings() {
+        println("token: $token3, groupId: $grupaTestowa1")
+        rest.getActions(token3, grupaTestowa1)
+                .map { t: ActionsResponse -> t.pings }
+                .subscribe({ t: ArrayList<Action>? ->
+                    println("actions:  ${t?.toString()}")
+                }, { t: Throwable? ->
+                    println(t.toString())
+                })
+    }
+
 }

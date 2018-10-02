@@ -22,6 +22,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
         compositeDisposable.add(repo.loginWithEmail(LoginRequest(email, password))
                 .subscribe({response: LoginResponse? ->
+                    Log.d("logowanie","działa")
                     view.hideLoginLoading()
                     repo.prefs.apply {
                         createUser(User(token = response!!.token))
@@ -31,6 +32,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
 
                 },{throwable: Throwable? ->
+                    Log.d("logowanie","error: ${throwable.toString()}")
                     view.hideLoginLoading()
                     val errorCode = StringHelper.getErrorCode(throwable!!.localizedMessage)
                     Log.d("errorCodeaaa",errorCode)

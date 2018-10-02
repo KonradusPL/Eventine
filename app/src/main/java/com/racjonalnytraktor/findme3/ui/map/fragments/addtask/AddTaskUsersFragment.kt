@@ -38,7 +38,11 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.AddTaskL
             parentListener.onBackArrowPressed()
         }
 
-        parentMvp.getPresenter().onAddTaskListAttach(this)
+
+        if(mListAdapter?.itemCount ?: 0 == 0)
+            parentMvp.getPresenter().onAddTaskListAttach(this)
+        else
+            showList()
     }
 
     override fun showList(list: ArrayList<Job>) {
@@ -48,6 +52,13 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.AddTaskL
 
         listGroups.layoutManager = LinearLayoutManager(parentMvp.getCtx())
         listGroups.adapter = mListAdapter
+    }
+
+    fun showList(){
+        if (mListAdapter != null){
+            listGroups.layoutManager = LinearLayoutManager(parentMvp.getCtx())
+            listGroups.adapter = mListAdapter
+        }
     }
 
 

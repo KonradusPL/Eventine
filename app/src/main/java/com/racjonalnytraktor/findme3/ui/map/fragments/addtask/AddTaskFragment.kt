@@ -44,9 +44,8 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
         buttonAddTask.setOnClickListener {
             val action = firstFragment.getActionData()
             val usersList = secondFragment.getList()
-            action.users = usersList
+            action.people = usersList
             parentMvp.getPresenter().onCreateActionClick(action)
-
         }
     }
 
@@ -73,8 +72,6 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
     override fun onDateChanged(date: String) {
         textFinalDate?.text = date
     }
-
-
 }
 
 

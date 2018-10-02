@@ -57,9 +57,10 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
         }
         fun bind(job: Job){
             itemView.apply {
-                val color = if(type == "addTask") Color.BLACK else Color.WHITE
+                val color = if(type == "addTask" || type == "organizer") Color.BLACK else Color.WHITE
                 textOrganiser.text = job.name
                 textOrganiser.setTextColor(color)
+                fieldUserCount.text = job.workersCount.toString()
                 if(type == "manage"){
                     iconArrow.setImageDrawable(IconicsDrawable(mvpView.getCtx())
                             .icon(GoogleMaterial.Icon.gmd_keyboard_arrow_down)

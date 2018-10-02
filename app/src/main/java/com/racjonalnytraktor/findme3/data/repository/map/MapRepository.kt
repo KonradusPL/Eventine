@@ -2,6 +2,7 @@ package com.racjonalnytraktor.findme3.data.repository.map
 
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
+import com.racjonalnytraktor.findme3.data.model.ActionsResponse
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.EndPing
 import com.racjonalnytraktor.findme3.data.network.model.UserSimple
@@ -91,7 +92,9 @@ object MapRepository: BaseRepository() {
 
     fun createAction(action: CreateActionRequest): Single<String>{
         val token = prefs.getUserToken()
-        Log.d("tokenik",token)
+        action.groupId = prefs.getCurrentGroupId()
+        action.type = "ping"
+        Log.d("CreateActionRequest",action.toString())
 
         return rest.networkService.createAction(token,action)
                 .subscribeOn(SchedulerProvider.io())
@@ -101,7 +104,11 @@ object MapRepository: BaseRepository() {
     fun getMapPings(): Single<ArrayList<Action>>{
         val token = prefs.getUserToken()
         val groupId = prefs.getCurrentGroupId()
+        Log.d("tokenik123",token)
+        Log.d("groupId123",groupId)
+
         return rest.networkService.getActions(token,groupId)
+                .map { t: ActionsResponse -> t.pings }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

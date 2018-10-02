@@ -59,25 +59,26 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             var isAttached = true
 
             while (isAttached){
-
-                Log.d("logus","isAttached")
+                if(isAttached)
                     uiThread {
-                        //view.clearPings()
-                    }
-                    if(isAttached)
                         compositeDisposable.add(mRepo.getMapPings()
                                 .subscribe({pings: ArrayList<Action>? ->
-                                if (pings != null){
-                                    val pingsNew = ArrayList<Ping>()
-                                    for (action in pings){
-                                        if (action.type == "ping")
-                                            pingsNew.add(Ping(action))
+                                    Log.d("tytyty","asdasd")
+                                    if (pings != null){
+                                        Log.d("pingspings",pings.toString() + "asd")
+                                        val pingsNew = ArrayList<Ping>()
+                                        for (action in pings){
+                                            if (action.type == "ping")
+                                                pingsNew.add(Ping(action))
+                                        }
+                                        view.updatePings(pingsNew,true)
                                     }
-                                    view.updatePings(pingsNew,true)
-                                }
                                 },{t: Throwable? ->
+                                    Log.d("updating pings: ","AAA")
                                     Log.d("updating pings: ",t!!.message)
                                 }))
+                    }
+
 
                 Log.d("isAttached",isAttached.toString())
                 for(i in 0..50){
@@ -141,9 +142,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onCreateActionClick(action: CreateActionRequest) {
-        Log.d("CreateActionRequest",action.toString())
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->
-
             view.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)
             view.hideSlide()
             view.animateTabLayout(true)
@@ -155,7 +154,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
-
         Log.d("groupss",checkedGroups.toString())
 
         if(checkedGroups.isEmpty() && date.isEmpty()){

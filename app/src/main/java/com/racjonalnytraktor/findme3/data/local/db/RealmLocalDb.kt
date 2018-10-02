@@ -77,7 +77,7 @@ class RealmLocalDb: LocalDb {
     override fun setCurrentUser(value: User) {
         /*val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
         mRealm.executeTransaction {
-            user.fullName = value.fullName
+            user.name = value.name
             user.email = value.email
             user.profileImage = value.profileUri
             user.facebookId = value.facebookId

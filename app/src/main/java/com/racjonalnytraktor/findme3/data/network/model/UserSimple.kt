@@ -1,5 +1,5 @@
 package com.racjonalnytraktor.findme3.data.network.model
 
-data class UserSimple(var fullName: String = "",
+data class UserSimple(var name: String = "",
                       var id: String = "",
                       var subgroup: String = "")

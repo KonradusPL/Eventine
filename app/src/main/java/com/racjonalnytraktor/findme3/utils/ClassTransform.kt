@@ -14,10 +14,10 @@ object ClassTransform {
         for(person in people){
             val i = jobNames[person.subgroup]
             if (i != null){
-                jobs[i].workers.add(Worker(person.fullName,person.id))
+                jobs[i].workers.add(Worker(person.name,person.id))
                 jobs[i].workersCount++
             }else{
-                jobs.add(Job(person.subgroup,1, arrayListOf(Worker(person.fullName,person.id))))
+                jobs.add(Job(person.subgroup,1, arrayListOf(Worker(person.name,person.id))))
                 jobNames[person.subgroup] = jobs.lastIndex
             }
         }
