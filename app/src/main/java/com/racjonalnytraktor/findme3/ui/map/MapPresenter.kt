@@ -74,8 +74,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                                         view.updatePings(pingsNew,true)
                                     }
                                 },{t: Throwable? ->
-                                    Log.d("updating pings: ","AAA")
-                                    Log.d("updating pings: ",t!!.message)
+                                    Log.d("updating actions: ","AAA")
+                                    Log.d("updating actions: ",t!!.message)
                                 }))
                     }
 
@@ -141,10 +141,13 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 })
     }
 
-    override fun onCreateActionClick(action: CreateActionRequest) {
+    override fun onCreateActionClick(action: CreateActionRequest, listener: Listener.CreateAction) {
+        Log.d("onCreateActionClick",action.plannedTime)
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->
+            listener.clearData()
             view.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)
             view.hideSlide()
+            view.removeFragment("addTask")
             view.animateTabLayout(true)
         },{ t: Throwable? ->
             view.showMessage(t?.localizedMessage.orEmpty(),MvpView.MessageType.ERROR)
@@ -271,10 +274,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onMapPrepared() {
-        /*compositeDisposable.add(mRepo.getPings()
+        /*compositeDisposable.add(mRepo.getActions()
                 .subscribe({ping: Ping? ->
                     Log.d("wwwww",ping!!.pingId)
-                    Log.d("pings","asdasd")
+                    Log.d("actions","asdasd")
                     if (ping != null)
                         view.updatePings(ping)
                 },{t: Throwable? ->
@@ -324,6 +327,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     listener.hideLoading()
                     listener.showList(t ?: emptyList())
                 },{t: Throwable? ->
+                    Log.d("onManageGroupAttach",t.toString())
                     listener.hideLoading()
                     listener.onError()
                 }))

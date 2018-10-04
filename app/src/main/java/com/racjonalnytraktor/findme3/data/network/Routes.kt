@@ -56,7 +56,7 @@ interface Routes {
     fun getGroupMembers(@Header("X-Token")token: String,@Path("groupId") groupId: String)
     :Single<MembersResponse>
 
-    //pings////
+    //actions////
 
     @POST("actions/create")
     fun createAction(@Header("X-Token")token: String, @Body action: CreateActionRequest): Single<String>
@@ -64,11 +64,12 @@ interface Routes {
     @POST("ping/create")
     fun createPing(@Header("X-Token")token: String, @Body request: Ping): Single<String>
 
-    @GET("actions/list/{groupId}")
-    fun getActions(@Header("X-Token")token: String, @Path("groupId")groupId: String): Single<ActionsResponse>
+    @GET("actions/list/{groupId}/{type}")
+    fun getActions(@Header("X-Token")token: String, @Path("groupId")groupId: String, @Path("type")type: String)
+            : Single<ActionsResponse>
 
-    @GET("actions/list/{groupId}")
-    fun getActionsTest(@Header("X-Token")token: String, @Path("groupId")groupId: String)
+    @GET("actions/list/{groupId}/{type}")
+    fun getActionsTest(@Header("X-Token")token: String, @Path("groupId")groupId: String, @Path("type")type: String)
             : Single<HashMap<String,Any>>
 
     @GET("info/list/{groupId}")

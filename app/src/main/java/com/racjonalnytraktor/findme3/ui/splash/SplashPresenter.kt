@@ -17,15 +17,9 @@ class SplashPresenter<V: SplashMvp.View>: BasePresenter<V>(),SplashMvp.Presenter
         val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IkphbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyN2QwYzUxZjMwMDEwZjVkMDhlIiwiaWF0IjoxNTM4MDM2MzQ5LCJleHAiOjE1Mzg2NDExNDl9.4K1c_fN50r8qgTpUanUw_p15oAJ9924lzChNzQ13U9o"
         val request2 = RegisterRequest("test1@test.pl", "Jan Kowalski", "password1")
         val grupaTestowa1 = "5bb206e3c4b7060010e4c667"
-        repo.prefs.apply {
-            createUser(User())
-            setUserToken(token1)
-            setUserFullName(request2.fullName)
-            setUserEmail(request2.email)
-            setCurrentGroupId(grupaTestowa1)
-            setIsUserLoggedIn(true)
-        }
-        Log.d("userqwe",repo.prefs.isUserLoggedIn().toString())
+
+        repo.prefs.createUser(User())
+        repo.prefs.setCurrentGroupId(grupaTestowa1)
 
         if(repo.isUserLoggedIn())
             view.openMainActivity()

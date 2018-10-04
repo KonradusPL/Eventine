@@ -14,8 +14,8 @@ object HistoryRepository: BaseRepository() {
         array.add(Ping(pingId = "3",title = "meeting in the dining room",geo = arrayListOf(51.101599,22.854527),desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
         return Observable.just(array).flatMapIterable { t -> t }
 
-        /*return rest.networkService.getPings(prefs.getUserToken(),prefs.getCurrentGroupId())
-                .map { t -> t.pings }
+        /*return rest.networkService.getActions(prefs.getUserToken(),prefs.getCurrentGroupId())
+                .map { t -> t.actions }
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())*/

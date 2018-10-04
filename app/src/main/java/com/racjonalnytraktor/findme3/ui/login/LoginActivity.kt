@@ -13,6 +13,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import com.racjonalnytraktor.findme3.ui.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -81,7 +82,7 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
     }
 
     override fun openMainActivity() {
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this,MapActivity::class.java))
         finish()
     }
 

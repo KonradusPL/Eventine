@@ -72,8 +72,8 @@ object MapRepository: BaseRepository() {
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
 
-        /*return rest.networkService.getPings(prefs.getUserToken(),prefs.getCurrentGroupId())
-                .map { t -> t.pings.toList() }
+        /*return rest.networkService.getActions(prefs.getUserToken(),prefs.getCurrentGroupId())
+                .map { t -> t.actions.toList() }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())*/
     }
@@ -107,8 +107,8 @@ object MapRepository: BaseRepository() {
         Log.d("tokenik123",token)
         Log.d("groupId123",groupId)
 
-        return rest.networkService.getActions(token,groupId)
-                .map { t: ActionsResponse -> t.pings }
+        return rest.networkService.getActions(token,groupId,"ping")
+                .map { t: ActionsResponse -> t.actions }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
@@ -116,6 +116,7 @@ object MapRepository: BaseRepository() {
     fun getMembers(): Single<ArrayList<Job>>{
         val token = prefs.getUserToken()
         val groupId = prefs.getCurrentGroupId()
+        Log.d("groupId",groupId)
         return rest.networkService.getGroupMembers(token, groupId)
                 .map { t -> t.people }
                 .map { t -> ClassTransform.fromPeopleArrayToJobs(t) }

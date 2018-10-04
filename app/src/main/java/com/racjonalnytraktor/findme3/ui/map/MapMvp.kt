@@ -29,6 +29,7 @@ interface MapMvp {
         fun showCreatePingView(type: String = "ping")
         fun showSlide(type: String)
         fun hideSlide()
+        fun removeFragment(type: String)
         fun showEndPingBar(ping: Ping)
         fun showPlanDialog()
         fun showFullFragments(type: String)
@@ -52,7 +53,7 @@ interface MapMvp {
         fun onInProgressClick(id: String)
         fun onBackInFragmentClick(type: String)
         fun onChangeLocationClick(locationListener: Listener.ChangeLocation)
-        fun onCreateActionClick(action: CreateActionRequest)
+        fun onCreateActionClick(action: CreateActionRequest, listener: Listener.CreateAction)
         fun onLogOutClick()
 
         //others

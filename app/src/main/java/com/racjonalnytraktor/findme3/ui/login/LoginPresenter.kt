@@ -27,6 +27,8 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                     repo.prefs.apply {
                         createUser(User(token = response!!.token))
                         setIsUserLoggedIn(true)
+                        setCurrentGroupId("5bb206e3c4b7060010e4c667")
+                        Log.d("tokeniki :)",getUserToken())
                     }
                     view.openMainActivity()
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)

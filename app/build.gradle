@@ -139,7 +139,9 @@ dependencies {
 
     //Estimote
     implementation 'com.estimote:mustard:0.2.1'
+    implementation 'com.estimote:proximity-sdk:1.0.3'
     implementation 'com.estimote:indoorsdk:2.5.3'
+    compile 'com.estimote:sdk:1.4.5'
 
     //For floors
     implementation 'com.robertlevonyan.view:CustomFloatingActionButton:2.1.0'

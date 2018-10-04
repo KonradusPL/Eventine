@@ -344,7 +344,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updatePings(ping: Action) {
-        //mMapHelper.updatePings(pings)
+        //mMapHelper.updatePings(actions)
     }
 
     override fun getPresenter(): MapPresenter<MapMvp.View> {
@@ -537,6 +537,18 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun hideSlide() {
         if(slidePanel.isOpened)
             slidePanel.closeLayer(true)
+    }
+
+    override fun removeFragment(type: String){
+        val fragment = when(type){
+            "history" -> fragmentHistory
+            "addTask" -> fragmentAddTask
+            "organizer" -> fragmentOrganisers
+            else -> Fragment()
+        }
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerSlide,fragment)
+                .commit()
     }
 
     override fun showFullFragments(type: String) {

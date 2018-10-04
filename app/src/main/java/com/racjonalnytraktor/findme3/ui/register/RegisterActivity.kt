@@ -15,6 +15,7 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
+import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : RegisterMvp.View, BaseActivity() {
@@ -102,7 +103,7 @@ class RegisterActivity : RegisterMvp.View, BaseActivity() {
     }
 
     override fun openMainActivity() {
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this,MapActivity::class.java))
         finish()
     }
 

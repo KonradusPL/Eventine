@@ -10,10 +10,11 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
+import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import kotlinx.android.synthetic.main.fragment_add_task.*
 
 class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
-        UsersListener {
+        UsersListener,Listener.CreateAction {
 
     lateinit var firstFragment: AddTaskDescrFragment<V>
     lateinit var secondFragment: AddTaskUsersFragment<V>
@@ -45,7 +46,7 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
             val action = firstFragment.getActionData()
             val usersList = secondFragment.getList()
             action.people = usersList
-            parentMvp.getPresenter().onCreateActionClick(action)
+            parentMvp.getPresenter().onCreateActionClick(action,this)
         }
     }
 
@@ -71,6 +72,9 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
 
     override fun onDateChanged(date: String) {
         textFinalDate?.text = date
+    }
+
+    override fun clearData() {
     }
 }
 

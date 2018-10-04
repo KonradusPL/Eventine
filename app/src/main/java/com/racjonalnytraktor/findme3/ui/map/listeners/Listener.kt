@@ -26,4 +26,7 @@ object Listener {
     interface ChangeDate{
         fun onDateChanged()
     }
+    interface CreateAction{
+        fun clearData()
+    }
 }
