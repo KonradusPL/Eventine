@@ -109,21 +109,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
 
 
     fun addPing(ping: Ping,animation: Boolean){
-        Log.d("ping",ping.title)
-        Log.d("ping",ping.creator)
-        Log.d("ping",ping.desc)
-        Log.d("ping",ping.geo.toString())
-        Log.d("creatorName",ping.creatorName)
-        Log.d("asdqweasd","asdqweasd")
-       //val bitmapMarker = ImageHelper.getPingMarkerBitmap(context,R.color.colorPrimary)
-        //val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker)
-
-        //if (ping.geo.size<2)
-            //return
-
-        Log.d("positionOfMarker1",ping.geo[0].toString())
-        Log.d("positionOfMarker2",ping.geo[1].toString())
-        Log.d("titleOfMarker",ping.title)
 
         val marker = mMap.addMarker(MarkerOptions()
                 .position(LatLng(ping.geo[0],ping.geo[1]))
@@ -182,8 +167,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
                     }
                 }
             }
-            Log.d("michno2",newPings.size.toString())
-
             if (isPingNew && !newPing.ended)
                 addPing(newPing,false)
         }

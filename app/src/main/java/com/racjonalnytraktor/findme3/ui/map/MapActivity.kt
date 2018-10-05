@@ -382,7 +382,22 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun showEndPingBar(ping: Ping) {
-        Log.d("ioioioio",ping.inProgress.toString())
+        val builder = AlertDialog.Builder(this)
+                .setTitle(ping.title)
+                .setMessage(ping.desc)
+        if(ping.ended)
+            builder.setNegativeButton("Anuluj") {dialogInterface, i -> }
+        else if(ping.inProgress)
+            builder.setPositiveButton("Zakończ") {dialogInterface, i -> }
+        else{
+            builder.setPositiveButton("Zakończ") {dialogInterface, i -> }
+            builder.setNeutralButton("Zacznij"){dialogInterface, i -> }
+        }
+
+        builder.create().show()
+
+
+        /*Log.d("ioioioio",ping.inProgress.toString())
 
         val view = layoutInflater.inflate(R.layout.dialog_ping,null)
 
@@ -445,7 +460,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         view.buttonSetToEnd.setOnClickListener {
             mPresenter.onEndPing(ping.pingId)
             dialog.dismiss()
-        }
+        }*/
 }
 
 
