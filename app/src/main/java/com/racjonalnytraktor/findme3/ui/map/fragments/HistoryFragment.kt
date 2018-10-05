@@ -3,9 +3,9 @@ package com.racjonalnytraktor.findme3.ui.map.fragments
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,22 +13,17 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Model1
-import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
-import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.ui.adapters.HistoryAdapter
-import com.racjonalnytraktor.findme3.ui.adapters.InvitationsAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import kotlinx.android.synthetic.main.fragment_history.*
 
 class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
 
-    lateinit var mListAdapter: HistoryAdapter
+    var mListAdapter: HistoryAdapter? = null
     lateinit var mPresenter: HistoryPresenter<HistoryMvp.View>
 
-    val listInfo = ArrayList<Model1>()
-    val listHelp = ArrayList<Model1>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -49,18 +44,14 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
             parentMvp.getPresenter().onBackInFragmentClick("history")
         }
 
-        buttonInfo.setOnClickListener {
+        buttonActions.setOnClickListener {
             buttonHelp.setTextColor(Color.BLACK)
-            buttonInfo.setTextColor(ContextCompat.getColor(parentMvp.getCtx(),R.color.colorPrimaryNew))
-            mListAdapter.list = listInfo
-            mListAdapter.notifyDataSetChanged()
-            //mPresenter.onInfoButtonClick()
+            buttonActions.setTextColor(ContextCompat.getColor(parentMvp.getCtx(),R.color.colorPrimaryNew))
+            mPresenter.onActionsButtonClick()
         }
         buttonHelp.setOnClickListener {
             buttonHelp.setTextColor(ContextCompat.getColor(parentMvp.getCtx(),R.color.colorPrimaryNew))
-            buttonInfo.setTextColor(Color.BLACK)
-            mListAdapter.list = listHelp
-            mListAdapter.notifyDataSetChanged()
+            buttonActions.setTextColor(Color.BLACK)
         }
     }
 
@@ -74,11 +65,12 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         mPresenter.onDetach()
     }
 
+
     override fun updateAll() {
     }
 
     override fun clearList(type: String) {
-        mListAdapter.clear(type)
+        mListAdapter?.clear(type)
     }
 
     private fun initList(){
@@ -86,8 +78,18 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         val layoutManager = LinearLayoutManager(activity)
         listHistory.layoutManager = layoutManager
 
-        mListAdapter = HistoryAdapter(listInfo,mPresenter,parentMvp as Context)
+        mListAdapter = HistoryAdapter(ArrayList(),mPresenter,parentMvp as Context)
         listHistory.adapter = mListAdapter
+    }
+
+    override fun updateActions(action: ArrayList<Model1>) {
+        mListAdapter?.list?.addAll(action)
+    }
+
+    override fun updateActions(action: Model1) {
+        Log.d("updateActions",action.message)
+        mListAdapter?.list?.add(action)
+        mListAdapter?.notifyDataSetChanged()
     }
 
     override fun showEndPingBar(ping: Ping) {

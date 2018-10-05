@@ -1,25 +1,16 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.zxing.common.StringUtils
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.Invitation
 import com.racjonalnytraktor.findme3.data.model.Model1
-import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
-import com.racjonalnytraktor.findme3.utils.StringHelper
-import kotlinx.android.synthetic.main.item_history.view.*
 import kotlinx.android.synthetic.main.item_history_new.view.*
 
 
@@ -50,11 +41,10 @@ class HistoryAdapter(var list: ArrayList<Model1>, val listener: ClickListener, v
 
         fun bind1(model1: Model1) {
             itemView.apply {
-                fieldTitle.text = model1.text1
-                fieldMessage.text = model1.text2
+                fieldTitle.text = model1.title
+                fieldMessage.text = model1.message
                 fieldDate.text = model1.date
             }
-
         }
     }
 

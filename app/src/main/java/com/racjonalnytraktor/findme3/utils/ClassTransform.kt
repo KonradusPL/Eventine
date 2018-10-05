@@ -1,9 +1,12 @@
 package com.racjonalnytraktor.findme3.utils
 
 import android.util.Log
+import com.racjonalnytraktor.findme3.data.model.Action
+import com.racjonalnytraktor.findme3.data.model.Model1
 import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Worker
+import java.util.*
 
 object ClassTransform {
 
@@ -23,5 +26,10 @@ object ClassTransform {
         }
         Log.d("fromPeopleArrayToJobs:",jobs.toString())
         return jobs
+    }
+
+    fun fromActionToModelH(action: Action): Model1{
+        val dateString = StringHelper.getTimeForAction(Date(),action.createdAt)
+        return Model1(action.title,action.desc,dateString,action.id)
     }
 }

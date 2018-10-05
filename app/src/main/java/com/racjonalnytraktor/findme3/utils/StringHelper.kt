@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.utils
 
 import android.util.Log
+import java.util.*
 
 object StringHelper {
     fun getErrorCode(message: String): String{
@@ -75,5 +76,49 @@ object StringHelper {
         string = string.plus(mChar2)
 
         return string
+    }
+
+    fun getTimeForAction(currentDate: Date, stealDate: Date): String{
+        var different = currentDate.time - stealDate.time
+
+        var timeText = "niedawno"
+
+        val secondsInMilli: Long = 1000
+        val minutesInMilli = secondsInMilli * 60
+        val hoursInMilli = minutesInMilli * 60
+        val daysInMilli = hoursInMilli * 24
+
+        val elapsedDays = (different / daysInMilli).toInt()
+        different %= daysInMilli
+
+        val elapsedHours = (different / hoursInMilli).toInt()
+        different %= hoursInMilli
+
+        val elapsedMinutes = (different / minutesInMilli).toInt()
+        different %= minutesInMilli
+
+        val elapsedSeconds = (different / secondsInMilli).toInt()
+
+        var textPart = ""
+
+        if(elapsedDays > 0){
+            timeText = elapsedDays.toString()
+            if (timeText.last() == '1' && timeText.length == 1)
+                timeText = "dzień"
+            else
+                textPart = " dni"
+        }else{
+            timeText = elapsedHours.toString()
+            textPart = when(timeText.last()){
+                '2' -> " godziny"
+                '3' -> " godziny"
+                '4' -> " godziny"
+                else -> " godzin"
+            }
+
+            if(timeText.last() == '1' && timeText.length == 1)
+                textPart = " godzina"
+        }
+        return "$timeText$textPart temu"
     }
 }

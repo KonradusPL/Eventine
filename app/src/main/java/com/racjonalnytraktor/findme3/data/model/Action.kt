@@ -1,11 +1,12 @@
 package com.racjonalnytraktor.findme3.data.model
 
+import com.google.gson.annotations.SerializedName
 import com.racjonalnytraktor.findme3.data.model.new.Relative
 import java.util.*
 import kotlin.collections.ArrayList
 
 data class Action(
-        var id: String = "",
+        @SerializedName("_id") var id: String = "",
         var groupId: String = "",
         var type: String = "",
         var createdAt: Date = Date(),

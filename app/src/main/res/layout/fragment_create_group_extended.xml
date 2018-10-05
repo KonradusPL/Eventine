@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:text="Dodaj"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/buttonInfo"
+            app:layout_constraintStart_toEndOf="@+id/buttonActions"
             tools:layout_editor_absoluteY="344dp" />
     </LinearLayout>
 

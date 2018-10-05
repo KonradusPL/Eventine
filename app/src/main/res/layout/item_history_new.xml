@@ -8,13 +8,16 @@
 
     <TextView
         android:id="@+id/fieldTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/roboto"
         android:text="Szachownica"
+        android:textAlignment="viewStart"
         android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/fieldDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
