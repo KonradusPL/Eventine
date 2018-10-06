@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.data.network.model.createping
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.network.model.changegroups.Typed
@@ -41,6 +42,8 @@ data class Ping(
     }
 
     fun fromAction(action: Action){
+        if (action.status == "done")
+            Log.d("fromAction",action.status)
         groupId = action.groupId
         creator = action.creator.id
         title = action.title
@@ -51,5 +54,12 @@ data class Ping(
         pingId = pingId.plus(action.id)
         creatorName = action.creator.name
         progressorName = action.progressor.name
+        when(action.status){
+            "inProgress"-> inProgress = true
+            "done" -> ended = true
+        }
+        if(ended)
+            Log.d("fromAction","works ;)")
+
     }
 }

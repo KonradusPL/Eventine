@@ -386,12 +386,21 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .setTitle(ping.title)
                 .setMessage(ping.desc)
         if(ping.ended)
+            builder.setNegativeButton("Anuluj") {dialogInterface, i ->
+            }
+        else if(ping.inProgress){
+            builder.setPositiveButton("Zakończ") {dialogInterface, i ->
+                mPresenter.onEndPingClick(ping.pingId)
+            }
             builder.setNegativeButton("Anuluj") {dialogInterface, i -> }
-        else if(ping.inProgress)
-            builder.setPositiveButton("Zakończ") {dialogInterface, i -> }
+        }
         else{
-            builder.setPositiveButton("Zakończ") {dialogInterface, i -> }
-            builder.setNeutralButton("Zacznij"){dialogInterface, i -> }
+            builder.setPositiveButton("Zakończ") {dialogInterface, i ->
+                mPresenter.onEndPingClick(ping.pingId)
+            }
+            builder.setNeutralButton("Zacznij"){dialogInterface, i ->
+                mPresenter.onInProgressClick(ping.pingId)
+            }
         }
 
         builder.create().show()
@@ -458,7 +467,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
             dialog.dismiss()
         }
         view.buttonSetToEnd.setOnClickListener {
-            mPresenter.onEndPing(ping.pingId)
+            mPresenter.onEndPingClick(ping.pingId)
             dialog.dismiss()
         }*/
 }

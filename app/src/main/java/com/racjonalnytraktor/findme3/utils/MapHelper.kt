@@ -157,6 +157,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
                     Log.d("iopiop","iopiop")
                     isPingNew = false
                     if(newPing.ended){
+                        Log.d("MapHelper","ping is done")
                         ping.marker.remove()
                         pingsOnMap.remove(ping)
                         break

@@ -143,14 +143,16 @@ object MapRepository: BaseRepository() {
 
     fun endPing(pingId: String): Single<String>{
         val request = EndPing(pingId)
-        return rest.networkService.endPing("",request)
+        val token = prefs.getUserToken()
+        return rest.networkService.endPing(token,request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
 
     fun inProgressPing(pingId: String): Single<String>{
         val request = EndPing(pingId)
-        return rest.networkService.setPingToInProgress("",request)
+        val token = prefs.getUserToken()
+        return rest.networkService.setPingToInProgress(token,request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

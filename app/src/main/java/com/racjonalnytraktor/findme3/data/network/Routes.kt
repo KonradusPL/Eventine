@@ -80,10 +80,10 @@ interface Routes {
     @POST("info/create")
     fun createInfo(@Header("X-Token")token: String, @Body request: Info): Single<String>
 
-    @POST("ping/end")
+    @POST("actions/end")
     fun endPing(@Header("X-Token")token: String, @Body request: EndPing): Single<String>
 
-    @POST("ping/inProgress")
+    @POST("actions/inProgress")
     fun setPingToInProgress(@Header("X-Token")token: String, @Body request: EndPing): Single<String>
 
     //////

@@ -307,7 +307,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         mRepo.clearData()
     }
 
-    override fun onEndPing(id: String) {
+    override fun onEndPingClick(id: String) {
         Log.d("idsss",id)
         mRepo.endPing(id)
                 .subscribe({response: String? ->
@@ -316,6 +316,18 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     view.showMessage("Zadanie wykonane",MvpView.MessageType.SUCCESS)
                 },{ t: Throwable? ->
                     view.showMessage("Wykonanie zadania nie powiodło się",MvpView.MessageType.ERROR)
+                    Log.d("koko",t!!.message.orEmpty())
+                })
+    }
+
+    override fun onInProgressClick(id: String) {
+        Log.d("idsss",id)
+        mRepo.inProgressPing(id)
+                .subscribe({response: String? ->
+                    Log.d("koko",response.orEmpty())
+                    view.showMessage("Powodzenia !",MvpView.MessageType.SUCCESS)
+                },{ t: Throwable? ->
+                    view.showMessage("Problem ze zmianą statusu zadania",MvpView.MessageType.ERROR)
                     Log.d("koko",t!!.message.orEmpty())
                 })
     }
@@ -341,17 +353,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         view.showFullFragments("options")
     }
 
-    override fun onInProgressClick(id: String) {
-        Log.d("idsss",id)
-        mRepo.inProgressPing(id)
-                .subscribe({response: String? ->
-                    Log.d("koko",response.orEmpty())
-                    view.showMessage("Powodzenia !",MvpView.MessageType.SUCCESS)
-                },{ t: Throwable? ->
-                    view.showMessage("Problem ze zmianą statusu zadania",MvpView.MessageType.ERROR)
-                    Log.d("koko",t!!.message.orEmpty())
-                })
-    }
+
 
     override fun onBackInFragmentClick(type: String) {
         view.hideFullFragments(type,true)
