@@ -45,6 +45,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/user_holder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,5 +75,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldFullName" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabProfile"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+
+        app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
+        app:layout_constraintEnd_toEndOf="@+id/imageProfile" />
 
 </android.support.constraint.ConstraintLayout>

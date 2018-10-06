@@ -303,8 +303,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updateMapImage(bitmap: Bitmap) {
-        if(isFullFragmentAdded())
-            imageMap.visibility = View.VISIBLE
+
         //imageMap.setImageBitmap(bitmap)
         Blurry.with(this)
                 .from(bitmap)
@@ -312,6 +311,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
    fun showBlur() {
+       if(isFullFragmentAdded())
+           imageMap.visibility = View.VISIBLE
         mMapHelper.getImage()
     }
 

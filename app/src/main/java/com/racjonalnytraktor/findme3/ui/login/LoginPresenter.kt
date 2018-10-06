@@ -24,12 +24,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                 .subscribe({response: LoginResponse? ->
                     Log.d("logowanie","działa")
                     view.hideLoginLoading()
-                    repo.prefs.apply {
-                        createUser(User(token = response!!.token))
-                        setIsUserLoggedIn(true)
-                        setCurrentGroupId("5bb206e3c4b7060010e4c667")
-                        Log.d("tokeniki :)",getUserToken())
-                    }
+                    repo.saveUser(response!!.token,"",email)
                     view.openMainActivity()
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
 
@@ -51,29 +46,20 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
     override fun onFacebookLoginSuccess(loginResult: LoginResult?) {
         view.showLoginLoading()
-        repo.getUserInfo()
-                .subscribe({ user: User? ->
-                    if(user != null)
-                        repo.registerByFacebook(user)
-                            .subscribe ({ response: RegisterFbResponse? ->
-                                view.hideLoginLoading()
-                                user.token = response?.token ?: ""
-                                repo.setCurrentUser(user)
-                                repo.prefs.apply {
-                                    createUser(user)
-                                    setIsUserLoggedIn(true)
-                                }
-                                view.openMainActivity()},
-                                    {error: Throwable? -> Log.d("error",error.toString())
-                                        view.hideLoginLoading()
-                            }
 
-                    )
-                },{throwable: Throwable? ->
+        repo.getUserInfo()
+                .flatMap { user: User -> repo.registerByFacebook(user) }
+                .subscribe({t: RegisterFbResponse? ->
+                    view.hideLoginLoading()
+                    Log.d("onFacebookLoginSuccess","${t!!.fbId} ${t.token}")
+                    repo.saveUser(t!!.token,t.fbId,"")
+                    view.openMainActivity()},
+                        { throwable: Throwable? ->
                     view.hideLoginLoading()
                     Log.d("error",throwable.toString())
                 })
     }
+
 
     override fun onDetach() {
         super.onDetach()

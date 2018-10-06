@@ -41,7 +41,10 @@ class LoginRepository: BaseRepository() {
         Log.d("requestname",request.fullName)
 
         return rest.networkService.registerByFacebook(request)
+                .map { t -> RegisterFbResponse(t.success,t.token,user.facebookId) }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
+
+
 }

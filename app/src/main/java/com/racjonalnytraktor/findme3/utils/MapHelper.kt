@@ -28,7 +28,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
     private var listenerPresenter: MapListener = mvpView.getPresenter()
     private var listenerView : MapViewListener = mvpView
 
-    private lateinit var mMap: GoogleMap
+    private var mMap: GoogleMap? = null
 
     private lateinit var userOnMap: PersonOnMap
     private val peopleOnMap = ArrayList<PersonOnMap>()
@@ -46,7 +46,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
     }
 
     fun getImage(){
-        mMap.snapshot{ bitmap ->
+        mMap?.snapshot{ bitmap ->
             listenerView.updateMapImage(bitmap)
         }
     }
@@ -57,7 +57,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
 
         listenerPresenter.onMapPrepared()
 
-        mMap.apply {
+        mMap?.apply {
             setPadding(0,60,0,0)
             isBuildingsEnabled = false
             uiSettings.isTiltGesturesEnabled = false
@@ -68,23 +68,23 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
                 .target(LatLng(52.208856, 21.008713))
                 .zoom(19f)
                 .build()
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
+        mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
 
         try {
-            val success = mMap.setMapStyle(
+            val success = mMap?.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             mvpView.getCtx(), R.raw.theme_map))
         }catch (e: Resources.NotFoundException) {
             Log.e("myErrors", "Can't find style. Error: ", e)
         }
 
-        mMap.setOnMapClickListener { latLng ->
+        mMap?.setOnMapClickListener { latLng ->
             val location = Location("GPS")
             location.longitude = latLng.longitude
             location.latitude = latLng.latitude
             listenerPresenter.onMapClick(location)
         }
-        mMap.setOnMarkerClickListener { marker ->
+        mMap?.setOnMarkerClickListener { marker ->
             for(ping in pingsOnMap){
                 if(ping.marker.position == marker.position){
                     Log.d("pongaponga",ping.ping.inProgress.toString())
@@ -94,36 +94,34 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             }
             true
         }
-        mMap.setOnMapLongClickListener { latLng ->
+        mMap?.setOnMapLongClickListener { latLng ->
             listenerPresenter.onLongClickListener(latLng)
         }
     }
 
     fun moveCamera(position: LatLng) {
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(position),2000,null)
+        mMap?.animateCamera(CameraUpdateFactory.newLatLng(position),2000,null)
     }
 
     fun zoomCamera(value: Float = 15f){
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(value),2000,null)
+        mMap?.animateCamera(CameraUpdateFactory.zoomTo(value),2000,null)
     }
 
 
     fun addPing(ping: Ping,animation: Boolean){
-
-        val marker = mMap.addMarker(MarkerOptions()
-                .position(LatLng(ping.geo[0],ping.geo[1]))
-                .title(ping.title))
-
         //if(ping.inProgress)
            // marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
 
-        Log.d("kuku","kukuku")
+        if(mMap != null){
+            val marker = mMap?.addMarker(MarkerOptions()
+                    .position(LatLng(ping.geo[0],ping.geo[1]))
+                    .title(ping.title))
+            val newPing = Ping()
+            newPing.clone(ping)
+            val pingOnMap = PingOnMap(newPing, marker!!)
+            pingsOnMap.add(pingOnMap)
+        }
 
-        val newPing = Ping()
-        newPing.clone(ping)
-
-        val pingOnMap = PingOnMap(newPing, marker)
-        pingsOnMap.add(pingOnMap)
 
     }
 

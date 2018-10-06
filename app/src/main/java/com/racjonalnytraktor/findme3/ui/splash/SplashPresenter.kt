@@ -18,9 +18,6 @@ class SplashPresenter<V: SplashMvp.View>: BasePresenter<V>(),SplashMvp.Presenter
         val request2 = RegisterRequest("test1@test.pl", "Jan Kowalski", "password1")
         val grupaTestowa1 = "5bb206e3c4b7060010e4c667"
 
-        repo.prefs.createUser(User())
-        repo.prefs.setCurrentGroupId(grupaTestowa1)
-
         if(repo.isUserLoggedIn())
             view.openMainActivity()
         else
