@@ -20,6 +20,10 @@ import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.add_task_description.*
 import java.util.*
+import com.llollox.androidtoggleswitch.widgets.ToggleSwitch
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
+
+
 
 class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.OnTimeSetListener
 ,Listener.ChangeLocation{
@@ -70,6 +74,12 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
             Toasty.normal(parentContext,switchAction.checkedPosition.toString()).show()
             Log.d("switchAction","pos: $switchAction.checkedPosition")
         }
+        switchAction.onChangeListener = object: ToggleSwitch.OnChangeListener{
+            override fun onToggleSwitchChanged(position: Int) {
+                Log.d("switchAction","pos: ${switchAction.checkedPosition}")
+            }
+
+        }
 
         if(mLocation.latitude != 0.0)
             textLocation?.text = "${mLocation.latitude.toFloat()}, ${mLocation.longitude.toFloat()}"
@@ -92,6 +102,8 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
         action.title = fieldTitle?.text.toString()
         action.desc = fieldDescr?.text.toString()
         action.type = if(switchAction.checkedPosition == 0) "ping" else "info"
+        Log.d("pupa12",action.type)
+        Log.d("pupa12",switchAction.checkedPosition.toString())
 
         try {
             val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)

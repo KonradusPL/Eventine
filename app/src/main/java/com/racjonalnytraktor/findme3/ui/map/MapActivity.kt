@@ -107,11 +107,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
         initFloorSpinner()
         setUpClickListeners()
 
-        mPresenter.onAttach(this)
-
         listenSlidingState()
 
         initBeaconsScanning()
+
+        mPresenter.onAttach(this)
     }
 
     private fun initOtherViews(){
@@ -224,7 +224,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .onError {Log.d("Beacons","proximityObserver error") }
                 .build()
         val burgundiaZone = ProximityZoneBuilder()
-                .forTag("Burgundia")
+                .forTag("Pokoik")
                 .inNearRange()
                 .onEnter {
                     Toasty.info(this@MapActivity,"Enter!").show()
@@ -296,7 +296,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun updateMapImage(bitmap: Bitmap) {
-
+        if(isFullFragmentAdded())
+            imageMap.visibility = View.VISIBLE
         //imageMap.setImageBitmap(bitmap)
         Blurry.with(this)
                 .from(bitmap)
@@ -304,8 +305,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
    fun showBlur() {
-       if(isFullFragmentAdded())
-           imageMap.visibility = View.VISIBLE
+
         mMapHelper.getImage()
     }
 
@@ -580,6 +580,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .replace(R.id.fragmentContainer,fragment)
                 .commit()
 
+        spinnerFloor.visibility = View.GONE
+
         showBlur()
 
         if(slidePanel.isOpened)
@@ -596,6 +598,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
         supportFragmentManager.beginTransaction()
                 .remove(fragment)
                 .commit()
+
+        spinnerFloor.visibility = View.VISIBLE
 
         hideBlur()
 

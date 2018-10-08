@@ -65,6 +65,7 @@ interface MapMvp {
         fun onManageGroupAttach(listener: Listener.Manage)
         fun onAddTaskListAttach(listener: Listener.AddTaskList)
         fun onOrganisersAttach(listener: Listener.Organisers)
+        fun onZoneEnter(zone: String)
 
     }
 }

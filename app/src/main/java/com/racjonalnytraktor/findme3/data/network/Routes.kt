@@ -45,6 +45,10 @@ interface Routes {
     @GET("group/subgroups/{groupId}")
     fun getSubGroups(@Header("X-Token") token: String)
 
+    @POST("group/location")
+    fun updateLocation(@Header("X-Token") token: String, @FieldMap data: HashMap<String,Any>)
+    :Single<String>
+
     @GET("group/allSubGroups/{groupId}")
     fun getAllSubGroups(@Header("X-Token") token: String,@Path("groupId") groupId: String):
             Observable<List<String>>

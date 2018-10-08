@@ -125,4 +125,9 @@ class AddGroupTest {
                 })
     }
 
+    @Test
+    fun updateLocationTest(){
+
+    }
+
 }

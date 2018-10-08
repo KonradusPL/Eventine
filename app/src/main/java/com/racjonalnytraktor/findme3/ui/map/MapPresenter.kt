@@ -398,6 +398,19 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 }))
     }
 
+    override fun onZoneEnter(zone: String) {
+        val token = mRepo.prefs.getUserToken()
+        val map = HashMap<String,Any>()
+        map["groupId"] = mRepo.prefs.getCurrentGroupId()
+        map["locationTag"] = zone
+        compositeDisposable.add(mRepo.rest.networkService.updateLocation(token,map)
+                .subscribe({t: String? ->
+                    Log.d("updateLocation",t.toString())
+                },{t: Throwable? ->
+                    Log.d("updateLocation",t.toString())
+                }))
+    }
+
     override fun onLogOutClick() {
         if(mRepo.facebook.isLoggedIn())
             mRepo.facebook.logOut()
