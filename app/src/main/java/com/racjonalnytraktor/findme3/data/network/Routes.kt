@@ -45,6 +45,7 @@ interface Routes {
     @GET("group/subgroups/{groupId}")
     fun getSubGroups(@Header("X-Token") token: String)
 
+    @FormUrlEncoded
     @POST("group/location")
     fun updateLocation(@Header("X-Token") token: String, @FieldMap data: HashMap<String,Any>)
     :Single<String>

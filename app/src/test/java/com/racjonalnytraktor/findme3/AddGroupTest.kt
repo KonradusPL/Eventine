@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3
 
+import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.ActionsResponse
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
@@ -15,7 +16,7 @@ import kotlin.collections.HashMap
 
 class AddGroupTest {
 
-    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IkphbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyN2QwYzUxZjMwMDEwZjVkMDhlIiwiaWF0IjoxNTM4NzU5ODUxLCJleHAiOjE1MzkzNjQ2NTF9.WCKAQkwpPxeo0YmNonxSJ9KLe8L7JVg_0pyMrL0aEaA"
+    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IkphbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyN2QwYzUxZjMwMDEwZjVkMDhlIiwiaWF0IjoxNTM5MDM1NTM4LCJleHAiOjE1Mzk2NDAzMzh9.07Lkod5AsaEtvtJC7ojkAIgZ-Hk3PGiYvk0XYgVDOQQ"
     val token2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6Ik1hcmNpbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyYjUwYzUxZjMwMDEwZjVkMDhmIiwiaWF0IjoxNTM4MDM2NDA1LCJleHAiOjE1Mzg2NDEyMDV9.i4_JXB9iREQlJ7ioPWvf4algZSaJLxzpj6PZOJygf7Y"
     val token3 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IlRhZGV1c3ogS293YWxza2kiLCJpZCI6IjViYWM5MmU5MGM1MWYzMDAxMGY1ZDA5MCIsImlhdCI6MTUzODAzNjQ1NywiZXhwIjoxNTM4NjQxMjU3fQ.4lvyJWCB0q4o7cG0Oeh770XSeu4RenO-KMWRi9NojG4"
 
@@ -127,7 +128,15 @@ class AddGroupTest {
 
     @Test
     fun updateLocationTest(){
-
+        val map = HashMap<String,Any>()
+        map["groupId"] = grupaTestowa1
+        map["locationTag"] = "Pokoik"
+        rest.updateLocation(token1,map).subscribe({
+            t: String ->
+            println(t)
+        },{t: Throwable? ->
+            println(t.toString())
+        })
     }
 
 }
