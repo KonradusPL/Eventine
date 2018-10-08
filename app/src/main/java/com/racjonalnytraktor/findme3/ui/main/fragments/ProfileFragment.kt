@@ -22,12 +22,15 @@ import android.graphics.Bitmap
 import android.R.attr.data
 import android.app.Activity.RESULT_OK
 import android.net.Uri
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.FileNotFoundException
-
+import android.R.attr.data
 
 class ProfileFragment: BaseFragment<MapMvp.View>() {
 
-    val requestGallery = 1905
+    private val requestGallery = 1905
+    private var mLocalImageUri = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile,container,false)
@@ -44,32 +47,34 @@ class ProfileFragment: BaseFragment<MapMvp.View>() {
         iconBack.setOnClickListener {
             parentMvp.getPresenter().onBackInFragmentClick("profile")
         }
-        fabProfile.setImageDrawable(IconicsDrawable(parentMvp.getCtx())
+        fabProfile.icon = IconicsDrawable(parentMvp.getCtx())
                 .icon(FontAwesome.Icon.faw_plus)
-                .sizeDp(12)
-                .color(Color.WHITE))
-        fabProfile.setOnClickListener {
-            val photoPickerIntent = Intent(Intent.ACTION_PICK)
-            photoPickerIntent.type = "image/*"
-            startActivityForResult(photoPickerIntent,requestGallery)
+                .sizeDp(14)
+                .color(Color.WHITE)
+
+        fabBackground.setOnClickListener {
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(getCtx(),this@ProfileFragment)
+
         }
+        if (mLocalImageUri.isNotEmpty())
+            imageProfile.setImageURI(Uri.parse(mLocalImageUri))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK && requestCode == requestGallery) {
-            try {
-                val imageUri = data?.data ?: Uri.EMPTY
-                val imageStream = parentContext.contentResolver.openInputStream(imageUri)
-                val selectedImage = BitmapFactory.decodeStream(imageStream)
-                imageProfile.setImageBitmap(selectedImage)
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val resultUri = result.uri
+                mLocalImageUri = resultUri.toString()
+                imageProfile.setImageURI(resultUri)
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
             }
-
-        } else {
-            //Toast.makeText(this@PostImage, "You haven't picked Image", Toast.LENGTH_LONG).show()
         }
     }
 }

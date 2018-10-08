@@ -11,7 +11,6 @@ import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterRequest
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterResponse
 import org.junit.Test
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class AddGroupTest {
@@ -77,7 +76,7 @@ class AddGroupTest {
         action.apply {
             type = "ping"
             title = "Title3"
-            descr = "Descr3"
+            desc = "Descr3"
             plannedTime = ""
             geo = arrayListOf(50.747765,19.178419)
             groupId = "5bb206e3c4b7060010e4c667"

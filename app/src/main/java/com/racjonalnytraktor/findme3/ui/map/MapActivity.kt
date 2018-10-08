@@ -14,12 +14,15 @@ import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
 import android.widget.DatePicker
-import com.estimote.indoorsdk.EstimoteCloudCredentials
 import com.estimote.indoorsdk.IndoorLocationManagerBuilder
 import com.estimote.indoorsdk_module.algorithm.IndoorLocationManager
 import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener
 import com.estimote.indoorsdk_module.cloud.*
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
+import com.estimote.proximity_sdk.api.EstimoteCloudCredentials
+import com.estimote.proximity_sdk.api.ProximityObserver
+import com.estimote.proximity_sdk.api.ProximityObserverBuilder
+import com.estimote.proximity_sdk.api.ProximityZoneBuilder
 import com.google.android.gms.maps.SupportMapFragment
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.iconics.IconicsDrawable
@@ -36,6 +39,7 @@ import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
 import com.racjonalnytraktor.findme3.ui.map.fragments.addtask.AddTaskFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
+import es.dmoral.toasty.Toasty
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.dialog_ping.view.*
@@ -55,8 +59,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var mMapHelper: MapHelper
     lateinit var mPresenter: MapPresenter<MapMvp.View>
 
-    private lateinit var indoorLocationManager: IndoorLocationManager
     private val cloudCredentials = EstimoteCloudCredentials("indoorlocation-m4a","846401acdfecd6753a2d69750172aa67")
+    private var mObservationHandler: ProximityObserver.Handler? = null
+
 
     private lateinit var fragmentMap: SupportMapFragment
     private lateinit var fragmentManagement: ManagementFragment
@@ -106,7 +111,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         listenSlidingState()
 
-        initIndoorLocation()
+        initBeaconsScanning()
     }
 
     private fun initOtherViews(){
@@ -213,43 +218,33 @@ class MapActivity : BaseActivity(),MapMvp.View{
         spinnerFloor.attachDataSource(floors)
     }
 
-    private fun initIndoorLocation(){
-        val cloudManager = IndoorCloudManagerFactory().create(this,cloudCredentials)
-        cloudManager.getAllLocations(object: CloudCallback<List<Location>>{
-            override fun failure(serverException: EstimoteCloudException) {
-                Log.d("estimoteError",serverException.body.orEmpty())
-            }
-
-            override fun success(t: List<Location>) {
-                Log.d("EstimoteD","get location success")
-                Log.d("EstimoteD",t[0].name)
-                indoorLocationManager = IndoorLocationManagerBuilder(this@MapActivity, t[0], cloudCredentials)
-                        .build()
-                indoorLocationManager.setOnPositionUpdateListener(object: OnPositionUpdateListener{
-                    override fun onPositionOutsideLocation() {
-                        Log.d("EstimoteD","onPositionOutsideLocation")
-                    }
-
-                    override fun onPositionUpdate(locationPosition: LocationPosition) {
-                        Log.d("EstimoteD","onPositionUpdate")
-                        Log.d("ELocationX",locationPosition.x.toString())
-                    }
-
-                })
-                RequirementsWizardFactory.createEstimoteRequirementsWizard()
-                        .fulfillRequirements(this@MapActivity,
-                                onRequirementsFulfilled = {
-                                    Log.d("EstimoteD","Supcio :)")
-                                    indoorLocationManager.startPositioning()
-                                },
-                                onRequirementsMissing = {
-
-                                },
-                                onError = {
-
-                                })
-            }
-        })
+    private fun initBeaconsScanning(){
+        val proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
+                .withBalancedPowerMode()
+                .onError {Log.d("Beacons","proximityObserver error") }
+                .build()
+        val burgundiaZone = ProximityZoneBuilder()
+                .forTag("Burgundia")
+                .inNearRange()
+                .onEnter {
+                    Toasty.info(this@MapActivity,"Enter!").show()
+                    Log.d("Beacons","Enter")
+                }
+                .onExit {
+                    Toasty.info(this@MapActivity,"Exit!").show()
+                    Log.d("Beacons","Exit")
+                }
+                .onContextChange {/* do something here */}
+                .build()
+        RequirementsWizardFactory.createEstimoteRequirementsWizard().fulfillRequirements(
+                this,
+                onRequirementsFulfilled = {
+                    Log.d("Beacons","onRequirementsFulfilled")
+                    mObservationHandler = proximityObserver.startObserving(burgundiaZone)
+                },
+                onRequirementsMissing = {},
+                onError = {}
+        )
 
     }
 
@@ -297,9 +292,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         Log.d("lifecycler","onStop")
         EventBus.getDefault().unregister(this)
         mPresenter.isAttached = false
-        tabLayoutMap.let {
-           // it.getTabAt(it.selectedTabPosition)?.icon?.setTint(ContextCompat.getColor(this@MapActivity,R.color.black))
-        }
+        mObservationHandler?.stop()
     }
 
     override fun updateMapImage(bitmap: Bitmap) {
@@ -572,7 +565,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
             else -> Fragment()
         }
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerSlide,fragment)
+                .remove(fragment)
                 .commit()
     }
 

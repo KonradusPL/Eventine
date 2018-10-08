@@ -76,13 +76,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldFullName" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabProfile"
-        android:layout_width="42dp"
-        android:layout_height="wrap_content"
-        app:fabSize="mini"
-
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/fabBackground"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
-        app:layout_constraintEnd_toEndOf="@+id/imageProfile" />
+        app:layout_constraintEnd_toEndOf="@+id/imageProfile"
+        android:foreground="@drawable/circle_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="1dp"
+        app:civ_circle_background_color="@color/colorAccent"
+        android:src="@color/colorAccent"/>
+
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:id="@+id/fabProfile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fabBackground"
+        app:layout_constraintEnd_toEndOf="@+id/fabBackground"
+        app:layout_constraintStart_toStartOf="@id/fabBackground"
+        android:clickable="false"
+        app:layout_constraintTop_toTopOf="@+id/fabBackground" />
 
 </android.support.constraint.ConstraintLayout>

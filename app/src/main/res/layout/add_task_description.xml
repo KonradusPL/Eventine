@@ -2,6 +2,7 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/scrollView"
@@ -12,20 +13,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.llollox.androidtoggleswitch.widgets.ToggleSwitch
+            android:id="@+id/switchAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:borderRadius="3dp"
+            app:borderWidth="1dp"
+            app:checkedBackgroundColor="@color/accent"
+            app:checkedBorderColor="@color/accent"
+            app:checkedTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:separatorVisible="false"
+            app:textToggleLeft="Ping"
+            app:textToggleRight="Info"
+            app:toggleWidth="125dp"
+            app:uncheckedBackgroundColor="@color/white"
+            app:uncheckedBorderColor="@color/accent"
+            app:uncheckedTextColor="@color/accent" />
+
         <EditText
             android:id="@+id/fieldTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Tytuł"
             android:inputType="textPersonName"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/switchAction" />
 
         <EditText
             android:id="@+id/fieldDescr"
@@ -135,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="#3D5AFE"
             android:text="Wybierz"
@@ -143,7 +168,7 @@
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView17"
             app:layout_constraintTop_toBottomOf="@+id/buttonShowDate" />
 
 

@@ -8,28 +8,17 @@ import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.HistoryRepository
 import com.racjonalnytraktor.findme3.ui.adapters.HistoryAdapter
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
+import com.racjonalnytraktor.findme3.utils.ClassTransform
 
 class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presenter<V>
 ,HistoryAdapter.ClickListener{
 
     val repo = HistoryRepository
 
-    val listActions = ArrayList<Model1>()
-    val listHelp = ArrayList<Model1>()
-
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
-        compositeDisposable.add(repo.getPings()
-                .subscribe({ping: Ping? ->
-                    Log.d("pongaponga","pingapinga")
-                    if (ping != null){
-                        Log.d("pongaponga","pongaponga")
-                        ping.type = "ping"
-                    }
-                },{t: Throwable? ->
-                    Log.d("error",t.toString())
-                }))
+        onActionsButtonClick()
     }
 
     override fun onActionsButtonClick() {
@@ -37,11 +26,19 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
         view.clearList("info")
         view.showProgress()
         compositeDisposable.add(repo.getActions()
-                .doOnComplete{view.hideProgress()}
-                .subscribe({action: Model1? ->
-                    if (action != null)
-                        view.updateActions(action)
+                .subscribe({actions: List<Action>? ->
+                    view.hideProgress()
+                    if(actions != null){
+                        repo.actions.clear()
+                        for(action in actions){
+                            val model1 = ClassTransform.fromActionToModelH(action)
+                            repo.actions.add(model1)
+                        }
+                        view.updateActions(repo.actions)
+                    }
                 },{t: Throwable? ->
+                    if(repo.actions.isNotEmpty())
+                        view.updateActions(repo.actions)
                     view.hideProgress()
                     Log.d("error",t.toString())
                 }))

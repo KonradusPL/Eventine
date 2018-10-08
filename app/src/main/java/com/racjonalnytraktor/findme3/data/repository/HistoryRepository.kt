@@ -11,6 +11,9 @@ import io.reactivex.Single
 
 object HistoryRepository: BaseRepository() {
 
+    val actions = ArrayList<Model1>()
+    val listHelp = ArrayList<Model1>()
+
     fun getPings(): Observable<Ping> {
         val array = ArrayList<Ping>()
         array.add(Ping(pingId = "1",title = "Go to kitchen",geo = arrayListOf(51.101850,22.853889),desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
@@ -33,12 +36,10 @@ object HistoryRepository: BaseRepository() {
                 .observeOn(SchedulerProvider.ui())
     }
 
-    fun getActions(): Observable<Model1>{
+    fun getActions(): Observable<List<Action>>{
         return rest.networkService.getActions(prefs.getUserToken(),prefs.getCurrentGroupId(),"ping")
                 .map { t -> t.actions.reversed() }
                 .toObservable()
-                .flatMapIterable { t -> t }
-                .map { t -> ClassTransform.fromActionToModelH(t) }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

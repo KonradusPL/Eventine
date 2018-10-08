@@ -143,6 +143,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onCreateActionClick(action: CreateActionRequest, listener: Listener.CreateAction) {
         Log.d("onCreateActionClick",action.plannedTime)
+        Log.d("onCreateActionClick",action.title)
+        Log.d("onCreateActionClick",action.desc)
+        Log.d("onCreateActionClick",action.type)
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->
             listener.clearData()
             view.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)

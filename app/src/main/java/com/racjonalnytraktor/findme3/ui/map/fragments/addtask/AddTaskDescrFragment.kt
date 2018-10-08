@@ -17,6 +17,7 @@ import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import com.racjonalnytraktor.findme3.ui.map.fragments.pickers.TimePickerFragment
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.add_task_description.*
 import java.util.*
 
@@ -64,6 +65,12 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
             parentListener.onAddUsersClick()
         }
 
+        switchAction.setCheckedPosition(0)
+        switchAction.setOnClickListener {
+            Toasty.normal(parentContext,switchAction.checkedPosition.toString()).show()
+            Log.d("switchAction","pos: $switchAction.checkedPosition")
+        }
+
         if(mLocation.latitude != 0.0)
             textLocation?.text = "${mLocation.latitude.toFloat()}, ${mLocation.longitude.toFloat()}"
         if (mHourText != "-1")
@@ -83,7 +90,8 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
     fun getActionData(): CreateActionRequest{
         val action = CreateActionRequest()
         action.title = fieldTitle?.text.toString()
-        action.descr = fieldDescr?.text.toString()
+        action.desc = fieldDescr?.text.toString()
+        action.type = if(switchAction.checkedPosition == 0) "ping" else "info"
 
         try {
             val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)

@@ -84,6 +84,7 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
 
     override fun updateActions(action: ArrayList<Model1>) {
         mListAdapter?.list?.addAll(action)
+        mListAdapter?.notifyDataSetChanged()
     }
 
     override fun updateActions(action: Model1) {
