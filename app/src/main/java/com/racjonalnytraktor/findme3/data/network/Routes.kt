@@ -66,6 +66,11 @@ interface Routes {
     fun sendPingToOrganizer(@Header("X-Token")token: String, @FieldMap data: HashMap<String,Any>)
     :Single<String>
 
+    @FormUrlEncoded
+    @POST("group/nearest")
+    fun sendPingToNearest(@Header("X-Token")token: String, @FieldMap data: HashMap<String,String>)
+            :Single<String>
+
     //actions////
 
     @POST("actions/create")

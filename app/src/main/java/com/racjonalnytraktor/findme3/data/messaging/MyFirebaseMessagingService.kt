@@ -13,13 +13,14 @@ import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import android.content.Context.VIBRATOR_SERVICE
 import android.os.Vibrator
-
+import android.util.Log
 
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     val CHANNEL_DEFAULT_IMPORTANCE = "asdasdasd"
     val NOTIFICATION_ID_PING = 123123
+    val NOTIFICATION_ID_HELP = 121212
 
     lateinit var notification: Notification
     lateinit var notificationBuilder: NotificationCompat.Builder
@@ -27,6 +28,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
+
+        Log.d("onMessageReceived",message!!.data.toString())
 
         if(message == null)
             return
@@ -43,6 +46,9 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         else if (action == "infoCreate"){
             val content = message.data["content"].orEmpty()
             onInfoCreate(content)
+        }
+        else if(action == "findOrganizer"){
+            onHelp(message.data["title"].orEmpty(),message.data["desc"].orEmpty())
         }
         else{
             val groupName = message.data["groupName"].orEmpty()
@@ -122,6 +128,23 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         if (vibrator.hasVibrator()) {
             vibrator.vibrate(mVibratePattern,-1)
         }
+    }
 
+    private fun onHelp(title: String, desc: String){
+        val notificationIntent = Intent(this, MapActivity::class.java)
+        notificationIntent.putExtra("action","help")
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+
+        notificationManager = NotificationManagerCompat.from(this)
+
+        notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle(title)
+                .setContentText(desc)
+                .setSmallIcon(R.drawable.ic_event_white_24dp)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+
+        notificationManager.notify(NOTIFICATION_ID_HELP, notificationBuilder.build())
     }
 }

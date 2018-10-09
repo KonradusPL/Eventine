@@ -84,6 +84,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     fun updateNotifToken(){
         val userToken = mRepo.prefs.getUserToken()
         val firebaseToken = FirebaseInstanceId.getInstance().token ?: ""
+        Log.d("updateNotifToken",firebaseToken)
 
         compositeDisposable.add(mRepo.rest.networkService.updateNotifToken(userToken, UpdateTokenRequest(firebaseToken))
                 .subscribeOn(SchedulerProvider.io())
@@ -130,8 +131,18 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onHelpClick() {
-        view.showMessage("Wysłano prośbę o pomoc!",MvpView.MessageType.SUCCESS)
-        view.animateExtendedCircle(false)
+        val token = mRepo.prefs.getUserToken()
+        val data = HashMap<String,String>()
+        data["groupId"] = mRepo.prefs.getCurrentGroupId()
+        compositeDisposable.add(mRepo.rest.networkService.sendPingToNearest(token, data)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+                .subscribe({ t: String? ->
+                    view.showMessage("Wysłano prośbę o pomoc!",MvpView.MessageType.SUCCESS)
+                    view.animateExtendedCircle(false)
+                },{t: Throwable? ->
+                    view.animateExtendedCircle(false)
+                }))
     }
 
     override fun onNextButtonClick(task: String, descr: String) {
