@@ -36,6 +36,8 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
     var mHourText = "-1"
     var mMinuteText = "-1"
 
+    var switchPos = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.add_task_description,container,false)
     }
@@ -76,7 +78,7 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
         }
         switchAction.onChangeListener = object: ToggleSwitch.OnChangeListener{
             override fun onToggleSwitchChanged(position: Int) {
-                Log.d("switchAction","pos: ${switchAction.checkedPosition}")
+                switchPos = position
             }
 
         }
@@ -101,7 +103,7 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
         val action = CreateActionRequest()
         action.title = fieldTitle?.text.toString()
         action.desc = fieldDescr?.text.toString()
-        action.type = if(switchAction.checkedPosition == 0) "ping" else "info"
+        action.type = if(switchPos == 0) "ping" else "info"
         Log.d("pupa12",action.type)
         Log.d("pupa12",switchAction.checkedPosition.toString())
 

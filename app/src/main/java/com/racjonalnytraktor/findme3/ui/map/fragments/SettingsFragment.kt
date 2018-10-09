@@ -39,6 +39,10 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
             parentMvp.getPresenter().onLogOutClick()
         }
 
+        swithBeacon.setOnCheckedChangeListener { compoundButton, b ->
+            parentMvp.changeBeaonsStatus(b)
+        }
+
         val list = arrayListOf("Polski")
 
         spinnerLanguage.attachDataSource(list)

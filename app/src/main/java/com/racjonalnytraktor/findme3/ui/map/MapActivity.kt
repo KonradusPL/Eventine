@@ -29,6 +29,7 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
+import com.racjonalnytraktor.findme3.ui.AppClass
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
@@ -56,7 +57,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     private val cloudCredentials = EstimoteCloudCredentials("indoorlocation-m4a","846401acdfecd6753a2d69750172aa67")
     private var mObservationHandler: ProximityObserver.Handler? = null
-
 
     private lateinit var fragmentMap: SupportMapFragment
     private lateinit var fragmentManagement: ManagementFragment
@@ -214,7 +214,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     private fun initBeaconsScanning(){
-        val proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
+        (application as AppClass).initBeaconsScanning(this)
+        /*val proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
                 .withBalancedPowerMode()
                 .onError {Log.d("Beacons","proximityObserver error") }
                 .build()
@@ -239,7 +240,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 },
                 onRequirementsMissing = {},
                 onError = {}
-        )
+        )*/
 
     }
 
@@ -602,6 +603,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
             tabLayoutMap.getTabAt(2)?.select()
 
 
+    }
+
+    override fun changeBeaonsStatus(enable: Boolean) {
+        (application as AppClass).changeBeaconsStatus(enable,this)
     }
 
     override fun onBackPressed() {

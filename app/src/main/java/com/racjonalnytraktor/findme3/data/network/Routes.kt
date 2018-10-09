@@ -50,6 +50,11 @@ interface Routes {
     fun updateLocation(@Header("X-Token") token: String, @FieldMap data: HashMap<String,Any>)
     :Single<String>
 
+    @FormUrlEncoded
+    @POST("group/response")
+    fun sendNotifResponse(@Header("X-Token") token: String,@FieldMap data: HashMap<String,Any>)
+    : Single<String>
+
     @GET("group/allSubGroups/{groupId}")
     fun getAllSubGroups(@Header("X-Token") token: String,@Path("groupId") groupId: String):
             Observable<List<String>>

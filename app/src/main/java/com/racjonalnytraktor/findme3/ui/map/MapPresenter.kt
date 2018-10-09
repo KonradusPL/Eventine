@@ -39,6 +39,19 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         super.onAttach(mvpView)
         isAttached = true
 
+        val token = mRepo.prefs.getUserToken()
+        val map = HashMap<String,Any>()
+        map["groupId"] = mRepo.prefs.getCurrentGroupId()
+        map["locationTag"] = "Pokoik"
+        mRepo.rest.networkService.updateLocation(token,map)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+                .subscribe({t: String? ->
+                    Log.d("updateLocation",t)
+                },{t: Throwable? ->
+                    Log.d("updateLocation",t.toString())
+                })
+
         updateNotifToken()
     }
 

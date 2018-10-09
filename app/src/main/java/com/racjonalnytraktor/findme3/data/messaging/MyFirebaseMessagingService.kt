@@ -29,7 +29,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
 
-        Log.d("onMessageReceived",message!!.data.toString())
+        Log.d("onMessageReceived",message?.data.toString())
 
         if(message == null)
             return
@@ -48,7 +48,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             onInfoCreate(content)
         }
         else if(action == "findOrganizer"){
-            onHelp(message.data["title"].orEmpty(),message.data["desc"].orEmpty())
+            val data = message.data
+            onHelp(data["title"].orEmpty(),data["desc"].orEmpty(),data["callerId"].orEmpty())
         }
         else{
             val groupName = message.data["groupName"].orEmpty()
@@ -130,10 +131,24 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         }
     }
 
-    private fun onHelp(title: String, desc: String){
+    private fun onHelp(title: String, desc: String, id: String){
         val notificationIntent = Intent(this, MapActivity::class.java)
         notificationIntent.putExtra("action","help")
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+        val pendingIntent = PendingIntent.getActivity(this, 123, notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val yesIntent = Intent(this, MyBroadcastReceiver::class.java).apply {
+            action = "yes"
+            putExtra("id",id)
+        }
+        val yesPendingIntent: PendingIntent =
+                PendingIntent.getBroadcast(this, 123, yesIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val noIntent = Intent(this, MyBroadcastReceiver::class.java).apply {
+            action = "no"
+            putExtra("id",id)
+        }
+        val noPendingIntent: PendingIntent =
+                PendingIntent.getBroadcast(this, 123, noIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         notificationManager = NotificationManagerCompat.from(this)
 
@@ -142,8 +157,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 .setContentText(desc)
                 .setSmallIcon(R.drawable.ic_event_white_24dp)
                 .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .addAction(R.drawable.ic_add_black_24dp,"TAK",yesPendingIntent)
+                .addAction(R.drawable.ic_not_interested_black_24dp,"NIE",noPendingIntent)
                 .setAutoCancel(true)
+
 
         notificationManager.notify(NOTIFICATION_ID_HELP, notificationBuilder.build())
     }
