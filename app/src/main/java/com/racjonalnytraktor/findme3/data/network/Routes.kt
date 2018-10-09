@@ -61,6 +61,11 @@ interface Routes {
     fun getGroupMembers(@Header("X-Token")token: String,@Path("groupId") groupId: String)
     :Single<MembersResponse>
 
+    @FormUrlEncoded
+    @POST("group/pingOrganizer")
+    fun sendPingToOrganizer(@Header("X-Token")token: String, @FieldMap data: HashMap<String,Any>)
+    :Single<String>
+
     //actions////
 
     @POST("actions/create")

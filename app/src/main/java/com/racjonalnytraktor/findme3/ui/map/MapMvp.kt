@@ -38,7 +38,8 @@ interface MapMvp {
     interface Presenter<V: View>: MvpPresenter<V>{
         //clickers
         fun onCircleClick(visibility: Int)
-        fun onOrganiserClick()
+        fun onOrganiserButtonClick()
+        fun onOrganizerClick(organizerId: String)
         fun onHelpClick()
         fun onNextButtonClick(task: String, descr: String)
         fun onAddButtonClick(checkedGroups: ArrayList<String> = ArrayList(), date: String = "")

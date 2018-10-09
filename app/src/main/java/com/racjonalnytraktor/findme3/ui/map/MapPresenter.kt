@@ -6,7 +6,9 @@ import android.view.View
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.iid.FirebaseInstanceId
 import com.racjonalnytraktor.findme3.data.model.Action
+import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
@@ -15,43 +17,29 @@ import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
 import com.racjonalnytraktor.findme3.utils.MapHelper
+import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 ,MapHelper.MapListener{
 
-    var actionRequest = CreateActionRequest()
+    private var mRepo =  MapRepository
+    private val mMembers: ArrayList<Job> = ArrayList()
+
+    private var actionRequest = CreateActionRequest()
+    private var typeOfNewThing = "ping"
+    private var isChoosingLocation = false
+    private var mLocationListener: Listener.ChangeLocation? = null
+    private var mCurrentLocation = "Pokoik"
 
     var isAttached = false
-
-    var mRepo =  MapRepository
-
-    var typeOfNewThing = "ping"
-
-    var isChoosingLocation = false
-    var mLocationListener: Listener.ChangeLocation? = null
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
         isAttached = true
 
-        val checked: List<String>
-        val task: String
-        val descr: String
-
-        if(mRepo.type == "ping"){
-            checked = mRepo.newPing.targetGroups.toList()
-            task = mRepo.newPing.title
-            descr = mRepo.newPing.desc
-        }
-        else{
-            checked = mRepo.newInfo.targetGroups
-            task = ""
-            descr = mRepo.newPing.desc
-        }
-
-        view.updateWithSavedData(task, descr, checked,mRepo.type,mRepo.state)
+        updateNotifToken()
     }
 
     fun startUpdatingPings(){
@@ -93,6 +81,20 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         }
     }
 
+    fun updateNotifToken(){
+        val userToken = mRepo.prefs.getUserToken()
+        val firebaseToken = FirebaseInstanceId.getInstance().token ?: ""
+
+        compositeDisposable.add(mRepo.rest.networkService.updateNotifToken(userToken, UpdateTokenRequest(firebaseToken))
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+                .subscribe({t: String? ->
+                    Log.d("updateNotifToken",t)
+                },{t: Throwable? ->
+                    Log.d("updateNotifToken",t!!.message)
+                }))
+    }
+
     override fun onCircleClick(visibility: Int) {
         if(visibility == View.GONE)
             view.animateExtendedCircle(true)
@@ -103,9 +105,28 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         }
     }
 
-    override fun onOrganiserClick() {
+    override fun onOrganiserButtonClick() {
         view.showSlide("organizer")
         view.animateExtendedCircle(false)
+    }
+
+    override fun onOrganizerClick(organizerId: String) {
+        val data =  HashMap<String,Any>()
+        data["organizerId"] = organizerId
+        data["callLocation"] = mCurrentLocation
+
+        Log.d("onOrganizerClick",data.toString())
+
+        val token = mRepo.prefs.getUserToken()
+
+        compositeDisposable.add(mRepo.rest.networkService.sendPingToOrganizer(token, data)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+                .subscribe({t: String? ->
+                    Log.d("onOrganizerClick",t.orEmpty())
+                },{t: Throwable? ->
+                    Log.d("onOrganizerClick",t.toString())
+                }))
     }
 
     override fun onHelpClick() {
@@ -341,10 +362,15 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 .subscribe({t: ArrayList<Job>? ->
                     listener.hideLoading()
                     listener.showList(t ?: emptyList())
+                    mMembers.clear()
+                    mMembers.addAll(t.orEmpty())
                 },{t: Throwable? ->
                     Log.d("onManageGroupAttach",t.toString())
                     listener.hideLoading()
-                    listener.onError()
+                    if(mMembers.isNotEmpty())
+                        listener.showList(mMembers)
+                    else
+                        listener.onError()
                 }))
     }
 

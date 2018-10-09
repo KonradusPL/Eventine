@@ -9,6 +9,8 @@ import com.squareup.picasso.Picasso
 
 object ImageHelper {
 
+    var mBitmapPingBase: Bitmap? = null
+
     fun getResizedBitmap(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
         val width = bm.width
         val height = bm.height
@@ -65,23 +67,30 @@ object ImageHelper {
         return bitmapNew
     }
 
-    fun getPingMarkerBitmap(context: Context, color: Int? = null): Bitmap{
-        val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources, R.drawable.diamond)
+    fun getPingBitmap(context: Context, color: Int): Bitmap{
+        if(mBitmapPingBase == null)
+            createBaseBitmap(context)
 
-        val bitmapOld = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,120)
+        val baseBitmap = Bitmap.createBitmap(80,80,Bitmap.Config.ARGB_8888)
+        //val baseImage = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,80)
 
         //val bitmapNew = Bitmap.createBitmap(bitmapOld.width,bitmapOld.height,Bitmap.Config.ARGB_8888)
 
-        //val canvas = Canvas(bitmapNew)
-        //val paint = Paint()
-        //val filter = PorterDuffColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN)
-        //paint.colorFilter = filter
+        val canvas = Canvas(baseBitmap)
+        val paint = Paint()
+        val filter = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN)
+        paint.colorFilter = filter
 
-        //canvas.drawBitmap(bitmapOld,0f,0f,paint)
+        canvas.drawBitmap(mBitmapPingBase,0f,0f,paint)
         //paint.colorFilter = null
         //canvas.drawBitmap(bitmapProfile,10f,10f,paint)
 
-        return bitmapOld
+        return baseBitmap
+    }
+
+    private fun createBaseBitmap(context: Context){
+        val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources, R.drawable.marker_image)
+        mBitmapPingBase = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,80)
     }
 
 }

@@ -6,6 +6,7 @@ import com.google.firebase.iid.FirebaseInstanceIdService
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
+import org.jetbrains.anko.runOnUiThread
 
 class MyFirebaseinstanceId: FirebaseInstanceIdService() {
 
@@ -27,14 +28,17 @@ class MyFirebaseinstanceId: FirebaseInstanceIdService() {
 
     private fun sendTokenToServer(token: String){
         Log.d("tokenik",token)
-        Log.d("header",repo.prefs.getUserToken())
-        repo.rest.networkService.updateNotifToken(repo.prefs.getUserToken(), UpdateTokenRequest(token))
-                .subscribeOn(SchedulerProvider.io())
-                .observeOn(SchedulerProvider.ui())
-                .subscribe({t: String? ->
-                    Log.d("tokenik",t)
-                },{t: Throwable? ->
-                    Log.d("tokenik",t!!.message)
-                })
+        runOnUiThread {
+            Log.d("header",repo.prefs.getUserToken())
+            repo.rest.networkService.updateNotifToken(repo.prefs.getUserToken(), UpdateTokenRequest(token))
+                    .subscribeOn(SchedulerProvider.io())
+                    .observeOn(SchedulerProvider.ui())
+                    .subscribe({t: String? ->
+                        Log.d("tokenik",t)
+                    },{t: Throwable? ->
+                        Log.d("tokenik",t!!.message)
+                    })
+        }
+
     }
 }

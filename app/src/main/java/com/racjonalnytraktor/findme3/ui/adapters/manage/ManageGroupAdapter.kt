@@ -98,6 +98,9 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
                             .resize(50,50)
                             .into(imageProfile)
                 }
+                itemView.setOnClickListener {
+                    mvpView.getPresenter().onOrganizerClick(worker.id)
+                }
             }
             else
                 itemView.textWorker.text = worker.name

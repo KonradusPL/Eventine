@@ -14,10 +14,6 @@ import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
 import android.widget.DatePicker
-import com.estimote.indoorsdk.IndoorLocationManagerBuilder
-import com.estimote.indoorsdk_module.algorithm.IndoorLocationManager
-import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener
-import com.estimote.indoorsdk_module.cloud.*
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.estimote.proximity_sdk.api.EstimoteCloudCredentials
 import com.estimote.proximity_sdk.api.ProximityObserver
@@ -42,7 +38,6 @@ import com.racjonalnytraktor.findme3.utils.MapHelper
 import es.dmoral.toasty.Toasty
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.dialog_ping.view.*
 import kotlinx.android.synthetic.main.dialog_time.view.*
 import kotlinx.android.synthetic.main.item_tab.view.*
 import org.greenrobot.eventbus.ThreadMode
@@ -140,7 +135,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
             windowManager.defaultDisplay.getSize(size)
 
             if (event.rawX + biggerCircle.x < size.x/2)
-                mPresenter.onOrganiserClick()
+                mPresenter.onOrganiserButtonClick()
             else
                 mPresenter.onHelpClick()
 
@@ -223,9 +218,9 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .withBalancedPowerMode()
                 .onError {Log.d("Beacons","proximityObserver error") }
                 .build()
-        val burgundiaZone = ProximityZoneBuilder()
+        val pokoikZone = ProximityZoneBuilder()
                 .forTag("Pokoik")
-                .inNearRange()
+                .inCustomRange(2.0)
                 .onEnter {
                     Toasty.info(this@MapActivity,"Enter!").show()
                     Log.d("Beacons","Enter")
@@ -240,7 +235,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 this,
                 onRequirementsFulfilled = {
                     Log.d("Beacons","onRequirementsFulfilled")
-                    mObservationHandler = proximityObserver.startObserving(burgundiaZone)
+                    mObservationHandler = proximityObserver.startObserving(pokoikZone)
                 },
                 onRequirementsMissing = {},
                 onError = {}

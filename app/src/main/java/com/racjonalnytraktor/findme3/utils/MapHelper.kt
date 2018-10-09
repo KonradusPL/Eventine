@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.Location
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -113,16 +114,16 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
            // marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
 
         if(mMap != null){
+            val color = ContextCompat.getColor(mvpView.getCtx(),R.color.colorPrimary)
             val marker = mMap?.addMarker(MarkerOptions()
                     .position(LatLng(ping.geo[0],ping.geo[1]))
-                    .title(ping.title))
+                    .title(ping.title)
+                    .icon(BitmapDescriptorFactory.fromBitmap(ImageHelper.getPingBitmap(mvpView.getCtx(),color))))
             val newPing = Ping()
             newPing.clone(ping)
             val pingOnMap = PingOnMap(newPing, marker!!)
             pingsOnMap.add(pingOnMap)
         }
-
-
     }
 
     fun updatePing(updatedPing: Ping){
