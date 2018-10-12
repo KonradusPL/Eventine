@@ -94,7 +94,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         }
     }
 
-    fun updateNotifToken(){
+    private fun updateNotifToken(){
         val userToken = mRepo.prefs.getUserToken()
         val firebaseToken = FirebaseInstanceId.getInstance().token ?: ""
         Log.d("updateNotifToken",firebaseToken)
@@ -131,14 +131,18 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         Log.d("onOrganizerClick",data.toString())
 
+        view.showLoading()
+
         val token = mRepo.prefs.getUserToken()
 
         compositeDisposable.add(mRepo.rest.networkService.sendPingToOrganizer(token, data)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
                 .subscribe({t: String? ->
+                    view.hideLoading()
                     Log.d("onOrganizerClick",t.orEmpty())
                 },{t: Throwable? ->
+                    view.hideLoading()
                     Log.d("onOrganizerClick",t.toString())
                 }))
     }
@@ -147,13 +151,18 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         val token = mRepo.prefs.getUserToken()
         val data = HashMap<String,String>()
         data["groupId"] = mRepo.prefs.getCurrentGroupId()
+        Log.d("onHelpClick",data.toString())
+
+        view.showLoading()
         compositeDisposable.add(mRepo.rest.networkService.sendPingToNearest(token, data)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
                 .subscribe({ t: String? ->
+                    view.hideLoading()
                     view.showMessage("Wysłano prośbę o pomoc!",MvpView.MessageType.SUCCESS)
                     view.animateExtendedCircle(false)
                 },{t: Throwable? ->
+                    view.hideLoading()
                     view.animateExtendedCircle(false)
                 }))
     }
@@ -191,13 +200,17 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         Log.d("onCreateActionClick",action.title)
         Log.d("onCreateActionClick",action.desc)
         Log.d("onCreateActionClick",action.type)
+
+        view.showLoading()
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->
             listener.clearData()
+            view.hideLoading()
             view.showMessage("Dodano zadanie!",MvpView.MessageType.SUCCESS)
             view.hideSlide()
             view.removeFragment("addTask")
             view.animateTabLayout(true)
         },{ t: Throwable? ->
+            view.hideLoading()
             view.showMessage(t?.localizedMessage.orEmpty(),MvpView.MessageType.ERROR)
             view.hideSlide()
             view.animateTabLayout(true)
@@ -357,12 +370,15 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onEndPingClick(id: String) {
         Log.d("idsss",id)
+        view.showLoading()
         mRepo.endPing(id)
                 .subscribe({response: String? ->
                     Log.d("koko",response.orEmpty())
+                    view.hideLoading()
                     view.removePing(id)
                     view.showMessage("Zadanie wykonane",MvpView.MessageType.SUCCESS)
                 },{ t: Throwable? ->
+                    view.hideLoading()
                     view.showMessage("Wykonanie zadania nie powiodło się",MvpView.MessageType.ERROR)
                     Log.d("koko",t!!.message.orEmpty())
                 })
@@ -370,12 +386,15 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
     override fun onInProgressClick(id: String) {
         Log.d("idsss",id)
+        view.showLoading()
         mRepo.inProgressPing(id)
                 .subscribe({response: String? ->
                     Log.d("koko",response.orEmpty())
+                    view.hideLoading()
                     view.showMessage("Powodzenia !",MvpView.MessageType.SUCCESS)
                 },{ t: Throwable? ->
                     view.showMessage("Problem ze zmianą statusu zadania",MvpView.MessageType.ERROR)
+                    view.hideLoading()
                     Log.d("koko",t!!.message.orEmpty())
                 })
     }
@@ -462,6 +481,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onLogOutClick() {
+        view.changeBeaonsStatus(false)
+
         if(mRepo.facebook.isLoggedIn())
             mRepo.facebook.logOut()
         mRepo.prefs.removeUser()

@@ -609,6 +609,14 @@ class MapActivity : BaseActivity(),MapMvp.View{
         (application as AppClass).changeBeaconsStatus(enable,this)
     }
 
+    override fun showLoading() {
+        progressMap?.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        progressMap?.visibility = View.GONE
+    }
+
     override fun onBackPressed() {
 
         if(slidePanel.isOpened)

@@ -35,6 +35,8 @@ interface MapMvp {
         fun showFullFragments(type: String)
         fun hideFullFragments(type: String, unSelectTab: Boolean = false)
         fun changeBeaonsStatus(enable: Boolean)
+        fun showLoading()
+        fun hideLoading()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         //clickers

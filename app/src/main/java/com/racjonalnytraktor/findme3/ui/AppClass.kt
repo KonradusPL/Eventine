@@ -27,6 +27,7 @@ class AppClass: Application() {
     private var mObservationHandler: ProximityObserver.Handler? = null
 
     fun initBeaconsScanning(activity: Activity){
+
         val mRepo = MapRepository
 
         val notification = NotificationCompat.Builder(this, "beacons scanning")
@@ -70,7 +71,9 @@ class AppClass: Application() {
                 activity,
                 onRequirementsFulfilled = {
                     Log.d("Beacons","onRequirementsFulfilled")
-                    mObservationHandler = proximityObserver.startObserving(pokoikZone)
+                    if (mObservationHandler == null)
+                        mObservationHandler = proximityObserver.startObserving(pokoikZone)
+
                 },
                 onRequirementsMissing = {},
                 onError = {}
@@ -86,7 +89,9 @@ class AppClass: Application() {
     fun changeBeaconsStatus(enable: Boolean, activity: Activity){
         if (enable)
             initBeaconsScanning(activity)
-        else
+        else{
             mObservationHandler?.stop()
+            mObservationHandler = null
+        }
     }
 }

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
-import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 
 class MyBroadcastReceiver: BroadcastReceiver() {

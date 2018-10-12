@@ -15,38 +15,49 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/logo"/>
 
-    <EditText
-        android:id="@+id/fieldEmail"
-        style="@style/LoginEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/edit_text_login"
-        android:fontFamily="@font/roboto"
-        android:hint="@string/hint_email"
-        android:inputType="textEmailAddress"
-        android:textColor="#2699FB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        <EditText
+            android:id="@+id/fieldEmail"
+            style="@style/LoginEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:background="@drawable/edit_text_login"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/hint_email"
+            android:layout_marginTop="32dp"
+            android:inputType="textEmailAddress"
+            android:textColor="#2699FB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    <EditText
-        android:id="@+id/fieldPassword"
-        style="@style/LoginEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layoutPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edit_text_login"
-        android:fontFamily="@font/roboto"
-        android:hint="@string/hint_password"
-        android:inputType="textPassword"
-        android:textColor="#2699FB"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fieldEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldEmail"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/colorAccent">
+
+        <EditText
+            android:id="@+id/fieldPassword"
+            style="@style/LoginEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:background="@drawable/edit_text_login"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"
+            android:textColor="#2699FB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.design.widget.TextInputLayout>
+
 
     <View
         android:id="@+id/dividerLogin"
@@ -59,7 +70,7 @@
         android:backgroundTint="#8187FF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fieldPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPassword" />
 
     <Button
         android:id="@+id/buttonLogin"
@@ -71,8 +82,8 @@
         android:text="@string/text_login"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/fieldPassword"
-        app:layout_constraintStart_toStartOf="@+id/fieldPassword"
+        app:layout_constraintEnd_toEndOf="@+id/fieldEmail"
+        app:layout_constraintStart_toStartOf="@+id/fieldEmail"
         app:layout_constraintTop_toBottomOf="@+id/dividerLogin" />
 
     <Button
