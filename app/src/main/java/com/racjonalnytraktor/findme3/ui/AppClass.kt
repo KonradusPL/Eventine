@@ -32,15 +32,15 @@ class AppClass: Application() {
 
         val notification = NotificationCompat.Builder(this, "beacons scanning")
                 .setSmallIcon(R.drawable.beacon_beetroot_small)
-                .setContentTitle("Beacon scan")
-                .setContentText("Scan is running...")
+                .setContentTitle("Skanowanie beaconów")
+                .setContentText("Skanowanie trwa...")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .build()
 
         val proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
                 .withBalancedPowerMode()
                 .withScannerInForegroundService(notification)
-                .onError { Log.d("Beacons","proximityObserver error") }
+                .onError { throwable: Throwable ->  Log.d("Beacons",throwable.toString()) }
                 .build()
         val pokoikZone = ProximityZoneBuilder()
                 .forTag("Pokoik")

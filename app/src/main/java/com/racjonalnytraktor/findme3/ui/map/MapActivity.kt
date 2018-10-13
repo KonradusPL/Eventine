@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Point
+import android.location.Location
 import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.TabLayout
@@ -533,12 +534,15 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     }
 
-    override fun showSlide(type: String){
+    override fun showSlide(type: String, location: Location){
         val fragment = when(type){
             "history" -> fragmentHistory
             "addTask" -> fragmentAddTask
             "organizer" -> fragmentOrganisers
             else -> Fragment()
+        }
+        if(location.latitude != 0.0 && type == "addTask"){
+            fragmentAddTask.changeLocation(location)
         }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerSlide,fragment)
@@ -577,7 +581,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .commit()
 
         spinnerFloor.visibility = View.GONE
-
         showBlur()
 
         if(slidePanel.isOpened)
@@ -596,7 +599,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .commit()
 
         spinnerFloor.visibility = View.VISIBLE
-
         hideBlur()
 
         if(unSelectTab)

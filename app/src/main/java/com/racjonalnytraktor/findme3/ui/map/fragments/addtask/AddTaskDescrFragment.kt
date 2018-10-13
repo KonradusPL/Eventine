@@ -36,6 +36,9 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
     var mHourText = "-1"
     var mMinuteText = "-1"
 
+    var mTitle = ""
+    var mDescr = ""
+
     var switchPos = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,6 +48,9 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mTitle = ""
+        mDescr = ""
+
         fieldTitle.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -53,10 +59,26 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(p0 != null)
+                if(p0 != null){
+                    mTitle = p0.toString()
                     parentListener.onTitleChanged(p0.toString())
+                }
+            }
+        })
+
+        fieldDescr.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
             }
 
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(p0 != null){
+                    mDescr = p0.toString()
+                    parentListener.onTitleChanged(p0.toString())
+                }
+            }
         })
 
         buttonShowDate.setOnClickListener {
@@ -101,11 +123,9 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
 
     fun getActionData(): CreateActionRequest{
         val action = CreateActionRequest()
-        action.title = fieldTitle?.text.toString()
-        action.desc = fieldDescr?.text.toString()
+        action.title = mTitle
+        action.desc = mDescr
         action.type = if(switchPos == 0) "ping" else "info"
-        Log.d("pupa12",action.type)
-        Log.d("pupa12",switchAction.checkedPosition.toString())
 
         try {
             val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)

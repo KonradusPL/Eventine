@@ -12,6 +12,11 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import android.content.Context.VIBRATOR_SERVICE
+import android.media.AudioManager
+import android.media.AudioManager.RINGER_MODE_SILENT
+import android.media.AudioManager.RINGER_MODE_VIBRATE
+import android.os.Build
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 
@@ -56,6 +61,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             onCreateGroup(groupName)
         }
 
+        makeSound()
+
     }
 
     private fun onInfoCreate(content: String){
@@ -74,12 +81,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
-        val mVibratePattern = longArrayOf(0, 400, 200, 400)
-
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (vibrator.hasVibrator()) {
-            vibrator.vibrate(mVibratePattern,-1)
-        }
+        makeSound()
     }
 
     private fun onCreatePing(title: String, desc: String){
@@ -98,12 +100,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
-        val mVibratePattern = longArrayOf(0, 400, 200, 400)
-
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (vibrator.hasVibrator()) {
-            vibrator.vibrate(mVibratePattern,-1)
-        }
+        makeSound()
     }
     private fun onCreateGroup(groupName: String){
         val notificationIntent = Intent(this, MainActivity::class.java)
@@ -122,13 +119,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
-
-        val mVibratePattern = longArrayOf(0, 400, 200, 400)
-
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (vibrator.hasVibrator()) {
-            vibrator.vibrate(mVibratePattern,-1)
-        }
+        makeSound()
     }
 
     private fun onHelp(title: String, desc: String, id: String){
@@ -163,5 +154,28 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
 
         notificationManager.notify(NOTIFICATION_ID_HELP, notificationBuilder.build())
+    }
+
+    fun makeSound(){
+        val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        val mode = audio.ringerMode
+        Log.d("RINGER_MODE",mode.toString())
+        Log.d("RINGER_MODE_NORMAL",AudioManager.RINGER_MODE_NORMAL.toString())
+        Log.d("RINGER_MODE_SILENT", RINGER_MODE_SILENT.toString())
+        Log.d("RINGER_MODE_VIBRATE", RINGER_MODE_VIBRATE.toString())
+
+        if (vibrator.hasVibrator() &&(mode == AudioManager.RINGER_MODE_NORMAL || mode == AudioManager.MODE_RINGTONE)) {
+            val mVibratePattern = longArrayOf(0, 400, 200, 400)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val vibrationEffect = VibrationEffect.createWaveform(mVibratePattern,-1)
+                vibrator.vibrate(vibrationEffect)
+            } else {
+                vibrator.vibrate(mVibratePattern,-1)
+
+            }
+        }
     }
 }

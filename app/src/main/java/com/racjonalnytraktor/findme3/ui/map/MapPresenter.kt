@@ -140,9 +140,11 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 .observeOn(SchedulerProvider.ui())
                 .subscribe({t: String? ->
                     view.hideLoading()
+                    view.showMessage("Wysłano help do organizatora",MvpView.MessageType.SUCCESS)
                     Log.d("onOrganizerClick",t.orEmpty())
                 },{t: Throwable? ->
                     view.hideLoading()
+                    view.showMessage("Nie udało się wysłać helpu",MvpView.MessageType.ERROR)
                     Log.d("onOrganizerClick",t.toString())
                 }))
     }
@@ -294,13 +296,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         }
     }
 
-    override fun onMapLongClick(location: LatLng) {
-        typeOfNewThing = "ping"
-        mRepo.type = typeOfNewThing
-        mRepo.newPing.geo.add(location.latitude)
-        mRepo.newPing.geo.add(location.longitude)
-        view.showCreatePingView("ping")
-    }
+    override fun onMapLongClick(location: LatLng) {}
 
     override fun onMapClick(location: Location) {
         if(isChoosingLocation){
@@ -319,12 +315,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onLongClickListener(location: LatLng) {
-        typeOfNewThing = "ping"
-        mRepo.type = typeOfNewThing
-        mRepo.newPing.geo.clear()
-        mRepo.newPing.geo.add(location.latitude)
-        mRepo.newPing.geo.add(location.longitude)
-        view.showCreatePingView("ping")
+        val newLocation = Location("")
+        newLocation.latitude = location.latitude
+        newLocation.longitude = location.longitude
+        view.animateExtendedCircle(false)
+        view.animateTabLayout(false)
+        view.showSlide("addTask",newLocation)
     }
 
     override fun onDetach() {
@@ -453,6 +449,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     listener.showList(t ?: arrayListOf())
                 },{t: Throwable? ->
                     listener.hideListLoading()
+                    listener.showError()
                 }))
     }
 

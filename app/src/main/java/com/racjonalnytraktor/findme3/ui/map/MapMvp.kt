@@ -1,5 +1,6 @@
 package com.racjonalnytraktor.findme3.ui.map
 
+import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
@@ -27,7 +28,7 @@ interface MapMvp {
         fun openMapActivity()
         fun animateExtendedCircle(show: Boolean)
         fun showCreatePingView(type: String = "ping")
-        fun showSlide(type: String)
+        fun showSlide(type: String, location: Location = Location(""))
         fun hideSlide()
         fun removeFragment(type: String)
         fun showEndPingBar(ping: Ping)

@@ -38,6 +38,10 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.AddTaskL
             parentListener.onBackArrowPressed()
         }
 
+        buttonRefresh.setOnClickListener {
+            parentMvp.getPresenter().onAddTaskListAttach(this)
+        }
+
 
         if(mListAdapter?.itemCount ?: 0 == 0)
             parentMvp.getPresenter().onAddTaskListAttach(this)
@@ -54,7 +58,7 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.AddTaskL
         listGroups.adapter = mListAdapter
     }
 
-    fun showList(){
+    private fun showList(){
         if (mListAdapter != null){
             listGroups.layoutManager = LinearLayoutManager(parentMvp.getCtx())
             listGroups.adapter = mListAdapter
@@ -64,10 +68,15 @@ class AddTaskUsersFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.AddTaskL
 
     override fun showListLoading() {
         progressUsers?.visibility = View.VISIBLE
+        buttonRefresh?.visibility = View.GONE
     }
 
     override fun hideListLoading() {
         progressUsers?.visibility = View.GONE
+    }
+
+    override fun showError() {
+        buttonRefresh?.visibility = View.VISIBLE
     }
 
     fun getList(): ArrayList<String>{

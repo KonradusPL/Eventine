@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments.addtask
 
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import com.racjonalnytraktor.findme3.ui.map.listeners.Listener
@@ -16,14 +18,21 @@ import kotlinx.android.synthetic.main.fragment_add_task.*
 class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
         UsersListener,Listener.CreateAction {
 
-    lateinit var firstFragment: AddTaskDescrFragment<V>
+    var firstFragment: AddTaskDescrFragment<V>? = null
     lateinit var secondFragment: AddTaskUsersFragment<V>
+
+    var mLocation: Location = Location("")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         firstFragment = AddTaskDescrFragment()
-        firstFragment.parentListener = this
+        firstFragment?.parentListener = this
         secondFragment = AddTaskUsersFragment()
         secondFragment.parentListener = this
+
+        if(mLocation.latitude != 0.0){
+            firstFragment?.changeLocation(mLocation)
+        }
+
         return inflater.inflate(R.layout.fragment_add_task,container,false)
     }
 
@@ -43,7 +52,7 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
         }
 
         buttonAddTask.setOnClickListener {
-            val action = firstFragment.getActionData()
+            val action = firstFragment?.getActionData() ?: CreateActionRequest()
             val usersList = secondFragment.getList()
             action.people = usersList
             parentMvp.getPresenter().onCreateActionClick(action,this)
@@ -76,9 +85,13 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
 
     override fun clearData() {
     }
+
+    fun changeLocation(location: Location){
+        mLocation.set(location)
+        firstFragment?.changeLocation(location)
+    }
+
 }
-
-
 
 interface DescriptionListener{
     fun onTitleChanged(title: String)
