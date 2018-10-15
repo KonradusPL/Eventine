@@ -16,27 +16,27 @@ import kotlin.collections.HashMap
 
 class AddGroupTest {
 
-    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IkphbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyN2QwYzUxZjMwMDEwZjVkMDhlIiwiaWF0IjoxNTM5MDM1NTM4LCJleHAiOjE1Mzk2NDAzMzh9.07Lkod5AsaEtvtJC7ojkAIgZ-Hk3PGiYvk0XYgVDOQQ"
+    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IktvbnJhZCBQxJlrYWxhIiwiaWQiOiI1YmM0ZjcxMWI2ZTBlYzAwMTBmYTNlMDIiLCJpYXQiOjE1Mzk2MzQ5OTQsImV4cCI6MTU0MDIzOTc5NH0.S7kgpb2MVAsVHyGufrB2q0cUByPDprht4OzePOKugPA"
     val token2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6Ik1hcmNpbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyYjUwYzUxZjMwMDEwZjVkMDhmIiwiaWF0IjoxNTM4MDM2NDA1LCJleHAiOjE1Mzg2NDEyMDV9.i4_JXB9iREQlJ7ioPWvf4algZSaJLxzpj6PZOJygf7Y"
     val token3 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IlRhZGV1c3ogS293YWxza2kiLCJpZCI6IjViYWM5MmU5MGM1MWYzMDAxMGY1ZDA5MCIsImlhdCI6MTUzODAzNjQ1NywiZXhwIjoxNTM4NjQxMjU3fQ.4lvyJWCB0q4o7cG0Oeh770XSeu4RenO-KMWRi9NojG4"
 
     val id1 = "5bac92b50c51f30010f5d08f"
     val id2 = "5bac92e90c51f30010f5d090"
-
+    val fbId = "1076056665880560"
     val request1 = RegisterRequest("test1@test.pl", "Jan Kowalski", "password1")
     val request2 = RegisterRequest("test2@test.pl", "Marcin Kowalski", "password2")
     val request3 = RegisterRequest("test3@test.pl", "Tadeusz Kowalski", "password3")
     val request4 = RegisterRequest("test4@test.pl", "Jakub Mularski", "password4")
     val request5 = RegisterRequest("test5@test.pl", "Marcin Michno", "password5")
-    val request6 = RegisterRequest("test6@test.pl", "Janusz Michno", "123123")
+    val request6 = RegisterRequest("test6@test.pl", "Adam Nowak", "password6")
 
-    val grupaTestowa1 = "5bb206e3c4b7060010e4c667"
+    val grupaTestowa1 = "5bc4e90a3e23c90010bd0286"
 
     val rest = RetrofitRest().networkService
 
     @Test
     fun addGroup() {
-        val request = CreateGroupRequest("Grupa testowa1", emptyList(), arrayListOf(id1, id2))
+        val request = CreateGroupRequest("Grupa domyślna3", emptyList(),emptyList())
         println(request)
         rest.createGroup(token1, request)
                 .subscribe({ t: String? ->
@@ -48,12 +48,13 @@ class AddGroupTest {
 
     @Test
     fun registerTestingUsers() {
-        print(request6)
+        println(request6)
         rest.register(request6)
                 .subscribe({ t: RegisterResponse? ->
-                    print(t!!.token)
+                    println(t!!.token)
                     assert(true)
                 }, { t: Throwable? ->
+                    println(t.toString())
                     assert(false)
                 })
     }

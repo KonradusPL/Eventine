@@ -9,4 +9,13 @@ class User(
     var fullName: String = "",
     var token: String = "",
     @SerializedName("_id")var id: String = "",
-    var email: String = "")
+    var email: String = ""){
+
+    override fun toString(): String {
+        return "facebook: $facebookId \n " +
+                "profileUri: $profileUri \n" +
+                "fullName: $fullName \n" +
+                "token: $token \n" +
+                "email: $email"
+    }
+}

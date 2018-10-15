@@ -58,11 +58,9 @@ class AppClass: Application() {
                             },{t: Throwable? ->
                                 Log.d("updateLocation",t.toString())
                             })
-                    Toasty.info(this@AppClass,"Enter!").show()
                     Log.d("Beacons","Enter")
                 }
                 .onExit {
-                    Toasty.info(this@AppClass,"Exit!").show()
                     Log.d("Beacons","Exit")
                 }
                 .onContextChange {/* do something here */}

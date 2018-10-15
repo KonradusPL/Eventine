@@ -104,8 +104,8 @@ object MapRepository: BaseRepository() {
     fun getMapPings(): Single<ArrayList<Action>>{
         val token = prefs.getUserToken()
         val groupId = prefs.getCurrentGroupId()
-        Log.d("tokenik123",token)
-        Log.d("groupId123",groupId)
+        Log.d("getMapPings","token: $token")
+        Log.d("getMapPings","groupId: $groupId")
 
         return rest.networkService.getActions(token,groupId,"ping")
                 .map { t: ActionsResponse -> t.actions }

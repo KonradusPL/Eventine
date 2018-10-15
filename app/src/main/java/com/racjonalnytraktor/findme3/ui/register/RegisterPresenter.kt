@@ -41,7 +41,8 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                     val user = User("","",fullName,response?.token ?: "")
 
                     repo.prefs.apply {
-                        setCurrentUser(user)
+                        createUser(User())
+                        repo.saveUser(response!!.token,"",email)
                         setIsUserLoggedIn(true)
                     }
 
@@ -55,7 +56,20 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
 
     override fun onFacebookLoginSuccess(loginResult: LoginResult?) {
         view.showLoginLoading()
+
         repo.getUserInfo()
+                .flatMap { user: User -> repo.registerByFacebook(user) }
+                .subscribe({t: RegisterFbResponse? ->
+                    view.hideLoginLoading()
+                    Log.d("onFacebookLoginSuccess","${t!!.fbId} ${t.token}")
+                    repo.saveUser(t!!.token,t.fbId,"")
+                    view.openMainActivity()},
+                        { throwable: Throwable? ->
+                            view.hideLoginLoading()
+                            Log.d("error",throwable.toString())
+                        })
+
+        /*repo.getUserInfo()
                 .subscribe({ user: User? ->
                     Log.d("qweqwe",user!!.fullName)
                     repo.registerByFacebook(user!!)
@@ -74,7 +88,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                 },{throwable: Throwable? ->
                     view.hideLoginLoading()
                     Log.d("error",throwable.toString())
-                })
+                })*/
     }
 
     override fun onDetach() {

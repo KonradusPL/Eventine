@@ -78,7 +78,7 @@ object ImageHelper {
 
         val canvas = Canvas(baseBitmap)
         val paint = Paint()
-        val filter = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN)
+        val filter = PorterDuffColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN)
         paint.colorFilter = filter
 
         canvas.drawBitmap(mBitmapPingBase,0f,0f,paint)

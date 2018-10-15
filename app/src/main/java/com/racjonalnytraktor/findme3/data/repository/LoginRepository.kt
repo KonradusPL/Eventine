@@ -35,7 +35,8 @@ class LoginRepository: BaseRepository() {
         user.facebookId = facebook.getAccessToken().userId
     }
 
-    fun registerByFacebook(user: User): Single<RegisterFbResponse>{
+    /*fun registerByFacebook(user: User): Single<RegisterFbResponse>{
+        prefs.createUser(user)
         val request = RegisterFbRequest(user.facebookId, user.fullName)
         Log.d("requestid",request.facebookId)
         Log.d("requestname",request.fullName)
@@ -44,7 +45,7 @@ class LoginRepository: BaseRepository() {
                 .map { t -> RegisterFbResponse(t.success,t.token,user.facebookId) }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
-    }
+    }*/
 
 
 }

@@ -110,11 +110,8 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
 
 
     fun addPing(ping: Ping,animation: Boolean){
-        //if(ping.inProgress)
-           // marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-
         if(mMap != null){
-            val color = ContextCompat.getColor(mvpView.getCtx(),R.color.colorPrimary)
+            val color = if(ping.inProgress) R.color.orange else R.color.colorPrimary
             val marker = mMap?.addMarker(MarkerOptions()
                     .position(LatLng(ping.geo[0],ping.geo[1]))
                     .title(ping.title)
@@ -162,7 +159,9 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
                         break
                     }else if(newPing.inProgress){
                         ping.ping.inProgress = true
-                        ping.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                        ping.marker.setIcon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                        ImageHelper.getPingBitmap(mvpView.getCtx(),R.color.orange)))
                          break
                     }
                 }

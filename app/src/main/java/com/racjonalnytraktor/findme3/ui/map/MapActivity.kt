@@ -216,33 +216,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     private fun initBeaconsScanning(){
         (application as AppClass).initBeaconsScanning(this)
-        /*val proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
-                .withBalancedPowerMode()
-                .onError {Log.d("Beacons","proximityObserver error") }
-                .build()
-        val pokoikZone = ProximityZoneBuilder()
-                .forTag("Pokoik")
-                .inCustomRange(2.0)
-                .onEnter {
-                    Toasty.info(this@MapActivity,"Enter!").show()
-                    Log.d("Beacons","Enter")
-                }
-                .onExit {
-                    Toasty.info(this@MapActivity,"Exit!").show()
-                    Log.d("Beacons","Exit")
-                }
-                .onContextChange {/* do something here */}
-                .build()
-        RequirementsWizardFactory.createEstimoteRequirementsWizard().fulfillRequirements(
-                this,
-                onRequirementsFulfilled = {
-                    Log.d("Beacons","onRequirementsFulfilled")
-                    mObservationHandler = proximityObserver.startObserving(pokoikZone)
-                },
-                onRequirementsMissing = {},
-                onError = {}
-        )*/
-
     }
 
     private fun listenSlidingState() {
@@ -301,12 +274,12 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .into(imageMap)
     }
 
-   fun showBlur() {
+   private fun showBlur() {
 
         mMapHelper.getImage()
     }
 
-    fun hideBlur() {
+    private fun hideBlur() {
         imageMap.visibility = View.GONE
     }
 
@@ -345,14 +318,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-
-        if(slidePanel.isClosed)
-            return
-
-        val checked = ArrayList<String>()
-
-        var state = "basic"
-
     }
 
     override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String, state: String) {
@@ -376,91 +341,22 @@ class MapActivity : BaseActivity(),MapMvp.View{
         val builder = AlertDialog.Builder(this)
                 .setTitle(ping.title)
                 .setMessage(ping.desc)
-        if(ping.ended)
-            builder.setNegativeButton("Anuluj") {dialogInterface, i ->
-            }
-        else if(ping.inProgress){
+        if(ping.inProgress){
             builder.setPositiveButton("Zakończ") {dialogInterface, i ->
                 mPresenter.onEndPingClick(ping.pingId)
             }
-            builder.setNegativeButton("Anuluj") {dialogInterface, i -> }
         }
-        else{
+        else if(!ping.ended){
             builder.setPositiveButton("Zakończ") {dialogInterface, i ->
                 mPresenter.onEndPingClick(ping.pingId)
             }
-            builder.setNeutralButton("Zacznij"){dialogInterface, i ->
+            builder.setNegativeButton("Zacznij"){dialogInterface, i ->
                 mPresenter.onInProgressClick(ping.pingId)
             }
         }
+        builder.setNeutralButton("Anuluj") {dialogInterface, i -> }
 
         builder.create().show()
-
-
-        /*Log.d("ioioioio",ping.inProgress.toString())
-
-        val view = layoutInflater.inflate(R.layout.dialog_ping,null)
-
-        var text = ""
-        for(group in ping.targetGroups){
-           text =  text.plus("$group,")
-        }
-
-        if(ping.progressorName.isNotEmpty()){
-            view.fieldProgressor.text = ping.progressorName
-            view.fieldProgressor.visibility = View.VISIBLE
-        }
-        else
-            view.fieldProgressor.visibility = View.GONE
-
-        view.apply {
-            fieldTitle.text = ping.title
-            textSubGroups.text = text
-            textAuthor.text = ping.creatorName
-            textDescr.text = ping.desc
-        }
-
-        if(ping.inProgress && !ping.ended){
-            view.apply {
-                textStatus.text = "W trakcie robienia"
-                textStatus.setTextColor(ContextCompat.getColor(this@MapActivity,R.color.orange))
-                buttonInProgress.isEnabled = false
-                buttonInProgress.alpha = 0.5f
-            }
-
-        }
-        else if(ping.ended) {
-            view.apply {
-                textStatus.text = "Zakończone"
-                textStatus.setTextColor(ContextCompat.getColor(this@MapActivity, R.color.green))
-                buttonInProgress.isEnabled = false
-                buttonInProgress.alpha = 0.5f
-                buttonSetToEnd.isEnabled = false
-                buttonSetToEnd.alpha = 0.5f
-            }
-
-        }
-        else{
-            view.textStatus.text = "Nie rozpoczęte"
-        }
-
-        val builder = AlertDialog.Builder(this)
-                .setView(view)
-
-        val dialog = builder.create()
-        dialog.show()
-
-        view.buttonCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        view.buttonInProgress.setOnClickListener {
-            mPresenter.onInProgressClick(ping.pingId)
-            dialog.dismiss()
-        }
-        view.buttonSetToEnd.setOnClickListener {
-            mPresenter.onEndPingClick(ping.pingId)
-            dialog.dismiss()
-        }*/
 }
 
 
@@ -470,69 +366,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
         finish()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.map_menu, menu)
-        return true
-
-    }
-
-
     override fun clearPings() {
         mMapHelper.clearPings()
     }
 
-    override fun showPlanDialog() {
-        val datePicker = DatePicker(this)
-        val viewDate = layoutInflater.inflate(R.layout.dialog_time,null)
-
-        var date = ""
-
-        val c = Calendar.getInstance()
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        val month = c.get(Calendar.MONTH)
-        val year = c.get(Calendar.YEAR)
-
-        viewDate.buttonDate.text = "${month}/${day}/${year}"
-
-        val dialogCalendar = AlertDialog.Builder(this)
-                .setView(datePicker)
-                .setPositiveButton("Wybierz") { dialogInterface, i ->
-                    Log.d("bnmbnm","bnmbnm")
-                    viewDate.buttonDate.text ="${datePicker.month+1}/${datePicker.dayOfMonth}/${datePicker.year}"
-                }.create()
-
-        viewDate.buttonDate.setOnClickListener {
-            dialogCalendar.show()
-        }
-
-        val builder = AlertDialog.Builder(this)
-                .setMessage("Wybierz datę")
-                .setView(viewDate)
-                .setPositiveButton("Zaplanuj") { dialogInterface, i ->
-                    try {
-                        val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)
-                        val date = Date()
-                        val calendar = Calendar.getInstance()
-
-                        calendar.set(datePicker.year,datePicker.month,datePicker.dayOfMonth,
-                                viewDate.timePicker.currentHour,viewDate.timePicker.currentMinute,0)
-                        date.time = calendar.timeInMillis
-
-                        val time = format.format(date)
-                        Log.d("time",time)
-                        mPresenter.onAddButtonClick(date = time)
-
-                    }catch (e: Exception){
-                        Log.d("asdasdads","asdssad")
-                    }
-                }
-                .setNegativeButton("Anuluj") { _, _ ->
-
-                }
-
-        builder.create().show()
-
-    }
+    override fun showPlanDialog() {}
 
     override fun showSlide(type: String, location: Location){
         val fragment = when(type){

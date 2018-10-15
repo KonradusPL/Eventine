@@ -39,6 +39,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         super.onAttach(mvpView)
         isAttached = true
 
+        val user = mRepo.prefs.getCurrentUser()
+        Log.d("user data: ",user.toString())
+
         val token = mRepo.prefs.getUserToken()
         val map = HashMap<String,Any>()
         map["groupId"] = mRepo.prefs.getCurrentGroupId()

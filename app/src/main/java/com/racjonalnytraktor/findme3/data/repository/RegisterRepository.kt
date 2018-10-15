@@ -26,7 +26,7 @@ object RegisterRepository: BaseRepository() {
 
     }
 
-    fun registerByFacebook(user: User): Single<RegisterFbResponse>{
+    /*fun registerByFacebook(user: User): Single<RegisterFbResponse>{
         val request = RegisterFbRequest(user.facebookId, user.fullName)
         Log.d("requestid",request.facebookId)
         Log.d("requestname",request.fullName)
@@ -34,7 +34,7 @@ object RegisterRepository: BaseRepository() {
         return rest.networkService.registerByFacebook(request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
-    }
+    }*/
 
     fun setCurrentUser(user: User){
         user.facebookId = facebook.getAccessToken().userId
