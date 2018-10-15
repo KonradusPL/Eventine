@@ -37,9 +37,8 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
         compositeDisposable.add(repo.registerUser(request)
                 .subscribe({response: RegisterResponse? ->
                     view.hideLoginLoading()
-                    Log.d("token",response!!.token)
 
-                    val user = User("","",fullName,response.token)
+                    val user = User("","",fullName,response?.token ?: "")
 
                     repo.prefs.apply {
                         setCurrentUser(user)

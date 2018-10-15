@@ -3,8 +3,9 @@
 
     <item android:drawable="@drawable/gradient_login"/>
 
-    <item android:drawable="@drawable/logo_splash_small"
-        android:bottom="100dp"
-        android:gravity="center"/>
+    <item>
+        <bitmap android:src="@drawable/logo_splash_small"
+            android:gravity="center" />
+    </item>
 
 </layer-list>

@@ -76,7 +76,6 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if(p0 != null){
                     mDescr = p0.toString()
-                    parentListener.onTitleChanged(p0.toString())
                 }
             }
         })
@@ -101,8 +100,15 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
         switchAction.onChangeListener = object: ToggleSwitch.OnChangeListener{
             override fun onToggleSwitchChanged(position: Int) {
                 switchPos = position
+                if(position == 0) {
+                    buttonChangeLocation?.isEnabled = true
+                    textLocation.text = "Aktualna lokalizacja"
+                }
+                else{
+                    buttonChangeLocation?.isEnabled = false
+                    textLocation.text = "Brak"
+                }
             }
-
         }
 
         if(mLocation.latitude != 0.0)
@@ -129,8 +135,10 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
 
         try {
             val format = java.text.SimpleDateFormat("EEE MMM dd YYYY HH:mm:ss z",Locale.ENGLISH)
-            action.geo[0] = mLocation.latitude
-            action.geo[1] = mLocation.longitude
+            if(action.type == "ping"){
+                action.geo[0] = mLocation.latitude
+                action.geo[1] = mLocation.longitude
+            }
             val calendar = Calendar.getInstance()
             if(mMinuteText != "-1"){
                 calendar.set(Calendar.MINUTE,mMinuteText.toInt())
