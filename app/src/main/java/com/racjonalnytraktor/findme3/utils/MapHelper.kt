@@ -62,7 +62,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             setPadding(0,60,0,0)
             isBuildingsEnabled = false
             uiSettings.isTiltGesturesEnabled = false
-            isIndoorEnabled = true
+            setMinZoomPreference(18f)
         }
 
         val cameraPosition = CameraPosition.Builder()
@@ -100,14 +100,9 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
     }
 
-    fun moveCamera(position: LatLng) {
+    private fun moveCamera(position: LatLng) {
         mMap?.animateCamera(CameraUpdateFactory.newLatLng(position),2000,null)
     }
-
-    fun zoomCamera(value: Float = 15f){
-        mMap?.animateCamera(CameraUpdateFactory.zoomTo(value),2000,null)
-    }
-
 
     fun addPing(ping: Ping,animation: Boolean){
         if(mMap != null){
@@ -120,19 +115,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             newPing.clone(ping)
             val pingOnMap = PingOnMap(newPing, marker!!)
             pingsOnMap.add(pingOnMap)
-        }
-    }
-
-    fun updatePing(updatedPing: Ping){
-        var isPingNew = true
-        for(ping in pingsOnMap){
-            if(ping.ping.pingId == updatedPing.pingId){
-                ping.marker.position = LatLng(updatedPing.geo[0],updatedPing.geo[1])
-                isPingNew = false
-            }
-        }
-        if(isPingNew){
-            addPing(updatedPing,false)
         }
     }
 
@@ -198,23 +180,20 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
     }
 
-    fun addPingToMap(ping: PingOnMap){
-        //ping.marker =
-    }
-
-    fun setUserLocation(location: LatLng){
-        userOnMap.marker?.position = location
-        moveCamera(location)
-    }
-
-    fun setPersonLocation(location: LatLng,fullName: String){
-        for (person in peopleOnMap){
-            if (person.fullName == fullName){
-                person.marker?.position = location
+    fun updatePing(updatedPing: Ping){
+        var isPingNew = true
+        for(ping in pingsOnMap){
+            if(ping.ping.pingId == updatedPing.pingId){
+                ping.marker.position = LatLng(updatedPing.geo[0],updatedPing.geo[1])
+                isPingNew = false
             }
+        }
+        if(isPingNew){
+            addPing(updatedPing,false)
         }
     }
 
-
-
+    fun addPingToMap(ping: PingOnMap){
+        //ping.marker =
+    }
 }

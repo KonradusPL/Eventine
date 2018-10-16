@@ -1,9 +1,8 @@
-package com.racjonalnytraktor.findme3.ui.main.fragments
+package com.racjonalnytraktor.findme3.ui.map.fragments.profile
 
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,20 +13,15 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
-import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.fragment_profile.*
-import android.widget.Toast
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
-import android.R.attr.data
 import android.app.Activity.RESULT_OK
 import android.net.Uri
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
-import java.io.FileNotFoundException
-import android.R.attr.data
 
 class ProfileFragment: BaseFragment<MapMvp.View>() {
+
+    val presenter = ProfilePresenter()
 
     private val requestGallery = 1905
     private var mLocalImageUri = ""
@@ -61,6 +55,12 @@ class ProfileFragment: BaseFragment<MapMvp.View>() {
         }
         if (mLocalImageUri.isNotEmpty())
             imageProfile.setImageURI(Uri.parse(mLocalImageUri))
+
+        presenter.onAttach(this)
+    }
+
+    fun setUserData(fullName: String){
+        fieldFullName?.text = fullName
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

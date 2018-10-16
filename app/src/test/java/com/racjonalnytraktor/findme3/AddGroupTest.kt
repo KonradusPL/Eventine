@@ -6,6 +6,7 @@ import com.racjonalnytraktor.findme3.data.model.ActionsResponse
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.MembersResponse
 import com.racjonalnytraktor.findme3.data.network.RetrofitRest
+import com.racjonalnytraktor.findme3.data.network.model.ChangeSubGroupRequest
 import com.racjonalnytraktor.findme3.data.network.model.CreateGroupRequest
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
@@ -16,7 +17,7 @@ import kotlin.collections.HashMap
 
 class AddGroupTest {
 
-    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IktvbnJhZCBQxJlrYWxhIiwiaWQiOiI1YmM0ZjcxMWI2ZTBlYzAwMTBmYTNlMDIiLCJpYXQiOjE1Mzk2MzQ5OTQsImV4cCI6MTU0MDIzOTc5NH0.S7kgpb2MVAsVHyGufrB2q0cUByPDprht4OzePOKugPA"
+    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IktvbnJhZCBQxJlrYWxhIiwiaWQiOiI1YmM0ZjcxMWI2ZTBlYzAwMTBmYTNlMDIiLCJpYXQiOjE1Mzk2OTg2MTYsImV4cCI6MTU0MDMwMzQxNn0.-NvuTDH6kqwpf9_KThbnYdvPBiquuSDS7W4OGGz10U0"
     val token2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6Ik1hcmNpbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyYjUwYzUxZjMwMDEwZjVkMDhmIiwiaWF0IjoxNTM4MDM2NDA1LCJleHAiOjE1Mzg2NDEyMDV9.i4_JXB9iREQlJ7ioPWvf4algZSaJLxzpj6PZOJygf7Y"
     val token3 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IlRhZGV1c3ogS293YWxza2kiLCJpZCI6IjViYWM5MmU5MGM1MWYzMDAxMGY1ZDA5MCIsImlhdCI6MTUzODAzNjQ1NywiZXhwIjoxNTM4NjQxMjU3fQ.4lvyJWCB0q4o7cG0Oeh770XSeu4RenO-KMWRi9NojG4"
 
@@ -30,9 +31,21 @@ class AddGroupTest {
     val request5 = RegisterRequest("test5@test.pl", "Marcin Michno", "password5")
     val request6 = RegisterRequest("test6@test.pl", "Adam Nowak", "password6")
 
-    val grupaTestowa1 = "5bc4e90a3e23c90010bd0286"
+    val grupaTestowa1 = "5bc4f824b6e0ec0010fa3e03"
 
     val rest = RetrofitRest().networkService
+
+    @Test
+    fun changeSubGroup() {
+        val request = ChangeSubGroupRequest("5bc5bfa446e62a00100cc95a",grupaTestowa1,"admin")
+        println(request)
+        rest.changeSubGroups(token1, request)
+                .subscribe({ t: String? ->
+                    println("Wynik: $t")
+                }, { t: Throwable? ->
+                    println("Wynik: ${t?.message.orEmpty()}")
+                })
+    }
 
     @Test
     fun addGroup() {
@@ -61,7 +74,7 @@ class AddGroupTest {
 
     @Test
     fun loginTestingUsers() {
-        val request = LoginRequest(request1.email,request1.password)
+        val request = LoginRequest(request6.email,request6.password)
         rest.login(request)
                 .subscribe({ t: LoginResponse? ->
                     println(t!!.token)

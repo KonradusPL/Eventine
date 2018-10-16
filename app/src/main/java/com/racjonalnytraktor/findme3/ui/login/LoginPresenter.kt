@@ -24,8 +24,8 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                 .subscribe({response: LoginResponse? ->
                     Log.d("logowanie","działa")
                     view.hideLoginLoading()
-                    repo.prefs.createUser(User())
-                    repo.saveUser(response!!.token,"",email)
+                    repo.prefs.createUser(User(fullName = response!!.fullName))
+                    repo.saveUser(response.token,"",email)
                     view.openMainActivity()
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
 

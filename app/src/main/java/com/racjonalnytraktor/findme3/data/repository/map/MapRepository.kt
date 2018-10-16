@@ -93,7 +93,6 @@ object MapRepository: BaseRepository() {
     fun createAction(action: CreateActionRequest): Single<String>{
         val token = prefs.getUserToken()
         action.groupId = prefs.getCurrentGroupId()
-        action.type = "ping"
         Log.d("CreateActionRequest",action.toString())
 
         return rest.networkService.createAction(token,action)

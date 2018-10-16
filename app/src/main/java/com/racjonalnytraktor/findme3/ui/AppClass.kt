@@ -69,9 +69,14 @@ class AppClass: Application() {
                 activity,
                 onRequirementsFulfilled = {
                     Log.d("Beacons","onRequirementsFulfilled")
-                    if (mObservationHandler == null)
-                        mObservationHandler = proximityObserver.startObserving(pokoikZone)
-
+                    if (mObservationHandler == null){
+                        doAsync {
+                            Thread.sleep(3000)
+                            uiThread {
+                                mObservationHandler = proximityObserver.startObserving(pokoikZone)
+                            }
+                        }
+                    }
                 },
                 onRequirementsMissing = {},
                 onError = {}

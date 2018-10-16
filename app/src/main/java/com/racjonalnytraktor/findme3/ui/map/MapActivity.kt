@@ -14,12 +14,7 @@ import android.support.v7.app.AlertDialog
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
-import android.widget.DatePicker
-import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
-import com.estimote.proximity_sdk.api.EstimoteCloudCredentials
 import com.estimote.proximity_sdk.api.ProximityObserver
-import com.estimote.proximity_sdk.api.ProximityObserverBuilder
-import com.estimote.proximity_sdk.api.ProximityZoneBuilder
 import com.google.android.gms.maps.SupportMapFragment
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.iconics.IconicsDrawable
@@ -33,21 +28,18 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.AppClass
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
-import com.racjonalnytraktor.findme3.ui.main.fragments.ProfileFragment
+import com.racjonalnytraktor.findme3.ui.map.fragments.profile.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
 import com.racjonalnytraktor.findme3.ui.map.fragments.addtask.AddTaskFragment
 import com.racjonalnytraktor.findme3.utils.MapHelper
-import es.dmoral.toasty.Toasty
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.dialog_time.view.*
 import kotlinx.android.synthetic.main.item_tab.view.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.util.*
 
 //https://xd.adobe.com/spec/39ba5ff1-b994-4bea-507d-1cf1b10031a9-4f8b/
 
@@ -56,7 +48,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     lateinit var mMapHelper: MapHelper
     lateinit var mPresenter: MapPresenter<MapMvp.View>
 
-    private val cloudCredentials = EstimoteCloudCredentials("indoorlocation-m4a","846401acdfecd6753a2d69750172aa67")
     private var mObservationHandler: ProximityObserver.Handler? = null
 
     private lateinit var fragmentMap: SupportMapFragment
@@ -522,6 +513,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
         }
     }
 
-    fun isFullFragmentAdded() = fragmentProfile.isAdded || fragmentManageGroup.isAdded
+    private fun isFullFragmentAdded() = fragmentProfile.isAdded || fragmentManageGroup.isAdded
             || fragmentOptions.isAdded
 }
