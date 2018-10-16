@@ -41,6 +41,7 @@ interface MapMvp {
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         //clickers
+        fun onFloorSelected(floor: Int)
         fun onCircleClick(visibility: Int)
         fun onOrganiserButtonClick()
         fun onOrganizerClick(organizerId: String)

@@ -18,4 +18,5 @@ data class Action(
         var geo: ArrayList<Double> = ArrayList(),
         var status: String = "",
         var progressor: Relative = Relative(),
-        var executor: Relative = Relative())
+        var executor: Relative = Relative(),
+        var floor: Int = 0)

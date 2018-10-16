@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.ui.map.fragments
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.Model1
+import com.racjonalnytraktor.findme3.data.network.model.Help
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.HistoryRepository
@@ -47,12 +48,22 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
     override fun onHelpButtonClick() {
         compositeDisposable.clear()
         view.clearList("actions")
-        compositeDisposable.add(repo.getPings()
-                .subscribe({ping: Ping? ->
-                    if (ping != null){
-                        ping.type = "ping"
+        compositeDisposable.add(repo.getHelps()
+                .subscribe({helps: ArrayList<Help>? ->
+                    view.hideProgress()
+                    if (helps != null){
+                        Log.d("onHelpButtonClick",helps.toString())
+                        repo.listHelp.clear()
+                        for(help in helps){
+                            val model1 = ClassTransform.fromHelpToModelH(help)
+                            repo.listHelp.add(model1)
+                        }
+                        view.updateActions(repo.listHelp)
                     }
                 },{t: Throwable? ->
+                    if(repo.actions.isNotEmpty())
+                        view.updateActions(repo.listHelp)
+                    view.hideProgress()
                     Log.d("error",t.toString())
                 }))
     }
@@ -66,25 +77,6 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
     }
 
     override fun onAllButtonClick() {
-        view.clearList("ping")
-        compositeDisposable.add(repo.getPings()
-                .subscribe({ping: Ping? ->
-                    if (ping != null){
-                        ping.type = "ping"
-                        //view.updatePings(ping)
-                    }
-                },{t: Throwable? ->
-                    Log.d("error",t.toString())
-                }))
-        compositeDisposable.add(repo.getInfos()
-                .subscribe({info: Info? ->
-                    if (info != null){
-                        info.type = "info"
-                        //view.updateInfos(info)
-                    }
-                },{t: Throwable? ->
-                    Log.d("error",t.toString())
-                }))
     }
 
     override fun onDetach() {

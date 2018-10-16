@@ -33,6 +33,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     private var mLocationListener: Listener.ChangeLocation? = null
     private var mCurrentLocation = "Pokoik"
 
+    private var mFloorIndex = 0
+    private val mFloors = arrayListOf(-1,0,1,2,3,4)
+
     var isAttached = false
 
     override fun onAttach(mvpView: V) {
@@ -72,7 +75,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                                         Log.d("pingspings",pings.toString() + "asd")
                                         val pingsNew = ArrayList<Ping>()
                                         for (action in pings){
-                                            if (action.type == "ping")
+                                            if (action.type == "ping" && action.floor == mFloors[mFloorIndex])
                                                 pingsNew.add(Ping(action))
                                         }
                                         view.updatePings(pingsNew,true)
@@ -110,6 +113,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                 },{t: Throwable? ->
                     Log.d("updateNotifToken",t!!.message)
                 }))
+    }
+
+    override fun onFloorSelected(floor: Int) {
+        mFloorIndex = floor
     }
 
     override fun onCircleClick(visibility: Int) {
@@ -205,6 +212,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         Log.d("onCreateActionClick",action.title)
         Log.d("onCreateActionClick",action.desc)
         Log.d("onCreateActionClick",action.type)
+
+        action.floor = mFloors[mFloorIndex]
+
+        view.showMessage(action.floor.toString())
 
         view.showLoading()
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->

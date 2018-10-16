@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.utils
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.Model1
+import com.racjonalnytraktor.findme3.data.network.model.Help
 import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Worker
@@ -31,5 +32,15 @@ object ClassTransform {
     fun fromActionToModelH(action: Action): Model1{
         val dateString = StringHelper.getTimeForAction(Date(),action.createdAt)
         return Model1(action.title,action.desc,dateString,action.id)
+    }
+
+    fun fromHelpToModelH(help: Help): Model1{
+        var acceptedText = "Zaakceptowali:"
+        for(a in help.accepted){
+            acceptedText += " $a,"
+        }
+        val i = acceptedText.length
+        acceptedText.removeRange(i-1,i-1)
+        return Model1(help.caller.fullName,acceptedText,"")
     }
 }

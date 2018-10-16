@@ -52,6 +52,7 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         buttonHelp.setOnClickListener {
             buttonHelp.setTextColor(ContextCompat.getColor(parentMvp.getCtx(),R.color.colorPrimaryNew))
             buttonActions.setTextColor(Color.BLACK)
+            mPresenter.onHelpButtonClick()
         }
     }
 

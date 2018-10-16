@@ -107,7 +107,7 @@ object StringHelper {
                 timeText = "dzień"
             else
                 textPart = " dni"
-        }else{
+        }else if(elapsedHours > 0){
             timeText = elapsedHours.toString()
             textPart = when(timeText.last()){
                 '2' -> " godziny"
@@ -118,6 +118,18 @@ object StringHelper {
 
             if(timeText.last() == '1' && timeText.length == 1)
                 textPart = " godzina"
+        }
+        else if(elapsedMinutes > 0){
+            timeText = elapsedMinutes.toString()
+            textPart = when(timeText.last()){
+                '2' -> " minuty"
+                '3' -> " minuty"
+                '4' -> " minuty"
+                else -> " minut"
+            }
+        }
+        else{
+            return "Teraz"
         }
         return "$timeText$textPart temu"
     }

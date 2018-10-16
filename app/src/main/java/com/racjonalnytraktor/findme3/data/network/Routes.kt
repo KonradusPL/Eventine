@@ -76,6 +76,9 @@ interface Routes {
     fun sendPingToNearest(@Header("X-Token")token: String, @FieldMap data: HashMap<String,String>)
             :Single<String>
 
+    @GET("group/listHelps")
+    fun getHelps(@Header("X-Token")token: String): Single<ArrayList<Help>>
+
     //actions////
 
     @POST("actions/create")

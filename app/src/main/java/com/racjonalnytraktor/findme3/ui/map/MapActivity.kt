@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
 import com.estimote.proximity_sdk.api.ProximityObserver
 import com.google.android.gms.maps.SupportMapFragment
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
@@ -203,6 +204,15 @@ class MapActivity : BaseActivity(),MapMvp.View{
     private fun initFloorSpinner(){
         val floors = arrayListOf("-1","0","1","2","3","4")
         spinnerFloor.attachDataSource(floors)
+        spinnerFloor.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                Log.d("initFloorSpinner",p2.toString())
+                mPresenter.onFloorSelected(p2)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+
+        })
     }
 
     private fun initBeaconsScanning(){
