@@ -5,11 +5,14 @@ import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.Model1
 import com.racjonalnytraktor.findme3.data.network.model.Help
 import com.racjonalnytraktor.findme3.data.network.model.UserSimple
+import com.racjonalnytraktor.findme3.data.repository.ApplicationRepository
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Worker
 import java.util.*
 
 object ClassTransform {
+
+    val appRepo = ApplicationRepository
 
     fun fromPeopleArrayToJobs(people: ArrayList<UserSimple>): ArrayList<Job>{
         Log.d("fromPeopleArrayToJobs:",people.toString())
@@ -35,12 +38,16 @@ object ClassTransform {
     }
 
     fun fromHelpToModelH(help: Help): Model1{
-        var acceptedText = "Zaakceptowali:"
+        val members = appRepo.getMembers()
+
+        val stringBuilder = StringBuilder("Zaakceptowali:")
         for(a in help.accepted){
-            acceptedText += " $a,"
+            for(member in members){
+                if(member.id == a)
+                    stringBuilder.append(" ${member.name},")
+            }
         }
-        val i = acceptedText.length
-        acceptedText.removeRange(i-1,i-1)
-        return Model1(help.caller.fullName,acceptedText,"")
+        stringBuilder.deleteCharAt(stringBuilder.lastIndex)
+        return Model1(help.caller.fullName,stringBuilder.toString(),"")
     }
 }

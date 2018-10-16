@@ -58,6 +58,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     Log.d("updateLocation",t.toString())
                 })
 
+        mRepo.updateMembers()
+
         updateNotifToken()
     }
 

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
+import org.jetbrains.anko.toast
 
 class MyBroadcastReceiver: BroadcastReceiver() {
 
@@ -13,6 +14,10 @@ class MyBroadcastReceiver: BroadcastReceiver() {
         Log.d("MyBroadcastReceiver","onReceive")
         val repo = MapRepository
         if(intent != null){
+            val intentDisableNotification = Intent(context!!,MyFirebaseMessagingService::class.java)
+            intentDisableNotification.action = "remove"
+            context.startService(intentDisableNotification)
+
             val token = repo.prefs.getUserToken()
             val data = HashMap<String, Any>()
             data["callerId"] = intent.extras["id"]
@@ -22,8 +27,10 @@ class MyBroadcastReceiver: BroadcastReceiver() {
                     .subscribeOn(SchedulerProvider.io())
                     .observeOn(SchedulerProvider.ui())
                     .subscribe({ t: String? ->
+                        context?.toast("Zaakceptowano helpa")
                         Log.d("sendNotifResponse",t.orEmpty())
                     },{t: Throwable? ->
+                        context?.toast("timeout")
                         Log.d("sendNotifResponse",t.toString())
                     })
         }

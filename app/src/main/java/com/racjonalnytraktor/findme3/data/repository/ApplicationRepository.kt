@@ -2,17 +2,21 @@ package com.racjonalnytraktor.findme3.data.repository
 
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Group
+import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 
 object ApplicationRepository {
 
     val groups = ArrayList<Group>()
 
-    fun addGroups(groups: ArrayList<Group>){
-        this.groups.clear()
-        this.groups.addAll(groups)
-    }
-    fun addGroup(group: Group) = groups.add(group)
+    private val mMembers = ArrayList<UserSimple>()
 
-    fun clearGroups() = groups.clear()
+    fun updateMembers(list: ArrayList<UserSimple>){
+        mMembers.clear()
+        mMembers.addAll(list)
+    }
+
+    fun getMembers(): ArrayList<UserSimple>{
+        return mMembers
+    }
 
 }

@@ -5,6 +5,7 @@ import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.ActionsResponse
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.EndPing
+import com.racjonalnytraktor.findme3.data.network.MembersResponse
 import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
@@ -121,6 +122,21 @@ object MapRepository: BaseRepository() {
                 .map { t -> ClassTransform.fromPeopleArrayToJobs(t) }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
+    }
+
+    fun updateMembers(){
+        val token = prefs.getUserToken()
+        val groupId = prefs.getCurrentGroupId()
+        Log.d("groupId",groupId)
+        rest.networkService.getGroupMembers(token, groupId)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+                .map { t: MembersResponse -> t.people }
+                .subscribe({t: ArrayList<UserSimple>? ->
+                    appRepo.updateMembers(t.orEmpty() as ArrayList<UserSimple>)
+                },{t: Throwable? ->
+                    Log.d("updateMembers",t.toString())
+                })
     }
 
     fun saveState(checked: List<String>,task: String, descr: String, type: String, state: String){

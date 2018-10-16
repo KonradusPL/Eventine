@@ -4,6 +4,7 @@ import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.Model1
 import com.racjonalnytraktor.findme3.data.network.model.Help
+import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.HistoryRepository
@@ -15,6 +16,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
 ,HistoryAdapter.ClickListener{
 
     val repo = HistoryRepository
+    val mMembers = ArrayList<UserSimple>()
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
