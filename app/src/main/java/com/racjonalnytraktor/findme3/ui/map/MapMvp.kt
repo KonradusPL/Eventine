@@ -15,7 +15,7 @@ interface MapMvp {
         fun updateSubGroups(item: String)
         fun animateTabLayout(show: Boolean)
         fun hideCreatePingView()
-        fun updatePings(pings: List<Ping>,value: Boolean = true)
+        fun updatePings(pings: List<Ping>,floor: Int)
         fun updatePings(ping: Action)
         fun addPing(ping: Ping)
         fun getPresenter(): MapPresenter<View>
@@ -35,6 +35,7 @@ interface MapMvp {
         fun showPlanDialog()
         fun showFullFragments(type: String)
         fun hideFullFragments(type: String, unSelectTab: Boolean = false)
+        fun hideFullFragments()
         fun changeBeaonsStatus(enable: Boolean)
         fun showLoading()
         fun hideLoading()

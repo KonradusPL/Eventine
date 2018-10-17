@@ -64,7 +64,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     lateinit var drawerMap: Drawer
 
-    private var tabStatus = 1
+    private var mCurrentSlide = ""
     private var circleStatus = 1
 
 
@@ -166,18 +166,20 @@ class MapActivity : BaseActivity(),MapMvp.View{
         tabLayoutMap.addOnTabSelectedListener(object:  TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 val fragment: Fragment
+
                 when(tab!!.position){
                     1 -> mPresenter.onHistoryButtonClick()
                     0 -> mPresenter.onOptionsClick()
                     3 -> mPresenter.onGroupsClick()
                     4 -> mPresenter.onProfileClick()
                 }
+                val color = ContextCompat.getColor(this@MapActivity,R.color.colorPrimaryNew)
+                tab.customView?.text?.setTextColor(color)
+                tab.customView?.icon?.icon?.color(color)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                val color = ContextCompat.getColor(this@MapActivity,R.color.greyTab)
-                tab?.customView?.text?.setTextColor(color)
-                tab?.customView?.icon?.icon?.color(color)
+                clearTab(tab?.position ?: 1)
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -199,6 +201,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .icon(FontAwesome.Icon.faw_plus)
                 .sizeDp(30)
                 .color(Color.WHITE)
+
+        tabLayoutMap.getTabAt(2)?.select()
     }
 
     private fun initFloorSpinner(){
@@ -208,6 +212,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 Log.d("initFloorSpinner",p2.toString())
                 mPresenter.onFloorSelected(p2)
+                mMapHelper.onChangeFloor(floors[p2].toInt())
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -229,8 +234,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
                     uiThread {
                         val n = tabLayoutMap.selectedTabPosition
                         if(n > -1 && n < 5 && n != 2){
-                            Log.d("tabLayoutMap","qweqweqwe")
-                            tabLayoutMap.getTabAt(2)?.select()
+                            if(mCurrentSlide == "history")
+                                clearTab(1)
                         }
 
                         mPresenter.onSlideHide()
@@ -245,12 +250,17 @@ class MapActivity : BaseActivity(),MapMvp.View{
         }
     }
 
+    private fun clearTab(position: Int){
+        val color = ContextCompat.getColor(this@MapActivity,R.color.greyTab)
+        tabLayoutMap.getTabAt(position)?.customView?.text?.setTextColor(color)
+        tabLayoutMap.getTabAt(position)?.customView?.icon?.icon?.color(color)
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLocationUpdate(location: LocationEvent) {
     }
 
     override fun onStart() {
-
         super.onStart()
         Log.d("lifecycler","onStart")
         mPresenter.isAttached = true
@@ -276,7 +286,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
    private fun showBlur() {
-
         mMapHelper.getImage()
     }
 
@@ -304,8 +313,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
         mMapHelper.addPing(ping,true)
     }
 
-    override fun updatePings(pings: List<Ping>,value: Boolean) {
-        mMapHelper.updatePings(pings)
+    override fun updatePings(pings: List<Ping>,floor: Int) {
+        mMapHelper.updatePings(pings,floor)
     }
 
     override fun updatePings(ping: Action) {
@@ -380,6 +389,8 @@ class MapActivity : BaseActivity(),MapMvp.View{
             "organizer" -> fragmentOrganisers
             else -> Fragment()
         }
+        mCurrentSlide = type
+
         if(location.latitude != 0.0 && type == "addTask"){
             fragmentAddTask.changeLocation(location)
         }
@@ -442,7 +453,27 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
         if(unSelectTab)
             tabLayoutMap.getTabAt(2)?.select()
+    }
 
+    override fun hideFullFragments() {
+        if(!isFullFragmentAdded())
+            return
+
+        var fragment: Fragment? = null
+
+        spinnerFloor.visibility = View.VISIBLE
+        hideBlur()
+
+        when {
+            fragmentOptions.isAdded -> fragment = fragmentOptions
+            fragmentManageGroup.isAdded -> fragment = fragmentManageGroup
+            fragmentProfile.isAdded -> fragment = fragmentProfile
+        }
+
+        if(fragment != null)
+            supportFragmentManager.beginTransaction()
+                    .remove(fragment)
+                    .commit()
 
     }
 

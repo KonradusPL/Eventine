@@ -44,22 +44,28 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         if (action.isEmpty())
             return
 
-        if (action == "pingCreate"){
-            val title = message.data["title"].orEmpty()
-            val desc = message.data["desc"].orEmpty()
-            onCreatePing(title,desc)
-        }
-        else if (action == "infoCreate"){
-            val content = message.data["content"].orEmpty()
-            onInfoCreate(content)
-        }
-        else if(action == "findOrganizer"){
-            val data = message.data
-            onHelp(data["title"].orEmpty(),data["desc"].orEmpty(),data["callerId"].orEmpty())
-        }
-        else{
-            val groupName = message.data["groupName"].orEmpty()
-            onCreateGroup(groupName)
+        when (action) {
+            "pingCreate" -> {
+                val title = message.data["title"].orEmpty()
+                val desc = message.data["desc"].orEmpty()
+                onCreatePing(title,desc)
+            }
+            "infoCreate" -> {
+                val content = message.data["content"].orEmpty()
+                onInfoCreate(content)
+            }
+            "findOrganizer" -> {
+                val data = message.data
+                onHelp(data["title"].orEmpty(),data["desc"].orEmpty(),data["callerId"].orEmpty())
+            }
+            "acceptRequest" -> {
+                val data = message.data
+                onAcceptHelp(data["desc"].orEmpty(),data["title"].orEmpty())
+            }
+            else -> {
+                val groupName = message.data["groupName"].orEmpty()
+                onCreateGroup(groupName)
+            }
         }
 
         makeSound()
@@ -122,6 +128,23 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         makeSound()
     }
+
+    private fun onAcceptHelp(desc: String, title: String){
+        notificationManager = NotificationManagerCompat.from(this)
+
+        notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle(desc)
+                .setContentText(title)
+                .setSmallIcon(R.drawable.ic_event_white_24dp)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+
+        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+
+        makeSound()
+    }
+
+
 
     private fun onHelp(title: String, desc: String, id: String){
         val notificationIntent = Intent(this, MapActivity::class.java)

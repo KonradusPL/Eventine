@@ -58,6 +58,7 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
 
     override fun onStart() {
         super.onStart()
+        Log.d("HistoryFragment","onStart")
         mPresenter.onAttach(this)
     }
 

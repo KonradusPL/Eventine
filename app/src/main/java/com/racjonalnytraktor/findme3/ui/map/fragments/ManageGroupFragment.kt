@@ -54,12 +54,12 @@ class ManageGroupFragment<V: MapMvp.View>: BaseFragment<V>(), Listener.Manage {
         arrayList.addAll(list)
         mListAdapter = ManageGroupAdapter(arrayList,parentMvp)
 
-        listGroups.layoutManager = LinearLayoutManager(parentMvp.getCtx())
-        listGroups.adapter = mListAdapter
+        listGroups?.layoutManager = LinearLayoutManager(parentMvp.getCtx())
+        listGroups?.adapter = mListAdapter
     }
 
     override fun showLoading() {
-        buttonRefreshManage.visibility = View.GONE
+        buttonRefreshManage?.visibility = View.GONE
         progressManage?.visibility = View.VISIBLE
     }
 

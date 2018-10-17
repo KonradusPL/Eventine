@@ -50,6 +50,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
     override fun onHelpButtonClick() {
         compositeDisposable.clear()
         view.clearList("actions")
+        view.showProgress()
         compositeDisposable.add(repo.getHelps()
                 .subscribe({helps: ArrayList<Help>? ->
                     view.hideProgress()

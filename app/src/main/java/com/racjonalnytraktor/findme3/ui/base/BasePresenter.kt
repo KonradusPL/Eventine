@@ -13,7 +13,6 @@ open class BasePresenter<V: MvpView>: MvpPresenter<V> {
     }
 
     override fun onDetach() {
-        compositeDisposable.dispose()
         compositeDisposable.clear()
     }
 }

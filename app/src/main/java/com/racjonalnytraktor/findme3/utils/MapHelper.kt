@@ -31,9 +31,8 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
 
     private var mMap: GoogleMap? = null
 
-    private lateinit var userOnMap: PersonOnMap
-    private val peopleOnMap = ArrayList<PersonOnMap>()
     val pingsOnMap = ArrayList<PingOnMap>()
+    private var mFloor = -1
 
     interface MapListener {
         fun onMapClick(location: Location)
@@ -118,8 +117,9 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
     }
 
-    fun updatePings(newPings: List<Ping>){
+    fun updatePings(newPings: List<Ping>, floor: Int){
         Log.d("michno1",newPings.size.toString())
+        mFloor = floor
         val oldPings = ArrayList<String>()
 
         for(_ping in pingsOnMap){
@@ -151,15 +151,29 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             if (isPingNew && !newPing.ended)
                 addPing(newPing,false)
         }
+        Log.d("current floor ",mFloor.toString())
+
+        for (ping in pingsOnMap){
+            ping.marker.isVisible = ping.ping.floor == mFloor
+        }
 
         for (_ping in oldPings){
             for (ping in pingsOnMap){
+                ping.marker.isVisible = ping.ping.floor == mFloor
+
                 if(ping.ping.pingId == _ping){
                     ping.marker.remove()
                     pingsOnMap.remove(ping)
                     break
                 }
             }
+        }
+    }
+
+    fun onChangeFloor(floor: Int){
+        mFloor = floor
+        for (ping in pingsOnMap){
+            ping.marker.isVisible = ping.ping.floor == mFloor
         }
     }
 

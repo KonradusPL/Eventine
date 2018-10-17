@@ -18,7 +18,8 @@ data class Ping(
         var progressorName: String = "",
         @SerializedName("_id")var pingId: String = "",
         var creatorName: String = "",
-        var createdAt: String = "")
+        var createdAt: String = "",
+        var floor: Int = -1)
 
         : Typed(){
 
@@ -54,6 +55,7 @@ data class Ping(
         pingId = pingId.plus(action.id)
         creatorName = action.creator.name
         progressorName = action.progressor.name
+        floor = action.floor
         when(action.status){
             "inProgress"-> inProgress = true
             "done" -> ended = true

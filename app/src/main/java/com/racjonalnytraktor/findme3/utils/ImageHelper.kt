@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.utils
 import android.content.Context
 import android.graphics.*
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import com.racjonalnytraktor.findme3.R
 import com.squareup.picasso.Picasso
 
@@ -27,7 +28,7 @@ object ImageHelper {
         return resizedBitmap
     }
 
-    fun getScaledBitmap(bm: Bitmap, newSize: Int): Bitmap {
+    private fun getScaledBitmap(bm: Bitmap, newSize: Int): Bitmap {
         val width = bm.width
         val height = bm.height
         val scale = newSize.toFloat() / width
@@ -71,10 +72,9 @@ object ImageHelper {
         if(mBitmapPingBase == null)
             createBaseBitmap(context)
 
-        val baseBitmap = Bitmap.createBitmap(80,80,Bitmap.Config.ARGB_8888)
-        //val baseImage = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,80)
+        val width = mBitmapPingBase?.width ?: 80
 
-        //val bitmapNew = Bitmap.createBitmap(bitmapOld.width,bitmapOld.height,Bitmap.Config.ARGB_8888)
+        val baseBitmap = Bitmap.createBitmap(width,width,Bitmap.Config.ARGB_8888)
 
         val canvas = Canvas(baseBitmap)
         val paint = Paint()
@@ -82,15 +82,14 @@ object ImageHelper {
         paint.colorFilter = filter
 
         canvas.drawBitmap(mBitmapPingBase,0f,0f,paint)
-        //paint.colorFilter = null
-        //canvas.drawBitmap(bitmapProfile,10f,10f,paint)
 
         return baseBitmap
     }
 
     private fun createBaseBitmap(context: Context){
-        val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources, R.drawable.marker_image)
-        mBitmapPingBase = ImageHelper.getScaledBitmap(bitmapMarkerFromRes,80)
+        val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources, R.mipmap.marker_image)
+        mBitmapPingBase = bitmapMarkerFromRes
+        Log.d("createBaseBitmap", mBitmapPingBase?.width.toString())
     }
 
 }

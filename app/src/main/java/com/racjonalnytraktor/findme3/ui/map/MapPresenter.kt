@@ -77,10 +77,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                                         Log.d("pingspings",pings.toString() + "asd")
                                         val pingsNew = ArrayList<Ping>()
                                         for (action in pings){
-                                            if (action.type == "ping" && action.floor == mFloors[mFloorIndex])
+                                            if (action.type == "ping")
                                                 pingsNew.add(Ping(action))
                                         }
-                                        view.updatePings(pingsNew,true)
+                                        view.updatePings(pingsNew,mFloors[mFloorIndex])
                                     }
                                 },{t: Throwable? ->
                                     Log.d("updating actions: ","AAA")
@@ -125,6 +125,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         if(visibility == View.GONE)
             view.animateExtendedCircle(true)
         else{
+            view.hideFullFragments()
             view.animateExtendedCircle(false)
             view.animateTabLayout(false)
             view.showSlide("addTask")
@@ -334,6 +335,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         val newLocation = Location("")
         newLocation.latitude = location.latitude
         newLocation.longitude = location.longitude
+        view.hideFullFragments()
         view.animateExtendedCircle(false)
         view.animateTabLayout(false)
         view.showSlide("addTask",newLocation)
@@ -373,6 +375,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onHistoryButtonClick() {
+        view.hideFullFragments()
         view.showSlide("history")
     }
 
@@ -436,8 +439,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     override fun onOptionsClick() {
         view.showFullFragments("options")
     }
-
-
 
     override fun onBackInFragmentClick(type: String) {
         view.hideFullFragments(type,true)
