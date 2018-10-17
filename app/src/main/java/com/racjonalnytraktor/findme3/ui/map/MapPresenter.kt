@@ -77,8 +77,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                                         Log.d("pingspings",pings.toString() + "asd")
                                         val pingsNew = ArrayList<Ping>()
                                         for (action in pings){
-                                            if (action.type == "ping")
+                                            if (action.type == "ping"){
+                                                Log.d("startUpdatingPings",action.floor.toString())
                                                 pingsNew.add(Ping(action))
+                                            }
                                         }
                                         view.updatePings(pingsNew,mFloors[mFloorIndex])
                                     }
@@ -218,7 +220,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         action.floor = mFloors[mFloorIndex]
 
-        view.showMessage(action.floor.toString())
+        Log.d("onCreateActionClick",action.floor.toString())
 
         view.showLoading()
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->

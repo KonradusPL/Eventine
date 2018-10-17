@@ -40,6 +40,7 @@ data class Ping(
         pingId = pingId.plus(ping.pingId)
         creatorName = creatorName.plus(ping.creatorName)
         progressorName = "".plus(ping.progressorName)
+        floor = ping.floor
     }
 
     fun fromAction(action: Action){

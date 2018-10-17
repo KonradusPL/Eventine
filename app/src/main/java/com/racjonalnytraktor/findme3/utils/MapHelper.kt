@@ -154,12 +154,12 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         Log.d("current floor ",mFloor.toString())
 
         for (ping in pingsOnMap){
+            Log.d("pingsOnMap floor", ping.ping.floor.toString())
             ping.marker.isVisible = ping.ping.floor == mFloor
         }
 
         for (_ping in oldPings){
             for (ping in pingsOnMap){
-                ping.marker.isVisible = ping.ping.floor == mFloor
 
                 if(ping.ping.pingId == _ping){
                     ping.marker.remove()

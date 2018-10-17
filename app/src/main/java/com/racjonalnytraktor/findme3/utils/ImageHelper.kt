@@ -87,7 +87,7 @@ object ImageHelper {
     }
 
     private fun createBaseBitmap(context: Context){
-        val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources, R.mipmap.marker_image)
+        val bitmapMarkerFromRes = BitmapFactory.decodeResource(context.resources, R.drawable.marker_image)
         mBitmapPingBase = bitmapMarkerFromRes
         Log.d("createBaseBitmap", mBitmapPingBase?.width.toString())
     }

@@ -30,7 +30,12 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     lateinit var notification: Notification
     lateinit var notificationBuilder: NotificationCompat.Builder
-    lateinit var notificationManager: NotificationManagerCompat
+    var notificationManager: NotificationManagerCompat? = null
+
+    override fun onCreate() {
+        super.onCreate()
+        notificationManager = NotificationManagerCompat.from(this)
+    }
 
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
@@ -45,7 +50,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             return
 
         when (action) {
-            "pingCreate" -> {
+            "create" -> {
                 val title = message.data["title"].orEmpty()
                 val desc = message.data["desc"].orEmpty()
                 onCreatePing(title,desc)
@@ -76,8 +81,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val notificationIntent = Intent(this, MapActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
-        notificationManager = NotificationManagerCompat.from(this)
-
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle("Informacja")
                 .setContentText(content)
@@ -86,7 +89,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
 
-        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+        notificationManager?.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
         makeSound()
     }
@@ -94,8 +97,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     private fun onCreatePing(title: String, desc: String){
         val notificationIntent = Intent(this, MapActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
-
-        notificationManager = NotificationManagerCompat.from(this)
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle(title)
@@ -105,7 +106,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
 
-        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+        notificationManager?.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
         makeSound()
     }
@@ -113,8 +114,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val notificationIntent = Intent(this, MainActivity::class.java)
         notificationIntent.putExtra("action","invite")
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
-
-        notificationManager = NotificationManagerCompat.from(this)
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle("Zaproszenie do grupy $groupName")
@@ -124,14 +123,12 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
 
-        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+        notificationManager?.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
         makeSound()
     }
 
     private fun onAcceptHelp(desc: String, title: String){
-        notificationManager = NotificationManagerCompat.from(this)
-
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle(desc)
                 .setContentText(title)
@@ -139,7 +136,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
 
-        notificationManager.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
+        notificationManager?.notify(NOTIFICATION_ID_PING, notificationBuilder.build())
 
         makeSound()
     }
@@ -165,8 +162,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val noPendingIntent: PendingIntent =
                 PendingIntent.getBroadcast(this, 123, noIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        notificationManager = NotificationManagerCompat.from(this)
-
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle(title)
                 .setContentText(desc)
@@ -177,10 +172,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 .setAutoCancel(true)
 
 
-        notificationManager.notify(NOTIFICATION_ID_HELP, notificationBuilder.build())
+        notificationManager?.notify(NOTIFICATION_ID_HELP, notificationBuilder.build())
     }
 
-    fun makeSound(){
+    private fun makeSound(){
         val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 

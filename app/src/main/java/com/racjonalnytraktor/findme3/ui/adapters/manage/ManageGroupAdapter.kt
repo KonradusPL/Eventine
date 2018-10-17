@@ -88,6 +88,7 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
         return workersList
     }
     internal class WorkerViewHolder(itemView: View,val mvpView: MapMvp.View, val type: String): ChildViewHolder(itemView){
+
         fun bind(worker: Worker){
             if(type == "organizer"){
                 itemView.apply {
@@ -109,6 +110,10 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
 
                 itemView.apply {
                     iconAddWorker.setOnClickListener {
+                        worker.selected = !worker.selected
+                        changeOnSelected(itemView,worker.selected)
+                    }
+                    setOnClickListener {
                         worker.selected = !worker.selected
                         changeOnSelected(itemView,worker.selected)
                     }
