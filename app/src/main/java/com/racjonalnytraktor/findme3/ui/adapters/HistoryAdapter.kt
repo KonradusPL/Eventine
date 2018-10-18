@@ -11,10 +11,11 @@ import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.Model1
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
+import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import kotlinx.android.synthetic.main.item_history_new.view.*
 
 
-class HistoryAdapter(var list: ArrayList<Model1>, val listener: ClickListener, val context: Context)
+class HistoryAdapter(var list: ArrayList<Model1>,val mvpView: MapMvp.View)
     :RecyclerView.Adapter<HistoryAdapter.MyHolder>(){
 
     private val statusIcons = ArrayList<IIcon>()
@@ -44,6 +45,18 @@ class HistoryAdapter(var list: ArrayList<Model1>, val listener: ClickListener, v
                 fieldTitle.text = model1.title
                 fieldMessage.text = model1.message
                 fieldDate.text = model1.date
+                setOnClickListener {
+                    val ping = Ping()
+                    ping.title = model1.title
+                    ping.desc = model1.message
+                    ping.pingId = model1.id
+                    if(model1.status == "inProgress")
+                        ping.inProgress = true
+                    else if(model1.status == "done")
+                        ping.ended = true
+                    if(type == "ping")
+                        mvpView.showEndPingBar(ping)
+                }
             }
         }
     }

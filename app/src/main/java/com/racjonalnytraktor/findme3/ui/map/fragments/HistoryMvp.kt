@@ -9,7 +9,7 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 
 interface HistoryMvp {
     interface View: MvpView{
-        fun updateActions(action: ArrayList<Model1>)
+        fun updateActions(action: ArrayList<Model1>,type: String)
         fun updateActions(action: Model1)
         //fun updateHelps(info: Info)
         fun updateAll()

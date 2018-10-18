@@ -127,6 +127,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         if(visibility == View.GONE)
             view.animateExtendedCircle(true)
         else{
+            view.clearTab(0,true)
             view.hideFullFragments()
             view.animateExtendedCircle(false)
             view.animateTabLayout(false)
@@ -135,6 +136,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onOrganiserButtonClick() {
+        view.clearTab(0,true)
         view.showSlide("organizer")
         view.animateExtendedCircle(false)
     }
@@ -169,6 +171,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         val data = HashMap<String,String>()
         data["groupId"] = mRepo.prefs.getCurrentGroupId()
         Log.d("onHelpClick",data.toString())
+
+        view.clearTab(0,true)
 
         view.showLoading()
         compositeDisposable.add(mRepo.rest.networkService.sendPingToNearest(token, data)

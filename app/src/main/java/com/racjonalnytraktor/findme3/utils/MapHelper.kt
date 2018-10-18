@@ -20,6 +20,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
+import com.google.android.gms.maps.model.UrlTileProvider
+import com.google.android.gms.maps.model.TileProvider
+import java.net.MalformedURLException
+import java.net.URL
 
 
 class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallback {
@@ -51,6 +55,31 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
     }
 
+    var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
+        override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
+
+            /* Define the URL pattern for the tile images */
+            val s = String.format("http://my.image.server/images/%d/%d/%d.png",
+                    zoom, x, y)
+
+            if (!checkTileExists(x, y, zoom)) {
+                return null
+            }
+
+            try {
+                return URL(s)
+            } catch (e: MalformedURLException) {
+                throw AssertionError(e)
+            }
+
+        }
+
+        private fun checkTileExists(x: Int, y: Int, zoom: Int): Boolean {
+            val targetZoom = 20
+            return true
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d("map","ready")
         mMap = googleMap
@@ -61,18 +90,17 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             setPadding(0,60,0,0)
             isBuildingsEnabled = false
             uiSettings.isTiltGesturesEnabled = false
-            setMinZoomPreference(18f)
+            setMinZoomPreference(20f)
+            setMaxZoomPreference(20f)
         }
 
         val cameraPosition = CameraPosition.Builder()
                 .target(LatLng(52.208856, 21.008713))
-                .zoom(19f)
                 .build()
         mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
 
         try {
-            val success = mMap?.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
+            mMap?.setMapStyle(MapStyleOptions.loadRawResourceStyle(
                             mvpView.getCtx(), R.raw.theme_map))
         }catch (e: Resources.NotFoundException) {
             Log.e("myErrors", "Can't find style. Error: ", e)
@@ -97,10 +125,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         mMap?.setOnMapLongClickListener { latLng ->
             listenerPresenter.onLongClickListener(latLng)
         }
-    }
-
-    private fun moveCamera(position: LatLng) {
-        mMap?.animateCamera(CameraUpdateFactory.newLatLng(position),2000,null)
     }
 
     fun addPing(ping: Ping,animation: Boolean){

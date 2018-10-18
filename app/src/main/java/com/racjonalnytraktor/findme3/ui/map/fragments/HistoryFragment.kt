@@ -80,11 +80,12 @@ class HistoryFragment<V: MapMvp.View>: BaseFragment<V>(),HistoryMvp.View {
         val layoutManager = LinearLayoutManager(activity)
         listHistory.layoutManager = layoutManager
 
-        mListAdapter = HistoryAdapter(ArrayList(),mPresenter,parentMvp as Context)
+        mListAdapter = HistoryAdapter(ArrayList(),parentMvp)
         listHistory.adapter = mListAdapter
     }
 
-    override fun updateActions(action: ArrayList<Model1>) {
+    override fun updateActions(action: ArrayList<Model1>, type: String) {
+        mListAdapter?.type = type
         mListAdapter?.list?.addAll(action)
         mListAdapter?.notifyDataSetChanged()
     }

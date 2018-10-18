@@ -37,11 +37,11 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                             val model1 = ClassTransform.fromActionToModelH(action)
                             repo.actions.add(model1)
                         }
-                        view.updateActions(repo.actions)
+                        view.updateActions(repo.actions,"ping")
                     }
                 },{t: Throwable? ->
                     if(repo.actions.isNotEmpty())
-                        view.updateActions(repo.actions)
+                        view.updateActions(repo.actions,"ping")
                     view.hideProgress()
                     Log.d("error",t.toString())
                 }))
@@ -61,11 +61,11 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                             val model1 = ClassTransform.fromHelpToModelH(help)
                             repo.listHelp.add(model1)
                         }
-                        view.updateActions(repo.listHelp)
+                        view.updateActions(repo.listHelp,"help")
                     }
                 },{t: Throwable? ->
                     if(repo.actions.isNotEmpty())
-                        view.updateActions(repo.listHelp)
+                        view.updateActions(repo.listHelp,"help")
                     view.hideProgress()
                     Log.d("error",t.toString())
                 }))

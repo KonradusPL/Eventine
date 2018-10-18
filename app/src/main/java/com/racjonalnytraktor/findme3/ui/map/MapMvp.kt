@@ -1,6 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.map
 
 import android.location.Location
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
@@ -39,6 +40,7 @@ interface MapMvp {
         fun changeBeaonsStatus(enable: Boolean)
         fun showLoading()
         fun hideLoading()
+        fun clearTab(position: Int, auto: Boolean = false)
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         //clickers

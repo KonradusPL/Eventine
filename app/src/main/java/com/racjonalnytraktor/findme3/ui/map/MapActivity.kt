@@ -137,7 +137,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
         biggerCircleContainer.setOnClickListener{
             //view -> view.place
         }
-
     }
 
     private fun initTabs(){
@@ -250,10 +249,13 @@ class MapActivity : BaseActivity(),MapMvp.View{
         }
     }
 
-    private fun clearTab(position: Int){
+    override fun clearTab(position: Int, auto: Boolean){
+        var pos = position
+        if(auto)
+            pos = tabLayoutMap.selectedTabPosition
         val color = ContextCompat.getColor(this@MapActivity,R.color.greyTab)
-        tabLayoutMap.getTabAt(position)?.customView?.text?.setTextColor(color)
-        tabLayoutMap.getTabAt(position)?.customView?.icon?.icon?.color(color)
+        tabLayoutMap.getTabAt(pos)?.customView?.text?.setTextColor(color)
+        tabLayoutMap.getTabAt(pos)?.customView?.icon?.icon?.color(color)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -352,19 +354,19 @@ class MapActivity : BaseActivity(),MapMvp.View{
                 .setTitle(ping.title)
                 .setMessage(ping.desc)
         if(ping.inProgress){
-            builder.setPositiveButton("Zakończ") {dialogInterface, i ->
+            builder.setPositiveButton("Zakończ") { _, i ->
                 mPresenter.onEndPingClick(ping.pingId)
             }
         }
         else if(!ping.ended){
-            builder.setPositiveButton("Zakończ") {dialogInterface, i ->
+            builder.setPositiveButton("Zakończ") { _, i ->
                 mPresenter.onEndPingClick(ping.pingId)
             }
-            builder.setNegativeButton("Zacznij"){dialogInterface, i ->
+            builder.setNegativeButton("Zacznij"){ _, i ->
                 mPresenter.onInProgressClick(ping.pingId)
             }
         }
-        builder.setNeutralButton("Anuluj") {dialogInterface, i -> }
+        builder.setNeutralButton("Anuluj") { _, i -> }
 
         builder.create().show()
 }

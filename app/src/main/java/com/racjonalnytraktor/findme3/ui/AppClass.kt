@@ -39,6 +39,8 @@ class AppClass: Application() {
 
         val proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
                 .withBalancedPowerMode()
+                .withEstimoteSecureMonitoringDisabled()
+                .withTelemetryReportingDisabled()
                 .withScannerInForegroundService(notification)
                 .onError { throwable: Throwable ->  Log.d("Beacons",throwable.toString()) }
                 .build()
@@ -70,12 +72,7 @@ class AppClass: Application() {
                 onRequirementsFulfilled = {
                     Log.d("Beacons","onRequirementsFulfilled")
                     if (mObservationHandler == null){
-                        doAsync {
-                            Thread.sleep(3000)
-                            uiThread {
-                                mObservationHandler = proximityObserver.startObserving(pokoikZone)
-                            }
-                        }
+                        mObservationHandler = proximityObserver.startObserving(pokoikZone)
                     }
                 },
                 onRequirementsMissing = {},

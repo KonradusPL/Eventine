@@ -34,7 +34,7 @@ object ClassTransform {
 
     fun fromActionToModelH(action: Action): Model1{
         val dateString = StringHelper.getTimeForAction(Date(),action.createdAt)
-        return Model1(action.title,action.desc,dateString,action.id)
+        return Model1(action.title,action.desc,dateString,action.id,action.status)
     }
 
     fun fromHelpToModelH(help: Help): Model1{
