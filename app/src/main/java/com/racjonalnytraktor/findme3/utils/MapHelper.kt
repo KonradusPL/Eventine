@@ -24,6 +24,10 @@ import com.google.android.gms.maps.model.UrlTileProvider
 import com.google.android.gms.maps.model.TileProvider
 import java.net.MalformedURLException
 import java.net.URL
+import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.android.gms.maps.model.TileOverlay
+
+
 
 
 class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallback {
@@ -59,8 +63,8 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
 
             /* Define the URL pattern for the tile images */
-            val s = String.format("http://my.image.server/images/%d/%d/%d.png",
-                    zoom, x, y)
+            val s = String.format("http://35.234.124.12:3000/images/%d/%d/%d/file.png",
+                    mFloor, x, y)
 
             if (!checkTileExists(x, y, zoom)) {
                 return null
@@ -75,8 +79,13 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
 
         private fun checkTileExists(x: Int, y: Int, zoom: Int): Boolean {
-            val targetZoom = 20
-            return true
+            var exist = false
+            for(tile in MapUtils.tiles){
+                if(tile.x == x && tile.y == y)
+                    exist = true
+            }
+            Log.d("checkTileExists",(zoom == 19 && exist).toString())
+            return zoom == 19 && exist
         }
     }
 
@@ -90,8 +99,8 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             setPadding(0,60,0,0)
             isBuildingsEnabled = false
             uiSettings.isTiltGesturesEnabled = false
-            setMinZoomPreference(20f)
-            setMaxZoomPreference(20f)
+            setMinZoomPreference(19f)
+            setMaxZoomPreference(19f)
         }
 
         val cameraPosition = CameraPosition.Builder()
@@ -105,6 +114,9 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }catch (e: Resources.NotFoundException) {
             Log.e("myErrors", "Can't find style. Error: ", e)
         }
+
+        val tileOverlay = mMap?.addTileOverlay(TileOverlayOptions()
+                .tileProvider(tileProvider))
 
         mMap?.setOnMapClickListener { latLng ->
             val location = Location("GPS")

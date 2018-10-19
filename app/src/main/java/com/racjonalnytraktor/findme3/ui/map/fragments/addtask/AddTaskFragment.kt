@@ -54,7 +54,7 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
         buttonAddTask.setOnClickListener {
             val action = firstFragment?.getActionData() ?: CreateActionRequest()
             val usersList = secondFragment.getList()
-            action.people = usersList
+            action.targetUsers = usersList
             parentMvp.getPresenter().onCreateActionClick(action,this)
         }
     }

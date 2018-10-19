@@ -226,6 +226,8 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         Log.d("onCreateActionClick",action.floor.toString())
 
+        Log.d("onCreateActionClickTo",action.toString())
+
         view.showLoading()
         compositeDisposable.add(mRepo.createAction(action).subscribe({ t: String? ->
             listener.clearData()

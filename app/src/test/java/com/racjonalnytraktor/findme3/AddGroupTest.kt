@@ -1,6 +1,5 @@
 package com.racjonalnytraktor.findme3
 
-import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.ActionsResponse
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
@@ -94,7 +93,7 @@ class AddGroupTest {
             plannedTime = ""
             geo = arrayListOf(50.747765,19.178419)
             groupId = "5bb206e3c4b7060010e4c667"
-            people = arrayListOf(id1,id2)
+            targetUsers = arrayListOf(id1,id2)
         }
         rest.createAction(token1,action)
                 .subscribe({ t: String? ->
