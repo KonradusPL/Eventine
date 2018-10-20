@@ -41,7 +41,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                     val user = User("","",fullName,response?.token ?: "")
 
                     repo.prefs.apply {
-                        createUser(User())
+                        createUser(user)
                         repo.saveUser(response!!.token,"",email)
                         setIsUserLoggedIn(true)
                     }

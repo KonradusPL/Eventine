@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.data.messaging
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.support.v4.app.NotificationManagerCompat
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
@@ -12,11 +13,15 @@ class MyBroadcastReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("MyBroadcastReceiver","onReceive")
+        if(context == null)
+            return
         val repo = MapRepository
-        if(intent != null){
-            val intentDisableNotification = Intent(context!!,MyFirebaseMessagingService::class.java)
-            intentDisableNotification.action = "remove"
-            context.startService(intentDisableNotification)
+        val action = intent?.action ?: ""
+        if(intent != null && ( action == "yes" || action == "no")){
+            val notifId = intent.extras["notifId"]
+
+            if(notifId != null)
+                NotificationManagerCompat.from(context).cancel(notifId as Int)
 
             val token = repo.prefs.getUserToken()
             val data = HashMap<String, Any>()

@@ -35,6 +35,10 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
             parentMvp.getPresenter().onBackInFragmentClick("options")
         }
 
+        viewBack.setOnClickListener {
+            parentMvp.getPresenter().onBackInFragmentClick("options")
+        }
+
         buttonLogOut.setOnClickListener {
             parentMvp.getPresenter().onLogOutClick()
         }

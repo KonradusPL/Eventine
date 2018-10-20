@@ -13,7 +13,18 @@ class ProfilePresenter {
 
         val fullName = mRepo.prefs.getUserFullName()
 
-        mView.setUserData(fullName)
+        var role = ""
+        if(mRepo.appRepo.getMembers().size > 0) {
+            for (member in mRepo.appRepo.getMembers())
+                if (member.name == fullName){
+                    role = member.subgroup
+                    mRepo.prefs.setRole(role)
+                }
+        }
+        else
+            role = mRepo.prefs.getRole()
+
+        mView.setUserData(fullName,role)
     }
 
     fun onDetach(){

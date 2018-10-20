@@ -41,6 +41,8 @@ class ProfileFragment: BaseFragment<MapMvp.View>() {
         iconBack.setOnClickListener {
             parentMvp.getPresenter().onBackInFragmentClick("profile")
         }
+
+
         fabProfile.icon = IconicsDrawable(parentMvp.getCtx())
                 .icon(FontAwesome.Icon.faw_plus)
                 .sizeDp(14)
@@ -59,8 +61,9 @@ class ProfileFragment: BaseFragment<MapMvp.View>() {
         presenter.onAttach(this)
     }
 
-    fun setUserData(fullName: String){
+    fun setUserData(fullName: String, subGroup: String){
         fieldFullName?.text = fullName
+        fieldRole?.text = subGroup
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -33,7 +33,7 @@
         android:alpha="0.56"
         android:textAlignment="textStart"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iconStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldTitle" />
 
@@ -61,4 +61,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldMessage" />
+
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:id="@+id/iconStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldDate" />
 </android.support.constraint.ConstraintLayout>

@@ -30,6 +30,9 @@ interface Prefs {
     fun setCurrentGroupName(value: String)
     fun getCurrentGroupName(): String
 
+    fun setRole(value: String)
+    fun getRole(): String
+
     fun createUser(user: User)
     fun removeUser()
 

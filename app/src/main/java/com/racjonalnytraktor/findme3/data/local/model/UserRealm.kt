@@ -12,6 +12,7 @@ open class UserRealm: RealmObject(){
     var facebookId = ""
     var eventId = ""
     var eventName = ""
+    var role = ""
 
     fun getUser(): User{
         return  User(facebookId,profileImage,fullName,token,"",email)

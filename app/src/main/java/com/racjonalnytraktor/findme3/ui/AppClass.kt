@@ -14,10 +14,12 @@ import com.estimote.proximity_sdk.api.ProximityObserver
 import com.estimote.proximity_sdk.api.ProximityObserverBuilder
 import com.estimote.proximity_sdk.api.ProximityZoneBuilder
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.local.migration.MyMigration
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import es.dmoral.toasty.Toasty
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -84,6 +86,11 @@ class AppClass: Application() {
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
+        val config = RealmConfiguration.Builder()
+                .schemaVersion(1) // Must be bumped when the schema changes
+                .migration(MyMigration()) // Migration to run instead of throwing an exception
+                .build()
+        Realm.setDefaultConfiguration(config)
     }
 
     fun changeBeaconsStatus(enable: Boolean, activity: Activity){

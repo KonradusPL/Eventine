@@ -59,7 +59,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
     }
 
-    var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
+    private var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
         override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
 
             /* Define the URL pattern for the tile images */
@@ -105,6 +105,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
 
         val cameraPosition = CameraPosition.Builder()
                 .target(LatLng(52.208856, 21.008713))
+                .zoom(19f)
                 .build()
         mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),1,null)
 

@@ -25,7 +25,7 @@ open class BaseRepository {
         prefs.setFacebookId(facebookId)
         prefs.setUserEmail(email)
         prefs.setUserToken(token)
-        prefs.setCurrentGroupId("5bc4f824b6e0ec0010fa3e03")
+        prefs.setCurrentGroupId("5bcb3dcfa05e51001048d2c7")
         prefs.setIsUserLoggedIn(true)
     }
 

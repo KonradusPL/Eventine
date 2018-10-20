@@ -16,7 +16,7 @@ import kotlin.collections.HashMap
 
 class AddGroupTest {
 
-    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IktvbnJhZCBQxJlrYWxhIiwiaWQiOiI1YmM0ZjcxMWI2ZTBlYzAwMTBmYTNlMDIiLCJpYXQiOjE1Mzk2OTg2MTYsImV4cCI6MTU0MDMwMzQxNn0.-NvuTDH6kqwpf9_KThbnYdvPBiquuSDS7W4OGGz10U0"
+    val token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IktvbnJhZCBQxJlrYWxhIiwiaWQiOiI1YmM0ZjcxMWI2ZTBlYzAwMTBmYTNlMDIiLCJpYXQiOjE1NDAwNDYxNDMsImV4cCI6MTU0MDY1MDk0M30.GasLIlwE4rOcaGJaUF_E7Otv97CXIV7jwMLIZaRLxDA"
     val token2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6Ik1hcmNpbiBLb3dhbHNraSIsImlkIjoiNWJhYzkyYjUwYzUxZjMwMDEwZjVkMDhmIiwiaWF0IjoxNTM4MDM2NDA1LCJleHAiOjE1Mzg2NDEyMDV9.i4_JXB9iREQlJ7ioPWvf4algZSaJLxzpj6PZOJygf7Y"
     val token3 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsTmFtZSI6IlRhZGV1c3ogS293YWxza2kiLCJpZCI6IjViYWM5MmU5MGM1MWYzMDAxMGY1ZDA5MCIsImlhdCI6MTUzODAzNjQ1NywiZXhwIjoxNTM4NjQxMjU3fQ.4lvyJWCB0q4o7cG0Oeh770XSeu4RenO-KMWRi9NojG4"
 
@@ -48,7 +48,7 @@ class AddGroupTest {
 
     @Test
     fun addGroup() {
-        val request = CreateGroupRequest("Grupa domyślna3", emptyList(),emptyList())
+        val request = CreateGroupRequest("Grupa domyślna4", emptyList(),emptyList())
         println(request)
         rest.createGroup(token1, request)
                 .subscribe({ t: String? ->

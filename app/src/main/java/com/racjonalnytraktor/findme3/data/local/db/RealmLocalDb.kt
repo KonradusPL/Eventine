@@ -120,6 +120,17 @@ class RealmLocalDb: LocalDb {
         return user.eventName
     }
 
+    override fun setRole(value: String) {
+        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        mRealm.executeTransaction {
+            user.role = value
+        }
+    }
+
+    override fun getRole(): String {
+        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        return user.role    }
+
     override fun createUser(user: User) {
         mRealm.executeTransaction {
             val userRealm = mRealm.where(UserRealm::class.java).findFirst()
