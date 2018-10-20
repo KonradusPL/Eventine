@@ -147,10 +147,14 @@ class AddTaskDescrFragment<V: MapMvp.View>: BaseFragment<V>(), TimePickerDialog.
                 date.time = calendar.timeInMillis
                 action.plannedTime = format.format(date)
 
+            }else{
+                date.time = Calendar.getInstance().timeInMillis
+                action.plannedTime = format.format(date)
             }
         }catch (e: Exception){ }
 
-
+        mMinuteText = "-1"
+        mHourText = "-1"
 
         return action
     }

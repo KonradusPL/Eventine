@@ -9,24 +9,33 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.StringHelper
 
 
-class ManagePresenter<V: ManangeMvp.View>: BasePresenter<V>(),ManangeMvp.Presenter<V> {
+class ManagePresenter<V: ManageMvp.View>: BasePresenter<V>(),ManageMvp.Presenter<V> {
 
     val repo = ManageRepository
 
     override fun onAttach(mvpView: V) {
         super.onAttach(mvpView)
 
+        getPeopleInGroups()
+    }
+
+    fun getPeopleInGroups(){
+        view.showLoading()
+
         compositeDisposable.add(repo.getPeopleInGroups()
+                .doOnComplete { view.hideLoading() }
                 .subscribe({t: Typed? ->
                     view.updateList(t!!)
                     Log.d("typed",t!!.type)
                 },{t: Throwable? ->
-                    Log.d("error",t.toString())
+                    Log.d("getPeopleInGroups",t.toString())
+                    view.hideLoading()
+                    view.showError()
                 }))
     }
 
-    fun onGroupChanged(subGroup: String, changingId: String){
-        val request = ChangeSubGroupRequest(changingId, repo.prefs.getCurrentGroupId(),subGroup)
+    override fun onGroupChanged(changedGroup: String, changingId: String){
+        val request = ChangeSubGroupRequest(changingId, repo.prefs.getCurrentGroupId(),changedGroup)
         compositeDisposable.add(repo.changeSubGroups(request)
                 .subscribe({t: String? ->
                     view.showMessage("Zapisano",MvpView.MessageType.INFO)

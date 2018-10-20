@@ -18,16 +18,16 @@ class SwipeHelper: ItemTouchHelper.Callback() {
     }
 
     override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
-        contract!!.onViewMoved(viewHolder!!.getAdapterPosition(), target!!.getAdapterPosition());
+        contract?.onViewMoved(viewHolder!!.adapterPosition, target!!.adapterPosition)
         return true
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-        contract!!.onViewSwiped(viewHolder!!.getAdapterPosition());
+        contract?.onViewSwiped(viewHolder!!.adapterPosition)
     }
 
     override fun isLongPressDragEnabled(): Boolean {
-        return true
+        return false
     }
 
     override fun onChildDraw(c: Canvas,

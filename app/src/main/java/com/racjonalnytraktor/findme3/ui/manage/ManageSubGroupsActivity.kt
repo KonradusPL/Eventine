@@ -15,9 +15,24 @@ import com.racjonalnytraktor.findme3.ui.map.fragments.manage.SwipeHelper
 import kotlinx.android.synthetic.main.activity_manage_sub_groups.*
 import kotlinx.android.synthetic.main.dialog_new_subgroup.view.*
 
-class ManageSubGroupsActivity : BaseActivity(),ManangeMvp.View,ManageAdapter.Listener {
+class ManageSubGroupsActivity : BaseActivity(),ManageMvp.View,ManageAdapter.Listener {
+    override fun getPresenter(): ManagePresenter<ManageMvp.View> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-    lateinit var mPresenter: ManagePresenter<ManangeMvp.View>
+    override fun showLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun hideLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showError() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    lateinit var mPresenter: ManagePresenter<ManageMvp.View>
     lateinit var dialog: AlertDialog
 
     private lateinit var mListAdapter: ManageAdapter
@@ -51,7 +66,7 @@ class ManageSubGroupsActivity : BaseActivity(),ManangeMvp.View,ManageAdapter.Lis
         val touchHelper = ItemTouchHelper(swipeHelper)
         touchHelper.attachToRecyclerView(listManage)
 
-        mListAdapter = ManageAdapter(ArrayList(),this)
+        mListAdapter = ManageAdapter(ArrayList(),this,touchHelper)
         swipeHelper.contract = mListAdapter
         listManage.adapter = mListAdapter
     }
@@ -61,12 +76,12 @@ class ManageSubGroupsActivity : BaseActivity(),ManangeMvp.View,ManageAdapter.Lis
         dialog = AlertDialog.Builder(this)
                 .setView(root)
                 .setTitle("Dodaj nową podgrupę")
-                .setPositiveButton("Dodaj",{ _,_ ->
+                .setPositiveButton("Dodaj") { _, _ ->
                     val header = Header(root.fieldSubGroup.text.toString())
                     root.fieldSubGroup.text.clear()
                     header.type = "header"
                     mListAdapter.update(header)
-                }).create()
+                }.create()
     }
 
     override fun updateList(item: Typed) {

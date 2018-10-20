@@ -13,18 +13,18 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Konrad Pękala"
+        android:textColor="#ffffff"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/iconDrag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fieldName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_drag_handle_black_24dp" />
+        app:layout_constraintTop_toTopOf="@+id/fieldName" />
 </android.support.constraint.ConstraintLayout>
