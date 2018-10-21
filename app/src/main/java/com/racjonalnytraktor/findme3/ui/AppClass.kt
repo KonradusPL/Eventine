@@ -16,21 +16,24 @@ import com.estimote.proximity_sdk.api.ProximityZoneBuilder
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.local.migration.MyMigration
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
+import com.racjonalnytraktor.findme3.utils.BeaconUtils
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import es.dmoral.toasty.Toasty
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
 
-class AppClass: Application() {
+class AppClass: Application(),BeaconUtils.BeaconListener {
 
+    val beaconUtils = BeaconUtils
+
+    private lateinit var mRepo: MapRepository
     private val cloudCredentials = EstimoteCloudCredentials("indoorlocation-m4a","846401acdfecd6753a2d69750172aa67")
     private var mObservationHandler: ProximityObserver.Handler? = null
 
     fun initBeaconsScanning(activity: Activity){
-
-        val mRepo = MapRepository
 
         val notification = NotificationCompat.Builder(this, "beacons scanning")
                 .setSmallIcon(R.drawable.beacon_beetroot_small)
@@ -46,35 +49,14 @@ class AppClass: Application() {
                 .withScannerInForegroundService(notification)
                 .onError { throwable: Throwable ->  Log.d("Beacons",throwable.toString()) }
                 .build()
-        val pokoikZone = ProximityZoneBuilder()
-                .forTag("Pokoik")
-                .inCustomRange(1.0)
-                .onEnter {
-                    val token = mRepo.prefs.getUserToken()
-                    val map = HashMap<String,Any>()
-                    map["groupId"] = mRepo.prefs.getCurrentGroupId()
-                    map["locationTag"] = "Pokoik"
-                    mRepo.rest.networkService.updateLocation(token,map)
-                            .subscribeOn(SchedulerProvider.io())
-                            .observeOn(SchedulerProvider.ui())
-                            .subscribe({t: String? ->
-                                Log.d("updateLocation",t)
-                            },{t: Throwable? ->
-                                Log.d("updateLocation",t.toString())
-                            })
-                    Log.d("Beacons","Enter")
-                }
-                .onExit {
-                    Log.d("Beacons","Exit")
-                }
-                .onContextChange {/* do something here */}
-                .build()
+
         RequirementsWizardFactory.createEstimoteRequirementsWizard().fulfillRequirements(
                 activity,
                 onRequirementsFulfilled = {
                     Log.d("Beacons","onRequirementsFulfilled")
+                    Log.d("Beacons",beaconUtils.beaconZones.size.toString())
                     if (mObservationHandler == null){
-                        mObservationHandler = proximityObserver.startObserving(pokoikZone)
+                        mObservationHandler = proximityObserver.startObserving(beaconUtils.beaconZones)
                     }
                 },
                 onRequirementsMissing = {},
@@ -83,14 +65,33 @@ class AppClass: Application() {
 
     }
 
+    override fun onEnterZone(tag: String) {
+        longToast("Tag: $tag")
+        val token = mRepo.prefs.getUserToken()
+        val map = HashMap<String,Any>()
+        map["groupId"] = mRepo.prefs.getCurrentGroupId()
+        map["locationTag"] = "tag"
+        mRepo.rest.networkService.updateLocation(token,map)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+                .subscribe({t: String? ->
+                    Log.d("updateLocation",t)
+                },{t: Throwable? ->
+                    Log.d("updateLocation",t.toString())
+                })
+        Log.d("Beacons","Enter")
+    }
+
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-                .schemaVersion(1) // Must be bumped when the schema changes
-                .migration(MyMigration()) // Migration to run instead of throwing an exception
+                .schemaVersion(1)
+                .migration(MyMigration())
                 .build()
         Realm.setDefaultConfiguration(config)
+        mRepo = MapRepository
+        beaconUtils.listener = this
     }
 
     fun changeBeaconsStatus(enable: Boolean, activity: Activity){

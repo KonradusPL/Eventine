@@ -34,7 +34,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     private var mCurrentLocation = "Pokoik"
 
     private var mFloorIndex = 0
-    private val mFloors = arrayListOf(-1,0,1,2,3,4)
+    private val mFloors = arrayListOf(-1,0,1)
 
     var isAttached = false
 

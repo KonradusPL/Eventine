@@ -205,7 +205,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     private fun initFloorSpinner(){
-        val floors = arrayListOf("-1","0","1","2","3","4")
+        val floors = arrayListOf("-1","0","1")
         spinnerFloor.attachDataSource(floors)
         spinnerFloor.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -492,20 +492,31 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun onBackPressed() {
-
-        if(slidePanel.isOpened)
+        var showExit = true
+        if(slidePanel.isOpened){
             slidePanel.closeLayer(true)
+            showExit = false
+        }
 
         if(fragmentOptions.isAdded)
             mPresenter.onBackInFragmentClick("options")
 
-        if(fragmentManageGroup.isAdded)
+        else if(fragmentManageGroup.isAdded)
             mPresenter.onBackInFragmentClick("groups")
 
-        if(fragmentProfile.isAdded)
+        else if(fragmentProfile.isAdded)
             mPresenter.onBackInFragmentClick("profile")
 
-
+        else if(showExit){
+            AlertDialog.Builder(this)
+                    .setTitle("Wyjście z aplikacji")
+                    .setMessage("Czy napewno chcesz wyjść z aplikacji?")
+                    .setPositiveButton("Tak") { dialogInterface, i ->
+                        finish()
+                    }
+                    .setNegativeButton("Nie") { dialogInterface, i ->
+                    }.create().show()
+        }
     }
 
     override fun animateExtendedCircle(show: Boolean) {

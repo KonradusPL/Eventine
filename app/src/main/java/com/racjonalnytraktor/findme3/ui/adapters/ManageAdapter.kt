@@ -93,7 +93,7 @@ class ManageAdapter(val list: ArrayList<Typed>, val mvpView: ManageMvp.View, val
                 itemView.fieldName.text = user.name
                 itemView.iconDrag.setImageDrawable(IconicsDrawable(mvpView.getCtx())
                         .icon(FontAwesome.Icon.faw_bars)
-                        .sizeDp(20)
+                        .sizeDp(16)
                         .color(ContextCompat.getColor(mvpView.getCtx(),R.color.white)))
                 itemView.iconDrag.setOnTouchListener { view, motionEvent ->
                     if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {

@@ -38,6 +38,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
     private var listenerView : MapViewListener = mvpView
 
     private var mMap: GoogleMap? = null
+    private var mTileOverlay: TileOverlay? = null
 
     val pingsOnMap = ArrayList<PingOnMap>()
     private var mFloor = -1
@@ -89,6 +90,15 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
     }
 
+
+    fun onChangeFloor(floor: Int){
+        mFloor = floor
+        mTileOverlay?.clearTileCache()
+        for (ping in pingsOnMap){
+            ping.marker.isVisible = ping.ping.floor == mFloor
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d("map","ready")
         mMap = googleMap
@@ -116,7 +126,7 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             Log.e("myErrors", "Can't find style. Error: ", e)
         }
 
-        val tileOverlay = mMap?.addTileOverlay(TileOverlayOptions()
+        mTileOverlay = mMap?.addTileOverlay(TileOverlayOptions()
                 .tileProvider(tileProvider))
 
         mMap?.setOnMapClickListener { latLng ->
@@ -207,12 +217,6 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
     }
 
-    fun onChangeFloor(floor: Int){
-        mFloor = floor
-        for (ping in pingsOnMap){
-            ping.marker.isVisible = ping.ping.floor == mFloor
-        }
-    }
 
     fun clearPings(){
         for(ping in pingsOnMap){
