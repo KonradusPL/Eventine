@@ -45,7 +45,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         val user = mRepo.prefs.getCurrentUser()
         Log.d("user data: ",user.toString())
 
-        val token = mRepo.prefs.getUserToken()
+        /*val token = mRepo.prefs.getUserToken()
         val map = HashMap<String,Any>()
         map["groupId"] = mRepo.prefs.getCurrentGroupId()
         map["locationTag"] = "Pokoik"
@@ -56,7 +56,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     Log.d("updateLocation",t)
                 },{t: Throwable? ->
                     Log.d("updateLocation",t.toString())
-                })
+                })*/
+
+        if(mRepo.prefs.isPartner())
+            view.updateOnPartner()
 
         mRepo.updateMembers()
 
@@ -244,47 +247,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         }))
     }
 
-    override fun onAddButtonClick(checkedGroups: ArrayList<String>, date: String) {
-        Log.d("groupss",checkedGroups.toString())
-
-        if(checkedGroups.isEmpty() && date.isEmpty()){
-            view.showMessage("Wybierz co najmniej jedną grupę",MvpView.MessageType.INFO)
-            return
-        }
-
-        if(typeOfNewThing == "ping"){
-            if(checkedGroups.isNotEmpty())
-                mRepo.newPing.targetGroups = checkedGroups
-            mRepo.newPing.date = date
-            compositeDisposable.add(mRepo.createPing()
-                    .subscribe({t: String? ->
-                        //if (date.isEmpty())
-                           // view.addPing(mRepo.newPing)
-                        view.showMessage("Stworzono ping",MvpView.MessageType.SUCCESS)
-                        view.hideCreatePingView()
-                    },{t: Throwable? ->
-                        Log.d("error",t!!.message.orEmpty())
-                        view.showMessage("Nie udało się stworzyć pingu",MvpView.MessageType.ERROR)
-                        view.hideCreatePingView()
-                    }))
-        }
-        else{
-            mRepo.newInfo.date = date
-            if(checkedGroups.isNotEmpty())
-                mRepo.newInfo.targetGroups = checkedGroups
-            compositeDisposable.add(mRepo.createInfo()
-                    .subscribe({t: String? ->
-                        val message = if(date.isNotEmpty()) "Zaplanowano" else "Stworzono"
-                        view.showMessage("$message info",MvpView.MessageType.SUCCESS)
-                        view.hideCreatePingView()
-                    },{t: Throwable? ->
-                        Log.d("error",t!!.message.orEmpty())
-                        view.showMessage("Nie udało się stworzyć informacji",MvpView.MessageType.ERROR)
-                        view.hideCreatePingView()
-                    }))
-        }
-    }
-
     override fun onPlanButtonClick(checkedGroups: ArrayList<String>) {
         if(checkedGroups.isEmpty()){
             view.showMessage("Wybierz co najmniej jedną grupę",MvpView.MessageType.INFO)
@@ -375,7 +337,6 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     override fun onInfoTabClick() {
         typeOfNewThing = "info"
         mRepo.type = typeOfNewThing
-        view.showCreatePingView("info")
     }
 
     override fun onProfileClick() {
@@ -503,7 +464,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onLogOutClick() {
-        view.changeBeaonsStatus(false)
+        view.changeBeaconsStatus(false)
 
         if(mRepo.facebook.isLoggedIn())
             mRepo.facebook.logOut()

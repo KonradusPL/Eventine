@@ -7,6 +7,14 @@ import com.racjonalnytraktor.findme3.data.model.User
 
 
 class SharedPrefs(context: Context): Prefs {
+
+    override fun isPartner(): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setIsPartner(value: Boolean) {
+
+    }
     override fun getRole(): String {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

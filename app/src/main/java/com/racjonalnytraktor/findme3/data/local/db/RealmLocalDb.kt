@@ -57,6 +57,19 @@ class RealmLocalDb: LocalDb {
         }
     }
 
+    override fun isPartner(): Boolean {
+        val user = mRealm.where(UserRealm::class.java).findFirst()
+
+        return user?.isPartner ?: false
+    }
+
+    override fun setIsPartner(value: Boolean) {
+        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        mRealm.executeTransaction {
+            user.isPartner = value
+        }
+    }
+
     override fun setUserProfileImage(value: String) {
         val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
         mRealm.executeTransaction {

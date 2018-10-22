@@ -42,7 +42,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
 
                     repo.prefs.apply {
                         createUser(user)
-                        repo.saveUser(response!!.token,"",email)
+                        repo.saveUser(response!!.token,"",email,false)
                         setIsUserLoggedIn(true)
                     }
 
@@ -62,7 +62,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                 .subscribe({t: RegisterFbResponse? ->
                     view.hideLoginLoading()
                     Log.d("onFacebookLoginSuccess","${t!!.fbId} ${t.token}")
-                    repo.saveUser(t!!.token,t.fbId,"")
+                    repo.saveUser(t!!.token,t.fbId,"",false)
                     view.openMainActivity()},
                         { throwable: Throwable? ->
                             view.hideLoginLoading()

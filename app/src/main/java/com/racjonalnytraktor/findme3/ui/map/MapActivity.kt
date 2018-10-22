@@ -303,14 +303,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
     override fun updateSubGroups(item: String) {
     }
 
-    override fun showCreatePingView(type: String) {
-
-    }
-
-    override fun hideCreatePingView() {
-
-    }
-
     override fun addPing(ping: Ping) {
         mMapHelper.addPing(ping,true)
     }
@@ -325,15 +317,6 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun getPresenter(): MapPresenter<MapMvp.View> {
         return mPresenter
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String, state: String) {
-
     }
 
     override fun updateCheckedGroups(checked: List<String>) {
@@ -479,7 +462,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     }
 
-    override fun changeBeaonsStatus(enable: Boolean) {
+    override fun updateOnPartner() {
+        textHelp.text = "Opiekun"
+    }
+
+    override fun changeBeaconsStatus(enable: Boolean) {
         (application as AppClass).changeBeaconsStatus(enable,this)
     }
 

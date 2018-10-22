@@ -20,12 +20,12 @@ open class BaseRepository {
     val appRepo = ApplicationRepository
     val prefs: Prefs = RealmLocalDb()
 
-    fun saveUser(token: String,facebookId: String,email: String){
+    fun saveUser(token: String,facebookId: String,email: String, isPartner: Boolean){
         val user = User(facebookId,"","",token,"",email)
         prefs.setFacebookId(facebookId)
         prefs.setUserEmail(email)
         prefs.setUserToken(token)
-        prefs.setCurrentGroupId("5bcb3dcfa05e51001048d2c7")
+        prefs.setCurrentGroupId("5bce3465350c7e00100072df")
         prefs.setIsUserLoggedIn(true)
     }
 

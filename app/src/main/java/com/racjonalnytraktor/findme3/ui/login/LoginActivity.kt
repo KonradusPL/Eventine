@@ -41,10 +41,10 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
                 .subscribe {
                     presenter.onEmailLoginClick(fieldEmail.text.toString(),fieldPassword.text.toString())
                 }
-        RxView.clicks(buttonFbLogin)
+        /*RxView.clicks(buttonFbLogin)
                 .subscribe {
                     mLoginFb.performClick()
-                }
+                }*/
         RxView.clicks(buttonNewAccount)
                 .subscribe {
                     openRegisterActivity()

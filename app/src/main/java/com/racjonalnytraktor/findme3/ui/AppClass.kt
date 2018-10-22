@@ -30,7 +30,7 @@ class AppClass: Application(),BeaconUtils.BeaconListener {
     val beaconUtils = BeaconUtils
 
     private lateinit var mRepo: MapRepository
-    private val cloudCredentials = EstimoteCloudCredentials("indoorlocation-m4a","846401acdfecd6753a2d69750172aa67")
+    private val cloudCredentials = EstimoteCloudCredentials("eventine-jw4","8a6c8ff168ce21672d236cd323f0a07d")
     private var mObservationHandler: ProximityObserver.Handler? = null
 
     fun initBeaconsScanning(activity: Activity){
@@ -86,7 +86,7 @@ class AppClass: Application(),BeaconUtils.BeaconListener {
         super.onCreate()
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-                .schemaVersion(1)
+                .schemaVersion(2)
                 .migration(MyMigration())
                 .build()
         Realm.setDefaultConfiguration(config)

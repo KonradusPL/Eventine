@@ -14,5 +14,8 @@ class MyMigration: RealmMigration {
         if (oldVersion == 0L) {
             schema.get("UserRealm")?.addField("role", String::class.java,FieldAttribute.REQUIRED)
         }
+        if(oldVersion == 1L){
+            schema.get("UserRealm")?.addField("isPartner", Boolean::class.java,FieldAttribute.REQUIRED)
+        }
     }
 }

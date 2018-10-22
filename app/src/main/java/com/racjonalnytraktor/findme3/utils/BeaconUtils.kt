@@ -12,29 +12,15 @@ object BeaconUtils {
     private val defaultRange = 1.0
     val beaconZones = ArrayList<ProximityZone>()
     var listener: BeaconListener? = null
-    private val zonesString = arrayListOf("Pokoik","Wyjście poziom -1","Wejście główne",
+    private val zonesString = arrayListOf("Kanciapa","Wyjście poziom -1","Wejście główne",
             "Chill zone","Pokój organizatora","Aula spadochronowa","Wyjście poziom 0","Jajko",
             "Foto","Ksero","Sala 105","Aula B")
-
-    /*- Wejście główne
-   - Chill zone
-   - Pokój organizatora
-   - Aula spadochronowa
-   - Wyjście poziom 0
-   - Jajko
-
-   Antresola:
-   - Foto
-   - Ksero �
-   Poziom 1:
-   - Sala 105
-   - Aula B*/
 
     init {
         for(zone in zonesString){
             beaconZones.add(ProximityZoneBuilder()
                     .forTag(zone)
-                    .inCustomRange(defaultRange)
+                    .inCustomRange(10.0)
                     .onEnter {
                         Log.d("Beacons","Enter")
                         listener?.onEnterZone(zone)

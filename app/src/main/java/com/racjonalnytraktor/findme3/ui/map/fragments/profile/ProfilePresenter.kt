@@ -1,6 +1,9 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments.profile
 
+import android.util.Log
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
+import com.racjonalnytraktor.findme3.ui.base.MvpView
+import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 class ProfilePresenter {
@@ -25,6 +28,22 @@ class ProfilePresenter {
             role = mRepo.prefs.getRole()
 
         mView.setUserData(fullName,role)
+    }
+
+    fun onKeeperHelpClick(){
+        val token = mRepo.prefs.getUserToken()
+        val data = HashMap<String,String>()
+        data["groupId"] = mRepo.prefs.getCurrentGroupId()
+        Log.d("onHelpClick",data.toString())
+
+        mCompositeDisposable.add(mRepo.rest.networkService.sendPingToNearest(token, data)
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+                .subscribe({ t: String? ->
+                    mView.showMessage("Wysłano prośbę o pomoc!", MvpView.MessageType.SUCCESS)
+                },{t: Throwable? ->
+                    mView.showMessage("Nieudało się wysłać helpa", MvpView.MessageType.SUCCESS)
+                }))
     }
 
     fun onDetach(){

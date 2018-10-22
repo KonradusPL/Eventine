@@ -52,10 +52,10 @@ class RegisterActivity : RegisterMvp.View, BaseActivity() {
                     startActivity(Intent(this,LoginActivity::class.java))
                     finish()
                 }
-        RxView.clicks(buttonFbLogin)
+        /*RxView.clicks(buttonFbLogin)
                 .subscribe {
                     mLoginFb.performClick()
-                }
+                }*/
     }
 
     override fun showLoading() {

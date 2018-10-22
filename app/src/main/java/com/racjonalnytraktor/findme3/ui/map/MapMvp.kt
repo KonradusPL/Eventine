@@ -15,12 +15,10 @@ interface MapMvp {
     interface View: MvpView,MapHelper.MapViewListener{
         fun updateSubGroups(item: String)
         fun animateTabLayout(show: Boolean)
-        fun hideCreatePingView()
         fun updatePings(pings: List<Ping>,floor: Int)
         fun updatePings(ping: Action)
         fun addPing(ping: Ping)
         fun getPresenter(): MapPresenter<View>
-        fun updateWithSavedData(task: String, descr: String, checked: List<String>, type: String,state: String)
         fun updateCheckedGroups(checked: List<String>)
         fun removePing(pingId: String)
         fun clearPings()
@@ -28,7 +26,6 @@ interface MapMvp {
         fun openLoginActivity()
         fun openMapActivity()
         fun animateExtendedCircle(show: Boolean)
-        fun showCreatePingView(type: String = "ping")
         fun showSlide(type: String, location: Location = Location(""))
         fun hideSlide()
         fun removeFragment(type: String)
@@ -37,10 +34,11 @@ interface MapMvp {
         fun showFullFragments(type: String)
         fun hideFullFragments(type: String, unSelectTab: Boolean = false)
         fun hideFullFragments()
-        fun changeBeaonsStatus(enable: Boolean)
+        fun changeBeaconsStatus(enable: Boolean)
         fun showLoading()
         fun hideLoading()
         fun clearTab(position: Int, auto: Boolean = false)
+        fun updateOnPartner()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
         //clickers
@@ -50,7 +48,6 @@ interface MapMvp {
         fun onOrganizerClick(organizerId: String)
         fun onHelpClick()
         fun onNextButtonClick(task: String, descr: String)
-        fun onAddButtonClick(checkedGroups: ArrayList<String> = ArrayList(), date: String = "")
         fun onPlanButtonClick(checkedGroups: ArrayList<String>)
         fun onMapLongClick(location: LatLng)
         fun onGroupsClick()

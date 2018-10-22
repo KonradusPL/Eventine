@@ -7,8 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RetrofitRest {
-
-    private val BASE_URL = "http://35.234.124.12:3000"
+//http://backend.geteventine.pl
+    private val BASE_URL = "http://35.234.124.12:3000/"
 
         private var gson = GsonBuilder()
                 .setLenient()

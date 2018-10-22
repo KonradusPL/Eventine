@@ -13,6 +13,7 @@ open class UserRealm: RealmObject(){
     var eventId = ""
     var eventName = ""
     var role = ""
+    var isPartner: Boolean = false
 
     fun getUser(): User{
         return  User(facebookId,profileImage,fullName,token,"",email)

@@ -33,6 +33,9 @@ interface Prefs {
     fun setRole(value: String)
     fun getRole(): String
 
+    fun setIsPartner(value: Boolean)
+    fun isPartner(): Boolean
+
     fun createUser(user: User)
     fun removeUser()
 

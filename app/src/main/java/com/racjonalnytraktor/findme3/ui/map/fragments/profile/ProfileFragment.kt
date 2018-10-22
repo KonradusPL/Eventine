@@ -21,7 +21,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 
 class ProfileFragment: BaseFragment<MapMvp.View>() {
 
-    val presenter = ProfilePresenter()
+    val mPresenter = ProfilePresenter()
 
     private val requestGallery = 1905
     private var mLocalImageUri = ""
@@ -55,10 +55,14 @@ class ProfileFragment: BaseFragment<MapMvp.View>() {
                     .start(getCtx(),this@ProfileFragment)
 
         }
+
+        buttonKeeperHelp.setOnClickListener {
+            mPresenter.onKeeperHelpClick()
+        }
         if (mLocalImageUri.isNotEmpty())
             imageProfile.setImageURI(Uri.parse(mLocalImageUri))
 
-        presenter.onAttach(this)
+        mPresenter.onAttach(this)
     }
 
     fun setUserData(fullName: String, subGroup: String){

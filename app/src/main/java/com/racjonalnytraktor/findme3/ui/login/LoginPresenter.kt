@@ -22,10 +22,11 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
 
         compositeDisposable.add(repo.loginWithEmail(LoginRequest(email, password))
                 .subscribe({response: LoginResponse? ->
+                    Log.d("loginWithEmail","isPartner: ${response?.isPartner}")
                     Log.d("logowanie","działa")
-                    view.hideLoginLoading()
                     repo.prefs.createUser(User(fullName = response!!.fullName))
-                    repo.saveUser(response.token,"",email)
+                    repo.saveUser(response.token,"",email,response.isPartner)
+                    view.hideLoginLoading()
                     view.openMainActivity()
                     view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
 
@@ -53,7 +54,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                 .subscribe({t: RegisterFbResponse? ->
                     view.hideLoginLoading()
                     Log.d("onFacebookLoginSuccess","${t!!.fbId} ${t.token}")
-                    repo.saveUser(t!!.token,t.fbId,"")
+                    repo.saveUser(t!!.token,t.fbId,"",false)
                     view.openMainActivity()},
                         { throwable: Throwable? ->
                     view.hideLoginLoading()
