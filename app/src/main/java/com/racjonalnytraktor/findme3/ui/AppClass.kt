@@ -1,42 +1,47 @@
 package com.racjonalnytraktor.findme3.ui
 
-import android.app.Activity
-import android.app.Application
-import android.app.Notification
-import android.app.NotificationManager
+import android.app.*
 import android.content.Context
+import android.graphics.Color
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
 import android.util.Log
+import android.view.Gravity
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.estimote.proximity_sdk.api.EstimoteCloudCredentials
 import com.estimote.proximity_sdk.api.ProximityObserver
 import com.estimote.proximity_sdk.api.ProximityObserverBuilder
-import com.estimote.proximity_sdk.api.ProximityZoneBuilder
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.local.migration.MyMigration
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
-import com.racjonalnytraktor.findme3.utils.BeaconUtils
+import com.racjonalnytraktor.findme3.utils.ZoneUtils
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import es.dmoral.toasty.Toasty
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.longToast
-import org.jetbrains.anko.uiThread
 
-class AppClass: Application(),BeaconUtils.BeaconListener {
+class AppClass: Application(),ZoneUtils.BeaconListener {
 
-    val beaconUtils = BeaconUtils
+    val beaconUtils = ZoneUtils
 
     private lateinit var mRepo: MapRepository
-    private val cloudCredentials = EstimoteCloudCredentials("eventine-jw4","8a6c8ff168ce21672d236cd323f0a07d")
+    private val cloudCredentials = EstimoteCloudCredentials("indoorlocation-m4a","846401acdfecd6753a2d69750172aa67")
     private var mObservationHandler: ProximityObserver.Handler? = null
 
     fun initBeaconsScanning(activity: Activity){
 
-        val notification = NotificationCompat.Builder(this, "beacons scanning")
-                .setSmallIcon(R.drawable.beacon_beetroot_small)
+        val channelId =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    createNotificationChannel("my_service", "My Background Service")
+                } else {
+                    // If earlier version channel ID is not used
+                    // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
+                    ""
+                }
+
+        val notification = NotificationCompat.Builder(this, channelId)
                 .setContentTitle("Skanowanie beaconów")
                 .setContentText("Skanowanie trwa...")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -65,12 +70,26 @@ class AppClass: Application(),BeaconUtils.BeaconListener {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(channelId: String, channelName: String): String{
+        val chan = NotificationChannel(channelId,
+                channelName, NotificationManager.IMPORTANCE_NONE)
+        chan.lightColor = Color.BLUE
+        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        service.createNotificationChannel(chan)
+        return channelId
+    }
+
     override fun onEnterZone(tag: String) {
-        longToast("Tag: $tag")
+        val toast = Toasty.info(this,"Jesteś w $tag")
+        toast.setGravity(Gravity.TOP.xor(Gravity.CENTER_HORIZONTAL),0,64)
+        toast.show()
+
         val token = mRepo.prefs.getUserToken()
         val map = HashMap<String,Any>()
         map["groupId"] = mRepo.prefs.getCurrentGroupId()
-        map["locationTag"] = "tag"
+        map["locationTag"] = tag
         mRepo.rest.networkService.updateLocation(token,map)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
@@ -86,7 +105,7 @@ class AppClass: Application(),BeaconUtils.BeaconListener {
         super.onCreate()
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-                .schemaVersion(2)
+                .schemaVersion(3)
                 .migration(MyMigration())
                 .build()
         Realm.setDefaultConfiguration(config)

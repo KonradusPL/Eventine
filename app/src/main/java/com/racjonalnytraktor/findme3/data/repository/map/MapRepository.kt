@@ -3,6 +3,7 @@ package com.racjonalnytraktor.findme3.data.repository.map
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.ActionsResponse
+import com.racjonalnytraktor.findme3.data.model.map.ZoneUpdate
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.EndPing
 import com.racjonalnytraktor.findme3.data.network.MembersResponse
@@ -11,7 +12,7 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import com.racjonalnytraktor.findme3.ui.adapters.manage.Job
-import com.racjonalnytraktor.findme3.utils.ClassTransform
+import com.racjonalnytraktor.findme3.utils.ModelTransform
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -119,7 +120,18 @@ object MapRepository: BaseRepository() {
         Log.d("groupId",groupId)
         return rest.networkService.getGroupMembers(token, groupId)
                 .map { t -> t.people }
-                .map { t -> ClassTransform.fromPeopleArrayToJobs(t) }
+                .map { t -> ModelTransform.fromPeopleArrayToJobs(t) }
+                .subscribeOn(SchedulerProvider.io())
+                .observeOn(SchedulerProvider.ui())
+    }
+
+    fun getZonesWithUserCount(): Single<ArrayList<ZoneUpdate>>{
+        val token = prefs.getUserToken()
+        val groupId = prefs.getCurrentGroupId()
+        Log.d("groupId",groupId)
+        return rest.networkService.getGroupMembers(token, groupId)
+                .map { t -> t.people }
+                .map { t -> ModelTransform.fromPeopleToZoneUpdate(t) }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

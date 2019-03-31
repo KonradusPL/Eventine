@@ -39,4 +39,7 @@ interface Prefs {
     fun createUser(user: User)
     fun removeUser()
 
+    fun setIsSilentNotification(value: Boolean)
+    fun isSilentNotification(): Boolean
+
 }

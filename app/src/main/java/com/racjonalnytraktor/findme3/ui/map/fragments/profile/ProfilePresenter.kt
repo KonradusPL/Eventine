@@ -27,22 +27,22 @@ class ProfilePresenter {
         else
             role = mRepo.prefs.getRole()
 
-        mView.setUserData(fullName,role)
+        mView.setUserData(fullName,role,mRepo.prefs.isPartner())
     }
 
     fun onKeeperHelpClick(){
         val token = mRepo.prefs.getUserToken()
-        val data = HashMap<String,String>()
-        data["groupId"] = mRepo.prefs.getCurrentGroupId()
-        Log.d("onHelpClick",data.toString())
+        //val data = HashMap<String,String>()
+        //data["groupId"] = mRepo.prefs.getCurrentGroupId()
+        //Log.d("onHelpClick",data.toString())
 
-        mCompositeDisposable.add(mRepo.rest.networkService.sendPingToNearest(token, data)
+        mCompositeDisposable.add(mRepo.rest.networkService.callCareTaker(token)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
                 .subscribe({ t: String? ->
-                    mView.showMessage("Wysłano prośbę o pomoc!", MvpView.MessageType.SUCCESS)
+                    mView.showMessage("Wysłano prośbę do opiekuna!", MvpView.MessageType.SUCCESS)
                 },{t: Throwable? ->
-                    mView.showMessage("Nieudało się wysłać helpa", MvpView.MessageType.SUCCESS)
+                    mView.showMessage("Nieudało się wysłać prośby do opiekuna", MvpView.MessageType.SUCCESS)
                 }))
     }
 

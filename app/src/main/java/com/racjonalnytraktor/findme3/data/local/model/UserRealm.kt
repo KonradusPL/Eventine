@@ -14,6 +14,7 @@ open class UserRealm: RealmObject(){
     var eventName = ""
     var role = ""
     var isPartner: Boolean = false
+    var isSilentNotification: Boolean = false
 
     fun getUser(): User{
         return  User(facebookId,profileImage,fullName,token,"",email)

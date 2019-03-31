@@ -65,9 +65,11 @@ class ProfileFragment: BaseFragment<MapMvp.View>() {
         mPresenter.onAttach(this)
     }
 
-    fun setUserData(fullName: String, subGroup: String){
+    fun setUserData(fullName: String, subGroup: String, isPartner: Boolean){
         fieldFullName?.text = fullName
         fieldRole?.text = subGroup
+        if(isPartner)
+            buttonKeeperHelp?.visibility = View.VISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

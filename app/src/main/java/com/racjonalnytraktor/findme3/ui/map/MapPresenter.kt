@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.iid.FirebaseInstanceId
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.UpdateTokenRequest
+import com.racjonalnytraktor.findme3.data.model.map.ZoneUpdate
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
@@ -33,7 +34,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     private var mLocationListener: Listener.ChangeLocation? = null
     private var mCurrentLocation = "Pokoik"
 
-    private var mFloorIndex = 0
+    private var mFloorIndex = 1
     private val mFloors = arrayListOf(-1,0,1)
 
     var isAttached = false
@@ -66,7 +67,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         updateNotifToken()
     }
 
-    fun startUpdatingPings(){
+    fun startUpdatingMap(){
         doAsync {
             var isAttached = true
 
@@ -75,22 +76,27 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     uiThread {
                         compositeDisposable.add(mRepo.getMapPings()
                                 .subscribe({pings: ArrayList<Action>? ->
-                                    Log.d("tytyty","asdasd")
                                     if (pings != null){
-                                        Log.d("pingspings",pings.toString() + "asd")
                                         val pingsNew = ArrayList<Ping>()
                                         for (action in pings){
                                             if (action.type == "ping"){
-                                                Log.d("startUpdatingPings",action.floor.toString())
                                                 pingsNew.add(Ping(action))
                                             }
                                         }
                                         view.updatePings(pingsNew,mFloors[mFloorIndex])
                                     }
                                 },{t: Throwable? ->
-                                    Log.d("updating actions: ","AAA")
-                                    Log.d("updating actions: ",t!!.message)
                                 }))
+                        compositeDisposable.add(mRepo.getZonesWithUserCount()
+                                .subscribe({t: ArrayList<ZoneUpdate>? ->
+                                    Log.d("getZonesWithUserCount",t.toString())
+                                    if(t != null)
+                                        view.updateZones(t)
+                                },{t: Throwable? ->
+                                    Log.d("getZonesWithUserCount",t.toString())
+                                }))
+
+
                     }
 
 
@@ -178,7 +184,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         view.clearTab(0,true)
 
         view.showLoading()
-        compositeDisposable.add(mRepo.rest.networkService.sendPingToNearest(token, data)
+
+        val single = if (mRepo.prefs.isPartner()) mRepo.rest.networkService.sendPingToNearest(token, data)
+            else mRepo.rest.networkService.callCareTaker(token)
+
+
+        compositeDisposable.add(single
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
                 .subscribe({ t: String? ->
@@ -200,6 +211,10 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
             mRepo.newInfo.content = descr
 
         getAllSubGroups()
+    }
+
+    override fun onSilentSwitch(value: Boolean) {
+        mRepo.prefs.setIsSilentNotification(value)
     }
 
     fun getAllSubGroups(){

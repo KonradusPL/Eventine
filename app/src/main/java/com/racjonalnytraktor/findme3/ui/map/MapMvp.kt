@@ -4,6 +4,7 @@ import android.location.Location
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.racjonalnytraktor.findme3.data.model.Action
+import com.racjonalnytraktor.findme3.data.model.map.ZoneUpdate
 import com.racjonalnytraktor.findme3.data.model.new.CreateActionRequest
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.base.MvpPresenter
@@ -17,6 +18,7 @@ interface MapMvp {
         fun animateTabLayout(show: Boolean)
         fun updatePings(pings: List<Ping>,floor: Int)
         fun updatePings(ping: Action)
+        fun updateZones(zones: ArrayList<ZoneUpdate>)
         fun addPing(ping: Ping)
         fun getPresenter(): MapPresenter<View>
         fun updateCheckedGroups(checked: List<String>)
@@ -62,6 +64,7 @@ interface MapMvp {
         fun onChangeLocationClick(locationListener: Listener.ChangeLocation)
         fun onCreateActionClick(action: CreateActionRequest, listener: Listener.CreateAction)
         fun onLogOutClick()
+        fun onSilentSwitch(value: Boolean)
 
         //others
         fun onSlideHide()

@@ -4,18 +4,14 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.Location
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.model.PersonOnMap
-import com.racjonalnytraktor.findme3.data.model.PingOnMap
+import com.racjonalnytraktor.findme3.data.model.map.PingOnMap
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.MapStyleOptions
@@ -26,13 +22,11 @@ import java.net.MalformedURLException
 import java.net.URL
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.android.gms.maps.model.TileOverlay
+import com.racjonalnytraktor.findme3.data.model.map.ZoneOnMap
+import com.racjonalnytraktor.findme3.data.model.map.ZoneUpdate
 
 
-
-
-class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallback {
-
-    var isUserInitialized = false
+class MapHelper(val mvpView: MapMvp.View) : OnMapReadyCallback {
 
     private var listenerPresenter: MapListener = mvpView.getPresenter()
     private var listenerView : MapViewListener = mvpView
@@ -41,7 +35,8 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
     private var mTileOverlay: TileOverlay? = null
 
     val pingsOnMap = ArrayList<PingOnMap>()
-    private var mFloor = -1
+    val zonesOnMap = ArrayList<ZoneOnMap>()
+    private var mFloor = 0
 
     interface MapListener {
         fun onMapClick(location: Location)
@@ -66,6 +61,8 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             /* Define the URL pattern for the tile images */
             val s = String.format("http://35.234.124.12:3000/images/%d/%d/%d/file.png",
                     mFloor, x, y)
+            /*val s = String.format("file:///android_asset/-1/292739_172683.png",
+                    mFloor, x, y)*/
 
             if (!checkTileExists(x, y, zoom)) {
                 return null
@@ -97,6 +94,18 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         for (ping in pingsOnMap){
             ping.marker.isVisible = ping.ping.floor == mFloor
         }
+        for(zone in zonesOnMap){
+            zone.marker.isVisible = zone.floor == mFloor
+        }
+    }
+
+    fun updateZones(zones: ArrayList<ZoneUpdate>){
+        for (i in 0..zones.lastIndex){
+            val count = if(zones[i].usersCount > 9) 9 else zones[i].usersCount
+            zonesOnMap[i].usersCount = count
+            zonesOnMap[i].marker.setIcon(BitmapDescriptorFactory.fromBitmap(
+                    ImageHelper.getZoneBitMap(mvpView.getCtx(),count,"")))
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -126,6 +135,8 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             Log.e("myErrors", "Can't find style. Error: ", e)
         }
 
+        initZones()
+
         mTileOverlay = mMap?.addTileOverlay(TileOverlayOptions()
                 .tileProvider(tileProvider))
 
@@ -136,6 +147,9 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
             listenerPresenter.onMapClick(location)
         }
         mMap?.setOnMarkerClickListener { marker ->
+            if(marker.tag == "zone")
+                marker.showInfoWindow()
+
             for(ping in pingsOnMap){
                 if(ping.marker.position == marker.position){
                     Log.d("pongaponga",ping.ping.inProgress.toString())
@@ -147,6 +161,27 @@ class MapHelper(val mvpView: MapMvp.View, fragment: Fragment?) : OnMapReadyCallb
         }
         mMap?.setOnMapLongClickListener { latLng ->
             listenerPresenter.onLongClickListener(latLng)
+        }
+    }
+
+    fun initZones(){
+        if (mMap == null)
+            return
+        for (zone in ZoneUtils.zones){
+            val marker = mMap?.addMarker(MarkerOptions()
+                    .position(zone.location)
+                    .title(zone.name)
+                    .icon(BitmapDescriptorFactory.fromBitmap(
+                            ImageHelper.getZoneBitMap(mvpView.getCtx(),0,zone.name))))
+            marker?.tag = "zone"
+            if(zone.floor != mFloor)
+                marker?.isVisible = false
+
+            zonesOnMap.add(ZoneOnMap(zone.floor,
+                            0,
+                            zone.name,
+                            marker!!,
+                            zone.location))
         }
     }
 

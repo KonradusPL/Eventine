@@ -24,6 +24,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                 .subscribe({response: LoginResponse? ->
                     Log.d("loginWithEmail","isPartner: ${response?.isPartner}")
                     Log.d("logowanie","działa")
+                    Log.d("logtok",response?.token)
                     repo.prefs.createUser(User(fullName = response!!.fullName))
                     repo.saveUser(response.token,"",email,response.isPartner)
                     view.hideLoginLoading()

@@ -25,6 +25,7 @@ import com.racjonalnytraktor.findme3.ui.manage.ManageSubGroupsActivity
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.model.Action
+import com.racjonalnytraktor.findme3.data.model.map.ZoneUpdate
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.AppClass
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
@@ -73,7 +74,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         setContentView(R.layout.activity_map)
 
         mPresenter = MapPresenter()
-        mMapHelper = MapHelper(this,null)
+        mMapHelper = MapHelper(this)
 
         fragmentMap = SupportMapFragment.newInstance()
         fragmentManagement = ManagementFragment()
@@ -207,6 +208,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     private fun initFloorSpinner(){
         val floors = arrayListOf("-1","0","1")
         spinnerFloor.attachDataSource(floors)
+        spinnerFloor.selectedIndex = 1
         spinnerFloor.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 Log.d("initFloorSpinner",p2.toString())
@@ -267,7 +269,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
         Log.d("lifecycler","onStart")
         mPresenter.isAttached = true
         EventBus.getDefault().register(this)
-        mPresenter.startUpdatingPings()
+        mPresenter.startUpdatingMap()
     }
 
     override fun onStop() {
@@ -309,6 +311,10 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun updatePings(pings: List<Ping>,floor: Int) {
         mMapHelper.updatePings(pings,floor)
+    }
+
+    override fun updateZones(zones: ArrayList<ZoneUpdate>) {
+        mMapHelper.updateZones(zones)
     }
 
     override fun updatePings(ping: Action) {

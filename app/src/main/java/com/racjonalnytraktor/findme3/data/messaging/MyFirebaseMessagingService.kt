@@ -16,11 +16,16 @@ import android.content.Context.VIBRATOR_SERVICE
 import android.media.AudioManager
 import android.media.AudioManager.RINGER_MODE_SILENT
 import android.media.AudioManager.RINGER_MODE_VIBRATE
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import java.util.*
+import android.media.RingtoneManager
+import android.media.Ringtone
+import com.racjonalnytraktor.findme3.data.repository.BaseRepository
+import org.jetbrains.anko.runOnUiThread
 
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
@@ -32,9 +37,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     lateinit var notification: Notification
     lateinit var notificationBuilder: NotificationCompat.Builder
     var notificationManager: NotificationManagerCompat? = null
+    lateinit var repo: BaseRepository
 
     override fun onCreate() {
         super.onCreate()
+        repo = BaseRepository()
         notificationManager = NotificationManagerCompat.from(this)
     }
 
@@ -67,6 +74,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             "acceptRequest" -> {
                 val data = message.data
                 onAcceptHelp(data["desc"].orEmpty(),data["title"].orEmpty())
+            }
+            "callCaretaker" -> {
+                val data = message.data
+                onCallCareTaker(data["desc"].orEmpty(),data["title"].orEmpty())
             }
             else -> {
                 val groupName = message.data["groupName"].orEmpty()
@@ -149,6 +160,22 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     }
 
 
+    private fun onCallCareTaker(desc: String, title: String){
+        val id = Random().nextInt(100000)
+
+        notificationBuilder = NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle(desc)
+                .setContentText(title)
+                .setSmallIcon(R.drawable.ic_event_white_24dp)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+
+        notificationManager?.notify(id, notificationBuilder.build())
+
+        makeSound()
+    }
+
+
 
     private fun onHelp(title: String, desc: String, id: String){
         val notificationIntent = Intent(this, MapActivity::class.java)
@@ -184,29 +211,43 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
 
         notificationManager?.notify(notifId, notificationBuilder.build())
+
+        makeSound()
     }
 
     private fun makeSound(){
-        val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        runOnUiThread {
+            val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-        val mode = audio.ringerMode
-        Log.d("RINGER_MODE",mode.toString())
-        Log.d("RINGER_MODE_NORMAL",AudioManager.RINGER_MODE_NORMAL.toString())
-        Log.d("RINGER_MODE_SILENT", RINGER_MODE_SILENT.toString())
-        Log.d("RINGER_MODE_VIBRATE", RINGER_MODE_VIBRATE.toString())
+            val mode = audio.ringerMode
+            Log.d("RINGER_MODE",mode.toString())
+            Log.d("RINGER_MODE_NORMAL",AudioManager.RINGER_MODE_NORMAL.toString())
+            Log.d("RINGER_MODE_SILENT", RINGER_MODE_SILENT.toString())
+            Log.d("RINGER_MODE_VIBRATE", RINGER_MODE_VIBRATE.toString())
 
-        if (vibrator.hasVibrator() &&(mode == AudioManager.RINGER_MODE_NORMAL || mode == AudioManager.MODE_RINGTONE)) {
-            val mVibratePattern = longArrayOf(0, 400, 200, 400)
+            if (repo.prefs.isSilentNotification())
+                return@runOnUiThread
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val vibrationEffect = VibrationEffect.createWaveform(mVibratePattern,-1)
-                vibrator.vibrate(vibrationEffect)
-            } else {
-                vibrator.vibrate(mVibratePattern,-1)
+            if(mode == AudioManager.RINGER_MODE_NORMAL){
+                val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                val ringtone = RingtoneManager.getRingtone(this, uri)
+                ringtone.play()
+            }
 
+            else if (vibrator.hasVibrator() &&(mode == AudioManager.RINGER_MODE_VIBRATE)) {
+                val mVibratePattern = longArrayOf(0, 400, 200, 400)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val vibrationEffect = VibrationEffect.createWaveform(mVibratePattern,-1)
+                    vibrator.vibrate(vibrationEffect)
+                } else {
+                    vibrator.vibrate(mVibratePattern,-1)
+
+                }
             }
         }
+
     }
 
 }

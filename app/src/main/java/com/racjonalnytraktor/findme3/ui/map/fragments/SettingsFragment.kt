@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
+import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.map.MapMvp
 import kotlinx.android.synthetic.main.fragment_options.*
@@ -38,9 +39,17 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
             parentMvp.getPresenter().onLogOutClick()
         }
 
+        switchSilent.setOnCheckedChangeListener { compoundButton, b ->
+            parentMvp.getPresenter().onSilentSwitch(b)
+        }
+
         swithBeacon.setOnCheckedChangeListener { compoundButton, b ->
             parentMvp.changeBeaconsStatus(b)
         }
+
+        val repo = BaseRepository()
+        if(repo.prefs.isSilentNotification())
+            switchSilent.isChecked = true
 
         val list = arrayListOf("Polski")
 

@@ -21,6 +21,18 @@ class RealmLocalDb: LocalDb {
         }
     }
 
+    override fun setIsSilentNotification(value: Boolean) {
+        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        mRealm.executeTransaction {
+            user.isSilentNotification = value
+        }
+    }
+
+    override fun isSilentNotification(): Boolean {
+        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        return user.isSilentNotification
+    }
+
     override fun setUserFullName(fullName: String) {
         val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
         mRealm.executeTransaction {

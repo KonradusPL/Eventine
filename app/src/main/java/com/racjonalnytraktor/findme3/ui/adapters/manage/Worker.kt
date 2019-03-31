@@ -10,6 +10,7 @@ class Worker() : Parcelable {
     lateinit var name: String
     lateinit var id: String
     var selected = false
+    lateinit var location: String
     lateinit var profileUrl: String
 
     @SuppressLint("ParcelClassLoader")
@@ -18,14 +19,16 @@ class Worker() : Parcelable {
         name = bundle.getString("name")
         id = bundle.getString("id")
         profileUrl = bundle.getString("profileUrl")
+        location = bundle.getString("location")
         selected = bundle.getBoolean("selected",false)
     }
 
-    constructor(name: String, id: String, selected: Boolean = false, profileUrl: String = "") : this() {
+    constructor(name: String, id: String,location: String, selected: Boolean = false, profileUrl: String = "") : this() {
         this.name = name
         this.id = id
         this.selected = selected
         this.profileUrl = profileUrl
+        this.location = location
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -34,6 +37,7 @@ class Worker() : Parcelable {
         bundle.putString("id",id)
         bundle.putString("profileUrl",profileUrl)
         bundle.putBoolean("selected",selected)
+        bundle.putString("location",location)
         parcel.writeBundle(bundle)
     }
 

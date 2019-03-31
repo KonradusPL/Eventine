@@ -99,6 +99,8 @@ internal class ManageGroupAdapter(val jobs: ArrayList<Job>, val mvpView: MapMvp.
                             .resize(50,50)
                             .into(imageProfile)
                 }
+                val location = if(worker.location != "") worker.location else "nieznane"
+                itemView.textLocation.text = "Położenie: $location"
                 itemView.setOnClickListener {
                     mvpView.getPresenter().onOrganizerClick(worker.id)
                 }

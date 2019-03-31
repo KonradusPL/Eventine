@@ -2,7 +2,6 @@ package com.racjonalnytraktor.findme3.ui.map.fragments
 
 import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.Action
-import com.racjonalnytraktor.findme3.data.model.Model1
 import com.racjonalnytraktor.findme3.data.network.model.Help
 import com.racjonalnytraktor.findme3.data.network.model.UserSimple
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
@@ -10,7 +9,7 @@ import com.racjonalnytraktor.findme3.data.network.model.info.Info
 import com.racjonalnytraktor.findme3.data.repository.HistoryRepository
 import com.racjonalnytraktor.findme3.ui.adapters.HistoryAdapter
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
-import com.racjonalnytraktor.findme3.utils.ClassTransform
+import com.racjonalnytraktor.findme3.utils.ModelTransform
 
 class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presenter<V>
 ,HistoryAdapter.ClickListener{
@@ -34,7 +33,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                     if(actions != null){
                         repo.actions.clear()
                         for(action in actions){
-                            val model1 = ClassTransform.fromActionToModelH(action)
+                            val model1 = ModelTransform.fromActionToModelH(action)
                             repo.actions.add(model1)
                         }
                         view.updateActions(repo.actions,"ping")
@@ -58,7 +57,7 @@ class HistoryPresenter<V: HistoryMvp.View>: BasePresenter<V>(),HistoryMvp.Presen
                         Log.d("onHelpButtonClick",helps.toString())
                         repo.listHelp.clear()
                         for(help in helps){
-                            val model1 = ClassTransform.fromHelpToModelH(help)
+                            val model1 = ModelTransform.fromHelpToModelH(help)
                             repo.listHelp.add(model1)
                         }
                         view.updateActions(repo.listHelp,"help")

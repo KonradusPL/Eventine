@@ -1,8 +1,12 @@
 package com.racjonalnytraktor.findme3.ui.splash
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.media.RingtoneManager
 import android.os.Bundle
+import android.os.Vibrator
 import android.util.Log
 import com.facebook.FacebookSdk
 import com.racjonalnytraktor.findme3.TestActivity
@@ -19,7 +23,6 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Realm.init(this)
 
         presenter = SplashPresenter()
         presenter.onAttach(this)

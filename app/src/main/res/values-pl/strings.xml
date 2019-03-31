@@ -18,6 +18,8 @@
 
     <string name="facebook_app_id">194669471175342</string>
 
+    <string name="app_with_ver">Eventine Alpha 1.4</string>
+
     <string name="text_invitations">Zaproszenia</string>
     <string name="text_join">Dołącz</string>
     <string name="text_create">Stwórz</string>
@@ -52,10 +54,7 @@
     <string name="hint_password">Hasło</string>
     <string name="hint_fullname">Imię i nazwisko</string>
 
-
     <string name="toolbar_create_group">Stwórz grupę</string>
-
-
 
     <string name="hint_enter_group_code">Wpisz kod grupy</string>
 

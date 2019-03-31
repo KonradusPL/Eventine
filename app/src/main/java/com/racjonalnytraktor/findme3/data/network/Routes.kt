@@ -131,4 +131,8 @@ interface Routes {
 
     @GET("user/groupList")
     fun getGroups(@Header("X-Token")token: String): Observable<GroupsResponse>
+
+    ///user/callCaretaker
+    @POST("user/callCareTaker")
+    fun callCareTaker(@Header("X-Token")token: String): Single<String>
 }
