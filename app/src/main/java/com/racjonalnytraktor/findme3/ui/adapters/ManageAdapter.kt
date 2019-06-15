@@ -1,8 +1,8 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_header.view.*
 import kotlinx.android.synthetic.main.item_user_subgroup.view.*
 
 class ManageAdapter(val list: ArrayList<Typed>, val mvpView: ManageMvp.View, val touchHelper: ItemTouchHelper)
-    :RecyclerView.Adapter<ManageAdapter.MyViewHolder>()
+    : RecyclerView.Adapter<ManageAdapter.MyViewHolder>()
 , SwipeHelper.ActionCompletionContract{
 
 

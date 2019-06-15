@@ -1,7 +1,7 @@
 package com.racjonalnytraktor.findme3.ui.base
 
 import android.content.Context
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.racjonalnytraktor.findme3.data.local.SharedPrefs
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import io.reactivex.Completable

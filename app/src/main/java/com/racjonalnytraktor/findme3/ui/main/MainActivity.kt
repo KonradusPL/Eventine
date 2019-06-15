@@ -4,11 +4,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.support.design.widget.NavigationView
+import com.google.android.material.navigation.NavigationView
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
-import android.support.design.widget.TabLayout
-import android.support.v4.view.GravityCompat
+import com.google.android.material.tabs.TabLayout
+import androidx.core.view.GravityCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu

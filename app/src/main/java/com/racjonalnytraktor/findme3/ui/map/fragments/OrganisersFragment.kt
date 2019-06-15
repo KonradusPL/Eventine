@@ -1,9 +1,9 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments
 
-import android.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
+import androidx.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

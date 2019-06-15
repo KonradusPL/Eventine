@@ -10,7 +10,7 @@ import com.racjonalnytraktor.findme3.ui.adapters.FriendsAdapter
 import com.racjonalnytraktor.findme3.ui.base.BaseFragment
 import com.racjonalnytraktor.findme3.ui.main.MainMvp
 import kotlinx.android.synthetic.main.fragment_create_group.*
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.data.model.User

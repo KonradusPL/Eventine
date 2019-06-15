@@ -2,7 +2,7 @@ package com.racjonalnytraktor.findme3.utils
 
 import android.content.Context
 import android.graphics.*
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.util.Log
 import com.racjonalnytraktor.findme3.R
 import com.squareup.picasso.Picasso

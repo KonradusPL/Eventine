@@ -1,8 +1,8 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.item_history_new.view.*
 
 
 class HistoryAdapter(var list: ArrayList<Model1>,val mvpView: MapMvp.View)
-    :RecyclerView.Adapter<HistoryAdapter.MyHolder>(){
+    : RecyclerView.Adapter<HistoryAdapter.MyHolder>(){
 
     private val statusIcons = ArrayList<IIcon>()
 

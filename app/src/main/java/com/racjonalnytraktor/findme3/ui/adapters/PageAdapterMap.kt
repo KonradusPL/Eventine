@@ -1,10 +1,10 @@
 package com.racjonalnytraktor.findme3.ui.adapters
 
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import com.racjonalnytraktor.findme3.R

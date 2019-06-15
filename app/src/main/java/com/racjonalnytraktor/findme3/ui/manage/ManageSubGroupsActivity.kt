@@ -1,9 +1,9 @@
 package com.racjonalnytraktor.findme3.ui.manage
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.LayoutInflater
 import com.jakewharton.rxbinding2.view.RxView
 import com.racjonalnytraktor.findme3.R

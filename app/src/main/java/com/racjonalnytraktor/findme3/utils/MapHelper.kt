@@ -3,7 +3,7 @@ package com.racjonalnytraktor.findme3.utils
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.Location
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

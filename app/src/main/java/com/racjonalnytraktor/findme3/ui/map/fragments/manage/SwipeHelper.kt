@@ -1,8 +1,8 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments.manage
 
 import android.graphics.Canvas
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.racjonalnytraktor.findme3.ui.adapters.ManageAdapter
 
 class SwipeHelper: ItemTouchHelper.Callback() {
