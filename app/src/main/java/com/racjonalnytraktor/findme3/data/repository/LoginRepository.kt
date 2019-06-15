@@ -36,7 +36,7 @@ class LoginRepository: BaseRepository() {
     }
 
     /*fun registerByFacebook(user: User): Single<RegisterFbResponse>{
-        prefs.createUser(user)
+        preferences.createUser(user)
         val request = RegisterFbRequest(user.facebookId, user.fullName)
         Log.d("requestid",request.facebookId)
         Log.d("requestname",request.fullName)

@@ -12,7 +12,6 @@ import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizar
 import com.estimote.proximity_sdk.api.EstimoteCloudCredentials
 import com.estimote.proximity_sdk.api.ProximityObserver
 import com.estimote.proximity_sdk.api.ProximityObserverBuilder
-import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.data.local.migration.MyMigration
 import com.racjonalnytraktor.findme3.data.repository.map.MapRepository
 import com.racjonalnytraktor.findme3.utils.ZoneUtils
@@ -20,7 +19,6 @@ import com.racjonalnytraktor.findme3.utils.SchedulerProvider
 import es.dmoral.toasty.Toasty
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import org.jetbrains.anko.longToast
 
 class EventineApplication: Application(),ZoneUtils.BeaconListener {
 
@@ -86,9 +84,9 @@ class EventineApplication: Application(),ZoneUtils.BeaconListener {
         toast.setGravity(Gravity.TOP.xor(Gravity.CENTER_HORIZONTAL),0,64)
         toast.show()
 
-        val token = mRepo.prefs.getUserToken()
+        val token = mRepo.preferences.getUserToken()
         val map = HashMap<String,Any>()
-        map["groupId"] = mRepo.prefs.getCurrentGroupId()
+        map["groupId"] = mRepo.preferences.getCurrentGroupId()
         map["locationTag"] = tag
         mRepo.rest.networkService.updateLocation(token,map)
                 .subscribeOn(SchedulerProvider.io())

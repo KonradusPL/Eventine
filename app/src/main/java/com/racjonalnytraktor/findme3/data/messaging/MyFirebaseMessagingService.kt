@@ -2,7 +2,6 @@ package com.racjonalnytraktor.findme3.data.messaging
 
 import android.app.Notification
 import android.app.PendingIntent
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
@@ -12,18 +11,15 @@ import com.google.firebase.messaging.RemoteMessage
 import com.racjonalnytraktor.findme3.R
 import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
-import android.content.Context.VIBRATOR_SERVICE
 import android.media.AudioManager
 import android.media.AudioManager.RINGER_MODE_SILENT
 import android.media.AudioManager.RINGER_MODE_VIBRATE
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import java.util.*
 import android.media.RingtoneManager
-import android.media.Ringtone
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import org.jetbrains.anko.runOnUiThread
 
@@ -226,7 +222,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             Log.d("RINGER_MODE_SILENT", RINGER_MODE_SILENT.toString())
             Log.d("RINGER_MODE_VIBRATE", RINGER_MODE_VIBRATE.toString())
 
-            if (repo.prefs.isSilentNotification())
+            if (repo.preferences.isSilentNotification())
                 return@runOnUiThread
 
             if(mode == AudioManager.RINGER_MODE_NORMAL){

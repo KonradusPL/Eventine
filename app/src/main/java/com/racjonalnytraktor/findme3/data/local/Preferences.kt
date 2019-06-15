@@ -2,7 +2,7 @@ package com.racjonalnytraktor.findme3.data.local
 
 import com.racjonalnytraktor.findme3.data.model.User
 
-interface Prefs {
+interface Preferences {
     fun getUserToken(): String
     fun setUserToken(token: String)
 

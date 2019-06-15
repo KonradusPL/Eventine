@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 object GroupsRepository: BaseRepository() {
 
     fun getTasks(): Observable<Ping> {
-     /*return rest.networkService.getTasks(prefs.getUserToken())
+     /*return rest.networkService.getTasks(preferences.getUserToken())
              .map { t -> t.pings }
              .flatMapIterable { t -> t }
              .subscribeOn(SchedulerProvider.io())
@@ -51,7 +51,7 @@ object GroupsRepository: BaseRepository() {
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
 
-        /*val token = prefs.getUserToken()
+        /*val token = preferences.getUserToken()
         val observable =  rest.networkService.getGroups(token)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())

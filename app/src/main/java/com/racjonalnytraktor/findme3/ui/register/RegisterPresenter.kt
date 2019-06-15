@@ -40,7 +40,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
 
                     val user = User("","",fullName,response?.token ?: "")
 
-                    repo.prefs.apply {
+                    repo.preferences.apply {
                         createUser(user)
                         repo.saveUser(response!!.token,"",email,false)
                         setIsUserLoggedIn(true)
@@ -77,7 +77,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
                                 view.hideLoginLoading()
                                 Log.d("registerresponse",response!!.token)
                                 user.token = response.token
-                                repo.prefs.setIsUserLoggedIn(true)
+                                repo.preferences.setIsUserLoggedIn(true)
                                 repo.setCurrentUser(user)
                                 view.openMainActivity()},
                                     {error: Throwable? -> Log.d("error",error.toString())

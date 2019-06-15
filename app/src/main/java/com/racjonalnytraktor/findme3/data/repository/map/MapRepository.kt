@@ -51,13 +51,13 @@ object MapRepository: BaseRepository() {
         Log.d("opopop",newPing.title)
         Log.d("request","${newPing.desc} ${newPing.title} ${newPing.geo} " +
                 "${newPing.groupId} ${newPing.targetGroups} ${newPing.date} ")
-        //newPing.groupId = prefs.getCurrentGroupId()
+        //newPing.groupId = preferences.getCurrentGroupId()
         Log.d("title",newPing.title)
         Log.d("desc",newPing.desc)
         Log.d("targetGroups",newPing.targetGroups.toString())
         Log.d("groupId",newPing.groupId)
         Log.d("geo",newPing.geo.toString())
-        //newPing.creatorName = prefs.getUserFullName()
+        //newPing.creatorName = preferences.getUserFullName()
 
         return rest.networkService.createPing("",newPing)
                 .subscribeOn(SchedulerProvider.io())
@@ -74,14 +74,14 @@ object MapRepository: BaseRepository() {
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
 
-        /*return rest.networkService.getActions(prefs.getUserToken(),prefs.getCurrentGroupId())
+        /*return rest.networkService.getActions(preferences.getUserToken(),preferences.getCurrentGroupId())
                 .map { t -> t.actions.toList() }
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())*/
     }
 
     fun createInfo(): Single<String>{
-       // newInfo.groupId = prefs.getCurrentGroupId()
+       // newInfo.groupId = preferences.getCurrentGroupId()
 
         Log.d("content",newInfo.content)
         Log.d("groupId",newInfo.groupId)
@@ -93,8 +93,8 @@ object MapRepository: BaseRepository() {
     }
 
     fun createAction(action: CreateActionRequest): Single<String>{
-        val token = prefs.getUserToken()
-        action.groupId = prefs.getCurrentGroupId()
+        val token = preferences.getUserToken()
+        action.groupId = preferences.getCurrentGroupId()
         Log.d("CreateActionRequest",action.toString())
 
         return rest.networkService.createAction(token,action)
@@ -103,8 +103,8 @@ object MapRepository: BaseRepository() {
     }
 
     fun getMapPings(): Single<ArrayList<Action>>{
-        val token = prefs.getUserToken()
-        val groupId = prefs.getCurrentGroupId()
+        val token = preferences.getUserToken()
+        val groupId = preferences.getCurrentGroupId()
         Log.d("getMapPings","token: $token")
         Log.d("getMapPings","groupId: $groupId")
 
@@ -115,8 +115,8 @@ object MapRepository: BaseRepository() {
     }
 
     fun getMembers(): Single<ArrayList<Job>>{
-        val token = prefs.getUserToken()
-        val groupId = prefs.getCurrentGroupId()
+        val token = preferences.getUserToken()
+        val groupId = preferences.getCurrentGroupId()
         Log.d("groupId",groupId)
         return rest.networkService.getGroupMembers(token, groupId)
                 .map { t -> t.people }
@@ -126,8 +126,8 @@ object MapRepository: BaseRepository() {
     }
 
     fun getZonesWithUserCount(): Single<ArrayList<ZoneUpdate>>{
-        val token = prefs.getUserToken()
-        val groupId = prefs.getCurrentGroupId()
+        val token = preferences.getUserToken()
+        val groupId = preferences.getCurrentGroupId()
         Log.d("groupId",groupId)
         return rest.networkService.getGroupMembers(token, groupId)
                 .map { t -> t.people }
@@ -137,8 +137,8 @@ object MapRepository: BaseRepository() {
     }
 
     fun updateMembers(){
-        val token = prefs.getUserToken()
-        val groupId = prefs.getCurrentGroupId()
+        val token = preferences.getUserToken()
+        val groupId = preferences.getCurrentGroupId()
         Log.d("groupId",groupId)
         rest.networkService.getGroupMembers(token, groupId)
                 .subscribeOn(SchedulerProvider.io())
@@ -170,7 +170,7 @@ object MapRepository: BaseRepository() {
 
     fun endPing(pingId: String): Single<String>{
         val request = EndPing(pingId)
-        val token = prefs.getUserToken()
+        val token = preferences.getUserToken()
         return rest.networkService.endPing(token,request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
@@ -178,7 +178,7 @@ object MapRepository: BaseRepository() {
 
     fun inProgressPing(pingId: String): Single<String>{
         val request = EndPing(pingId)
-        val token = prefs.getUserToken()
+        val token = preferences.getUserToken()
         return rest.networkService.setPingToInProgress(token,request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())

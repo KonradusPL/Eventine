@@ -28,7 +28,7 @@ class ExampleUnitTest {
 
         val repo = BaseRepository()
 
-        repo.prefs.createUser(User("fb","michnophoto.php","Marcin Michno","3","1","@"))
-        assert(repo.prefs.getUserEmail() == "@")
+        repo.preferences.createUser(User("fb","michnophoto.php","Marcin Michno","3","1","@"))
+        assert(repo.preferences.getUserEmail() == "@")
     }
 }

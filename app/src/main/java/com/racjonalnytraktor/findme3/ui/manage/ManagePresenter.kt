@@ -35,7 +35,7 @@ class ManagePresenter<V: ManageMvp.View>: BasePresenter<V>(),ManageMvp.Presenter
     }
 
     override fun onGroupChanged(changedGroup: String, changingId: String){
-        val request = ChangeSubGroupRequest(changingId, repo.prefs.getCurrentGroupId(),changedGroup)
+        val request = ChangeSubGroupRequest(changingId, repo.preferences.getCurrentGroupId(),changedGroup)
         compositeDisposable.add(repo.changeSubGroups(request)
                 .subscribe({t: String? ->
                     view.showMessage("Zapisano",MvpView.MessageType.INFO)

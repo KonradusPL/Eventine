@@ -6,7 +6,7 @@ import androidx.content.edit
 import com.racjonalnytraktor.findme3.data.model.User
 
 
-class SharedPrefs(context: Context): Prefs {
+class SharedPreferences(context: Context): Preferences {
     override fun isSilentNotification(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -16,9 +16,11 @@ import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.MapActivity
 import com.racjonalnytraktor.findme3.ui.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import javax.inject.Inject
 
 class LoginActivity : BaseActivity(),LoginMvp.View {
 
+    @Inject
     lateinit var presenter: LoginPresenter<LoginMvp.View>
 
     val callbackManager = CallbackManager.Factory.create()

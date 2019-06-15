@@ -9,7 +9,9 @@ class User(
     var fullName: String = "",
     var token: String = "",
     @SerializedName("_id")var id: String = "",
-    var email: String = ""){
+    var email: String = "",
+    var password: String = "",
+    var isPartner: Boolean = false){
 
     override fun toString(): String {
         return "facebook: $facebookId \n " +

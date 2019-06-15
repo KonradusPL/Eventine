@@ -8,20 +8,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.widget.ProgressBar
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
-import com.racjonalnytraktor.findme3.R
-import com.racjonalnytraktor.findme3.data.local.SharedPrefs
+import com.racjonalnytraktor.findme3.data.local.SharedPreferences
 import com.racjonalnytraktor.findme3.utils.DeviceInfo
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import es.dmoral.toasty.Toasty
 import io.reactivex.Completable
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_map.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -33,7 +30,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
     protected lateinit var progressBar: ProgressBar
     private lateinit var mDeviceInfo: DeviceInfo
     private lateinit var mPermissionsHelper: PermissionsHelper
-    lateinit var sharedPrefs: SharedPrefs
+    lateinit var sharedPrefs: SharedPreferences
 
     private var mPermissionStatus = false
 
@@ -43,7 +40,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         super.onCreate(savedInstanceState)
         mDeviceInfo = DeviceInfo(this)
         mPermissionsHelper = PermissionsHelper(this)
-        sharedPrefs = SharedPrefs(this)
+        sharedPrefs = SharedPreferences(this)
     }
 
     override fun onStart() {
@@ -60,7 +57,7 @@ open class BaseActivity : AppCompatActivity(),MvpView{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getPrefs(): SharedPrefs {
+    override fun getPrefs(): SharedPreferences {
         return sharedPrefs
     }
 

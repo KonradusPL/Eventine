@@ -13,7 +13,7 @@ import io.reactivex.Single
 object ManageRepository: BaseRepository() {
 
     fun getPeopleInGroups(): Observable<Typed>{
-        return rest.networkService.getGroupMembers(prefs.getUserToken(),prefs.getCurrentGroupId())
+        return rest.networkService.getGroupMembers(preferences.getUserToken(),preferences.getCurrentGroupId())
                 .map { t -> getTypedArray(t.people) }
                 .toObservable()
                 .flatMapIterable { t -> t }
@@ -47,7 +47,7 @@ object ManageRepository: BaseRepository() {
 
 
     fun changeSubGroups(request: ChangeSubGroupRequest): Single<String> {
-        return rest.networkService.changeSubGroups(prefs.getUserToken(),request)
+        return rest.networkService.changeSubGroups(preferences.getUserToken(),request)
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }

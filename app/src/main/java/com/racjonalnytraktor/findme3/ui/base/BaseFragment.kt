@@ -2,7 +2,7 @@ package com.racjonalnytraktor.findme3.ui.base
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.racjonalnytraktor.findme3.data.local.SharedPrefs
+import com.racjonalnytraktor.findme3.data.local.SharedPreferences
 import com.racjonalnytraktor.findme3.utils.PermissionsHelper
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -32,7 +32,7 @@ open class BaseFragment<V: MvpView>: Fragment(),MvpView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getPrefs(): SharedPrefs {
+    override fun getPrefs(): SharedPreferences {
         return parentMvp.getPrefs()
     }
 

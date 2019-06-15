@@ -45,7 +45,7 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
        view.showJoinLoading()
         compositeDisposable.add(repo.joinGroup(groupName)
                 .subscribe({response: String? ->
-                    repo.prefs.apply {
+                    repo.preferences.apply {
                         setCurrentGroupId(response.orEmpty())
                         setCurrentGroupName(groupName)
                     }
@@ -65,7 +65,7 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
     override fun onAcceptInvitationClick(invitation: Invitation) {
         compositeDisposable.add(repo.acceptInvitation(invitation.id)
                 .subscribe({t: String? ->
-                    repo.prefs.apply {
+                    repo.preferences.apply {
                         setCurrentGroupId(invitation.id)
                         setCurrentGroupName(invitation.groupName)
                     }

@@ -29,8 +29,8 @@ class MyFirebaseinstanceId: FirebaseInstanceIdService() {
     private fun sendTokenToServer(token: String){
         Log.d("tokenik",token)
         runOnUiThread {
-            Log.d("header",repo.prefs.getUserToken())
-            repo.rest.networkService.updateNotifToken(repo.prefs.getUserToken(), UpdateTokenRequest(token))
+            Log.d("header",repo.preferences.getUserToken())
+            repo.rest.networkService.updateNotifToken(repo.preferences.getUserToken(), UpdateTokenRequest(token))
                     .subscribeOn(SchedulerProvider.io())
                     .observeOn(SchedulerProvider.ui())
                     .subscribe({t: String? ->

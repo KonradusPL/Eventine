@@ -23,7 +23,7 @@ object CreateRepository: BaseRepository(){
                 else
                     Observable.empty()
 
-        return rest.networkService.getFriends(prefs.getUserToken())
+        return rest.networkService.getFriends(preferences.getUserToken())
                 .map { t -> t.users }
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
@@ -37,7 +37,7 @@ object CreateRepository: BaseRepository(){
     }
 
     fun createGroup(createGroupRequest: CreateGroupRequest): Single<String>{
-        val token = prefs.getUserToken()
+        val token = preferences.getUserToken()
         Log.d("token",token)
         return rest.networkService.createGroup(token,createGroupRequest)
                 .subscribeOn(SchedulerProvider.io())

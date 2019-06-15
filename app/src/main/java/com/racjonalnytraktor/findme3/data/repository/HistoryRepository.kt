@@ -14,13 +14,13 @@ object HistoryRepository: BaseRepository() {
     val listHelp = ArrayList<Model1>()
 
     fun getHelps(): Single<ArrayList<Help>> {
-        return rest.networkService.getHelps(prefs.getUserToken())
+        return rest.networkService.getHelps(preferences.getUserToken())
                 .subscribeOn(SchedulerProvider.io())
                 .observeOn(SchedulerProvider.ui())
     }
 
     fun getInfos(): Observable<Info>{
-        return rest.networkService.getInfos(prefs.getUserToken(),prefs.getCurrentGroupId())
+        return rest.networkService.getInfos(preferences.getUserToken(),preferences.getCurrentGroupId())
                 .map { t -> t.info}
                 .flatMapIterable { t -> t }
                 .subscribeOn(SchedulerProvider.io())
@@ -28,7 +28,7 @@ object HistoryRepository: BaseRepository() {
     }
 
     fun getActions(): Observable<List<Action>>{
-        return rest.networkService.getActions(prefs.getUserToken(),prefs.getCurrentGroupId(),"ping")
+        return rest.networkService.getActions(preferences.getUserToken(),preferences.getCurrentGroupId(),"ping")
                 .map { t -> t.actions.reversed() }
                 .toObservable()
                 .subscribeOn(SchedulerProvider.io())

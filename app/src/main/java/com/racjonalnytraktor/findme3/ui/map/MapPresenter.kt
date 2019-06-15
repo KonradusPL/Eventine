@@ -43,12 +43,12 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         super.onAttach(mvpView)
         isAttached = true
 
-        val user = mRepo.prefs.getCurrentUser()
+        val user = mRepo.preferences.getCurrentUser()
         Log.d("user data: ",user.toString())
 
-        /*val token = mRepo.prefs.getUserToken()
+        /*val token = mRepo.preferences.getUserToken()
         val map = HashMap<String,Any>()
-        map["groupId"] = mRepo.prefs.getCurrentGroupId()
+        map["groupId"] = mRepo.preferences.getCurrentGroupId()
         map["locationTag"] = "Pokoik"
         mRepo.rest.networkService.updateLocation(token,map)
                 .subscribeOn(SchedulerProvider.io())
@@ -59,7 +59,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
                     Log.d("updateLocation",t.toString())
                 })*/
 
-        if(mRepo.prefs.isPartner())
+        if(mRepo.preferences.isPartner())
             view.updateOnPartner()
 
         mRepo.updateMembers()
@@ -114,7 +114,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     private fun updateNotifToken(){
-        val userToken = mRepo.prefs.getUserToken()
+        val userToken = mRepo.preferences.getUserToken()
         val firebaseToken = FirebaseInstanceId.getInstance().token ?: ""
         Log.d("updateNotifToken",firebaseToken)
 
@@ -159,7 +159,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         view.showLoading()
 
-        val token = mRepo.prefs.getUserToken()
+        val token = mRepo.preferences.getUserToken()
 
         compositeDisposable.add(mRepo.rest.networkService.sendPingToOrganizer(token, data)
                 .subscribeOn(SchedulerProvider.io())
@@ -176,16 +176,16 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onHelpClick() {
-        val token = mRepo.prefs.getUserToken()
+        val token = mRepo.preferences.getUserToken()
         val data = HashMap<String,String>()
-        data["groupId"] = mRepo.prefs.getCurrentGroupId()
+        data["groupId"] = mRepo.preferences.getCurrentGroupId()
         Log.d("onHelpClick",data.toString())
 
         view.clearTab(0,true)
 
         view.showLoading()
 
-        val single = if (mRepo.prefs.isPartner()) mRepo.rest.networkService.sendPingToNearest(token, data)
+        val single = if (mRepo.preferences.isPartner()) mRepo.rest.networkService.sendPingToNearest(token, data)
             else mRepo.rest.networkService.callCareTaker(token)
 
 
@@ -214,7 +214,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onSilentSwitch(value: Boolean) {
-        mRepo.prefs.setIsSilentNotification(value)
+        mRepo.preferences.setIsSilentNotification(value)
     }
 
     fun getAllSubGroups(){
@@ -280,7 +280,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     override fun onLogoutButtonClick() {
         if(AccessToken.isCurrentAccessTokenActive())
             LoginManager.getInstance().logOut()
-        mRepo.prefs.removeUser()
+        mRepo.preferences.removeUser()
         view.openLoginActivity()
     }
 
@@ -288,7 +288,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         for (group in mRepo.appRepo.groups){
             if(group.groupName == groupName){
-                mRepo.prefs.apply {
+                mRepo.preferences.apply {
                     setCurrentGroupName(groupName)
                     setCurrentGroupId(group.id)
                 }
@@ -466,9 +466,9 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
     }
 
     override fun onZoneEnter(zone: String) {
-        val token = mRepo.prefs.getUserToken()
+        val token = mRepo.preferences.getUserToken()
         val map = HashMap<String,Any>()
-        map["groupId"] = mRepo.prefs.getCurrentGroupId()
+        map["groupId"] = mRepo.preferences.getCurrentGroupId()
         map["locationTag"] = zone
         compositeDisposable.add(mRepo.rest.networkService.updateLocation(token,map)
                 .subscribe({t: String? ->
@@ -483,7 +483,7 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
 
         if(mRepo.facebook.isLoggedIn())
             mRepo.facebook.logOut()
-        mRepo.prefs.removeUser()
+        mRepo.preferences.removeUser()
 
         view.openLoginActivity()
 

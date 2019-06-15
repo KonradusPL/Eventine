@@ -6,7 +6,7 @@ import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 object MainRepository: BaseRepository() {
 
     fun getCurrentUser(): User{
-        return prefs.getCurrentUser()
+        return preferences.getCurrentUser()
     }
 
 }

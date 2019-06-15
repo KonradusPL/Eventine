@@ -23,7 +23,7 @@ class MyBroadcastReceiver: BroadcastReceiver() {
             if(notifId != null)
                 NotificationManagerCompat.from(context).cancel(notifId as Int)
 
-            val token = repo.prefs.getUserToken()
+            val token = repo.preferences.getUserToken()
             val data = HashMap<String, Any>()
             data["callerId"] = intent.extras["id"]
             data["response"] = intent.action == "yes"

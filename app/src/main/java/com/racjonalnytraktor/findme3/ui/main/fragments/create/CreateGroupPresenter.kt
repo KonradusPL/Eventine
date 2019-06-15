@@ -63,8 +63,8 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->
                     view.hideCreateGroupLoading()
-                    repo.prefs.apply {
-                        repo.prefs.apply {
+                    repo.preferences.apply {
+                        repo.preferences.apply {
                             setCurrentGroupId(response.orEmpty())
                             setCurrentGroupName(groupName)
                         }

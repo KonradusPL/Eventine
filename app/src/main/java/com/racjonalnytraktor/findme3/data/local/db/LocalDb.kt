@@ -1,7 +1,7 @@
 package com.racjonalnytraktor.findme3.data.local.db
 
-import com.racjonalnytraktor.findme3.data.local.Prefs
+import com.racjonalnytraktor.findme3.data.local.Preferences
 
 
-interface LocalDb: Prefs {
+interface LocalDb: Preferences {
 }

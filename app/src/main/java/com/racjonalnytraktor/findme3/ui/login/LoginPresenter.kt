@@ -10,10 +10,10 @@ import com.racjonalnytraktor.findme3.data.repository.LoginRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.StringHelper
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import javax.inject.Inject
 
-class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V> {
+class LoginPresenter<V: LoginMvp.View> @Inject constructor()
+    : BasePresenter<V>(), LoginMvp.Presenter<V> {
 
     val repo = LoginRepository()
 
@@ -25,7 +25,7 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                     Log.d("loginWithEmail","isPartner: ${response?.isPartner}")
                     Log.d("logowanie","działa")
                     Log.d("logtok",response?.token)
-                    repo.prefs.createUser(User(fullName = response!!.fullName))
+                    repo.preferences.createUser(User(fullName = response!!.fullName))
                     repo.saveUser(response.token,"",email,response.isPartner)
                     view.hideLoginLoading()
                     view.openMainActivity()

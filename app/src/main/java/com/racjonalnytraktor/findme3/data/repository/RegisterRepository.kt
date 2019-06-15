@@ -1,9 +1,6 @@
 package com.racjonalnytraktor.findme3.data.repository
 
-import android.util.Log
 import com.racjonalnytraktor.findme3.data.model.User
-import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbRequest
-import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbResponse
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterRequest
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterResponse
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
@@ -38,6 +35,6 @@ object RegisterRepository: BaseRepository() {
 
     fun setCurrentUser(user: User){
         user.facebookId = facebook.getAccessToken().userId
-        prefs.setCurrentUser(user)
+        preferences.setCurrentUser(user)
     }
 }

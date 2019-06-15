@@ -1,6 +1,5 @@
 package com.racjonalnytraktor.findme3.ui.map.fragments.profile
 
-import android.util.Log
 import com.racjonalnytraktor.findme3.data.repository.BaseRepository
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.SchedulerProvider
@@ -14,26 +13,26 @@ class ProfilePresenter {
     fun onAttach(view: ProfileFragment){
         mView = view
 
-        val fullName = mRepo.prefs.getUserFullName()
+        val fullName = mRepo.preferences.getUserFullName()
 
         var role = ""
         if(mRepo.appRepo.getMembers().size > 0) {
             for (member in mRepo.appRepo.getMembers())
                 if (member.name == fullName){
                     role = member.subgroup
-                    mRepo.prefs.setRole(role)
+                    mRepo.preferences.setRole(role)
                 }
         }
         else
-            role = mRepo.prefs.getRole()
+            role = mRepo.preferences.getRole()
 
-        mView.setUserData(fullName,role,mRepo.prefs.isPartner())
+        mView.setUserData(fullName,role,mRepo.preferences.isPartner())
     }
 
     fun onKeeperHelpClick(){
-        val token = mRepo.prefs.getUserToken()
+        val token = mRepo.preferences.getUserToken()
         //val data = HashMap<String,String>()
-        //data["groupId"] = mRepo.prefs.getCurrentGroupId()
+        //data["groupId"] = mRepo.preferences.getCurrentGroupId()
         //Log.d("onHelpClick",data.toString())
 
         mCompositeDisposable.add(mRepo.rest.networkService.callCareTaker(token)

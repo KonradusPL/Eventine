@@ -48,7 +48,7 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
         }
 
         val repo = BaseRepository()
-        if(repo.prefs.isSilentNotification())
+        if(repo.preferences.isSilentNotification())
             switchSilent.isChecked = true
 
         val list = arrayListOf("Polski")
