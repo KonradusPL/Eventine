@@ -22,7 +22,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.jetbrains.anko.longToast
 
-class AppClass: Application(),ZoneUtils.BeaconListener {
+class EventineApplication: Application(),ZoneUtils.BeaconListener {
 
     val beaconUtils = ZoneUtils
 

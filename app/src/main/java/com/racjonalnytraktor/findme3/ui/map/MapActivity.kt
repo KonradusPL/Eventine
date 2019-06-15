@@ -27,7 +27,7 @@ import com.racjonalnytraktor.findme3.data.model.event_bus.LocationEvent
 import com.racjonalnytraktor.findme3.data.model.Action
 import com.racjonalnytraktor.findme3.data.model.map.ZoneUpdate
 import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
-import com.racjonalnytraktor.findme3.ui.AppClass
+import com.racjonalnytraktor.findme3.ui.EventineApplication
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.profile.ProfileFragment
@@ -222,7 +222,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     private fun initBeaconsScanning(){
-        (application as AppClass).initBeaconsScanning(this)
+        (application as EventineApplication).initBeaconsScanning(this)
     }
 
     private fun listenSlidingState() {
@@ -473,7 +473,7 @@ class MapActivity : BaseActivity(),MapMvp.View{
     }
 
     override fun changeBeaconsStatus(enable: Boolean) {
-        (application as AppClass).changeBeaconsStatus(enable,this)
+        (application as EventineApplication).changeBeaconsStatus(enable,this)
     }
 
     override fun showLoading() {

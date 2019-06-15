@@ -22,6 +22,7 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
     lateinit var presenter: LoginPresenter<LoginMvp.View>
 
     val callbackManager = CallbackManager.Factory.create()
+
     private lateinit var mLoginFb: LoginButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,10 +102,4 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
         finish()
 
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
 }
