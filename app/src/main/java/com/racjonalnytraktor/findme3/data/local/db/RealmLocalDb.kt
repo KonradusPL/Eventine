@@ -173,4 +173,16 @@ class RealmLocalDb: LocalDb {
             mRealm.where(UserRealm::class.java).findAll().deleteAllFromRealm()
         }
     }
+
+    override fun setIsUserInGroup(value: Boolean) {
+        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        mRealm.executeTransaction {
+            user.isUserInGroup = value
+        }
+    }
+
+    override fun isUserInGroup(): Boolean {
+        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
+        return user.isUserInGroup
+    }
 }

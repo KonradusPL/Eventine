@@ -42,4 +42,7 @@ interface Prefs {
     fun setIsSilentNotification(value: Boolean)
     fun isSilentNotification(): Boolean
 
+    fun isUserInGroup(): Boolean
+    fun setIsUserInGroup(value: Boolean)
+
 }
