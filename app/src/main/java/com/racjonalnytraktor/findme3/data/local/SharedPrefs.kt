@@ -7,6 +7,14 @@ import com.racjonalnytraktor.findme3.data.model.User
 
 
 class SharedPrefs(context: Context): Prefs {
+    override fun isUserInGroup(): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setIsUserInGroup(value: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun isSilentNotification(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

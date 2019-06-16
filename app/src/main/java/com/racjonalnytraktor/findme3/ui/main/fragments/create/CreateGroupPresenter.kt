@@ -9,6 +9,8 @@ import com.racjonalnytraktor.findme3.ui.base.MvpView
 
 class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGroupMvp.Presenter<V> {
 
+    private val TAG = "CreateGroupPresenter"
+
     val repo = CreateRepository
 
     override fun onAttach(mvpView: V) {
@@ -47,7 +49,7 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
                 }))
     }
 
-    override fun createEvent(groupName: String, friendsList: List<User>) {
+    override fun onCreateGroup(groupName: String, friendsList: List<User>) {
         val facebookIds = ArrayList<String>()
         val normalIds = ArrayList<String>()
         for(friend in friendsList){
@@ -62,19 +64,20 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
         view.showCreateGroupLoading()
         compositeDisposable.add(repo.createGroup(request)
                 .subscribe({response: String? ->
+                    Log.d(TAG,"createGroup: ${response}")
+
                     view.hideCreateGroupLoading()
                     repo.prefs.apply {
-                        repo.prefs.apply {
-                            setCurrentGroupId(response.orEmpty())
-                            setCurrentGroupName(groupName)
-                        }
+                        setCurrentGroupId(response.orEmpty())
+                        setCurrentGroupName(groupName)
+                        setIsUserInGroup(true)
                     }
 
                     view.clearFriendsList()
-                    view.showMessage("Udało się stworzyć event",MvpView.MessageType.SUCCESS)
+                    view.showMessage("Udało się stworzyć grupę",MvpView.MessageType.SUCCESS)
                     view.openMapActivity()
-                    Log.d("response",response.orEmpty())
                 }, {error: Throwable? ->
+                    Log.d(TAG,"createGroup: ${error.toString()}")
                     view.clearFriendsList()
                     view.hideCreateGroupLoading()
                     view.showMessage("Nie udało się stworzyć eventu",MvpView.MessageType.ERROR)

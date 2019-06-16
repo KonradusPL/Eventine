@@ -2,11 +2,13 @@ package com.racjonalnytraktor.findme3.ui.login
 
 import android.util.Log
 import com.facebook.login.LoginResult
+import com.racjonalnytraktor.findme3.data.model.Group
 import com.racjonalnytraktor.findme3.data.model.User
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginRequest
 import com.racjonalnytraktor.findme3.data.network.model.login.LoginResponse
 import com.racjonalnytraktor.findme3.data.network.model.register.RegisterFbResponse
 import com.racjonalnytraktor.findme3.data.repository.LoginRepository
+import com.racjonalnytraktor.findme3.data.repository.UserRepository
 import com.racjonalnytraktor.findme3.ui.base.BasePresenter
 import com.racjonalnytraktor.findme3.ui.base.MvpView
 import com.racjonalnytraktor.findme3.utils.StringHelper
@@ -15,7 +17,10 @@ import org.jetbrains.anko.uiThread
 
 class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V> {
 
+    private val TAG = "LoginPresenter"
+
     val repo = LoginRepository()
+    val userRepo = UserRepository()
 
     override fun onEmailLoginClick(email: String, password: String) {
         view.showLoginLoading()
@@ -27,9 +32,8 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                     Log.d("logtok",response?.token)
                     repo.prefs.createUser(User(fullName = response!!.fullName))
                     repo.saveUser(response.token,"",email,response.isPartner)
-                    view.hideLoginLoading()
-                    view.openMainActivity()
-                    view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
+
+                    onLoginSuccess()
 
                 },{throwable: Throwable? ->
                     Log.d("logowanie","error: ${throwable.toString()}")
@@ -39,6 +43,32 @@ class LoginPresenter<V: LoginMvp.View>: BasePresenter<V>(), LoginMvp.Presenter<V
                     if(errorCode == "401")
                         view.showMessage("Błędne dane logowania",MvpView.MessageType.ERROR)
                 }))
+    }
+
+    private fun onLoginSuccess(){
+        view.hideLoginLoading()
+        view.showMessage("Sukces!",MvpView.MessageType.SUCCESS)
+        Log.d(TAG,"onLoginSuccess")
+
+        compositeDisposable.add(userRepo.getGroupList()
+                .subscribe({groups: List<Group> ->
+                    Log.d(TAG,"onLoginSuccess ${groups}")
+                    if (groups.isEmpty())
+                        view.openMainActivity()
+                    else{
+                        val id = groups.first().id
+                        val groupName = groups.first().groupName
+                        repo.prefs.apply {
+                            setIsUserInGroup(true)
+                            setCurrentGroupId(id)
+                            setCurrentGroupName(groupName)
+                        }
+                        view.openMapActivity()
+                    }
+        },{t: Throwable? ->
+                    Log.d(TAG,"onLoginSuccess ${t.toString()}")
+                }
+        ))
     }
 
     override fun onFacebookLoginClick() {

@@ -82,6 +82,11 @@ class LoginActivity : BaseActivity(),LoginMvp.View {
     }
 
     override fun openMainActivity() {
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
+    }
+
+    override fun openMapActivity() {
         startActivity(Intent(this,MapActivity::class.java))
         finish()
     }

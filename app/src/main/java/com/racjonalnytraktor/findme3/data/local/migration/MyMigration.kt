@@ -20,5 +20,8 @@ class MyMigration: RealmMigration {
         if(oldVersion == 2L){
             schema.get("UserRealm")?.addField("isSilentNotification", Boolean::class.java,FieldAttribute.REQUIRED)
         }
+        if(oldVersion == 3L){
+            schema.get("UserRealm")?.addField("isUserInGroup", Boolean::class.java,FieldAttribute.REQUIRED)
+        }
     }
 }

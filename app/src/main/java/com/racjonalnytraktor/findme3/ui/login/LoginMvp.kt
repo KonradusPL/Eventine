@@ -10,6 +10,7 @@ interface LoginMvp {
         fun openRegisterActivity()
         fun showLoginLoading()
         fun hideLoginLoading()
+        fun openMapActivity()
 
     }
     interface Presenter<V: View>: MvpPresenter<V>{

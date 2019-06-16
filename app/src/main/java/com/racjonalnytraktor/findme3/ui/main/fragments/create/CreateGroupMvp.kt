@@ -16,6 +16,6 @@ interface CreateGroupMvp {
         fun clearFriendsList()
     }
     interface Presenter<V: View>: MvpPresenter<V>{
-        fun createEvent(groupName: String, friendsList: List<User>)
+        fun onCreateGroup(groupName: String, friendsList: List<User>)
     }
 }

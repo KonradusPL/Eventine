@@ -37,7 +37,7 @@ class CreateGroupFragment<V: MainMvp.View>: BaseFragment<V>(),CreateGroupMvp.Vie
                 .subscribe {
                     val checkedFriends = listAdapter.getCheckedFriends()
                     Log.d("checkedFriends",checkedFriends.size.toString())
-                    presenter.createEvent(fieldGroupCode.text.toString(),checkedFriends)
+                    presenter.onCreateGroup(fieldGroupCode.text.toString(),checkedFriends)
                 }
         RxView.clicks(buttonRefresh)
                 .subscribe {
