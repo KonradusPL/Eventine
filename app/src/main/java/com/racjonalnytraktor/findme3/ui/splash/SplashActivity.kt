@@ -29,13 +29,17 @@ class SplashActivity : BaseActivity(),SplashMvp.View {
     }
 
     override fun openMainActivity() {
-        //Logowanie -> Mapa
-        startActivity(Intent(this,MapActivity::class.java))
+        startActivity(Intent(this,MainActivity::class.java))
         finish()
     }
 
     override fun openLoginActivity() {
         startActivity(Intent(this,LoginActivity::class.java))
+        finish()
+    }
+
+    override fun openMapActivity() {
+        startActivity(Intent(this,MapActivity::class.java))
         finish()
     }
 }

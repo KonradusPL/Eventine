@@ -14,8 +14,13 @@ class SplashPresenter<V: SplashMvp.View>: BasePresenter<V>(),SplashMvp.Presenter
         super.onAttach(mvpView)
         repo = SplashRepository()
 
-        if(repo.isUserLoggedIn())
-            view.openMainActivity()
+        if(repo.isUserLoggedIn()){
+            if (repo.isUserInGroup())
+                view.openMapActivity()
+            else
+                view.openMainActivity()
+
+        }
         else
             view.openLoginActivity()
     }

@@ -10,8 +10,5 @@ class SplashRepository(): BaseRepository() {
         return prefs.isUserLoggedIn()
     }
 
-    //fun isUserInGroup(): Boolean = pre
-
-
-
+    fun isUserInGroup(): Boolean = prefs.isUserInGroup()
 }
