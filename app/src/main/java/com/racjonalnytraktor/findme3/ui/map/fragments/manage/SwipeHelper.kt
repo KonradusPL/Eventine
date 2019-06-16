@@ -9,7 +9,7 @@ class SwipeHelper: ItemTouchHelper.Callback() {
 
     var contract: ActionCompletionContract? = null
 
-    override fun getMovementFlags(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?): Int {
+    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         if ((viewHolder as ManageAdapter.MyViewHolder).type == "header") {
             return 0
         }
@@ -17,12 +17,12 @@ class SwipeHelper: ItemTouchHelper.Callback() {
         return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, 0)
     }
 
-    override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         contract?.onViewMoved(viewHolder!!.adapterPosition, target!!.adapterPosition)
         return true
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         contract?.onViewSwiped(viewHolder!!.adapterPosition)
     }
 

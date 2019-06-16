@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.racjonalnytraktor.findme3.R
@@ -39,7 +40,7 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         childFragmentManager.beginTransaction()
-                .replace(R.id.detailsContainer,firstFragment)
+                .replace(R.id.detailsContainer,firstFragment as Fragment)
                 .commit()
 
         iconArrow.setImageDrawable(IconicsDrawable(parentContext)
@@ -75,7 +76,7 @@ class AddTaskFragment <V: MapMvp.View>: BaseFragment<V>(), DescriptionListener,
         childFragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_right)
-                .replace(R.id.detailsContainer,firstFragment)
+                .replace(R.id.detailsContainer,firstFragment as Fragment)
                 .commit()
     }
 

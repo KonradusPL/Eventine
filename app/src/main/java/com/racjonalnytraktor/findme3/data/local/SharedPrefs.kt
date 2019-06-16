@@ -2,7 +2,7 @@ package com.racjonalnytraktor.findme3.data.local
 
 import android.content.Context
 import android.util.Log
-import androidx.content.edit
+import androidx.core.content.edit
 import com.racjonalnytraktor.findme3.data.model.User
 
 
@@ -55,7 +55,7 @@ class SharedPrefs(context: Context): Prefs {
 
 
     override fun getUserToken(): String {
-        return mSharedPrefs.getString(CURRENT_USER_TOKEN,"null")
+        return mSharedPrefs.getString(CURRENT_USER_TOKEN,"null")?: ""
     }
 
     override fun setUserToken(token: String) {
@@ -71,7 +71,7 @@ class SharedPrefs(context: Context): Prefs {
     }
 
     override fun getUserFullName(): String {
-        return mSharedPrefs.getString(CURRENT_USER_FULLNAME,"null")
+        return mSharedPrefs.getString(CURRENT_USER_FULLNAME,"null")?: ""
     }
 
     override fun setUserEmail(email: String) {
@@ -81,7 +81,7 @@ class SharedPrefs(context: Context): Prefs {
     }
 
     override fun getUserEmail(): String {
-        return mSharedPrefs.getString(CURRENT_USER_EMAIL,"null")
+        return mSharedPrefs.getString(CURRENT_USER_EMAIL,"null")?: ""
     }
 
     override fun isUserLoggedIn(): Boolean {
@@ -95,7 +95,7 @@ class SharedPrefs(context: Context): Prefs {
     }
 
     override fun getUserProfileImage(): String {
-        return mSharedPrefs.getString(CURRENT_USER_PROFILE_IMAGE,"null")
+        return mSharedPrefs.getString(CURRENT_USER_PROFILE_IMAGE,"null")?: ""
     }
 
     override fun setUserProfileImage(value: String) {
@@ -128,7 +128,7 @@ class SharedPrefs(context: Context): Prefs {
     }
 
     override fun getFacebookId(): String {
-        return mSharedPrefs.getString(CURRENT_USER_FB_ID,"null")
+        return mSharedPrefs.getString(CURRENT_USER_FB_ID,"null")?: ""
     }
 
     override fun setCurrentGroupId(value: String) {
@@ -138,7 +138,7 @@ class SharedPrefs(context: Context): Prefs {
     }
 
     override fun getCurrentGroupId(): String {
-        return mSharedPrefs.getString(CURRENT_GROUP_ID,"null")
+        return mSharedPrefs.getString(CURRENT_GROUP_ID,"null")?: ""
     }
 
     override fun setCurrentGroupName(value: String) {
@@ -148,7 +148,7 @@ class SharedPrefs(context: Context): Prefs {
     }
 
     override fun getCurrentGroupName(): String {
-        return mSharedPrefs.getString(CURRENT_GROUP_NAME,"null")
+        return mSharedPrefs.getString(CURRENT_GROUP_NAME,"null") ?: ""
     }
 
 
