@@ -103,7 +103,7 @@ class RegisterActivity : RegisterMvp.View, BaseActivity() {
     }
 
     override fun openMainActivity() {
-        startActivity(Intent(this,MapActivity::class.java))
+        startActivity(Intent(this,MainActivity::class.java))
         finish()
     }
 

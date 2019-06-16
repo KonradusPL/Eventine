@@ -45,7 +45,7 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
 
    override fun onJoinGroupClick(groupName: String) {
        view.hideJoinLoading()
-       /*view.showJoinLoading()
+       view.showJoinLoading()
         compositeDisposable.add(repo.joinGroup(groupName)
                 .subscribe({response: String? ->
                     Log.d(TAG,"onJoinGroupClick: $response")
@@ -62,7 +62,7 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
                     val errorCode = StringHelper.getErrorCode(error?.localizedMessage.orEmpty())
                     if(errorCode == "401")
                         view.showMessage("Taki event istnieje",MvpView.MessageType.ERROR)
-                }))*/
+                }))
     }
 
     override fun onAcceptInvitationClick(invitation: Invitation) {

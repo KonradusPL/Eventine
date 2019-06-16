@@ -42,7 +42,7 @@ class RegisterPresenter<V: RegisterMvp.View>: BasePresenter<V>(), RegisterMvp.Pr
 
                     repo.prefs.apply {
                         createUser(user)
-                        repo.saveUser(response!!.token,"",email,false)
+                        //repo.saveUser(response!!.token,"",email,false)
                         setIsUserLoggedIn(true)
                     }
 
