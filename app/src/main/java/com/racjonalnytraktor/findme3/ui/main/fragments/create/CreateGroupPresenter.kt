@@ -35,7 +35,7 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
     }
 
     fun getFriends(){
-        view.showFriendsLoading()
+        /*view.showFriendsLoading()
         compositeDisposable.add(repo.getFriends()
                 .doOnComplete{
                     view.hideFriendsLoading()
@@ -46,7 +46,7 @@ class CreateGroupPresenter<V: CreateGroupMvp.View>: BasePresenter<V>(),CreateGro
                 },{error: Throwable? ->
                     view.hideFriendsLoading()
                     Log.d("error",error.toString())
-                }))
+                }))*/
     }
 
     override fun onCreateGroup(groupName: String, friendsList: List<User>) {

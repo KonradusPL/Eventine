@@ -12,7 +12,8 @@ import javax.security.cert.CertificateException
 
 class RetrofitRest {
 //http://backend.geteventine.pl
-    private val BASE_URL = "https://e6b082c7.ngrok.io/"
+    //https://ec4c28c9.ngrok.io
+    private val BASE_URL = "https://ec4c28c9.ngrok.io/"
 
         private var gson = GsonBuilder()
                 .setLenient()

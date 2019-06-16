@@ -43,6 +43,9 @@
     <string name="text_have_account">Do you have an account?</string>
     <string name="text_last_tasks">Last tasks</string>
     <string name="text_your_groups">Your groups</string>
+    <string name="text_group_name">Group name</string>
+    <string name="text_no_invitations">No invitations</string>
+
 
     <string name="hint_enter_group_code">Enter group code</string>
     <string name="hint_email">Email</string>

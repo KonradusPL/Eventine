@@ -10,6 +10,8 @@ import com.racjonalnytraktor.findme3.utils.StringHelper
 
 class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
 
+    private val TAG = "JoinPresenter"
+
     val repo = JoinRepository
 
     override fun onAttach(mvpView: V) {
@@ -42,9 +44,11 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
     }
 
    override fun onJoinGroupClick(groupName: String) {
-       view.showJoinLoading()
+       view.hideJoinLoading()
+       /*view.showJoinLoading()
         compositeDisposable.add(repo.joinGroup(groupName)
                 .subscribe({response: String? ->
+                    Log.d(TAG,"onJoinGroupClick: $response")
                     repo.prefs.apply {
                         setCurrentGroupId(response.orEmpty())
                         setCurrentGroupName(groupName)
@@ -52,14 +56,13 @@ class JoinPresenter<V: JoinMvp.View>: BasePresenter<V>(),JoinMvp.Presenter<V> {
                     view.hideJoinLoading()
                     view.showMessage("Udało się !",MvpView.MessageType.SUCCESS)
                     view.openMapActivity()
-                },{throwable: Throwable? ->
+                },{error: Throwable? ->
+                    Log.d(TAG,"onJoinGroupClick: ${error.toString()}")
                     view.hideJoinLoading()
-                    val errorCode = StringHelper.getErrorCode(throwable?.localizedMessage.orEmpty())
-                    Log.d("error1",throwable.toString())
-                    Log.d("error2",errorCode)
+                    val errorCode = StringHelper.getErrorCode(error?.localizedMessage.orEmpty())
                     if(errorCode == "401")
                         view.showMessage("Taki event istnieje",MvpView.MessageType.ERROR)
-                }))
+                }))*/
     }
 
     override fun onAcceptInvitationClick(invitation: Invitation) {

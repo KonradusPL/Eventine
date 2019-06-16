@@ -28,7 +28,7 @@
         android:layout_marginStart="8dp"
         android:background="@drawable/edit_text_login"
         android:ems="13"
-        android:hint="Event name"
+        android:hint="@string/text_group_name"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -72,41 +72,26 @@
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:id="@+id/layoutNoInvites"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/listInvitations"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/listInvitations">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <TextView
+            android:id="@+id/fieldNoInvites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/text_no_invitations"
+            android:textColor="@color/black"
             android:layout_gravity="center"
-            android:id="@+id/layoutNoInvites"
-            android:visibility="visible">
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="189dp" />
 
-            <TextView
-                android:id="@+id/fieldNoInvites"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="no invitations"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageNoInvites" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageNoInvites"
-                android:layout_width="200dp"
-                android:layout_height="180dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/holder_list"
-                android:alpha="0.8"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,6 +45,9 @@
     <string name="text_last_tasks">Ostatnie zadania</string>
     <string name="text_your_groups">Twoje grupy</string>
 
+    <string name="text_group_name">Nazwa grupy</string>
+    <string name="text_no_invitations">Brak zaproszeń</string>
+
     <string name="toolbar_join_group">Dołącz</string>
     <string name="toolbar_changeGroup">Zmień grupę</string>
 
