@@ -15,6 +15,8 @@ class AuthRepository @Inject constructor(private val mAuthApi: AuthApi) {
         return mAuthApi.loginUser(loginRequest)
     }
 
-    fun registerUser(registerRequest: RegisterRequest): Single<RegisterResponse>
-            = mAuthApi.registerUser(registerRequest)
+    fun registerUser(user: User): Single<RegisterResponse>{
+        val registerRequest = RegisterRequest(user.email,user.fullName,user.password)
+        return mAuthApi.registerUser(registerRequest)
+    }
 }

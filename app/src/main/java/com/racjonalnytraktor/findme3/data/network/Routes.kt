@@ -23,7 +23,7 @@ interface Routes {
 
     //auth////
     @POST("auth/login")
-    fun login(@Body loginRequest: LoginRequest): Observable<LoginResponse>
+    fun login(loginRequest: LoginRequest): Observable<LoginResponse>
 
     @POST("auth/social")
     fun registerByFacebook(@Body registerRequest: RegisterFbRequest): Single<RegisterFbResponse>
