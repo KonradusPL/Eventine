@@ -130,8 +130,8 @@ class RealmLocalDb: LocalDb {
     }
 
     override fun getCurrentGroupId(): String {
-        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
-        return user.eventId    }
+        return mRealm.where(UserRealm::class.java).findFirst()?.eventId ?: ""
+    }
 
     override fun setCurrentGroupName(value: String) {
         val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
@@ -141,8 +141,7 @@ class RealmLocalDb: LocalDb {
     }
 
     override fun getCurrentGroupName(): String {
-        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
-        return user.eventName
+        return mRealm.where(UserRealm::class.java).findFirst()?.eventName ?: ""
     }
 
     override fun setRole(value: String) {
@@ -153,8 +152,8 @@ class RealmLocalDb: LocalDb {
     }
 
     override fun getRole(): String {
-        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
-        return user.role    }
+        return mRealm.where(UserRealm::class.java).findFirst()?.role ?: ""
+    }
 
     override fun createUser(user: User) {
         mRealm.executeTransaction {
@@ -182,7 +181,6 @@ class RealmLocalDb: LocalDb {
     }
 
     override fun isUserInGroup(): Boolean {
-        val user = mRealm.where(UserRealm::class.java).findFirst() ?: UserRealm()
-        return user.isUserInGroup
+        return mRealm.where(UserRealm::class.java).findFirst()?.isUserInGroup ?: false
     }
 }

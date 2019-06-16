@@ -217,6 +217,11 @@ class MapPresenter<V: MapMvp.View>: BasePresenter<V>(),MapMvp.Presenter<V>
         mRepo.prefs.setIsSilentNotification(value)
     }
 
+    override fun onBackToMenuClick() {
+        mRepo.prefs.setIsUserInGroup(false)
+        view.openMainActivity()
+    }
+
     fun getAllSubGroups(){
         mRepo.getAllSubGroups("","")
                 .flatMapIterable { t -> t }

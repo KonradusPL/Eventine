@@ -39,6 +39,10 @@ class SettingsFragment: BaseFragment<MapMvp.View>() {
             parentMvp.getPresenter().onLogOutClick()
         }
 
+        buttonBackToMenu.setOnClickListener {
+            parentMvp.getPresenter().onBackToMenuClick()
+        }
+
         switchSilent.setOnCheckedChangeListener { compoundButton, b ->
             parentMvp.getPresenter().onSilentSwitch(b)
         }

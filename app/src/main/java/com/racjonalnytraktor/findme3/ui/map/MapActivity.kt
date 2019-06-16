@@ -30,6 +30,7 @@ import com.racjonalnytraktor.findme3.data.network.model.createping.Ping
 import com.racjonalnytraktor.findme3.ui.AppClass
 import com.racjonalnytraktor.findme3.ui.base.BaseActivity
 import com.racjonalnytraktor.findme3.ui.login.LoginActivity
+import com.racjonalnytraktor.findme3.ui.main.MainActivity
 import com.racjonalnytraktor.findme3.ui.map.fragments.profile.ProfileFragment
 import com.racjonalnytraktor.findme3.ui.map.fragments.*
 import com.racjonalnytraktor.findme3.ui.map.fragments.addtask.AddTaskFragment
@@ -335,6 +336,11 @@ class MapActivity : BaseActivity(),MapMvp.View{
 
     override fun openMapActivity(){
         startActivity(Intent(this, MapActivity::class.java))
+        finish()
+    }
+
+    override fun openMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 

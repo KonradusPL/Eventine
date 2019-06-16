@@ -117,15 +117,15 @@
         app:layout_constraintTop_toTopOf="@+id/textLanguage" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonBackToMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="#3D5AFE"
         android:fontFamily="@font/roboto_medium"
-        android:text="odwiedź stronę"
+        android:text="Wróć do menu"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/buttonLogOut"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,8 +141,8 @@
         android:text="Wyloguj się"
         android:textColor="@color/colorPrimaryNew"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toTopOf="@+id/button3" />
+        app:layout_constraintStart_toEndOf="@+id/buttonBackToMenu"
+        app:layout_constraintTop_toTopOf="@+id/buttonBackToMenu" />
 
     <TextView
         android:id="@+id/textView14"

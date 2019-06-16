@@ -27,6 +27,7 @@ interface MapMvp {
         fun openManageActivity()
         fun openLoginActivity()
         fun openMapActivity()
+        fun openMainActivity()
         fun animateExtendedCircle(show: Boolean)
         fun showSlide(type: String, location: Location = Location(""))
         fun hideSlide()
@@ -65,6 +66,7 @@ interface MapMvp {
         fun onCreateActionClick(action: CreateActionRequest, listener: Listener.CreateAction)
         fun onLogOutClick()
         fun onSilentSwitch(value: Boolean)
+        fun onBackToMenuClick()
 
         //others
         fun onSlideHide()
